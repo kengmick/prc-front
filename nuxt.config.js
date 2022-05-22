@@ -35,8 +35,12 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [],
+  modules: ['@nuxtjs/strapi'],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  strapi: {
+    url: process.env.BACKEND_URL || 'http://localhost:1337/',
+    entities: ['bands'],
+  },
 }

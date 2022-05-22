@@ -1,7 +1,36 @@
 <template>
   <div>
-    <h1>This is a web application</h1>
+    <Hero />
+    <section>
+      <h1 class="text-center my-10">Featured Bands</h1>
+      <div>
+        <Featbands :bands="feats" />
+      </div>
+    </section>
+    <section>
+      <h1 class="text-center my-10">All bands</h1>
+      <BandCard :bands="bands" />
+    </section>
   </div>
 </template>
 
-<script></script>
+<script>
+export default {
+  async asyncData({ $strapi }) {
+    try {
+      const bands = await $strapi.find('bands')
+      const event = await $strapi.find('featured-event')
+      const videos = await $strapi.find('videos')
+      const feats = bands.slice(0, 3)
+      return {
+        bands,
+        feats,
+        event,
+        videos,
+      }
+    } catch (error) {
+      return error
+    }
+  },
+}
+</script>
