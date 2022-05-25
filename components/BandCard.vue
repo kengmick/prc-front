@@ -1,7 +1,17 @@
 <template>
-  <div>
-    <div v-for="(band, index) in bands" :key="band + index">
-      <h1>{{ band.bandName }}</h1>
+  <div
+    class="relative rounded-md shadow-md transition-all duration-200 hover:scale-105 back"
+    :style="`background-image: url(${band.bandProfileImg.url})`"
+  >
+    <div
+      class="flex justify-between items-center bg-black absolute bottom-0 w-full px-4 py-8"
+    >
+      <h2 class="text-2xl text-white">
+        {{ band.bandName }}
+      </h2>
+      <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
+        <h2 class="text-2xl text-white">View Profile</h2>
+      </NuxtLink>
     </div>
   </div>
 </template>
@@ -9,10 +19,10 @@
 <script>
 export default {
   props: {
-    bands: {
-      type: Array,
+    band: {
+      type: Object,
       default() {
-        return []
+        return {}
       },
     },
   },
