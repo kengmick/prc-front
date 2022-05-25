@@ -59,14 +59,14 @@
             class="mr-2 lg:mr-8"
             src="~/static/play.svg"
             alt="Play button"
-            @click="play"
+            @click="play('play')"
           />
           <img
             v-else
             class="mr-8 h-[30px]"
             src="~/static/stop.svg"
             alt="stop button"
-            @click="stop"
+            @click="play('stop')"
           />
           <div class="progress w-4/5">
             <p class="start text-white text-center"></p>
@@ -91,16 +91,16 @@
       </span>
     </div>
 
-    <section class="lg:mt-20">
+    <section v-if="song.songFile" class="lg:mt-20">
       <!-- causing error in dom tree -->
-      <!-- <table class="mx-auto w-full lg:w-4/6">
+      <table class="mx-auto w-full lg:w-4/6">
         <tr class="border-b-2 border-black py-8 h-[70px]">
           <th class="w-1/3 text-left chedder text-2xl pl-8">Track</th>
           <th class="w-1/3 text-center chedder text-2xl">Title</th>
           <th class="w-1/3 text-right chedder text-2xl pr-8">Favorite</th>
         </tr>
         <tr
-          v-for="(songData, index) in songsSongs"
+          v-for="(songData, index) in songs"
           :key="index + 100"
           class="h-[70px] border-b-2 border-black"
         >
@@ -122,12 +122,20 @@
           <td class="w-1/3 text-center ptmono">{{ songData.songTitle }}</td>
           <td class="w-1/3 text-right pr-8 ptmono">Favorite</td>
         </tr>
-      </table> -->
+      </table>
     </section>
   </div>
 </template>
 
 <script>
+function conversion(value) {
+  let minute = Math.floor(value / 60)
+  minute = minute.toString().length === 1 ? '0' + minute : minute
+  let second = Math.round(value % 60)
+  second = second.toString().length === 1 ? '0' + second : second
+  console.log(`${minute}:${second}`)
+  return `${minute}:${second}`
+}
 export default {
   data() {
     return {
@@ -136,6 +144,7 @@ export default {
       songs: [],
       song: {},
       isPlaying: false,
+      thisSongPlaying: '',
     }
   },
 
@@ -154,16 +163,40 @@ export default {
     }
   },
   methods: {
-    play: function () {
+    play: function (target) {
       const audio = document.getElementById('music')
-      console.log(audio.duration)
-      audio.play()
-      this.isPlaying = true
+      const progressBar = document.querySelector('.progress-bar')
+      const now = document.querySelector('.now')
+      const start = document.querySelector('.start')
+      const end = document.querySelector('.end')
+      console.log(progressBar, now, audio.duration, start, end)
+      conversion(audio.duration, 'song duration in time')
+      if (target === 'play') {
+        audio.play()
+        this.isPlaying = true
+      } else if (target === 'stop') {
+        audio.pause()
+        this.isPlaying = false
+      }
     },
     stop: function () {
       const audio = document.getElementById('music')
       audio.pause()
       this.isPlaying = false
+    },
+    setSong: function (songData, stop) {
+      this.song = songData
+      const audio = document.getElementById('music')
+      if (stop) {
+        this.isPlaying = false
+        audio.pause()
+        this.ShowPause = !this.ShowPause
+      } else {
+        audio.load()
+        audio.play()
+        this.isPlaying = true
+      }
+      this.thisSongPlaying = songData.id
     },
   },
 }
