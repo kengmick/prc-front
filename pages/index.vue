@@ -4,7 +4,7 @@
     <section>
       <h1 class="text-center my-10">Featured Bands</h1>
       <div>
-        <Featbands :bands="feats" />
+        <!-- <Featbands :bands="feats" /> -->
       </div>
     </section>
     <section>
@@ -16,21 +16,29 @@
 
 <script>
 export default {
-  async asyncData({ $strapi }) {
-    try {
-      const bands = await $strapi.find('bands')
-      const event = await $strapi.find('featured-event')
-      const videos = await $strapi.find('videos')
-      const feats = bands.slice(0, 3)
-      return {
-        bands,
-        feats,
-        event,
-        videos,
-      }
-    } catch (error) {
-      return error
+  // async asyncData({ $strapi }) {
+  //   try {
+  //     const bands = await $strapi.find('bands')
+  //     const event = await $strapi.find('featured-event')
+  //     const videos = await $strapi.find('videos')
+  //     const feats = bands.slice(0, 3)
+  //     return {
+  //       bands,
+  //       feats,
+  //       event,
+  //       videos,
+  //     }
+  //   } catch (error) {
+  //     return error
+  //   }
+  // },
+  data() {
+    return {
+      bands: [],
     }
+  },
+  async fetch() {
+    this.bands = await this.$strapi('bands')
   },
 }
 </script>
