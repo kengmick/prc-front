@@ -2,13 +2,20 @@
   <div>
     <Hero />
     <section>
-      <h1 class="text-center my-10 text-5xl">Featured Bands</h1>
+      <h2 class="text-center my-10 text-5xl">Featured Bands</h2>
       <div>
-        <Featbands :bands="bands.slice(0, 3)" />
+        <SliderContainer v-if="bands !== []" class="justify-center">
+          <BandCard
+            v-for="(band, index) in bands.slice(0, 3)"
+            :key="band.bandName + index"
+            :band="band"
+          />
+        </SliderContainer>
+        <!-- <Featbands :bands="bands.slice(0, 3)" /> -->
       </div>
     </section>
     <section>
-      <h1 class="text-center my-10 text-5xl">All bands</h1>
+      <h2 class="text-center my-10 text-5xl">All bands</h2>
       <SliderContainer v-if="bands !== []">
         <BandCard
           v-for="(band, index) in bands"
@@ -16,6 +23,17 @@
           :band="band"
         />
       </SliderContainer>
+    </section>
+    <section class="my-10">
+      <h2 class="chedder text-center text-5xl">Featured Event</h2>
+      <FeaturedEvent v-if="event" :event="event" />
+    </section>
+
+    <section>
+      <NewsLetterCta />
+    </section>
+    <section>
+      <Footer />
     </section>
   </div>
 </template>
@@ -25,11 +43,13 @@ export default {
   data() {
     return {
       bands: [],
+      event: null,
     }
   },
   async mounted() {
     try {
       this.bands = await this.$strapi.find('bands')
+      this.event = await this.$strapi.find('featured-event')
     } catch (error) {
       return error
     }
