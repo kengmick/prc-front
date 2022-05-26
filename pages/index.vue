@@ -32,9 +32,6 @@
     <section>
       <NewsLetterCta />
     </section>
-    <section>
-      <Footer />
-    </section>
   </div>
 </template>
 

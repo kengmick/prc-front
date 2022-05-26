@@ -14,6 +14,7 @@
     "lintfix": "prettier --write --list-different . && npm run lint:js -- --fix && npm run lint:style -- --fix"
   },
   "dependencies": {
+    "@braid/vue-formulate": "^2.5.3",
     "@nuxtjs/strapi": "^0.3.6",
     "core-js": "^3.19.3",
     "moment": "^2.29.3",
