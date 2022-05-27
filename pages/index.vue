@@ -3,15 +3,16 @@
     <Hero />
     <section>
       <h2 class="text-center my-10 text-5xl">Featured Bands</h2>
-      <div>
-        <SliderContainer v-if="bands !== []" class="justify-center">
-          <BandCard
-            v-for="(band, index) in bands.slice(0, 3)"
-            :key="band.bandName + index"
-            :band="band"
-          />
-        </SliderContainer>
-        <!-- <Featbands :bands="bands.slice(0, 3)" /> -->
+      <div
+        v-if="bands !== []"
+        class="flex flex-col md:flex-row justify-center gap-14"
+      >
+        <BandCard
+          v-for="(band, index) in bands.slice(0, 3)"
+          :key="band.bandName + index"
+          :band="band"
+          :isFeatured="true"
+        />
       </div>
     </section>
     <section>

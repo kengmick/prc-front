@@ -1,6 +1,6 @@
 <template>
   <div
-    class="transition-all duration-1000 ml-0 flex gap-12 flex-nowrap overflow-y-scroll scroll"
+    class="transition-all duration-1000 ml-0 gap-12 flex flex-nowrap overflow-y-scroll scroll"
   >
     <slot></slot>
   </div>
@@ -8,6 +8,14 @@
 
 <script>
 export default {
+  props: {
+    isFeatured: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+  },
   mounted() {
     const slider = document.querySelector('.scroll')
     if (slider) {

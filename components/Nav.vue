@@ -2,7 +2,7 @@
   <section>
     <!-- top bar -->
     <div
-      class="main_page_padding_left_right main_red_background grid_half top-bar-min-height"
+      class="block main_page_padding_left_right bg-black grid_half top-bar-min-height"
     >
       <!-- mail icon with contact info -->
       <div class="flex_row flex_align_center">
@@ -35,8 +35,48 @@
         </a>
       </div>
     </div>
-    <!-- main bar -->
-    <div class="main_page_padding_left_right grid_half main-bar-container">
+    <!-- desktop nav -->
+    <div class="hidden lg:flex px-10 py-2 mb-4 main_red_background text-white">
+      <div>
+        <NuxtLink to="/">
+          <img class="logo" src="~/static/logo-prc.svg" alt="" />
+        </NuxtLink>
+      </div>
+      <div class="flex justify-around place-items-center w-full">
+        <div @click="toggleMenu">
+          <NuxtLink class="chedder text-2xl" to="/">Home</NuxtLink>
+        </div>
+        <div @click="toggleMenu">
+          <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>
+        </div>
+        <div @click="toggleMenu">
+          <NuxtLink class="chedder text-2xl" to="/events" @click="toggleMenu"
+            >Events</NuxtLink
+          >
+        </div>
+        <div v-if="$strapi.user">
+          <div @click="toggleMenu">
+            <NuxtLink class="chedder text-2xl" to="/logout" @click="toggleMenu"
+              >Logout</NuxtLink
+            >
+          </div>
+        </div>
+        <div v-if="!$strapi.user" @click="toggleMenu">
+          <NuxtLink class="chedder text-2xl" to="/signup" @click="toggleMenu"
+            >signup</NuxtLink
+          >
+        </div>
+        <div v-if="!$strapi.user" @click="toggleMenu">
+          <NuxtLink class="chedder text-2xl" to="/loginuser" @click="toggleMenu"
+            >Sign In</NuxtLink
+          >
+        </div>
+      </div>
+    </div>
+    <!-- mobile nav -->
+    <div
+      class="block md:hidden main_page_padding_left_right grid_half main-bar-container"
+    >
       <!-- main logo -->
       <NuxtLink to="/">
         <img class="logo" src="~/static/logo-prc.svg" alt="" />

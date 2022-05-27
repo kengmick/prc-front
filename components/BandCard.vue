@@ -25,6 +25,12 @@ export default {
         return {}
       },
     },
+    isFeatured: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
   },
 }
 </script>
@@ -34,7 +40,7 @@ export default {
   background-position: center;
   background-size: cover;
   object-fit: fill;
-  min-width: 300px;
+  min-width: 280px;
   height: 400px;
 }
 .featuredBackground {
