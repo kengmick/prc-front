@@ -3,7 +3,7 @@
     <div v-if="band">
       <div
         style="z-index: -99999999"
-        class="object-fill para relative h-[calc(100vh-192px)]"
+        class="object-fill para relative h-[500px]"
         :style="{
           'background-image': `url(${band.bandProfileImg.url})`,
         }"

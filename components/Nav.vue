@@ -36,40 +36,43 @@
       </div>
     </div>
     <!-- desktop nav -->
-    <div class="hidden lg:flex px-10 py-2 mb-4 main_red_background text-white">
+    <div class="hidden lg:flex px-10 py-2 main_red_background text-white">
       <div>
         <NuxtLink to="/">
           <img class="logo" src="~/static/logo-prc.svg" alt="" />
         </NuxtLink>
       </div>
       <div class="flex justify-around place-items-center w-full">
-        <div @click="toggleMenu">
+        <div>
           <NuxtLink class="chedder text-2xl" to="/">Home</NuxtLink>
         </div>
-        <div @click="toggleMenu">
+        <div>
           <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>
         </div>
-        <div @click="toggleMenu">
-          <NuxtLink class="chedder text-2xl" to="/events" @click="toggleMenu"
-            >Events</NuxtLink
-          >
+        <div>
+          <NuxtLink class="chedder text-2xl" to="/events">Events</NuxtLink>
+        </div>
+        <div>
+          <NuxtLink class="chedder text-2xl" to="/videos">Videos</NuxtLink>
+        </div>
+        <div>
+          <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
         </div>
         <div v-if="$strapi.user">
-          <div @click="toggleMenu">
-            <NuxtLink class="chedder text-2xl" to="/logout" @click="toggleMenu"
-              >Logout</NuxtLink
-            >
+          <div>
+            <NuxtLink class="chedder text-2xl" to="/profile">profile</NuxtLink>
           </div>
         </div>
-        <div v-if="!$strapi.user" @click="toggleMenu">
-          <NuxtLink class="chedder text-2xl" to="/signup" @click="toggleMenu"
-            >signup</NuxtLink
-          >
+        <div v-if="$strapi.user">
+          <div @click="logout">
+            <NuxtLink class="chedder text-2xl" to="/">Logout</NuxtLink>
+          </div>
         </div>
-        <div v-if="!$strapi.user" @click="toggleMenu">
-          <NuxtLink class="chedder text-2xl" to="/loginuser" @click="toggleMenu"
-            >Sign In</NuxtLink
-          >
+        <div v-if="!$strapi.user">
+          <NuxtLink class="chedder text-2xl" to="/signup">signup</NuxtLink>
+        </div>
+        <div v-if="!$strapi.user">
+          <NuxtLink class="chedder text-2xl" to="/loginuser">Sign In</NuxtLink>
         </div>
       </div>
     </div>
@@ -91,35 +94,29 @@
       <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/">Home</NuxtLink>
       </div>
-      <div v-if="$strapi.user" @click="toggleMenu">
-        <NuxtLink
-          v-if="$strapi.user.band !== null"
-          class="text-2xl chedder"
-          to="/bandadmin"
-          >Band Admin</NuxtLink
-        >
+      <div @click="toggleMenu">
+        <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>
+      </div>
+      <div @click="toggleMenu">
+        <NuxtLink class="chedder text-2xl" to="/events">Events</NuxtLink>
+      </div>
+      <div @click="toggleMenu">
+        <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
       </div>
       <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/videos">Videos</NuxtLink>
       </div>
-      <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/events" @click="toggleMenu"
-          >Events</NuxtLink
-        >
+      <div v-if="$strapi.user" @click="toggleMenu">
+        <NuxtLink class="chedder text-2xl" to="/profile">profile</NuxtLink>
       </div>
-      <div v-if="$strapi.user">
-        <div @click="toggleMenu">
-          <NuxtLink class="chedder text-2xl" to="/logout" @click="toggleMenu"
-            >Logout</NuxtLink
-          >
-        </div>
+
+      <div v-if="$strapi.user" @click="logoutMobile">
+        <NuxtLink class="chedder text-2xl" to="/">Logout</NuxtLink>
       </div>
-      <div v-if="!$strapi.uer" @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/signup" @click="toggleMenu"
-          >signup</NuxtLink
-        >
+      <div v-if="!$strapi.user" @click="toggleMenu">
+        <NuxtLink class="chedder text-2xl" to="/signup">signup</NuxtLink>
       </div>
-      <div v-if="!$strapi.uer" @click="toggleMenu">
+      <div v-if="!$strapi.user" @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/loginuser" @click="toggleMenu"
           >Sign In</NuxtLink
         >
@@ -144,6 +141,19 @@ export default {
       } else {
         bodyElement.style = ''
       }
+    },
+    logoutMobile() {
+      this.isOpen = !this.isOpen
+      const bodyElement = document.querySelectorAll('body')[0]
+      this.$strapi.logout()
+      if (this.isOpen) {
+        bodyElement.style = 'overflow:hidden;'
+      } else {
+        bodyElement.style = ''
+      }
+    },
+    logout() {
+      this.$strapi.logout()
     },
   },
 }

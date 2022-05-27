@@ -1,5 +1,5 @@
 <template>
-  <div class="grid_half main-container">
+  <div class="grid_half main-container mt-4">
     <div>
       <!-- <NuxtLink :to="{ name: 'LiveStream', params: { liveId: liveId } }"> -->
       <NuxtLink to="livestream">
