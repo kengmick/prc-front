@@ -3,7 +3,7 @@
     <div v-if="band">
       <div
         style="z-index: -99999999"
-        class="object-fill para relative h-[500px]"
+        class="background_custom object-fill para relative h-[500px]"
         :style="{
           'background-image': `url(${band.bandProfileImg.url})`,
         }"
@@ -31,7 +31,7 @@
       <section class="mx-auto w-full z-50">
         <div
           :class="load ? '-mt-24' : 'mt-0'"
-          class="w-11/12 sm:w-3/4 xl:w-1/2 bg-black px-16 py-10 mx-auto transition-all duration-500 z-50"
+          class="px-6 w-11/12 sm:w-3/4 xl:w-1/2 bg-black lg:px-16 py-10 mx-auto transition-all duration-500 z-50"
         >
           <h2 class="text-white text-4xl mb-14">BIO</h2>
           <div class="pb-24">
@@ -39,8 +39,21 @@
           </div>
         </div>
       </section>
+      <!-- details section -->
       <section class="w-11/12 sm:w-3/4 xl:w-1/2 mx-auto mt-6 px-14">
-        <h1 class="mb-6">Band Details</h1>
+        <div class="flex items-center gap-10">
+          <h1 class="mb-0">Band Details</h1>
+
+          <nuxtLink
+            v-if="userPermission === $strapi.user.id"
+            :to="{
+              path: '/bandadmin',
+              query: { band: band.id },
+            }"
+            class="btn_custom"
+            >Edit</nuxtLink
+          >
+        </div>
         <div class="flex flex-col sm:flex-row items-center mb-4">
           <!-- col one of details  -->
           <div class="w-full mb-6 sm:w-3/4 my-auto flex">
@@ -96,6 +109,7 @@
           </div>
         </div>
       </section>
+      <!-- edit component -->
       <section class="sm:w-3/4 mx-auto">
         <h2>
           Albums
@@ -134,14 +148,32 @@ export default {
       band: null,
       load: false,
       hide: false,
+      userPermissions: null,
     }
   },
   async mounted() {
     try {
-      this.band = await this.$strapi.findOne('bands', this.$route.query.band)
+      const band = await this.$strapi.findOne('bands', this.$route.query.band)
+      this.band = band
+      this.userPermission = band.users_permissions_user.id
     } catch (error) {
       return error
     }
   },
 }
 </script>
+
+<style scoped>
+.btn_custom {
+  padding: 0.5em 1.5em;
+  border: 1px solid black;
+  background: black;
+  color: white;
+}
+
+.background_custom {
+  background-position: center center;
+  background-size: fill;
+  background-repeat: no-repeat;
+}
+</style>

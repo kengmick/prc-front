@@ -13,7 +13,7 @@
           query: { album: album.id, band: band },
         }"
       >
-        <h2 class="text-2xl text-white">View Album</h2>
+        <h2 class="text-xl text-white">View Album</h2>
       </NuxtLink>
     </div>
   </div>
@@ -44,7 +44,7 @@ export default {
   background-position: center;
   background-size: cover;
   object-fit: fill;
-  min-width: 300px;
+  width: 300px;
   height: 400px;
 }
 .featuredBackground {
@@ -61,6 +61,11 @@ export default {
 @media (min-width: 1000px) {
   .back {
     min-width: 500px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .back {
+    max-width: 100vw !important;
   }
 } ;
 </style>

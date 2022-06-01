@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1 class="main_red_text text-center">Edit Band</h1>
-    <section v-if="band" class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
+    <h1 class="main_red_text text-center">Create Your Band Profile</h1>
+    <section class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
       <div class="w-full mt-6 mb-6">
         <FormulateForm v-model="formValues" @submit="submitForm">
           <div class="flex-col sm:flex sm:flex-row">
@@ -86,25 +86,9 @@
               </div>
             </FormulateInput>
             <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
-              {{ band.bandName }} profile image
+              Add Profile Image
             </h2>
-            <div v-if="currentImage && !changeProfile">
-              <img
-                class="mx-auto"
-                :src="currentImage"
-                alt="this is the band profile image"
-              />
-              <div class="btn_custom" @click="toggleImage">
-                Edit Profile Image
-              </div>
-            </div>
-            <h2
-              v-if="changeProfile"
-              class="text-center main_red_text text-2xl mb-10 mt-4"
-            >
-              Add New Profile Image
-            </h2>
-            <div v-if="changeProfile" class="flex w-full justify-center">
+            <div class="flex w-full justify-center">
               <FormulateInput
                 type="image"
                 name="bandProfileImg"
@@ -117,10 +101,6 @@
                 @change="profileImage = $event.target.files[0]"
               />
             </div>
-            <div v-if="changeProfile" class="btn_custom" @click="toggleImage">
-              Cancel
-            </div>
-
             <!-- <div v-if="image">
               <img :src="image[0].url" alt="fdsfadsf" />
             </div> -->
@@ -163,48 +143,26 @@ export default {
       created: false,
       profileImage: '',
       image: '',
-      changeProfile: false,
-      currentImage: '',
-    }
-  },
-  async mounted() {
-    try {
-      const band = await this.$strapi.findOne('bands', this.$route.query.band)
-      this.band = band
-      this.formValues = band
-      this.currentImage = band.bandProfileImg.formats.medium.url
-    } catch (error) {
-      this.$nuxt.error({ statusCode: 404, message: error })
     }
   },
   methods: {
-    toggleImage: function () {
-      this.changeProfile = !this.changeProfile
-    },
     async submitForm() {
       // uploading bandProfileImg
       try {
-        if (this.changeProfile) {
-          console.log('updating image ', this.changeProfile)
-          const formData = new FormData()
-          await formData.append('files', this.profileImage)
-          const [image] = await this.$strapi.create('upload', formData)
-          this.image = image
-          this.formValues.bandProfileImg = image
-        }
+        const formData = new FormData()
+        await formData.append('files', this.profileImage)
+        const [image] = await this.$strapi.create('upload', formData)
+        this.image = image
+        this.formValues.bandProfileImg = image
       } catch (error) {
         console.log(error)
       }
       // making post band to strapi
       try {
-        const band = await this.$strapi.update(
-          'bands',
-          this.$route.query.band,
-          {
-            ...this.formValues,
-            users_permissions_user: this.$strapi.user.id,
-          }
-        )
+        const band = await this.$strapi.create('bands', {
+          ...this.formValues,
+          users_permissions_user: this.$strapi.user.id,
+        })
         this.band = band
       } catch (error) {
         this.errorMessage = 'Sorry ... please try again'
@@ -227,17 +185,5 @@ export default {
   width: 300px;
   margin-left: auto;
   margin-right: auto;
-}
-
-.btn_custom {
-  padding: 0.5em 1.5em;
-  border: 1px solid black;
-  background: black;
-  color: white;
-  text-align: center;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 1em;
 }
 </style>

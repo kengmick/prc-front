@@ -26,6 +26,7 @@
           label="Login"
           wrapper-class="flex justify-center mt-6"
         />
+        <p v-if="errorMessage">{{ errorMessage }}</p>
       </FormulateForm>
     </div>
   </section>
@@ -36,15 +37,21 @@ export default {
   data: () => {
     return {
       formValues: {},
+      errorMessage: '',
     }
   },
   methods: {
     async login() {
-      await this.$strapi.login({
-        identifier: this.formValues.identifier,
-        password: this.formValues.password,
-      })
-      this.$router.push('/')
+      try {
+        await this.$strapi.login({
+          identifier: this.formValues.identifier,
+          password: this.formValues.password,
+        })
+        this.$router.push('/profile')
+      } catch (error) {
+        this.formValues = {}
+        this.errorMessage = 'sorry ... please try loging in again '
+      }
     },
   },
 }
