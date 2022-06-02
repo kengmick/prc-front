@@ -25,6 +25,12 @@ export default {
         return {}
       },
     },
+    userProfile: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
     isFeatured: {
       type: Boolean,
       default() {
@@ -40,7 +46,6 @@ export default {
   background-position: center;
   background-size: cover;
   object-fit: fill;
-  min-width: 280px;
   height: 400px;
 }
 .featuredBackground {
@@ -54,9 +59,4 @@ export default {
   border: 1px solid white;
   border-radius: 5px;
 }
-@media (min-width: 1000px) {
-  .back {
-    min-width: 500px;
-  }
-} ;
 </style>

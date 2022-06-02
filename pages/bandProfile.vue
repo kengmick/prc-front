@@ -121,6 +121,7 @@
             :key="index"
             :album="album"
             :band="band.id"
+            :style="band.album.length <= 1 ? 'width: 100% !important;' : ''"
           />
         </SliderContainer>
         <h2>

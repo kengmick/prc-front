@@ -56,6 +56,11 @@
           <NuxtLink class="chedder text-2xl" to="/videos">Videos</NuxtLink>
         </div>
         <div>
+          <NuxtLink class="chedder text-2xl" to="/Classifieds"
+            >Classifieds</NuxtLink
+          >
+        </div>
+        <div>
           <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
         </div>
         <div v-if="$strapi.user">
@@ -105,6 +110,11 @@
       </div>
       <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/videos">Videos</NuxtLink>
+      </div>
+      <div @click="toggleMenu">
+        <NuxtLink class="chedder text-2xl" to="/Classified"
+          >Classified</NuxtLink
+        >
       </div>
       <div v-if="$strapi.user" @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/profile">profile</NuxtLink>

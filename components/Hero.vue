@@ -40,9 +40,12 @@
         v-if="$strapi.user"
         class="flex flex-grow items-end pb-8 justify-around"
       >
-        <NuxtLink class="shadow-lg btn-home text-center" to="/logout"
-          >Logout</NuxtLink
+        <div
+          class="shadow-lg btn-home text-center cursor-pointer"
+          @click="logout"
         >
+          Logout
+        </div>
         <NuxtLink
           class="shadow-lg btn-home text-center"
           :to="{ path: 'profile' }"
@@ -75,6 +78,11 @@ export default {
     this.videoId = videoId
     this.hasLiveStream = hasLiveStream
     this.hasFeatVideo = hasFeatVideo
+  },
+  methods: {
+    logout() {
+      this.$strapi.logout()
+    },
   },
 }
 </script>

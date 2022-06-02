@@ -5,13 +5,14 @@
       <h2 class="text-center my-10 text-5xl">Featured Bands</h2>
       <div
         v-if="bands !== []"
-        class="flex flex-col md:flex-row justify-center gap-14"
+        class="flex flex-col w-[80%] mx-auto xl:flex-row xl:w-auto justify-center gap-14"
       >
         <BandCard
           v-for="(band, index) in bands.slice(0, 3)"
           :key="band.bandName + index"
           :band="band"
           :isFeatured="true"
+          style="min-width: 25vw"
         />
       </div>
     </section>
@@ -22,6 +23,7 @@
           v-for="(band, index) in bands"
           :key="band.bandName + index"
           :band="band"
+          style="min-width: 300px"
         />
       </SliderContainer>
     </section>
