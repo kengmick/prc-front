@@ -45,7 +45,7 @@
           <h1 class="mb-0">Band Details</h1>
 
           <nuxtLink
-            v-if="userPermission === $strapi.user.id"
+            v-if="$strapi.user && userPermission === $strapi.user.id"
             :to="{
               path: '/bandadmin',
               query: { band: band.id },
