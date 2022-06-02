@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-
+/*  change ptmono globaly to oxygen font please  */
 @font-face {
   font-family: "ptmono";
   src: local("ptmono"),
-   url(~assets/ptmono.ttf) format("truetype");
+   url(~assets/oxygen.ttf) format("truetype");
 }
 
 @font-face {
