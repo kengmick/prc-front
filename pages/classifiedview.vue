@@ -1,6 +1,7 @@
 <template>
   <div>
     <section v-if="classified">
+      <pre>{{ classified }}</pre>
       <div class="container mx-auto my-10">
         <p class="pb-4">
           Posted on :
@@ -27,9 +28,23 @@
         <p>Username : {{ classified.users_permissions_user.username }}</p>
       </div>
     </section>
+    <!-- comment box -->
     <section class="container mx-auto my-10">
       <h2 class="text-center text-2xl">Comments</h2>
-      <div class="container shadow-2xl size p-10 my-10">fdsfadsfasdfadsf</div>
+      <div class="container shadow-2xl size p-10 my-10">
+        <div v-if="classified.comments">
+          <div v-for="comment in classified.comments" :key="comment">
+            <p>
+              id of user that made comment {{ comment.users_permissions_user }}
+              {{ comment.post }}
+            </p>
+          </div>
+          <pre>{{ classified.comments }}</pre>
+        </div>
+        <div v-else>
+          <p>There are no comments on this classified add</p>
+        </div>
+      </div>
     </section>
   </div>
 </template>
@@ -40,6 +55,7 @@ export default {
   data() {
     return {
       classified: '',
+      comments: [],
     }
   },
   async mounted() {
@@ -47,6 +63,7 @@ export default {
       'classifieds',
       this.$route.query.classified
     )
+
     this.classified = classified
   },
 

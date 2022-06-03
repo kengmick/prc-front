@@ -40,7 +40,7 @@
             <p class="font-semibold text-4xl pt-2">
               By<NuxtLink
                 class="text-4xl main_red_text"
-                :to="'/bandprofile/' + band.id"
+                :to="{ path: 'bandprofile', query: { band: band.id } }"
                 ><em>{{ band.bandName }}</em></NuxtLink
               >
             </p>
@@ -82,10 +82,16 @@
       class="h-full w-full xl:w-[66.7%] flex-grow py-6 bg-black mx-auto bottom-bar"
     >
       <p class="text-white chedder pl-[138px] lg:inline">
-        <NuxtLink class="text-lg" :to="'/bandprofile'">View Profile</NuxtLink>
+        <NuxtLink
+          class="text-lg"
+          :to="{ path: 'bandprofile', query: { band: band.id } }"
+          >View Profile</NuxtLink
+        >
       </p>
       <span class="font-semibold text-4xl pt-2">
-        By<NuxtLink class="text-lg main_red_text" :to="'/bandprofile'"
+        By<NuxtLink
+          class="text-lg main_red_text"
+          :to="{ path: 'bandprofile', query: { band: band.id } }"
           ><em>{{ band.bandName }}</em></NuxtLink
         >
       </span>

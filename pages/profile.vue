@@ -157,9 +157,7 @@
           </tr>
         </table>
       </div>
-    </div>
-    <div v-else>
-      {{ error }}
+      <!-- Tours -->
     </div>
   </div>
 </template>

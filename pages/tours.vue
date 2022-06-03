@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Tours</h1>
+    <h1 class="text-center main_red_text">Tours</h1>
   </div>
 </template>
 
