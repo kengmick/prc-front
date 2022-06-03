@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Event Edit Page</h1>
+    <h1>Showz Edit Page</h1>
   </div>
 </template>
 

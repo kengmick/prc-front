@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Event View</h1>
+    <h1>Show View</h1>
   </div>
 </template>
 

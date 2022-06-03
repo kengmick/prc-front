@@ -1,6 +1,6 @@
 <template>
   <div v-if="events">
-    <h1 class="text-5xl text-center main_red_text">Events</h1>
+    <h1 class="text-5xl text-center main_red_text">Showz</h1>
     <section>
       <div v-for="(event, index) in events" :key="events.title + index"></div>
     </section>

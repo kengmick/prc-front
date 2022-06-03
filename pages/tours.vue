@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>This is a collection of shows/events</h1>
+    <h1>Tours</h1>
   </div>
 </template>
 
