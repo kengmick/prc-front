@@ -44,16 +44,21 @@
       </div>
       <div class="flex justify-around place-items-center w-full">
         <div>
-          <NuxtLink class="chedder text-2xl" to="/">Home</NuxtLink>
-        </div>
-        <div>
           <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>
         </div>
         <div>
-          <NuxtLink class="chedder text-2xl" to="/events">Events</NuxtLink>
+          <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
         </div>
         <div>
-          <NuxtLink class="chedder text-2xl" to="/videos">Videos</NuxtLink>
+          <NuxtLink class="chedder text-2xl" to="/distro"
+            >Distro/Labels</NuxtLink
+          >
+        </div>
+        <div>
+          <NuxtLink class="chedder text-2xl" to="/events">Showz</NuxtLink>
+        </div>
+        <div>
+          <NuxtLink class="chedder text-2xl" to="/tours">Tours</NuxtLink>
         </div>
         <div>
           <NuxtLink class="chedder text-2xl" to="/Classifieds"
@@ -61,8 +66,9 @@
           >
         </div>
         <div>
-          <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
+          <NuxtLink class="chedder text-2xl" to="/videos">Videos</NuxtLink>
         </div>
+
         <div v-if="$strapi.user">
           <div>
             <NuxtLink class="chedder text-2xl" to="/profile">profile</NuxtLink>
@@ -97,7 +103,7 @@
       :class="isOpen ? 'h-[calc(100vh-192px)] ' : 'h-0'"
     >
       <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/">Home</NuxtLink>
+        <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
       </div>
       <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>
@@ -105,9 +111,7 @@
       <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/events">Events</NuxtLink>
       </div>
-      <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
-      </div>
+
       <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/videos">Videos</NuxtLink>
       </div>
