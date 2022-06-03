@@ -1,6 +1,10 @@
 <template>
   <section>
     <h2>{{ video.title }}</h2>
+    <span class="text-2xl"> by {{ video.band.bandName }} uploaded </span>
+    <p class="text-2xl">
+      {{ moment(String(video.created_at)).format('MMM Do') }}
+    </p>
     <video controls>
       <source :src="video.videoFile.url" />
       Your browser does not support the video tag.
@@ -9,6 +13,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   props: {
     video: {
@@ -29,6 +34,9 @@ export default {
         return false
       },
     },
+  },
+  methods: {
+    moment,
   },
 }
 </script>
