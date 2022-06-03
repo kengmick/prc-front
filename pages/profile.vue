@@ -68,7 +68,7 @@
                     query: { article: article.id },
                   }"
                   class="btn_custom"
-                  >View
+                  >View {{ article.id }}
                 </nuxtLink>
                 <nuxtLink
                   :to="{
@@ -172,10 +172,18 @@ export default {
       venues: [],
       classifieds: [],
       events: [],
+      posts: [],
       error: '',
     }
   },
   async mounted() {
+    try {
+      this.posts = await this.$strapi.find('posts', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+    } catch (error) {
+      this.error = 'sorry ... something went wrong'
+    }
     try {
       this.bands = await this.$strapi.find('bands', {
         users_permissions_user: this.$strapi.user.id,

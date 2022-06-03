@@ -1,7 +1,6 @@
 <template>
   <div>
     <section v-if="classified">
-      <pre>{{ classified }}</pre>
       <div class="container mx-auto my-10">
         <p class="pb-4">
           Posted on :
@@ -32,14 +31,16 @@
     <section class="container mx-auto my-10">
       <h2 class="text-center text-2xl">Comments</h2>
       <div class="container shadow-2xl size p-10 my-10">
-        <div v-if="classified.comments">
-          <div v-for="comment in classified.comments" :key="comment">
+        <div v-if="posts">
+          <div v-for="post in posts" :key="post.data">
             <p>
-              id of user that made comment {{ comment.users_permissions_user }}
-              {{ comment.post }}
+              <span class="main_red_text chedder"
+                >{{ post.users_permissions_user.username }} ...
+              </span>
+              {{ post.data }}
             </p>
           </div>
-          <pre>{{ classified.comments }}</pre>
+          <!-- <pre>{{ classified.comments }}</pre> -->
         </div>
         <div v-else>
           <p>There are no comments on this classified add</p>
@@ -56,15 +57,19 @@ export default {
     return {
       classified: '',
       comments: [],
+      posts: [],
     }
   },
   async mounted() {
     const classified = await this.$strapi.findOne(
       'classifieds',
-      this.$route.query.classified
+      this.$route.query.article
     )
-
     this.classified = classified
+    const posts = await this.$strapi.find('posts', {
+      classified: classified.id,
+    })
+    this.posts = posts
   },
 
   methods: {
