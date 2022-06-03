@@ -7,7 +7,7 @@
     >
       <div v-for="(article, index) in classifieds" :key="index" class="my-6">
         <nuxtLink
-          :to="{ path: 'classifiedview', query: { classified: article.id } }"
+          :to="{ path: 'classifiedview', query: { article: article.id } }"
           class="chedder text-2xl underline underline-offset-2 text-blue-700 hover:text-red-700"
         >
           <span class="text-black pr-6">{{
