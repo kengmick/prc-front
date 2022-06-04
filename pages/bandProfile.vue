@@ -111,7 +111,7 @@
       </section>
       <!-- edit component -->
       <section class="sm:w-3/4 mx-auto">
-        <h2>
+        <h2 v-if="band.album">
           Albums
           <span class="ptmono pl-4 text-xl">by {{ band.bandName }} </span>
         </h2>
@@ -124,7 +124,7 @@
             :style="band.album.length <= 1 ? 'width: 100% !important;' : ''"
           />
         </SliderContainer>
-        <h2>
+        <h2 v-if="videos">
           Music Videos
           <span class="ptmono pl-4 text-xl">by {{ band.bandName }}</span>
         </h2>
