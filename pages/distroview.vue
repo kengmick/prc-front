@@ -1,12 +1,12 @@
 <template>
   <div>
-    <section v-if="venue && image" class="container mx-auto mt-6">
-      <div v-if="venue.logo" class="flex items-center mb-4">
-        <img class="h-16 pr-6" :src="venue.logo.url" alt="" />
-        <h1 class="main_red_text chedder">{{ venue.name }}</h1>
+    <section v-if="distro && image" class="container mx-auto mt-6">
+      <div v-if="distro.logo" class="flex items-center mb-4">
+        <img class="h-16 pr-6" :src="distro.logo.url" alt="" />
+        <h1 class="main_red_text chedder">{{ distro.name }}</h1>
       </div>
       <div v-else>
-        <h1 class="main_red_text chedder text-center">{{ venue.name }}</h1>
+        <h1 class="main_red_text chedder text-center">{{ distro.name }}</h1>
       </div>
       <div
         class="h-[500px] back"
@@ -14,53 +14,53 @@
       ></div>
       <!-- gallery  -->
       <!-- media Gallery -->
-      <section v-if="venueImages" class="container mx-auto">
+      <section v-if="distroImages" class="container mx-auto">
         <h2 class="my-6">Gallery</h2>
         <section
           class="mx-6 my-10 flex flex-col gap-10 lg:grid lg:grid-cols-3 lg:gap-10"
         >
-          <div v-for="(img, index) in venueImages" :key="img.id + index">
+          <div v-for="(img, index) in distroImages" :key="img.id + index">
             <img :src="img.formats.medium.url" alt="" />
           </div>
         </section>
       </section>
       <!-- description -->
       <h2 class="mt-4">Description</h2>
-      <div v-if="venue.description.split('\n')" class="mt-6">
+      <div v-if="distro.description.split('\n')" class="mt-6">
         <p
-          v-for="(description, index) in venue.description.split('\n')"
+          v-for="(description, index) in distro.description.split('\n')"
           :key="description + index"
           class="mt-4 ext-lg px-2 md:text-2xl"
         >
           {{ description }}
         </p>
       </div>
-      <p v-else class="text-lg px-2 md:text-2xl">{{ venue.description }}</p>
+      <p v-else class="text-lg px-2 md:text-2xl">{{ distro.description }}</p>
     </section>
     <section class="container mx-auto">
       <h2 class="my-6">Details</h2>
       <!-- date started , genre(if applicable ) location streetNumber zip streetName contact -->
       <h3 class="text-3xl mb-4">Location</h3>
-      <p v-if="venue.streetNumber" class="text-xl">
-        {{ venue.streetNumber }} {{ venue.streetName }}, {{ venue.city }},
-        {{ venue.state }} {{ venue.zip }}
+      <p v-if="distro.streetNumber" class="text-xl">
+        {{ distro.streetNumber }} {{ distro.streetName }}, {{ distro.city }},
+        {{ distro.state }} {{ distro.zip }}
       </p>
-      <div v-if="venue.genre" class="mt-4">
+      <div v-if="distro.genre" class="mt-4">
         <h3 class="text-3xl mb-4">Genre</h3>
         <p class="text-xl">
-          {{ venue.genre }}
+          {{ distro.genre }}
         </p>
       </div>
-      <div v-if="venue.dateOpened" class="mt-4">
+      <div v-if="distro.dateOpened" class="mt-4">
         <h3 class="text-3xl mb-4">Established</h3>
         <p class="text-xl">
-          {{ venue.dateOpened }}
+          {{ distro.dateOpened }}
         </p>
       </div>
-      <div v-if="venue.contact" class="mt-4">
+      <div v-if="distro.contact" class="mt-4">
         <h3 class="text-3xl mb-4">Contact</h3>
         <p class="text-xl">
-          {{ venue.contact }}
+          {{ distro.contact }}
         </p>
       </div>
     </section>
@@ -96,27 +96,27 @@
 export default {
   data() {
     return {
-      venue: {},
+      distro: {},
       image: '',
-      venueImages: [],
+      distroImages: [],
       posts: [],
     }
   },
   async mounted() {
     try {
-      const venue = await this.$strapi.findOne(
-        'venues',
-        this.$route.query.venue
+      const distro = await this.$strapi.findOne(
+        'record-labels',
+        this.$route.query.distro
       )
-      this.venue = venue
-      this.image = venue.venueImg.url
-      this.venueImages = venue.venueImages
+      this.distro = distro
+      this.image = distro.distroImage.url
+      this.distroImages = distro.distroImages
     } catch (error) {
       console.log(error)
     }
     try {
       const posts = await this.$strapi.find('posts', {
-        venue: this.$route.query.venue,
+        record_label: this.$route.query.distro,
       })
       this.posts = posts
     } catch (error) {

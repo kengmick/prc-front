@@ -23,7 +23,7 @@
           v-for="(band, index) in bands"
           :key="band.bandName + index"
           :band="band"
-          style="min-width: 300px"
+          style="min-width: 500px"
         />
       </SliderContainer>
     </section>

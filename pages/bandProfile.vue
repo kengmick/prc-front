@@ -121,7 +121,7 @@
             :key="index"
             :album="album"
             :band="band.id"
-            :style="band.album.length <= 1 ? 'width: 100% !important;' : ''"
+            :class="band.album.length <= 1 ? 'w-screen' : ''"
           />
         </SliderContainer>
         <h2 v-if="videos">
@@ -150,6 +150,7 @@ export default {
       load: false,
       hide: false,
       userPermissions: null,
+      videos: [],
     }
   },
   async mounted() {

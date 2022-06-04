@@ -50,7 +50,7 @@
           <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
         </div>
         <div>
-          <NuxtLink class="chedder text-2xl" to="/distro"
+          <NuxtLink class="chedder text-2xl" to="/distros"
             >Distro/Labels</NuxtLink
           >
         </div>
@@ -104,6 +104,9 @@
     >
       <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
+      </div>
+      <div @click="toggleMenu">
+        <NuxtLink class="chedder text-2xl" to="/distros">Distros</NuxtLink>
       </div>
       <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>
