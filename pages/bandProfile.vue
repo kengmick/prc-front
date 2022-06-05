@@ -2,7 +2,6 @@
   <div>
     <!-- fix video slider -->
     <div v-if="band">
-      <pre>{{ band }}</pre>
       <div
         style="z-index: -99999999"
         class="background_custom object-fill para relative h-[500px]"
@@ -118,11 +117,17 @@
               <p>{{ band.contact }}</p>
             </div>
           </div>
+          <div class="w-full sm:w-3/4 flex">
+            <div class="w-full mb-6">
+              <h2 class="text-3xl chedder main_red_text">Band Formed</h2>
+              <p>{{ band.dateStarted }}</p>
+            </div>
+          </div>
         </div>
       </section>
       <!-- edit component -->
-      <section class="sm:w-3/4 mx-auto">
-        <h2 v-if="band.album">
+      <section v-if="band.album === []" class="container mx-auto">
+        <h2>
           Albums
           <span class="ptmono pl-4 text-xl">by {{ band.bandName }} </span>
         </h2>
@@ -148,6 +153,16 @@
             :bandName="video.band.bandName"
           />
         </SliderContainer> -->
+      </section>
+      <section v-if="band.oldShows" class="container mx-auto">
+        <h2>Historic Shows</h2>
+        <div v-for="(show, index) in band.oldShows" :key="show + index">
+          <p>
+            {{ show.date }} {{ show.title }}, @{{ show.venueName }},{{
+              show.city
+            }},{{ show.state }}
+          </p>
+        </div>
       </section>
     </div>
   </div>

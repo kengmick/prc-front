@@ -14,7 +14,7 @@
       ></div>
       <!-- gallery  -->
       <!-- media Gallery -->
-      <section v-if="venueImages" class="container mx-auto">
+      <section v-if="venueImages.lenghth > 0" class="container mx-auto">
         <h2 class="my-6">Gallery</h2>
         <section
           class="mx-6 my-10 flex flex-col gap-10 lg:grid lg:grid-cols-3 lg:gap-10"

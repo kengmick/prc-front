@@ -12,8 +12,17 @@
     </div>
     <div v-if="$strapi.user" class="container mx-auto my-10">
       <div v-if="bands">
-        <p class="text-2xl mb-6 chedder">Band Profiles</p>
-        <table class="w-full">
+        <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
+          <p class="text-2xl chedder text-white flex-grow">Band Profiles</p>
+          <div>
+            <nuxtLink
+              :to="{ path: '/createband' }"
+              class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
+              >+ Create Band
+            </nuxtLink>
+          </div>
+        </div>
+        <table class="w-screen sm: full">
           <tr>
             <th>Band Name</th>
             <th>Date Created</th>
@@ -25,9 +34,6 @@
             <td>{{ moment(String(band.created_at)).format('MMM Do') }}</td>
             <td>
               <div class="flex gap-6">
-                <nuxtLink :to="{ path: '/createband' }" class="btn_custom"
-                  >add</nuxtLink
-                >
                 <nuxtLink
                   :to="{ path: '/bandprofile', query: { band: band.id } }"
                   class="btn_custom"
@@ -48,7 +54,16 @@
       </div>
       <!-- Classifieds -->
       <div v-if="classifieds" class="mt-6">
-        <p class="text-2xl mb-6 chedder">Classifieds</p>
+        <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
+          <p class="text-2xl chedder text-white flex-grow">Classifieds</p>
+          <div>
+            <nuxtLink
+              :to="{ path: '/createclassified' }"
+              class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
+              >+ Create Classified
+            </nuxtLink>
+          </div>
+        </div>
         <table class="w-full">
           <tr>
             <th>Article Title</th>
@@ -88,7 +103,16 @@
       <!-- venues -->
 
       <div v-if="venues" class="mt-6">
-        <p class="text-2xl mb-6 chedder">Venues</p>
+        <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
+          <p class="text-2xl chedder text-white flex-grow">Venues</p>
+          <div>
+            <nuxtLink
+              :to="{ path: '/createVenue' }"
+              class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
+              >+ Create Venue
+            </nuxtLink>
+          </div>
+        </div>
         <table class="w-full">
           <tr>
             <th>Venue Name</th>
@@ -124,23 +148,28 @@
       </div>
 
       <div v-if="events" class="mt-6">
-        <p class="text-2xl mb-6 chedder">Events</p>
+        <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
+          <p class="text-2xl chedder text-white flex-grow">Events</p>
+          <div>
+            <nuxtLink
+              :to="{ path: '/createevent' }"
+              class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
+              >+ Create Event
+            </nuxtLink>
+          </div>
+        </div>
         <table class="w-full">
           <tr>
-            <th>Venue Name</th>
+            <th>Event Name</th>
             <th>Date Created</th>
             <th>Actions</th>
           </tr>
 
           <tr v-for="(event, index) in events" :key="event.title + index">
-            <td>venue Profile</td>
+            <td>Event Profile</td>
             <td>{{ event.title }}</td>
-            <!-- <td>{{ moment(String(venue.created_at)).format('MMM Do') }}</td> -->
             <td>
               <div class="flex gap-6">
-                <nuxtLink :to="{ path: '/createEvent' }" class="btn_custom"
-                  >add</nuxtLink
-                >
                 <nuxtLink
                   :to="{ path: '/eventview', query: { event: event.id } }"
                   class="btn_custom"
@@ -161,7 +190,16 @@
       </div>
       <!-- Tours -->
       <div v-if="tours" class="mt-6">
-        <p class="text-2xl mb-6 chedder">Tours</p>
+        <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
+          <p class="text-2xl chedder text-white flex-grow">Tours</p>
+          <div>
+            <nuxtLink
+              :to="{ path: '/tourcreate' }"
+              class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
+              >+ Create Tour
+            </nuxtLink>
+          </div>
+        </div>
         <table class="w-full">
           <tr>
             <th>Tour Name</th>
@@ -286,5 +324,9 @@ tr:nth-child(even) {
 .btn_custom {
   padding: 0.5em 1em;
   border: 1px solid black;
+}
+
+.bord {
+  border: 1px solid #e5e7eb;
 }
 </style>

@@ -1,19 +1,25 @@
 <template>
   <div class="container mx-auto my-6">
-    <h1 v-if="event" class="text-center">{{ event.title }}</h1>
-    <section v-if="event && event.eventPoster" class="container mx-auto mt-6">
-      <div
-        class="h-[500px] back"
-        :style="`background-image: url(${image})`"
-      ></div>
+    <section v-if="event" class="container mx-auto mt-6">
+      <div v-if="event.eventPoster">
+        <div
+          class="h-[500px] back"
+          :style="`background-image: url(${image})`"
+        ></div>
+      </div>
       <!-- description -->
       <section>
+        <h1 v-if="event">{{ event.title }}</h1>
         <h2 class="mt-4">Date</h2>
         <p class="text-xl">
           {{ moment(String(event.date)).format('MMMM Do YYYY, h:mm a') }} -
           {{ moment(event.timeEnds, 'h').format('LT') }}
         </p>
-
+        <h2 class="mt-4">Location</h2>
+        <p class="text-xl">
+          @{{ event.venueName }} - {{ event.streetName }}
+          {{ event.streetNumber }} {{ event.city }}, {{ event.state }}
+        </p>
         <a
           v-if="event.ticketLink"
           class="px-4 py-2 border-2 border-black inline-block mt-4"
@@ -22,6 +28,7 @@
           >Tickets</a
         >
       </section>
+
       <h2 class="mt-4">Description</h2>
       <div v-if="event.eventDescription.split('\n')" class="mt-6">
         <p
