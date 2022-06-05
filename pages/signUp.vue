@@ -66,7 +66,7 @@ export default {
           password: this.formValues.password,
         })
         if (user) {
-          this.$router.push('/')
+          this.$router.push({ path: 'profile', query: { user: user.id } })
         }
       } catch (error) {
         this.errorMessage = 'Sorry ... please try again'
