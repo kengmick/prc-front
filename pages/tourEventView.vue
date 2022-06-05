@@ -18,6 +18,8 @@
             >Tickets</a
           >
         </section>
+        <h2 class="mt-4">Location</h2>
+        <p class="mt-4 ext-lg px-2 md:text-2xl">{{ event.venueName }}</p>
         <h2 class="mt-4">Description</h2>
         <div v-if="event.eventDescription.split('\n')" class="mt-6">
           <p

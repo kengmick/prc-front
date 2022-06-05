@@ -1,7 +1,11 @@
 <template>
+  <!-- get gallery working  -->
   <div>
-    <section v-if="venue && image" class="container mx-auto mt-6">
-      <div v-if="venue.logo" class="flex items-center mb-4">
+    <section v-if="venue && image" class="container mx-auto mt-6 px-2 sm:px-0">
+      <div
+        v-if="venue.logo"
+        class="flex flex-col sm:flex-row items-center mb-4"
+      >
         <img class="h-16 pr-6" :src="venue.logo.url" alt="" />
         <h1 class="main_red_text chedder">{{ venue.name }}</h1>
       </div>
@@ -25,7 +29,7 @@
         </section>
       </section>
       <!-- description -->
-      <h2 class="mt-4">Description</h2>
+      <h2 class="mt-4 text-3xl">History/Bio/Message</h2>
       <div v-if="venue.description.split('\n')" class="mt-6">
         <p
           v-for="(description, index) in venue.description.split('\n')"
@@ -37,22 +41,21 @@
       </div>
       <p v-else class="text-lg px-2 md:text-2xl">{{ venue.description }}</p>
     </section>
-    <section class="container mx-auto">
-      <h2 class="my-6">Details</h2>
+    <section class="container mx-auto px-2 sm:px-0">
       <!-- date started , genre(if applicable ) location streetNumber zip streetName contact -->
-      <h3 class="text-3xl mb-4">Location</h3>
+      <h3 class="text-3xl my-4">Location</h3>
       <p v-if="venue.streetNumber" class="text-xl">
         {{ venue.streetNumber }} {{ venue.streetName }}, {{ venue.city }},
         {{ venue.state }} {{ venue.zip }}
       </p>
-      <div v-if="venue.genre" class="mt-4">
+      <!-- <div v-if="venue.genre" class="mt-4">
         <h3 class="text-3xl mb-4">Genre</h3>
         <p class="text-xl">
           {{ venue.genre }}
         </p>
-      </div>
+      </div> -->
       <div v-if="venue.dateOpened" class="mt-4">
-        <h3 class="text-3xl mb-4">Established</h3>
+        <h3 class="text-3xl mb-4">Date Started</h3>
         <p class="text-xl">
           {{ venue.dateOpened }}
         </p>
@@ -62,6 +65,16 @@
         <p class="text-xl">
           {{ venue.contact }}
         </p>
+      </div>
+      <div v-if="venue.contact" class="mt-4">
+        <!-- link to punk shows  -->
+        <h3 class="text-3xl mb-4">Showz</h3>
+        <p class="text-xl">add shows</p>
+      </div>
+      <div v-if="venue.contact" class="mt-4">
+        <!-- link to punk shows  -->
+        <h3 class="text-3xl mb-4">Links</h3>
+        <p class="text-xl">add links</p>
       </div>
     </section>
     <!-- comments  -->

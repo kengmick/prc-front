@@ -34,7 +34,7 @@
           :class="load ? '-mt-24' : 'mt-0'"
           class="px-6 w-11/12 sm:w-3/4 xl:w-1/2 bg-black lg:px-16 py-10 mx-auto transition-all duration-500 z-50"
         >
-          <h2 class="text-white text-4xl mb-14">BIO</h2>
+          <h2 class="text-white text-4xl mb-14">History/Bio/Message</h2>
           <div class="pb-24">
             <p class="text-white text-xl">{{ band.bio }}</p>
           </div>
@@ -43,8 +43,6 @@
       <!-- details section -->
       <section class="w-11/12 sm:w-3/4 xl:w-1/2 mx-auto mt-6 px-14">
         <div class="flex items-center gap-10">
-          <h1 class="mb-0">Band Details</h1>
-
           <nuxtLink
             v-if="$strapi.user !== null && userPermission === $strapi.user.id"
             :to="{
@@ -54,6 +52,9 @@
             class="btn_custom"
             >Edit</nuxtLink
           >
+        </div>
+        <div v-if="band.logo" class="my-4">
+          <img :src="band.logo.url" alt="" />
         </div>
         <div class="flex flex-col sm:flex-row items-center mb-4">
           <!-- col one of details  -->
@@ -66,7 +67,7 @@
           <!-- col two of details  -->
           <div class="w-full mb-6 sm:w-3/4 flex">
             <div class="w-full">
-              <h2 class="text-3xl chedder main_red_text">HomeTown</h2>
+              <h2 class="text-3xl chedder main_red_text">Location</h2>
               <p>{{ band.city }}, {{ band.state }}</p>
             </div>
           </div>
@@ -103,12 +104,6 @@
               >
             </div>
           </div>
-          <div class="w-full sm:w-3/4 flex">
-            <div class="w-full mb-6">
-              <h2 class="text-3xl chedder main_red_text">Band Email</h2>
-              <p>{{ band.bandEmail }}</p>
-            </div>
-          </div>
         </div>
         <div flex flex-col sm:flex-row items-center mb-4>
           <div v-if="band.contact" class="w-full sm:w-3/4 flex">
@@ -119,14 +114,36 @@
           </div>
           <div class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
-              <h2 class="text-3xl chedder main_red_text">Band Formed</h2>
+              <h2 class="text-3xl chedder main_red_text">Date Started</h2>
               <p>{{ band.dateStarted }}</p>
+            </div>
+          </div>
+          <div class="w-full sm:w-3/4 flex">
+            <div class="w-full mb-6">
+              <h2 class="text-3xl chedder main_red_text">Links</h2>
+              <!-- add login to check link  -->
+              <a
+                class="underline-offset-2 underline"
+                :href="band.linkTwo"
+                target="_blank"
+                >{{ band.linkOne }}</a
+              >
+              <a
+                class="underline-offset-2 underline"
+                :href="band.linkTwo"
+                target="_blank"
+                >{{ band.linkTwo }}</a
+              >
             </div>
           </div>
         </div>
       </section>
+      <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
       <!-- edit component -->
-      <section v-if="band.album === []" class="container mx-auto">
+      <section
+        v-if="band.album === []"
+        class="w-11/12 sm:w-3/4 xl:w-1/2 mx-auto mt-6 px-14"
+      >
         <h2>
           Albums
           <span class="ptmono pl-4 text-xl">by {{ band.bandName }} </span>
@@ -164,7 +181,11 @@
           </div>
         </section>
         <!-- comments box  -->
-        <section></section>
+      </section>
+      <section class="w-11/12 sm:w-3/4 xl:w-1/2 mx-auto mt-6 px-14">
+        <h2 class="text-3xl chedder main_red_text">Releases</h2>
+        <h2 class="text-3xl chedder main_red_text">Merch</h2>
+        <h2 class="text-3xl chedder main_red_text">Songs</h2>
       </section>
     </div>
   </div>
@@ -190,10 +211,10 @@ export default {
     } catch (error) {
       return error
     }
-    const posts = await this.$strapi.find('posts', {
-      band: this.band.id,
-    })
-    this.posts = posts
+    // const posts = await this.$strapi.find('posts', {
+    //   band: this.band.id,
+    // })
+    // this.posts = posts
   },
 }
 </script>

@@ -2,21 +2,23 @@
   <div
     class="rounded-md shadow-md transition-all duration-200 hover:scale-105 h-[500px]"
   >
-    <div class="h-1/6">
-      <p class="chedder text-2xl main_red_text p-6">{{ venue.name }}</p>
-    </div>
-    <div class="w-full h-3/6">
-      <img
-        class="h-full w-full"
-        :src="venue.venueImg.formats.medium.url"
-        alt=""
-      />
+    <div>
+      <div class="h-1/6">
+        <p class="chedder text-2xl main_red_text p-6">{{ venue.name }}</p>
+      </div>
+      <div class="w-full h-3/6">
+        <img
+          class="h-full w-full"
+          :src="venue.venueImg.formats.medium.url"
+          alt=""
+        />
+      </div>
     </div>
     <div
-      v-if="venue.description.length >= 100"
+      v-if="venue.description.length >= 30"
       class="h-1/6 pl-6 flex items-center"
     >
-      <p>{{ venue.description.split(' ').slice(0, 35).join(' ') }} ...</p>
+      <p>{{ venue.description.split(' ').slice(0, 10).join(' ') }} ...</p>
     </div>
     <div v-else class="h-1/6 pl-6 flex items-center">
       <p>{{ venue.description }}</p>

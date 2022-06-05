@@ -1,9 +1,12 @@
 <template>
   <div>
     <section v-if="distro && image" class="container mx-auto mt-6">
-      <div v-if="distro.logo" class="flex items-center mb-4">
+      <div
+        v-if="distro.logo"
+        class="flex flex-col items-center mb-4 sm:flex-row"
+      >
         <img class="h-16 pr-6" :src="distro.logo.url" alt="" />
-        <h1 class="main_red_text chedder">{{ distro.name }}</h1>
+        <h1 class="main_red_text chedder text-4xl">{{ distro.name }}</h1>
       </div>
       <div v-else>
         <h1 class="main_red_text chedder text-center">{{ distro.name }}</h1>
@@ -14,7 +17,7 @@
       ></div>
       <!-- gallery  -->
       <!-- media Gallery -->
-      <section v-if="distroImages" class="container mx-auto">
+      <section v-if="distroImages" class="container mx-auto px-2 sm:px-0">
         <h2 class="my-6">Gallery</h2>
         <section
           class="mx-6 my-10 flex flex-col gap-10 lg:grid lg:grid-cols-3 lg:gap-10"
@@ -25,8 +28,8 @@
         </section>
       </section>
       <!-- description -->
-      <h2 class="mt-4">Description</h2>
-      <div v-if="distro.description.split('\n')" class="mt-6">
+      <h2 class="mt-4 text-3xl px-2 sm:px-0">History/Bio/Message</h2>
+      <div v-if="distro.description.split('\n')" class="my-6 px-2 sm:px-0">
         <p
           v-for="(description, index) in distro.description.split('\n')"
           :key="description + index"
@@ -37,8 +40,7 @@
       </div>
       <p v-else class="text-lg px-2 md:text-2xl">{{ distro.description }}</p>
     </section>
-    <section class="container mx-auto">
-      <h2 class="my-6">Details</h2>
+    <section class="container mx-auto px-2 sm:px-0">
       <!-- date started , genre(if applicable ) location streetNumber zip streetName contact -->
       <h3 class="text-3xl mb-4">Location</h3>
       <p v-if="distro.streetNumber" class="text-xl">
