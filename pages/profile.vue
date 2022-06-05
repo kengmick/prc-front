@@ -1,5 +1,7 @@
 <template>
   <div>
+    <!-- has band venue classified events  -->
+    <!-- needs tours record lables albums songs videos  -->
     <div v-if="$strapi.user" class="container mx-auto mt-10">
       <img
         src="https://cdn.dribbble.com/users/6142/screenshots/5679189/media/1b96ad1f07feee81fa83c877a1e350ce.png?compress=1&resize=400x300&vertical=top"
@@ -158,6 +160,42 @@
         </table>
       </div>
       <!-- Tours -->
+      <div v-if="tours" class="mt-6">
+        <p class="text-2xl mb-6 chedder">Tours</p>
+        <table class="w-full">
+          <tr>
+            <th>Tour Name</th>
+            <th>Date Created</th>
+            <th>Actions</th>
+          </tr>
+
+          <tr v-for="(tour, index) in tours" :key="tour.title + index">
+            <td>Tour</td>
+            <td>{{ tour.title }}</td>
+            <!-- <td>{{ moment(String(venue.created_at)).format('MMM Do') }}</td> -->
+            <td>
+              <div class="flex gap-6">
+                <nuxtLink :to="{ path: '/tourcreate' }" class="btn_custom"
+                  >add</nuxtLink
+                >
+                <nuxtLink
+                  :to="{ path: '/tourview', query: { tour: tour.id } }"
+                  class="btn_custom"
+                  >View
+                </nuxtLink>
+                <nuxtLink
+                  :to="{
+                    path: '/touredit',
+                    query: { tour: tour.id },
+                  }"
+                  class="btn_custom"
+                  >Edit</nuxtLink
+                >
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -169,6 +207,7 @@ export default {
   data() {
     return {
       bands: [],
+      tours: [],
       venues: [],
       classifieds: [],
       events: [],
@@ -207,6 +246,13 @@ export default {
     }
     try {
       this.classifieds = await this.$strapi.find('classifieds', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+    } catch (error) {
+      this.error = 'sorry ... something went wrong'
+    }
+    try {
+      this.tours = await this.$strapi.find('tours', {
         users_permissions_user: this.$strapi.user.id,
       })
     } catch (error) {

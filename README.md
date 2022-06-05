@@ -1,8 +1,15 @@
 # chore list and features
 
-- [] add tours data type
-  - [] tours is a collection of events but maybe there is a way to refactor the logic
-- [] find out what the different tiers are for the users and what they get
-- [] rework the user profile page last
-- [] implement new data typs
-- [] add comment functionalty
+- [] write conditionals for every page to make sure it will still work if there is not enough data
+- [] add defalut images where necessary
+- [] add data all data tables to user profile page
+- [] add all forms to create the data for user
+- [] add free and paid tiers and limit data presented in forms
+- [] set up stripe payment portal in a test account
+- [] fix the progress bar in the song player
+
+- [] redesign and redesign as best as I can
+
+## working
+
+Data table on the profile page

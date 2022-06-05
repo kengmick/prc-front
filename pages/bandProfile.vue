@@ -1,6 +1,8 @@
 <template>
   <div>
+    <!-- fix video slider -->
     <div v-if="band">
+      <pre>{{ band }}</pre>
       <div
         style="z-index: -99999999"
         class="background_custom object-fill para relative h-[500px]"
@@ -59,7 +61,7 @@
           <div class="w-full mb-6 sm:w-3/4 my-auto flex">
             <div class="w-full">
               <h2 class="text-3xl chedder main_red_text">Genre</h2>
-              <p>{{ band.genre }}</p>
+              <p>{{ band.genreAlt }}</p>
             </div>
           </div>
           <!-- col two of details  -->
@@ -78,6 +80,7 @@
               <p>{{ band.bandManager }}</p>
             </div>
           </div>
+
           <!-- col two of details  -->
           <div class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
@@ -108,6 +111,14 @@
             </div>
           </div>
         </div>
+        <div flex flex-col sm:flex-row items-center mb-4>
+          <div v-if="band.contact" class="w-full sm:w-3/4 flex">
+            <div class="w-full mb-6">
+              <h2 class="text-3xl chedder main_red_text">Band Contact</h2>
+              <p>{{ band.contact }}</p>
+            </div>
+          </div>
+        </div>
       </section>
       <!-- edit component -->
       <section class="sm:w-3/4 mx-auto">
@@ -124,11 +135,11 @@
             :class="band.album.length <= 1 ? 'w-screen' : ''"
           />
         </SliderContainer>
-        <h2 v-if="videos">
+        <!-- <h2 v-if="videos">
           Music Videos
           <span class="ptmono pl-4 text-xl">by {{ band.bandName }}</span>
-        </h2>
-        <!-- <VideoSlider id="video-container" class="py-10">
+        </h2> -->
+        <!-- <SliderContainer id="video-container" class="py-10">
           <VideoCard
             v-for="(video, index) in videos"
             :key="index"
@@ -136,7 +147,7 @@
             :video="video"
             :bandName="video.band.bandName"
           />
-        </VideoSlider> -->
+        </SliderContainer> -->
       </section>
     </div>
   </div>
@@ -149,7 +160,7 @@ export default {
       band: null,
       load: false,
       hide: false,
-      userPermissions: null,
+      userPermission: null,
       videos: [],
     }
   },

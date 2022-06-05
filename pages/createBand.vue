@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
     <h1 class="main_red_text text-center">Create Your Band Profile</h1>
     <section class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
       <div class="w-full mt-6 mb-6">
@@ -9,15 +10,29 @@
               <FormulateInput
                 name="bandName"
                 label="What is the band name"
-                validation="required"
                 wrapper-class="m-auto sm:w-4/5 "
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+
               <FormulateInput
-                name="genre"
+                name="genreAlt"
+                :options="{
+                  punk: 'Punk',
+                  ska: 'Ska',
+                  hardcore: 'hardcore',
+                  thrash: 'thrash',
+                }"
+                type="select"
                 label="What is the genre"
-                validation="required"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
+                name="dateStarted"
+                type="date"
+                label="Date Band Started"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
@@ -39,9 +54,15 @@
             </div>
             <div class="w-full px-4 sm:w-1/2">
               <FormulateInput
+                name="contact"
+                label="Band contact"
+                wrapper-class="m-auto sm:w-4/5 "
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
                 name="city"
                 label="City that the band is from?"
-                validation="required"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
@@ -49,7 +70,6 @@
               <FormulateInput
                 name="state"
                 label="Home state?"
-                validation="required"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
@@ -101,9 +121,70 @@
                 @change="profileImage = $event.target.files[0]"
               />
             </div>
+            <!-- logo -->
+            <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+              Add Your band Logo
+            </h2>
+            <div class="flex w-full justify-center">
+              <FormulateInput
+                type="image"
+                name="logo"
+                label="Select an logo to upload"
+                help="Select a png, jpg or gif to upload."
+                validation="mime:image/jpeg,image/png,image/gif"
+                input-class="w-full sm:w-96 "
+                wrapper-class="w-full sm:w-96 "
+                element-class="w-full sm:w-96 "
+                @change="logoImage = $event.target.files[0]"
+              />
+            </div>
             <!-- <div v-if="image">
               <img :src="image[0].url" alt="fdsfadsf" />
             </div> -->
+            <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+              Add Previous Shows Played (optional)
+            </h2>
+            <FormulateInput
+              type="group"
+              name="oldShows"
+              :repeatable="true"
+              label="Previous Shows Played"
+              add-label="+ Add Show"
+              wrapper-class="w-full"
+              element-class="w-full"
+            >
+              <div>
+                <FormulateInput
+                  name="title"
+                  label="Name of Show"
+                  required="false"
+                  wrapper-class="w-full"
+                  element-class="w-full"
+                />
+                <FormulateInput
+                  name="city"
+                  label="city of event"
+                  required="false"
+                  wrapper-class="w-full"
+                  element-class="w-full"
+                />
+                <FormulateInput
+                  name="state"
+                  label="state of event"
+                  required="false"
+                  wrapper-class="w-full"
+                  element-class="w-full"
+                />
+
+                <FormulateInput
+                  name="venueName"
+                  label="Venue Name"
+                  required="false"
+                  wrapper-class="w-full"
+                  element-class="w-full"
+                />
+              </div>
+            </FormulateInput>
             <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
               Add Band Bio
             </h2>
@@ -142,7 +223,10 @@ export default {
       band: {},
       created: false,
       profileImage: '',
+      logoImage: '',
+      logoImageFinal: '',
       image: '',
+      showPosters: [],
     }
   },
   methods: {
@@ -157,6 +241,16 @@ export default {
       } catch (error) {
         console.log(error)
       }
+      try {
+        const formData = new FormData()
+        await formData.append('files', this.logoImage)
+        const [logoImageFinal] = await this.$strapi.create('upload', formData)
+        this.logoImageFinal = logoImageFinal
+        this.formValues.logo = logoImageFinal
+      } catch (error) {
+        console.log(error)
+      }
+      // old shows array
       // making post band to strapi
       try {
         const band = await this.$strapi.create('bands', {

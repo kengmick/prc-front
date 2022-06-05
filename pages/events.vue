@@ -45,7 +45,6 @@
         </div>
       </div>
     </section>
-    <pre>{{ events }}</pre>
   </div>
 </template>
 
