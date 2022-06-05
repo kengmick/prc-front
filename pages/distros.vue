@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-center text-5xl main_red_text mt-10">All Distros</h1>
+    <h1 class="text-center text-3xl main_red_text mt-10">Distros/Labels</h1>
     <section
       v-if="distros"
       class="mx-6 my-10 flex flex-col gap-10 lg:grid lg:grid-cols-3 lg:gap-10"

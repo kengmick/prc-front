@@ -5,16 +5,16 @@
       <div
         v-for="(event, index) in events"
         :key="events.title + index"
-        class="shadow-md w-full h-64 my-12 mx-auto flex transition-all duration-200 hover:scale-105"
+        class="shadow-md w-full h-full flex flex-col ms:h-64 sm:my-12 sm:mx-auto sm:flex-row transition-all duration-200 hover:scale-105"
       >
-        <div v-if="event.eventPoster" class="w-1/3 h-64">
-          <img class="h-full" :src="event.eventPoster.url" alt="" />
+        <div v-if="event.eventPoster" class="w-full sm:w-1/3 h-64">
+          <img class="h-full w-full" :src="event.eventPoster.url" alt="" />
         </div>
         <div class="p-6">
-          <p class="chedder text-xl text-center">
+          <p class="chedder text-xl inline sm:text-center sm:block">
             {{ moment(String(event.date)).format('MMM') }}
           </p>
-          <p class="chedder text-xl text-center">
+          <p class="chedder text-xl inline sm:text-center sm:block">
             {{ moment(String(event.date)).format('Do') }}
           </p>
         </div>
@@ -35,7 +35,7 @@
               {{ event.city }}, {{ event.state }}
             </p>
           </div>
-          <div class="flex-grow flex items-center">
+          <div class="flex-grow flex items-center my-4 sm:my-0">
             <NuxtLink
               :to="{ path: 'eventview', query: { event: event.id } }"
               class="border-2 border-black px-4 py-2"

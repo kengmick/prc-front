@@ -16,7 +16,7 @@
       v-if="distro.description.length >= 100"
       class="h-1/6 pl-6 flex items-center"
     >
-      <p>{{ distro.description.split(' ').slice(0, 35).join(' ') }} ...</p>
+      <p>{{ distro.description.split(' ').slice(0, 10).join(' ') }} ...</p>
     </div>
     <div v-else class="h-1/6 pl-6 flex items-center">
       <p>{{ distro.description }}</p>

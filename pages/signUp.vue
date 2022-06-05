@@ -1,15 +1,17 @@
 <template>
   <div>
     <!-- getting rid of firstName, lastName, -->
-    <h1 class="main_red_text text-center">Create Free User Account</h1>
+    <h1 class="text-center">
+      Create <span class="main_red_text">Free </span>Membership
+    </h1>
     <section class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
       <div class="w-full mt-6 mb-6">
         <FormulateForm v-model="formValues" @submit="submitForm">
           <div class="flex-col sm:flex sm:flex-row">
-            <div class="w-full px-4 sm:w-1/2">
+            <div class="w-full px-4 pb-[1.5em] sm:pb-0 sm:w-1/2">
               <FormulateInput
                 name="username"
-                label="username"
+                label="Username"
                 validation="required"
                 wrapper-class="m-auto sm:w-4/5 "
                 element-class="w-full"
@@ -24,7 +26,7 @@
                 errors-class="sm:w-4/5 m-auto"
               />
             </div>
-            <div class="flex-grow mb-6">
+            <div class="flex-grow mb-6 px-4">
               <FormulateInput
                 name="email"
                 label="Email"
@@ -35,11 +37,15 @@
               />
             </div>
           </div>
-          <FormulateInput
-            type="submit"
-            label="Sign up"
-            wrapper-class="flex justify-center mt-6"
-          />
+          <div class="px-4 sm:px-10">
+            <FormulateInput
+              type="submit"
+              label="Sign up"
+              wrapper-class="flex justify-center mt-6"
+              element-class="w-full"
+              errors-class="sm:w-4/5 m-auto"
+            />
+          </div>
         </FormulateForm>
         <div v-if="errorMessage">
           {{ errorMessage }}

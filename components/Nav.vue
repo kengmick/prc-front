@@ -41,7 +41,18 @@
         <NuxtLink to="/">
           <img class="logo" src="~/static/logo-prc.svg" alt="" />
         </NuxtLink>
+        <div class="flex justify-between">
+          <div v-if="!$strapi.user">
+            <NuxtLink class="chedder text-2xl" to="/signup">signup</NuxtLink>
+          </div>
+          <div v-if="!$strapi.user">
+            <NuxtLink class="chedder text-2xl" to="/loginuser"
+              >Sign In</NuxtLink
+            >
+          </div>
+        </div>
       </div>
+      <!-- singin signup -->
       <div class="flex justify-around place-items-center w-full">
         <div>
           <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>
@@ -66,7 +77,7 @@
           >
         </div>
         <div>
-          <NuxtLink class="chedder text-2xl" to="/videos">Videos</NuxtLink>
+          <NuxtLink class="chedder text-2xl" to="/Merch">Merch</NuxtLink>
         </div>
 
         <div v-if="$strapi.user">
@@ -79,12 +90,6 @@
             <NuxtLink class="chedder text-2xl" to="/">Logout</NuxtLink>
           </div>
         </div>
-        <div v-if="!$strapi.user">
-          <NuxtLink class="chedder text-2xl" to="/signup">signup</NuxtLink>
-        </div>
-        <div v-if="!$strapi.user">
-          <NuxtLink class="chedder text-2xl" to="/loginuser">Sign In</NuxtLink>
-        </div>
       </div>
     </div>
     <!-- mobile nav -->
@@ -93,9 +98,22 @@
     >
       <!-- main logo -->
       <NuxtLink to="/">
-        <img class="logo" src="~/static/logo-prc.svg" alt="" />
+        <img
+          class="logo"
+          src="~/static/logo-prc.svg"
+          alt=""
+          @click="mobileTopNav"
+        />
       </NuxtLink>
       <img class="menu" src="~/static/menu.svg" alt="" @click="toggleMenu" />
+      <div class="flex justify-between">
+        <div v-if="!$strapi.user" @click="toggleMenu">
+          <NuxtLink class="chedder text-2xl" to="/signup">signup</NuxtLink>
+        </div>
+        <div v-if="!$strapi.user" @click="mobileTopNav">
+          <NuxtLink class="chedder text-2xl" to="/loginuser">Sign In</NuxtLink>
+        </div>
+      </div>
     </div>
     <section
       v-show="isOpen"
@@ -103,25 +121,30 @@
       :class="isOpen ? 'h-[calc(100vh-192px)] ' : 'h-0'"
     >
       <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
-      </div>
-      <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/distros">Distros</NuxtLink>
-      </div>
-      <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>
       </div>
       <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/events">Events</NuxtLink>
+        <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
+      </div>
+      <div @click="toggleMenu">
+        <NuxtLink class="chedder text-2xl" to="/distros"
+          >Distros/Labels</NuxtLink
+        >
+      </div>
+      <div @click="toggleMenu">
+        <NuxtLink class="chedder text-2xl" to="/events">Showz</NuxtLink>
       </div>
 
       <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/videos">Videos</NuxtLink>
+        <NuxtLink class="chedder text-2xl" to="/tours">Tours</NuxtLink>
       </div>
       <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/Classified"
-          >Classified</NuxtLink
+        <NuxtLink class="chedder text-2xl" to="/classifieds"
+          >Classifieds</NuxtLink
         >
+      </div>
+      <div @click="toggleMenu">
+        <NuxtLink class="chedder text-2xl" to="/merch">Merch</NuxtLink>
       </div>
       <div v-if="$strapi.user" @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/profile">profile</NuxtLink>
@@ -150,6 +173,11 @@ export default {
     }
   },
   methods: {
+    mobileTopNav() {
+      if (this.isOpen) {
+        this.isOpen = false
+      }
+    },
     toggleMenu() {
       this.isOpen = !this.isOpen
       const bodyElement = document.querySelectorAll('body')[0]

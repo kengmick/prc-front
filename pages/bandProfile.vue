@@ -153,16 +153,18 @@
             :bandName="video.band.bandName"
           />
         </SliderContainer> -->
-      </section>
-      <section v-if="band.oldShows" class="container mx-auto">
-        <h2>Historic Shows</h2>
-        <div v-for="(show, index) in band.oldShows" :key="show + index">
-          <p>
-            {{ show.date }} {{ show.title }}, @{{ show.venueName }},{{
-              show.city
-            }},{{ show.state }}
-          </p>
-        </div>
+        <section v-if="band.oldShows" class="container mx-auto">
+          <h2>Historic Shows</h2>
+          <div v-for="(show, index) in band.oldShows" :key="show + index">
+            <p>
+              {{ show.date }} {{ show.title }}, @{{ show.venueName }},{{
+                show.city
+              }},{{ show.state }}
+            </p>
+          </div>
+        </section>
+        <!-- comments box  -->
+        <section></section>
       </section>
     </div>
   </div>
@@ -177,6 +179,7 @@ export default {
       hide: false,
       userPermission: null,
       videos: [],
+      posts: [],
     }
   },
   async mounted() {
@@ -187,6 +190,10 @@ export default {
     } catch (error) {
       return error
     }
+    const posts = await this.$strapi.find('posts', {
+      band: this.band.id,
+    })
+    this.posts = posts
   },
 }
 </script>
