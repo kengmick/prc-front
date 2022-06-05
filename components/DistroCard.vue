@@ -7,7 +7,7 @@
     </div>
     <div class="w-full h-3/6">
       <img
-        class="h-full w-full"
+        class="h-full w-full object-cover"
         :src="distro.distroImage.formats.medium.url"
         alt=""
       />
