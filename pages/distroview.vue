@@ -18,7 +18,7 @@
       <!-- gallery  -->
       <!-- media Gallery -->
       <section v-if="distroImages" class="container mx-auto px-2 sm:px-0">
-        <h2 class="my-6">Gallery</h2>
+        <h2 class="my-6">Pictures</h2>
         <section
           class="mx-6 my-10 flex flex-col gap-10 lg:grid lg:grid-cols-3 lg:gap-10"
         >
@@ -47,20 +47,32 @@
         {{ distro.streetNumber }} {{ distro.streetName }}, {{ distro.city }},
         {{ distro.state }} {{ distro.zip }}
       </p>
-      <div v-if="distro.genre" class="mt-4">
+      <!-- <div v-if="distro.genre" class="mt-4">
         <h3 class="text-3xl mb-4">Genre</h3>
         <p class="text-xl">
           {{ distro.genre }}
         </p>
-      </div>
+      </div> -->
       <div v-if="distro.dateOpened" class="mt-4">
-        <h3 class="text-3xl mb-4">Established</h3>
+        <h3 class="text-3xl mb-4">Date Started</h3>
         <p class="text-xl">
           {{ distro.dateOpened }}
         </p>
       </div>
       <div v-if="distro.contact" class="mt-4">
         <h3 class="text-3xl mb-4">Contact</h3>
+        <p class="text-xl">
+          {{ distro.contact }}
+        </p>
+      </div>
+      <div v-if="distro.contact" class="mt-4">
+        <h3 class="text-3xl mb-4">Links</h3>
+        <p class="text-xl">
+          {{ distro.contact }}
+        </p>
+      </div>
+      <div v-if="distro.contact" class="mt-4">
+        <h3 class="text-3xl mb-4">Merch</h3>
         <p class="text-xl">
           {{ distro.contact }}
         </p>
