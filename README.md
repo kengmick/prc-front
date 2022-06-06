@@ -49,3 +49,6 @@ make mobile view
 - mobile views done
 - venue profile pages are done
 - events pages working
+
+- [] add tour description please
+- [] fix tour dates

@@ -18,11 +18,11 @@
         {{ tour.title }}
       </h2>
       <p class="chedder text-xl sm:text-2xl">
-        {{ moment(String(tour.dateStart)).format('MMM') }}
-        {{ moment(String(tour.dateStart)).format('Do') }}
+        <!-- {{ moment(String(tour.dateStart)).format('MMM') }}
+        {{ moment(String(tour.dateStart)).format('Do') }} -->
         <span class="chedder main_red_text mx-4">-</span>
-        {{ moment(String(tour.dateEnd)).format('MMM') }}
-        {{ moment(String(tour.dateEnd)).format('Do') }}
+        <!-- {{ moment(String(tour.dateEnd)).format('MMM') }}
+        {{ moment(String(tour.dateEnd)).format('Do') }} -->
       </p>
     </div>
 
