@@ -195,7 +195,7 @@
       </div>
       <!-- venues -->
 
-      <div v-if="venues" class="mt-6 hidden sm:block">
+      <div v-if="venues.length > 0" class="mt-6 hidden sm:block">
         <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
           <p class="text-2xl chedder text-white flex-grow">Venues</p>
           <div>
@@ -239,11 +239,24 @@
           </tr>
         </table>
       </div>
-      <div v-if="venues" class="block px-2 sm:hidden">
+      <div v-else class="block px-2 sm:hidden">
+        <div class="flex mt-32">
+          <h3 class="text-3xl flex-grow mb-4">Venues</h3>
+          <div class="pr-2">
+            <NuxtLink
+              :to="{ path: '/createvenue' }"
+              class="chedder py-2 px-4 border-2 border-black"
+              >+ Add Venue</NuxtLink
+            >
+          </div>
+        </div>
+        <h3>No Venues Added</h3>
+      </div>
+      <div v-if="venues.length > 0" class="block px-2 sm:hidden">
         <!-- lable section, create band button, band title, date created, view, edit -->
         <!-- card Container -->
         <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Classifieds</h3>
+          <h3 class="text-3xl flex-grow mb-4">Venues</h3>
           <div class="pr-2">
             <NuxtLink
               :to="{ path: '/createvenue' }"
@@ -287,8 +300,21 @@
           </ul>
         </section>
       </div>
+      <div v-else class="block px-2 sm:hidden">
+        <div class="flex mt-32">
+          <h3 class="text-3xl flex-grow mb-4">Venues</h3>
+          <div class="pr-2">
+            <NuxtLink
+              :to="{ path: '/createvenue' }"
+              class="chedder py-2 px-4 border-2 border-black"
+              >+ Add Venue</NuxtLink
+            >
+          </div>
+        </div>
+        <h3>No Venues Added</h3>
+      </div>
 
-      <div v-if="events" class="mt-6 hidden sm:block">
+      <div v-if="events.length > 0" class="mt-6 hidden sm:block">
         <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
           <p class="text-2xl chedder text-white flex-grow">Events</p>
           <div>
@@ -329,7 +355,20 @@
           </tr>
         </table>
       </div>
-      <div v-if="events" class="block px-2 sm:hidden">
+      <div v-else class="block px-2 sm:hidden">
+        <div class="flex mt-32">
+          <h3 class="text-3xl flex-grow mb-4">Events</h3>
+          <div class="pr-2">
+            <NuxtLink
+              :to="{ path: '/createevent' }"
+              class="chedder py-2 px-4 border-2 border-black"
+              >+ Add Event</NuxtLink
+            >
+          </div>
+        </div>
+        <h3>No Events Added</h3>
+      </div>
+      <div v-if="events.length > 0" class="block px-2 sm:hidden">
         <!-- lable section, create band button, band title, date created, view, edit -->
         <!-- card Container -->
         <div class="flex mt-32">
@@ -377,8 +416,21 @@
           </ul>
         </section>
       </div>
+      <div v-else class="block px-2 sm:hidden">
+        <div class="flex mt-32">
+          <h3 class="text-3xl flex-grow mb-4">Events</h3>
+          <div class="pr-2">
+            <NuxtLink
+              :to="{ path: '/createevent' }"
+              class="chedder py-2 px-4 border-2 border-black"
+              >+ Add Events</NuxtLink
+            >
+          </div>
+        </div>
+        <h3>No Events Added</h3>
+      </div>
       <!-- Tours -->
-      <div v-if="tours" class="mt-6 hidden sm:block">
+      <div v-if="tours.length > 0" class="mt-6 hidden sm:block">
         <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
           <p class="text-2xl chedder text-white flex-grow">Tours</p>
           <div>
@@ -423,57 +475,23 @@
           </tr>
         </table>
       </div>
-      <div v-if="tours" class="block px-2 sm:hidden">
-        <!-- lable section, create band button, band title, date created, view, edit -->
-        <!-- card Container -->
+      <div v-else class="block px-2 sm:hidden">
         <div class="flex mt-32">
           <h3 class="text-3xl flex-grow mb-4">Tours</h3>
           <div class="pr-2">
             <NuxtLink
               :to="{ path: '/tourcreate' }"
               class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Tour</NuxtLink
+              >+ Add tour</NuxtLink
             >
           </div>
         </div>
-        <section class="shadow-xl h-[400px] overflow-auto">
-          <ul>
-            <li
-              v-for="(t, index) in tours"
-              :key="t.title + index"
-              class="flex flex-col py-4"
-            >
-              <p class="flex-grow text-xl font-bold">{{ t.title }}</p>
-              <p class="flex-grow texl-lg font-bold">
-                Created on
-                {{ moment(String(t.created_at)).format('MMM Do') }}
-              </p>
-              <div class="mt-4">
-                <NuxtLink
-                  :to="{
-                    path: '/tourview',
-                    query: { tour: t.id },
-                  }"
-                  class="chedder py-2 px-4 border-2 border-black"
-                >
-                  View</NuxtLink
-                >
-                <NuxtLink
-                  :to="{
-                    path: '/touredit',
-                    query: { tour: t.id },
-                  }"
-                  class="chedder py-2 px-4 border-2 border-black ml-2"
-                  >Edit</NuxtLink
-                >
-              </div>
-            </li>
-          </ul>
-        </section>
+        <h3>No Tours Added</h3>
       </div>
+
       <!-- mobile releases -->
       <!-- <pre>{{ releases }}</pre> -->
-      <div v-if="releases" class="block px-2 sm:hidden">
+      <div v-if="releases.length > 0" class="block px-2 sm:hidden">
         <!-- lable section, create band button, band title, date created, view, edit -->
         <!-- card Container -->
         <div class="flex mt-32">
@@ -522,6 +540,19 @@
           </ul>
         </section>
       </div>
+      <div v-else class="block px-2 sm:hidden">
+        <div class="flex mt-32">
+          <h3 class="text-3xl flex-grow mb-4">Releases</h3>
+          <div class="pr-2">
+            <NuxtLink
+              :to="{ path: '/releasecreate' }"
+              class="chedder py-2 px-4 border-2 border-black"
+              >+ Add Release</NuxtLink
+            >
+          </div>
+        </div>
+        <h3>No Releases Added</h3>
+      </div>
     </div>
   </div>
 </template>
@@ -558,7 +589,7 @@ export default {
       this.error = 'sorry ... something went wrong'
     }
     this.bands.forEach((b) => {
-      if (b.releases.length > 0) {
+      if (b.releases) {
         b.releases.forEach((r, index) => {
           this.releases.push({ band: b.bandName }, { ...r })
         })
