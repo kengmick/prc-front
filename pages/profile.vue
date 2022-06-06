@@ -121,16 +121,13 @@
             <td>{{ moment(String(article.created_at)).format('MMM Do') }}</td>
             <td>
               <div class="flex gap-6">
-                <nuxtLink :to="{ path: '/classifiedcreate' }" class="btn_custom"
-                  >add</nuxtLink
-                >
                 <nuxtLink
                   :to="{
                     path: '/classifiedview',
                     query: { article: article.id },
                   }"
                   class="btn_custom"
-                  >View {{ article.id }}
+                  >View
                 </nuxtLink>
                 <nuxtLink
                   :to="{
@@ -194,7 +191,7 @@
         </section>
       </div>
       <!-- venues -->
-
+      <!-- desktop venue -->
       <div v-if="venues.length > 0" class="mt-6 hidden sm:block">
         <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
           <p class="text-2xl chedder text-white flex-grow">Venues</p>
@@ -218,9 +215,6 @@
             <td>{{ moment(String(venue.created_at)).format('MMM Do') }}</td>
             <td>
               <div class="flex gap-6">
-                <nuxtLink :to="{ path: '/createVenue' }" class="btn_custom"
-                  >add</nuxtLink
-                >
                 <nuxtLink
                   :to="{ path: '/venueprofile', query: { venue: venue.id } }"
                   class="btn_custom"
@@ -454,9 +448,6 @@
             <!-- <td>{{ moment(String(venue.created_at)).format('MMM Do') }}</td> -->
             <td>
               <div class="flex gap-6">
-                <nuxtLink :to="{ path: '/tourcreate' }" class="btn_custom"
-                  >add</nuxtLink
-                >
                 <nuxtLink
                   :to="{ path: '/tourview', query: { tour: tour.id } }"
                   class="btn_custom"
@@ -555,7 +546,61 @@
         <h3>No tours Added</h3>
       </div>
       <!-- desktop releases  -->
+      <div v-if="releases.length > 0" class="mt-6 hidden sm:block">
+        <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
+          <p class="text-2xl chedder text-white flex-grow">Releases</p>
+          <div>
+            <nuxtLink
+              :to="{ path: '/releasecreate' }"
+              class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
+              >+ Create Release
+            </nuxtLink>
+          </div>
+        </div>
+        <table class="w-full">
+          <tr>
+            <th>Name</th>
+            <th>Date Created</th>
+            <th>Actions</th>
+          </tr>
 
+          <tr v-for="(r, index) in releases" :key="r.title + index">
+            <td>Tour</td>
+            <td>{{ r.title }}</td>
+            <!-- <td>{{ moment(String(venue.created_at)).format('MMM Do') }}</td> -->
+            <td>
+              <div class="flex gap-6">
+                <nuxtLink
+                  :to="{ path: '/releaseview', query: { release: r.id } }"
+                  class="btn_custom"
+                  >View
+                </nuxtLink>
+                <nuxtLink
+                  :to="{
+                    path: '/releaseedit',
+                    query: { release: r.id, band: r.band, bandId: r.bandId },
+                  }"
+                  class="btn_custom"
+                  >Edit</nuxtLink
+                >
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div v-else class="block px-2 sm:hidden">
+        <div class="flex mt-32">
+          <h3 class="text-3xl flex-grow mb-4">Releases</h3>
+          <div class="pr-2">
+            <NuxtLink
+              :to="{ path: '/releasecreate' }"
+              class="chedder py-2 px-4 border-2 border-black"
+              >+ Add Release</NuxtLink
+            >
+          </div>
+        </div>
+        <h3>No Releases Added</h3>
+      </div>
       <!-- mobile releases -->
       <!-- <pre>{{ releases }}</pre> -->
       <div v-if="releases.length > 0" class="block px-2 sm:hidden">
@@ -630,7 +675,68 @@
       </div>
 
       <!-- merch  -->
+      <!-- desktop merch -->
+      <div v-if="merch.length > 0" class="mt-6 hidden sm:block">
+        <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
+          <p class="text-2xl chedder text-white flex-grow">Merch</p>
+          <div>
+            <nuxtLink
+              :to="{ path: '/createmerch' }"
+              class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
+              >+ Create Merch
+            </nuxtLink>
+          </div>
+        </div>
+        <table class="w-full">
+          <tr>
+            <th>Product</th>
+            <th>Date Created</th>
+            <th>Actions</th>
+          </tr>
 
+          <tr v-for="(m, index) in merch" :key="m.productName + index">
+            <td v-if="m.productImage">
+              <img :src="m.productImage.formats.thumbnail.url" alt="" />
+            </td>
+            <td v-else>No Image</td>
+            <td>{{ m.productName }}</td>
+            <!-- <td>{{ moment(String(venue.created_at)).format('MMM Do') }}</td> -->
+            <td>
+              <div class="flex gap-6">
+                <nuxtLink
+                  :to="{
+                    path: '/merchview',
+                    query: { merch: m.id, band: m.bandName, bandId: m.bandId },
+                  }"
+                  class="btn_custom"
+                  >View
+                </nuxtLink>
+                <nuxtLink
+                  :to="{
+                    path: '/editmerch',
+                    query: { merch: m.id },
+                  }"
+                  class="btn_custom"
+                  >Edit</nuxtLink
+                >
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div v-else class="block px-2 sm:hidden">
+        <div class="flex mt-32">
+          <h3 class="text-3xl flex-grow mb-4">Merch</h3>
+          <div class="pr-2">
+            <NuxtLink
+              :to="{ path: '/createmerch' }"
+              class="chedder py-2 px-4 border-2 border-black"
+              >+ Add Merch</NuxtLink
+            >
+          </div>
+        </div>
+        <h3>No Merch Added</h3>
+      </div>
       <div v-if="merch.length > 0" class="block px-2 sm:hidden">
         <!-- lable section, create band button, band title, date created, view, edit -->
         <!-- card Container -->
