@@ -43,7 +43,8 @@
     <section class="container mx-auto px-2 sm:px-0">
       <!-- date started , genre(if applicable ) location streetNumber zip streetName contact -->
       <h3 class="text-3xl mb-4">Location</h3>
-      <p v-if="distro.streetNumber" class="text-xl">
+      <!-- change streeNumber to street Number ... missing the letter t  -->
+      <p v-if="distro.streeNumber" class="text-xl">
         {{ distro.streetNumber }} {{ distro.streetName }}, {{ distro.city }},
         {{ distro.state }} {{ distro.zip }}
       </p>

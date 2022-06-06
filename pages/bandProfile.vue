@@ -123,12 +123,14 @@
               <h2 class="text-3xl chedder main_red_text">Links</h2>
               <!-- add login to check link  -->
               <a
+                v-if="band.linkOne"
                 class="underline-offset-2 underline"
-                :href="band.linkTwo"
+                :href="band.linkOne"
                 target="_blank"
                 >{{ band.linkOne }}</a
               >
               <a
+                v-if="band.linkTwo"
                 class="underline-offset-2 underline"
                 :href="band.linkTwo"
                 target="_blank"
@@ -140,37 +142,64 @@
       </section>
       <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
       <!-- edit component -->
-      <section
-        v-if="band.album === []"
-        class="w-11/12 sm:w-3/4 xl:w-1/2 mx-auto mt-6 px-14"
-      >
-        <h2>
-          Albums
-          <span class="ptmono pl-4 text-xl">by {{ band.bandName }} </span>
-        </h2>
-        <SliderContainer v-if="band.album" id="main-container" class="py-10">
-          <AlbumCard
-            v-for="(album, index) in band.album"
-            :key="index"
-            :album="album"
-            :band="band.id"
-            :class="band.album.length <= 1 ? 'w-screen' : ''"
-          />
-        </SliderContainer>
-        <!-- <h2 v-if="videos">
-          Music Videos
-          <span class="ptmono pl-4 text-xl">by {{ band.bandName }}</span>
-        </h2> -->
-        <!-- <SliderContainer id="video-container" class="py-10">
-          <VideoCard
-            v-for="(video, index) in videos"
-            :key="index"
-            class="scrollVideo"
-            :video="video"
-            :bandName="video.band.bandName"
-          />
-        </SliderContainer> -->
-        <section v-if="band.oldShows" class="container mx-auto">
+
+      <section class="w-11/12 sm:w-3/4 xl:w-1/2 mx-auto mt-6 px-14">
+        <h2 class="text-3xl chedder main_red_text mb-6">Showz</h2>
+        <div v-if="band.events">
+          <pre>{{ band.events }}</pre>
+          <section class="container mx-auto">
+            <div
+              v-for="(event, index) in band.events"
+              :key="events.title + index"
+              class="shadow-md w-full h-full flex flex-col ms:h-64 sm:my-12 sm:mx-auto sm:flex-row transition-all duration-200 hover:scale-105"
+            >
+              <div v-if="event.eventPoster" class="w-full sm:w-1/3 h-64">
+                <img
+                  class="h-full w-full"
+                  :src="event.eventPoster.url"
+                  alt=""
+                />
+              </div>
+              <div class="p-6">
+                <p class="chedder text-xl inline sm:text-center sm:block">
+                  {{ moment(String(event.date)).format('MMM') }}
+                </p>
+                <p class="chedder text-xl inline sm:text-center sm:block">
+                  {{ moment(String(event.date)).format('Do') }}
+                </p>
+              </div>
+              <div class="flex flex-col flex-grow p-6">
+                <div>
+                  <p v-if="event.title" class="chedder text-2xl">
+                    {{ event.title }}
+                  </p>
+                  <p v-if="event.headlinerOne" class="text-xl font-black pb-2">
+                    Featuring {{ event.headlinerOne }}
+                  </p>
+                  <p
+                    v-if="event.streetAddress && event.streetName"
+                    class="text-xl"
+                  >
+                    The Vic, {{ event.streetAddress }} {{ event.streetName }} /
+                    {{ moment(String(event.date)).format('LT') }} -
+                    {{ moment(event.timeEnds, 'h').format('LT') }}
+                  </p>
+                  <p v-if="event.city && event.state" class="text-xl">
+                    {{ event.city }}, {{ event.state }}
+                  </p>
+                </div>
+                <div class="flex-grow flex items-center my-4 sm:my-0">
+                  <NuxtLink
+                    :to="{ path: 'eventview', query: { event: event.id } }"
+                    class="border-2 border-black px-4 py-2"
+                    >View Event</NuxtLink
+                  >
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <!-- <section v-if="band.oldShows" class="container mx-auto">
           <h2>Historic Shows</h2>
           <div v-for="(show, index) in band.oldShows" :key="show + index">
             <p>
@@ -179,11 +208,24 @@
               }},{{ show.state }}
             </p>
           </div>
+        </section> -->
+        <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
+        <h2 class="text-3xl chedder main_red_text mb-6">Releases</h2>
+        <section v-if="band.album">
+          <h2 class="text-3xl">
+            Albums
+            <span class="ptmono pl-4 text-xl">by {{ band.bandName }} </span>
+          </h2>
+          <SliderContainer v-if="band.album" id="main-container" class="py-10">
+            <AlbumCard
+              v-for="(album, index) in band.album"
+              :key="index"
+              :album="album"
+              :band="band.id"
+              :class="band.album.length <= 1 ? 'w-screen' : ''"
+            />
+          </SliderContainer>
         </section>
-        <!-- comments box  -->
-      </section>
-      <section class="w-11/12 sm:w-3/4 xl:w-1/2 mx-auto mt-6 px-14">
-        <h2 class="text-3xl chedder main_red_text">Releases</h2>
         <h2 class="text-3xl chedder main_red_text">Merch</h2>
         <h2 class="text-3xl chedder main_red_text">Songs</h2>
       </section>

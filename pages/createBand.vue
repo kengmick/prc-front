@@ -82,6 +82,22 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+              <FormulateInput
+                name="linkOne"
+                label="Add a Link"
+                placeholder="https://somelink.com"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
+                name="linkTwo"
+                label="Add another link Link"
+                placeholder="https://somelink.com"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
             </div>
           </div>
           <section class="px-4 mt-10 sm:m-20">

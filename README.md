@@ -5,8 +5,8 @@
 ## venue page
 
 - [x] venue gallery media working please
-- [] showz
-  = [] links
+- [x] showz
+      = [] links
 
 ## event page on tour
 
@@ -14,7 +14,7 @@
 
 # distro page
 
-- [] add location on distro page
+- [x] add location on distro page
 
 ### candy's fix list
 
