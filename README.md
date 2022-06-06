@@ -38,3 +38,11 @@ later logo layout venue vs band
 ## working on profile page
 
 make mobile view
+
+### extras
+
+- band profile merch list make into a grid of photos
+
+### new list
+
+- profile user view

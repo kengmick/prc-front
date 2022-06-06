@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>View Release Page</h1>
+    <h1>This is the view merch page</h1>
   </div>
 </template>
 

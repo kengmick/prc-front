@@ -74,12 +74,6 @@
         </div>
         <div class="flex flex-col sm:flex-row items-center mb-4">
           <!-- col one of details  -->
-          <div class="w-full sm:w-3/4 flex">
-            <div class="w-full mb-6">
-              <h2 class="text-3xl chedder main_red_text">Manager</h2>
-              <p>{{ band.bandManager }}</p>
-            </div>
-          </div>
 
           <!-- col two of details  -->
           <div class="w-full sm:w-3/4 flex">
@@ -377,7 +371,11 @@
                   v-for="(song, index) in band.singles"
                   :key="song.songTitle + index"
                 >
-                  <td v-if="song.songTitle">{{ song.songTitle }}</td>
+                  <td v-if="song.songTitle">
+                    <a :href="song.link" class="underline">{{
+                      song.songTitle
+                    }}</a>
+                  </td>
                   <td v-else>No Title</td>
                   <td v-if="song.date">{{ song.date }}</td>
                   <td v-else>No Release Date</td>
