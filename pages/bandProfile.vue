@@ -122,20 +122,23 @@
             <div class="w-full mb-6">
               <h2 class="text-3xl chedder main_red_text">Links</h2>
               <!-- add login to check link  -->
-              <a
-                v-if="band.linkOne"
-                class="underline-offset-2 underline"
-                :href="band.linkOne"
-                target="_blank"
-                >{{ band.linkOne }}</a
-              >
-              <a
-                v-if="band.linkTwo"
-                class="underline-offset-2 underline"
-                :href="band.linkTwo"
-                target="_blank"
-                >{{ band.linkTwo }}</a
-              >
+              <div v-if="LinkOne">
+                <a
+                  v-if="band.linkOne"
+                  class="underline-offset-2 underline"
+                  :href="band.linkOne"
+                  target="_blank"
+                  >{{ band.linkOne }}</a
+                >
+                <a
+                  v-if="band.linkTwo"
+                  class="underline-offset-2 underline"
+                  :href="band.linkTwo"
+                  target="_blank"
+                  >{{ band.linkTwo }}</a
+                >
+              </div>
+              <h3 v-else>No Links Added ...</h3>
             </div>
           </div>
         </div>
@@ -212,10 +215,42 @@
           </div>
         </section> -->
         <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
-        <h2 class="text-4xl chedder underline underline-offset-2 mb-6">
-          Releases
-        </h2>
-        <section v-if="band.album">
+        <section>
+          <h2 class="text-3xl chedder main_red_text my-4 chedder">Releases</h2>
+          <section v-if="band.releases.length > 0">
+            <div class="overflow-x-auto">
+              <table class="w-full">
+                <tr>
+                  <th v-if="band.releases[0].image" class="text-left chedder">
+                    Image
+                  </th>
+                  <th class="text-left chedder">Title</th>
+                  <!-- <th class="text-left chedder">Link</th> -->
+                </tr>
+                <tr v-for="(r, index) in band.releases" :key="r.title + index">
+                  <td v-if="r.image">
+                    <img
+                      v-if="r.image"
+                      class="w-[100px] h-[66px] object-cover"
+                      :src="r.image.url"
+                      alt=""
+                    />
+                    <div
+                      v-else
+                      class="w-[100px] h-[66px] bg-black flex items-center justify-center"
+                    >
+                      <img src="~/static/imageIcon.svg" alt="" />
+                    </div>
+                  </td>
+                  <td v-if="r.title">{{ r.title }}</td>
+                  <td v-else>No Description</td>
+                </tr>
+              </table>
+            </div>
+          </section>
+          <h3 v-else>No Releases</h3>
+        </section>
+        <section v-if="band.album === 'hello'">
           <h2 class="text-3xl main_red_text mb-4">Albums</h2>
           <!-- <SliderContainer v-if="band.album" id="main-container" class="py-10">
             <AlbumCard
@@ -260,7 +295,7 @@
                 <td v-if="album.title">{{ album.title }}</td>
                 <td v-if="album.dateReleased">{{ album.dateReleased }}</td>
                 <td v-else>No Date</td>
-                <td v-if="album.link"><a :href="album.link">View Album</a></td>
+                <td v-if="album.link"><a :href="album.link">View Song</a></td>
                 <td v-else>No Link</td>
               </tr>
             </table>

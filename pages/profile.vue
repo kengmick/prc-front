@@ -145,6 +145,54 @@
           </tr>
         </table>
       </div>
+      <div v-if="classifieds" class="block px-2 sm:hidden">
+        <!-- lable section, create band button, band title, date created, view, edit -->
+        <!-- card Container -->
+        <div class="flex mt-32">
+          <h3 class="text-3xl flex-grow mb-4">Classifieds</h3>
+          <div class="pr-2">
+            <NuxtLink
+              :to="{ path: '/classifiedcreate' }"
+              class="chedder py-2 px-4 border-2 border-black"
+              >+ Add Classified</NuxtLink
+            >
+          </div>
+        </div>
+        <section class="shadow-xl h-[400px] overflow-auto">
+          <ul>
+            <li
+              v-for="(article, index) in classifieds"
+              :key="article.title + index"
+              class="flex flex-col py-4"
+            >
+              <p class="flex-grow text-xl font-bold">{{ article.title }}</p>
+              <p class="flex-grow texl-lg font-bold">
+                Created on
+                {{ moment(String(article.created_at)).format('MMM Do') }}
+              </p>
+              <div class="mt-4">
+                <NuxtLink
+                  :to="{
+                    path: '/classifiedview',
+                    query: { article: article.id },
+                  }"
+                  class="chedder py-2 px-4 border-2 border-black"
+                >
+                  View</NuxtLink
+                >
+                <NuxtLink
+                  :to="{
+                    path: '/classifiededit',
+                    query: { article: article.id },
+                  }"
+                  class="chedder py-2 px-4 border-2 border-black ml-2"
+                  >Edit</NuxtLink
+                >
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
       <!-- venues -->
 
       <div v-if="venues" class="mt-6 hidden sm:block">
@@ -191,6 +239,54 @@
           </tr>
         </table>
       </div>
+      <div v-if="venues" class="block px-2 sm:hidden">
+        <!-- lable section, create band button, band title, date created, view, edit -->
+        <!-- card Container -->
+        <div class="flex mt-32">
+          <h3 class="text-3xl flex-grow mb-4">Classifieds</h3>
+          <div class="pr-2">
+            <NuxtLink
+              :to="{ path: '/createvenue' }"
+              class="chedder py-2 px-4 border-2 border-black"
+              >+ Add Venue</NuxtLink
+            >
+          </div>
+        </div>
+        <section class="shadow-xl h-[400px] overflow-auto">
+          <ul>
+            <li
+              v-for="(v, index) in venues"
+              :key="v.name + index"
+              class="flex flex-col py-4"
+            >
+              <p class="flex-grow text-xl font-bold">{{ v.name }}</p>
+              <p class="flex-grow texl-lg font-bold">
+                Created on
+                {{ moment(String(v.created_at)).format('MMM Do') }}
+              </p>
+              <div class="mt-4">
+                <NuxtLink
+                  :to="{
+                    path: '/venueprofile',
+                    query: { venue: v.id },
+                  }"
+                  class="chedder py-2 px-4 border-2 border-black"
+                >
+                  View</NuxtLink
+                >
+                <NuxtLink
+                  :to="{
+                    path: '/venueedit',
+                    query: { venue: v.id },
+                  }"
+                  class="chedder py-2 px-4 border-2 border-black ml-2"
+                  >Edit</NuxtLink
+                >
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
 
       <div v-if="events" class="mt-6 hidden sm:block">
         <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
@@ -232,6 +328,54 @@
             </td>
           </tr>
         </table>
+      </div>
+      <div v-if="events" class="block px-2 sm:hidden">
+        <!-- lable section, create band button, band title, date created, view, edit -->
+        <!-- card Container -->
+        <div class="flex mt-32">
+          <h3 class="text-3xl flex-grow mb-4">Events</h3>
+          <div class="pr-2">
+            <NuxtLink
+              :to="{ path: '/createevent' }"
+              class="chedder py-2 px-4 border-2 border-black"
+              >+ Add Event</NuxtLink
+            >
+          </div>
+        </div>
+        <section class="shadow-xl h-[400px] overflow-auto">
+          <ul>
+            <li
+              v-for="(ev, index) in events"
+              :key="ev.title + index"
+              class="flex flex-col py-4"
+            >
+              <p class="flex-grow text-xl font-bold">{{ ev.title }}</p>
+              <p class="flex-grow texl-lg font-bold">
+                Created on
+                {{ moment(String(ev.created_at)).format('MMM Do') }}
+              </p>
+              <div class="mt-4">
+                <NuxtLink
+                  :to="{
+                    path: '/eventview',
+                    query: { event: ev.id },
+                  }"
+                  class="chedder py-2 px-4 border-2 border-black"
+                >
+                  View</NuxtLink
+                >
+                <NuxtLink
+                  :to="{
+                    path: '/eventedit',
+                    query: { event: ev.id },
+                  }"
+                  class="chedder py-2 px-4 border-2 border-black ml-2"
+                  >Edit</NuxtLink
+                >
+              </div>
+            </li>
+          </ul>
+        </section>
       </div>
       <!-- Tours -->
       <div v-if="tours" class="mt-6 hidden sm:block">
@@ -278,6 +422,54 @@
             </td>
           </tr>
         </table>
+      </div>
+      <div v-if="tours" class="block px-2 sm:hidden">
+        <!-- lable section, create band button, band title, date created, view, edit -->
+        <!-- card Container -->
+        <div class="flex mt-32">
+          <h3 class="text-3xl flex-grow mb-4">Tours</h3>
+          <div class="pr-2">
+            <NuxtLink
+              :to="{ path: '/tourcreate' }"
+              class="chedder py-2 px-4 border-2 border-black"
+              >+ Add Tour</NuxtLink
+            >
+          </div>
+        </div>
+        <section class="shadow-xl h-[400px] overflow-auto">
+          <ul>
+            <li
+              v-for="(t, index) in tours"
+              :key="t.title + index"
+              class="flex flex-col py-4"
+            >
+              <p class="flex-grow text-xl font-bold">{{ t.title }}</p>
+              <p class="flex-grow texl-lg font-bold">
+                Created on
+                {{ moment(String(t.created_at)).format('MMM Do') }}
+              </p>
+              <div class="mt-4">
+                <NuxtLink
+                  :to="{
+                    path: '/tourview',
+                    query: { tour: t.id },
+                  }"
+                  class="chedder py-2 px-4 border-2 border-black"
+                >
+                  View</NuxtLink
+                >
+                <NuxtLink
+                  :to="{
+                    path: '/touredit',
+                    query: { tour: t.id },
+                  }"
+                  class="chedder py-2 px-4 border-2 border-black ml-2"
+                  >Edit</NuxtLink
+                >
+              </div>
+            </li>
+          </ul>
+        </section>
       </div>
     </div>
   </div>
