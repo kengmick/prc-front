@@ -471,6 +471,57 @@
           </ul>
         </section>
       </div>
+      <!-- mobile releases -->
+      <!-- <pre>{{ releases }}</pre> -->
+      <div v-if="releases" class="block px-2 sm:hidden">
+        <!-- lable section, create band button, band title, date created, view, edit -->
+        <!-- card Container -->
+        <div class="flex mt-32">
+          <h3 class="text-3xl flex-grow mb-4">Releases</h3>
+          <div class="pr-2">
+            <NuxtLink
+              :to="{ path: '/releasecreate' }"
+              class="chedder py-2 px-4 border-2 border-black"
+              >+ Add Release</NuxtLink
+            >
+          </div>
+        </div>
+        <section class="shadow-xl h-[400px] overflow-auto">
+          <ul>
+            <li
+              v-for="(r, index) in releases"
+              :key="r.title + index"
+              class="flex flex-col py-4"
+            >
+              <p class="flex-grow text-xl font-bold">Title :{{ r.title }}</p>
+              <p class="flex-grow text-xl font-bold">Title :{{ r.band }}</p>
+              <p class="flex-grow texl-lg font-bold">
+                Created on
+                {{ moment(String(r.created_at)).format('MMM Do') }}
+              </p>
+              <div class="mt-4">
+                <NuxtLink
+                  :to="{
+                    path: '/releaseview',
+                    query: { realease: r.id },
+                  }"
+                  class="chedder py-2 px-4 border-2 border-black"
+                >
+                  View</NuxtLink
+                >
+                <NuxtLink
+                  :to="{
+                    path: '/releaseedit',
+                    query: { release: r.id },
+                  }"
+                  class="chedder py-2 px-4 border-2 border-black ml-2"
+                  >Edit</NuxtLink
+                >
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
     </div>
   </div>
 </template>
@@ -488,6 +539,7 @@ export default {
       events: [],
       posts: [],
       error: '',
+      releases: [],
     }
   },
   async mounted() {
@@ -505,6 +557,13 @@ export default {
     } catch (error) {
       this.error = 'sorry ... something went wrong'
     }
+    this.bands.forEach((b) => {
+      if (b.releases.length > 0) {
+        b.releases.forEach((r, index) => {
+          this.releases.push({ band: b.bandName }, { ...r })
+        })
+      }
+    })
     try {
       this.events = await this.$strapi.find('events', {
         users_permissions_user: this.$strapi.user.id,
