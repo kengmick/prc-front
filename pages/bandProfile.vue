@@ -143,14 +143,15 @@
       <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
       <!-- edit component -->
 
-      <section class="w-11/12 sm:w-3/4 xl:w-1/2 mx-auto mt-6 px-14">
-        <h2 class="text-3xl chedder main_red_text mb-6">Showz</h2>
-        <div v-if="band.events">
-          <pre>{{ band.events }}</pre>
+      <section class="w-11/12 sm:w-3/4 xl:w-1/2 mx-auto mt-6 px-0 sm:px-14">
+        <h2 class="text-4xl chedder underline underline-offset-2 mb-6">
+          Showz
+        </h2>
+        <div v-if="band.events.length > 0">
           <section class="container mx-auto">
             <div
               v-for="(event, index) in band.events"
-              :key="events.title + index"
+              :key="event.title + index"
               class="shadow-md w-full h-full flex flex-col ms:h-64 sm:my-12 sm:mx-auto sm:flex-row transition-all duration-200 hover:scale-105"
             >
               <div v-if="event.eventPoster" class="w-full sm:w-1/3 h-64">
@@ -199,6 +200,7 @@
             </div>
           </section>
         </div>
+        <div v-else class="my-4"><h3>No Upcoming Showz</h3></div>
         <!-- <section v-if="band.oldShows" class="container mx-auto">
           <h2>Historic Shows</h2>
           <div v-for="(show, index) in band.oldShows" :key="show + index">
@@ -210,13 +212,12 @@
           </div>
         </section> -->
         <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
-        <h2 class="text-3xl chedder main_red_text mb-6">Releases</h2>
+        <h2 class="text-4xl chedder underline underline-offset-2 mb-6">
+          Releases
+        </h2>
         <section v-if="band.album">
-          <h2 class="text-3xl">
-            Albums
-            <span class="ptmono pl-4 text-xl">by {{ band.bandName }} </span>
-          </h2>
-          <SliderContainer v-if="band.album" id="main-container" class="py-10">
+          <h2 class="text-3xl main_red_text mb-4">Albums</h2>
+          <!-- <SliderContainer v-if="band.album" id="main-container" class="py-10">
             <AlbumCard
               v-for="(album, index) in band.album"
               :key="index"
@@ -224,16 +225,122 @@
               :band="band.id"
               :class="band.album.length <= 1 ? 'w-screen' : ''"
             />
-          </SliderContainer>
+          </SliderContainer> -->
+          <!-- album -->
+          <!-- <pre>{{ band.album }}</pre> -->
+          <!-- add picture, title, dateReleased -->
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <tr>
+                <th v-if="band.album[0].albumCover" class="text-left chedder">
+                  Image
+                </th>
+                <th class="text-left chedder">Title</th>
+                <th class="text-left chedder">Release Date</th>
+                <th class="text-left chedder">Link</th>
+              </tr>
+              <tr
+                v-for="(album, index) in band.album"
+                :key="album.title + index"
+              >
+                <td v-if="album.albumCover">
+                  <img
+                    v-if="album.albumCover"
+                    class="w-[100px] h-[66px] object-cover"
+                    :src="album.albumCover.formats.thumbnail.url"
+                    alt=""
+                  />
+                  <div
+                    v-else
+                    class="w-[100px] h-[66px] bg-black flex items-center justify-center"
+                  >
+                    <img src="~/static/imageIcon.svg" alt="" />
+                  </div>
+                </td>
+                <td v-if="album.title">{{ album.title }}</td>
+                <td v-if="album.dateReleased">{{ album.dateReleased }}</td>
+                <td v-else>No Date</td>
+                <td v-if="album.link"><a :href="album.link">View Album</a></td>
+                <td v-else>No Link</td>
+              </tr>
+            </table>
+          </div>
         </section>
-        <h2 class="text-3xl chedder main_red_text">Merch</h2>
-        <h2 class="text-3xl chedder main_red_text">Songs</h2>
+        <h2
+          v-if="band.merch.length > 0"
+          class="text-3xl chedder main_red_text my-4 chedder"
+        >
+          Merch
+        </h2>
+        <!-- merch goes here  -->
+        <section v-if="band.merch.length > 0">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <tr>
+                <th v-if="band.merch[0].productImage" class="text-left chedder">
+                  Image
+                </th>
+                <th class="text-left chedder">Description</th>
+                <th class="text-left chedder">Link</th>
+              </tr>
+              <tr v-for="(m, index) in band.merch" :key="m.title + index">
+                <td v-if="m.productImage">
+                  <img
+                    v-if="m.productImage"
+                    class="w-[100px] h-[66px] object-cover"
+                    :src="m.productImage.url"
+                    alt=""
+                  />
+                  <div
+                    v-else
+                    class="w-[100px] h-[66px] bg-black flex items-center justify-center"
+                  >
+                    <img src="~/static/imageIcon.svg" alt="" />
+                  </div>
+                </td>
+                <td v-if="m.productName">{{ m.productName }}</td>
+                <td v-else>No Description</td>
+                <td v-if="m.productLink">
+                  <a :href="m.productLink">View Merch</a>
+                </td>
+                <td v-else>No Link</td>
+              </tr>
+            </table>
+          </div>
+        </section>
+        <h2 class="text-3xl chedder main_red_text my-4 chedder">Songs</h2>
+        <!-- songs -->
+
+        <section v-if="band.singles.length > 0">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <tr>
+                <th class="text-left chedder">Title</th>
+                <th class="text-left chedder">Release Date</th>
+                <th class="text-left chedder">Link</th>
+              </tr>
+              <tr
+                v-for="(song, index) in band.singles"
+                :key="song.songTitle + index"
+              >
+                <td v-if="song.songTitle">{{ song.songTitle }}</td>
+                <td v-else>No Title</td>
+                <td v-if="song.date">{{ song.date }}</td>
+                <td v-else>No Release Date</td>
+                <td v-if="song.link"><a :href="song.link">View Album</a></td>
+                <td v-else>No Link</td>
+              </tr>
+            </table>
+          </div>
+        </section>
+        <div v-else class="my-4"><h3>No Songs Uploaded</h3></div>
       </section>
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -257,6 +364,9 @@ export default {
     //   band: this.band.id,
     // })
     // this.posts = posts
+  },
+  methods: {
+    moment,
   },
 }
 </script>

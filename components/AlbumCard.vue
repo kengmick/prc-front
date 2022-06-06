@@ -6,14 +6,21 @@
     <div
       class="flex justify-between items-center bg-black absolute bottom-0 w-full px-4 py-8"
     >
-      <h2 class="text-2xl text-white">{{ album.title }}</h2>
+      <div>
+        <h2 class="text-2xl text-white">{{ album.title }}</h2>
+        <p class="text-xl chedder text-white">
+          Released {{ album.dateReleased }}
+        </p>
+      </div>
       <NuxtLink
         :to="{
           path: '/album',
           query: { album: album.id, band: band },
         }"
       >
-        <h2 class="text-xl text-white">View Album</h2>
+        <h2 class="text-xl text-white border-2 border-white px-4 py-2">
+          View Album
+        </h2>
       </NuxtLink>
     </div>
   </div>

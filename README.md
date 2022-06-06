@@ -29,3 +29,8 @@ add links to band creat form/page
 venue disclaimer on form before showz link
 
 later logo layout venue vs band
+
+- [] no audio player
+- [] realeses are just text and have link if band puts link in there
+- [] no band managers are listed
+- [] change album slider
