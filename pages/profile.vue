@@ -11,7 +11,7 @@
       <p class="text-2xl mt-2">Email : {{ $strapi.user.email }}</p>
     </div>
     <div v-if="$strapi.user" class="container mx-auto my-10">
-      <div v-if="bands">
+      <div v-if="bands" class="hidden sm:block">
         <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
           <p class="text-2xl chedder text-white flex-grow">Band Profiles</p>
           <div>
@@ -52,8 +52,53 @@
           </tr>
         </table>
       </div>
+      <div v-if="bands" class="block px-2 sm:hidden">
+        <!-- lable section, create band button, band title, date created, view, edit -->
+        <!-- card Container -->
+        <div class="flex">
+          <h3 class="text-3xl flex-grow mb-4">Bands</h3>
+          <div class="pr-2">
+            <NuxtLink
+              :to="{ path: '/createband' }"
+              class="chedder py-2 px-4 border-2 border-black"
+              >+ Create Band</NuxtLink
+            >
+          </div>
+        </div>
+        <section class="shadow-xl h-[400px] overflow-auto">
+          <ul>
+            <li
+              v-for="(band, index) in bands"
+              :key="band.bandName + index"
+              class="flex flex-col py-4"
+            >
+              <p class="flex-grow text-xl font-bold">{{ band.bandName }}</p>
+              <p class="flex-grow texl-lg font-bold">
+                Created on
+                {{ moment(String(band.created_at)).format('MMM Do') }}
+              </p>
+              <div class="mt-4">
+                <NuxtLink
+                  :to="{ path: '/bandprofile', query: { band: band.id } }"
+                  class="chedder py-2 px-4 border-2 border-black"
+                >
+                  View</NuxtLink
+                >
+                <NuxtLink
+                  :to="{
+                    path: '/bandadmin',
+                    query: { band: band.id },
+                  }"
+                  class="chedder py-2 px-4 border-2 border-black ml-2"
+                  >Edit</NuxtLink
+                >
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
       <!-- Classifieds -->
-      <div v-if="classifieds" class="mt-6">
+      <div v-if="classifieds" class="mt-6 hidden sm:block">
         <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
           <p class="text-2xl chedder text-white flex-grow">Classifieds</p>
           <div>
@@ -102,7 +147,7 @@
       </div>
       <!-- venues -->
 
-      <div v-if="venues" class="mt-6">
+      <div v-if="venues" class="mt-6 hidden sm:block">
         <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
           <p class="text-2xl chedder text-white flex-grow">Venues</p>
           <div>
@@ -147,7 +192,7 @@
         </table>
       </div>
 
-      <div v-if="events" class="mt-6">
+      <div v-if="events" class="mt-6 hidden sm:block">
         <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
           <p class="text-2xl chedder text-white flex-grow">Events</p>
           <div>
@@ -189,7 +234,7 @@
         </table>
       </div>
       <!-- Tours -->
-      <div v-if="tours" class="mt-6">
+      <div v-if="tours" class="mt-6 hidden sm:block">
         <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
           <p class="text-2xl chedder text-white flex-grow">Tours</p>
           <div>

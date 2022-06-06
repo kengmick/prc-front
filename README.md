@@ -34,3 +34,7 @@ later logo layout venue vs band
 - [] realeses are just text and have link if band puts link in there
 - [] no band managers are listed
 - [] change album slider
+
+## working on profile page
+
+make mobile view
