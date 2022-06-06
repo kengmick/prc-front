@@ -45,4 +45,7 @@ make mobile view
 
 ### new list
 
-- profile user view
+- classified - [] create - [] edit - [] view
+
+- [] need category for classified
+- [] need category for bands
