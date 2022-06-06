@@ -63,7 +63,7 @@
 
         <FormulateInput
           type="submit"
-          label="Create"
+          label="Update"
           wrapper-class="w-full mt-10 px-4 sm:mx-10"
           grouping-class="bg-black"
           element-class="w-full"
@@ -86,20 +86,35 @@ export default {
       classified: {},
     }
   },
+  async mounted() {
+    try {
+      const article = await this.$strapi.findOne(
+        'classifieds',
+        this.$route.query.article
+      )
+      this.classified = article
+      this.formValues = article
+    } catch (error) {
+      this.$nuxt.error({ statusCode: 404, message: error })
+    }
+  },
   methods: {
     moment,
     async submitForm() {
-      this.formValues.category = 'jam'
       try {
-        const article = await this.$strapi.create('classifieds', {
-          ...this.formValues,
-          users_permissions_user: this.$strapi.user.id,
-        })
-        console.log('created')
+        const article = await this.$strapi.update(
+          'classifieds',
+          this.$route.query.article,
+          {
+            ...this.formValues,
+            users_permissions_user: this.$strapi.user.id,
+          }
+        )
         this.classified = article
       } catch (error) {
         console.log('there was an error ')
         this.errorMessage = 'Sorry ... please try again'
+        this.$nuxt.error({ statusCode: 404, message: error })
       }
       // after creation take user to band admin
       if (this.classified) {

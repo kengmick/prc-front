@@ -45,7 +45,7 @@ make mobile view
 
 ### new list
 
-- classified - [] create - [] edit - [] view
-
-- [] need category for classified
-- [] need category for bands
+- classified - [] create - [] edit - [] view done
+- mobile views done
+- venue profile pages are done
+- events pages working
