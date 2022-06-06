@@ -310,12 +310,12 @@
 
       <div v-if="events.length > 0" class="mt-6 hidden sm:block">
         <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
-          <p class="text-2xl chedder text-white flex-grow">Events</p>
+          <p class="text-2xl chedder text-white flex-grow">Showz</p>
           <div>
             <nuxtLink
               :to="{ path: '/createevent' }"
               class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
-              >+ Create Event
+              >+ Create Show
             </nuxtLink>
           </div>
         </div>
@@ -327,7 +327,7 @@
           </tr>
 
           <tr v-for="(event, index) in events" :key="event.title + index">
-            <td>Event Profile</td>
+            <td>Show</td>
             <td>{{ event.title }}</td>
             <td>
               <div class="flex gap-6">
@@ -351,27 +351,27 @@
       </div>
       <div v-else class="block px-2 sm:hidden">
         <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Events</h3>
+          <h3 class="text-3xl flex-grow mb-4">Showz</h3>
           <div class="pr-2">
             <NuxtLink
               :to="{ path: '/createevent' }"
               class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Event</NuxtLink
+              >+ Add Show</NuxtLink
             >
           </div>
         </div>
-        <h3>No Events Added</h3>
+        <h3>No Showz Added</h3>
       </div>
       <div v-if="events.length > 0" class="block px-2 sm:hidden">
         <!-- lable section, create band button, band title, date created, view, edit -->
         <!-- card Container -->
         <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Events</h3>
+          <h3 class="text-3xl flex-grow mb-4">Showz</h3>
           <div class="pr-2">
             <NuxtLink
               :to="{ path: '/createevent' }"
               class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Event</NuxtLink
+              >+ Add Show</NuxtLink
             >
           </div>
         </div>
