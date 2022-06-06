@@ -18,13 +18,13 @@
       ></div>
       <!-- gallery  -->
       <!-- media Gallery -->
-      <section v-if="venueImages.lenghth > 0" class="container mx-auto">
-        <h2 class="my-6">Gallery</h2>
+      <section v-if="venue.venueImages.length > 0" class="container mx-auto">
+        <h2 class="my-6">Pictures</h2>
         <section
           class="mx-6 my-10 flex flex-col gap-10 lg:grid lg:grid-cols-3 lg:gap-10"
         >
-          <div v-for="(img, index) in venueImages" :key="img.id + index">
-            <img :src="img.formats.medium.url" alt="" />
+          <div v-for="(img, index) in venue.venueImages" :key="img.id + index">
+            <img :src="img.url" alt="" />
           </div>
         </section>
       </section>
@@ -69,12 +69,12 @@
       <div v-if="venue.contact" class="mt-4">
         <!-- link to punk shows  -->
         <h3 class="text-3xl mb-4">Showz</h3>
-        <p class="text-xl">add shows</p>
+        <!-- shows here -->
       </div>
       <div v-if="venue.contact" class="mt-4">
         <!-- link to punk shows  -->
         <h3 class="text-3xl mb-4">Links</h3>
-        <p class="text-xl">add links</p>
+        <a :href="venue.link" class="text-xl">{{ venue.link }}</a>
       </div>
     </section>
     <!-- comments  -->
@@ -115,6 +115,7 @@ export default {
       posts: [],
     }
   },
+
   async mounted() {
     try {
       const venue = await this.$strapi.findOne(
