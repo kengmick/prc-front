@@ -5,11 +5,16 @@
         {{ tour.title }}
       </h1>
       <div v-if="tour.touringPoster" class="mb-10">
-        <img
-          :src="tour.touringPoster.formats.large.url"
-          alt=""
-          class="mx-auto"
-        />
+        <div v-if="tour.touringPoster.formats.large">
+          <img
+            :src="tour.touringPoster.formats.large.url"
+            alt=""
+            class="mx-auto"
+          />
+        </div>
+        <div v-else>
+          <img :src="tour.touringPoster.url" alt="" class="mx-auto" />
+        </div>
       </div>
       <h2 class="hidden sm:block text-xl sm:text-2xl main_red_text mb-2">
         On Tour
@@ -18,18 +23,18 @@
         {{ tour.title }}
       </h2>
       <p class="chedder text-xl sm:text-2xl">
-        <!-- {{ moment(String(tour.dateStart)).format('MMM') }}
-        {{ moment(String(tour.dateStart)).format('Do') }} -->
+        {{ moment(String(tour.dateStart)).format('MMM') }}
+        {{ moment(String(tour.dateStart)).format('Do') }}
         <span class="chedder main_red_text mx-4">-</span>
-        <!-- {{ moment(String(tour.dateEnd)).format('MMM') }}
-        {{ moment(String(tour.dateEnd)).format('Do') }} -->
+        {{ moment(String(tour.dateEnd)).format('MMM') }}
+        {{ moment(String(tour.dateEnd)).format('Do') }}
       </p>
     </div>
 
     <!-- events -->
     <div v-if="tour.tourEvents">
-      <h1 class="text-5xl text-center main_red_text my-6">Showz</h1>
-      <section class="container mx-auto">
+      <h1 class="text-5xl main_red_text my-6">Showz</h1>
+      <section v-if="tour.tourEvents.length > 0" class="container mx-auto">
         <div
           v-for="(event, index) in tour.tourEvents"
           :key="event.title + index"
@@ -79,6 +84,9 @@
             </div>
           </div>
         </div>
+      </section>
+      <section v-else class="container mx-auto">
+        <h3>No Showz Added</h3>
       </section>
     </div>
   </div>

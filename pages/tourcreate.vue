@@ -1,5 +1,5 @@
 <template>
-  <div class="px-2 sm:conatiner mx-auto">
+  <div class="px-2 sm:conatiner mx-auto mb-6">
     <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
     <h1 class="main_red_text text-center text-3xl">Create Tour</h1>
     <FormulateForm v-model="formValues" @submit="submitForm">
@@ -10,7 +10,7 @@
         element-class="w-full"
         errors-class="sm:w-4/5 m-auto"
       />
-      <!-- <FormulateInput
+      <FormulateInput
         name="date"
         type="date"
         label="Date Starts"
@@ -25,7 +25,7 @@
         wrapper-class="sm:w-4/5 m-auto"
         element-class="w-full"
         errors-class="sm:w-4/5 m-auto"
-      /> -->
+      />
 
       <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
         List Bands Playing
@@ -48,7 +48,7 @@
         />
       </FormulateInput>
       <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
-        Add Event Poster
+        Add Tour Poster
       </h2>
       <FormulateInput
         type="image"
@@ -61,11 +61,11 @@
         element-class="w-full sm:w-96 "
         @change="tourPosterFile = $event.target.files[0]"
       />
-      <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+      <!-- <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
         Add Events of Tour
-      </h2>
-      <!-- add events  -->
-      <div class="flex-col sm:flex sm:flex-row">
+      </h2> -->
+      <!-- add event add time ends  -->
+      <!-- <div class="flex-col sm:flex sm:flex-row">
         <div class="w-full px-4 sm:w-1/2">
           <FormulateInput
             name="title"
@@ -82,14 +82,6 @@
             element-class="w-full"
             errors-class="sm:w-4/5 m-auto"
           />
-          <!-- <FormulateInput
-            name="timeEnd"
-            type="time"
-            label="Date of event"
-            wrapper-class="sm:w-4/5 m-auto"
-            element-class="w-full"
-            errors-class="sm:w-4/5 m-auto"
-          /> -->
 
           <FormulateInput
             name="venueName"
@@ -132,9 +124,9 @@
             errors-class="sm:w-4/5 m-auto"
           />
         </div>
-      </div>
+      </div> -->
 
-      <section class="px-4 mt-10 sm:m-20">
+      <!-- <section class="px-4 mt-10 sm:m-20">
         <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
           List Bands Playing
         </h2>
@@ -183,16 +175,7 @@
             element-class="w-full sm:w-96 h-72"
           />
         </div>
-      </section>
-      <div>
-        <FormulateInput
-          type="submit"
-          label="Next"
-          wrapper-class="w-full mt-10 px-4 sm:mx-10"
-          grouping-class="bg-black"
-          element-class="w-full"
-        />
-      </div>
+      </section> -->
       <!-- end of add event to tour  -->
       <FormulateInput
         type="submit"
@@ -227,16 +210,16 @@ export default {
     moment,
     async submitForm() {
       // uploading bandProfileImg
-      try {
-        const formData = new FormData()
-        await formData.append('files', this.eventPosterFile)
-        const [eventPosterFile] = await this.$strapi.create('upload', formData)
-        this.eventPosterFile = eventPosterFile
-        this.tourEvents.push(this.formValues.tourEvents)
-        this.formValues.tourEvents = this.tourEvents
-      } catch (error) {
-        console.log(error)
-      }
+      // try {
+      //   const formData = new FormData()
+      //   await formData.append('files', this.eventPosterFile)
+      //   const [eventPosterFile] = await this.$strapi.create('upload', formData)
+      //   this.eventPosterFile = eventPosterFile
+      //   this.tourEvents.push(this.formValues.tourEvents)
+      //   this.formValues.tourEvents = this.tourEvents
+      // } catch (error) {
+      //   console.log(error)
+      // }
       try {
         const formData = new FormData()
         await formData.append('files', this.tourPosterFile)
@@ -260,7 +243,7 @@ export default {
       if (this.tour) {
         this.$router.push({
           path: '/tourview',
-          query: { tour: 1 },
+          query: { tour: this.tour.id },
         })
       }
     },

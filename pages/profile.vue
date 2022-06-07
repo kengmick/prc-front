@@ -714,7 +714,7 @@
                 <nuxtLink
                   :to="{
                     path: '/editmerch',
-                    query: { merch: m.id },
+                    query: { merch: m.id, band: m.bandName, bandId: m.bandId },
                   }"
                   class="btn_custom"
                   >Edit</nuxtLink
@@ -744,7 +744,9 @@
           <h3 class="text-3xl flex-grow mb-4">Merch</h3>
           <div class="pr-2">
             <NuxtLink
-              :to="{ path: '/createmerch' }"
+              :to="{
+                path: '/createmerch',
+              }"
               class="chedder py-2 px-4 border-2 border-black"
               >+ Add Merch</NuxtLink
             >
