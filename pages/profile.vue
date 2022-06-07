@@ -571,14 +571,17 @@
             <td>
               <div class="flex gap-6">
                 <nuxtLink
-                  :to="{ path: '/releaseview', query: { release: r.id } }"
+                  :to="{
+                    path: '/releaseview',
+                    query: { release: r.id, bandId: r.band.id },
+                  }"
                   class="btn_custom"
                   >View
                 </nuxtLink>
                 <nuxtLink
                   :to="{
-                    path: '/releaseedit',
-                    query: { release: r.id, band: r.band, bandId: r.bandId },
+                    path: '/releaseview',
+                    query: { release: r.id, band: r.bandId },
                   }"
                   class="btn_custom"
                   >Edit</nuxtLink
@@ -635,7 +638,7 @@
                     path: '/releaseview',
                     query: {
                       realease: r.id,
-                      band: r.band,
+                      band: r.band.bandName,
                       bandId: r.bandId,
                     },
                   }"
@@ -645,10 +648,10 @@
                 >
                 <NuxtLink
                   :to="{
-                    path: '/releaseedit',
+                    path: '/releaseview',
                     query: {
                       realease: r.id,
-                      band: r.band.bandId,
+                      band: r.band.bandName,
                       bandId: r.bandId,
                     },
                   }"
@@ -706,15 +709,15 @@
                 <nuxtLink
                   :to="{
                     path: '/merchview',
-                    query: { merch: m.id, band: m.bandName, bandId: m.bandId },
+                    query: { merch: m.id, band: m.bandName, band: m.bandId },
                   }"
                   class="btn_custom"
                   >View
                 </nuxtLink>
                 <nuxtLink
                   :to="{
-                    path: '/editmerch',
-                    query: { merch: m.id, band: m.bandName, bandId: m.bandId },
+                    path: '/merchview',
+                    query: { merch: m.id, band: m.bandName, band: m.bandId },
                   }"
                   class="btn_custom"
                   >Edit</nuxtLink
@@ -786,7 +789,7 @@
                 >
                 <NuxtLink
                   :to="{
-                    path: '/editmerch',
+                    path: '/merchview',
                     query: {
                       merch: m.id,
                       band: m.band,

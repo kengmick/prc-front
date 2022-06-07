@@ -15,7 +15,7 @@
     <section v-if="band !== null" class="container mx-auto px-2 my-4">
       <FormulateForm v-model="formValues" @submit="submitForm">
         <FormulateInput
-          name="ProductName"
+          name="productName"
           label="Product Name"
           wrapper-class="m-auto sm:w-4/5 "
           element-class="w-full"
@@ -131,7 +131,7 @@ export default {
       if (this.created) {
         this.$router.push({
           path: '/merchview',
-          query: { merch: this.merch.id, band: this.band },
+          query: { merch: this.merch.id, band: this.band.id },
         })
       }
     },
