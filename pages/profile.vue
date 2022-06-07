@@ -779,7 +779,6 @@
                     path: '/merchview',
                     query: {
                       merch: m.id,
-                      band: m.band,
                       bandId: m.bandId,
                     },
                   }"
@@ -792,8 +791,7 @@
                     path: '/merchview',
                     query: {
                       merch: m.id,
-                      band: m.band,
-                      bandId: m.bandId,
+                      bandId: m.band.id,
                     },
                   }"
                   class="chedder py-2 px-4 border-2 border-black ml-2"

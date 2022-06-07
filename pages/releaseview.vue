@@ -27,6 +27,15 @@
             <a :href="r.link">No Link</a>
           </div>
         </div>
+        <div>
+          <div>
+            <NuxtLink
+              class="underline"
+              :to="{ path: 'bandprofile', query: { band: band.id } }"
+              >View band
+            </NuxtLink>
+          </div>
+        </div>
         <!-- <div class="p-4">
           <span class="border-2 border-black px-4 py-2">Edit</span>
         </div> -->
