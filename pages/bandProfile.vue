@@ -38,10 +38,13 @@
           <div class="pb-24">
             <p class="text-white text-xl">{{ band.bio }}</p>
           </div>
+          <div v-if="band.logo" class="m-4 max-w-[200px]">
+            <img :src="band.logo.url" alt="" />
+          </div>
         </div>
       </section>
       <!-- details section -->
-      <section class="w-11/12 px-1 sm:w-3/4 xl:w-1/2 mx-auto mt-6 md:px-14">
+      <section class="w-full px-4 xl:w-1/2 mx-auto mt-6 md:px-14">
         <div class="flex items-center gap-10">
           <nuxtLink
             v-if="$strapi.user !== null && userPermission === $strapi.user.id"
@@ -53,21 +56,27 @@
             >Edit</nuxtLink
           >
         </div>
-        <div v-if="band.logo" class="my-4">
-          <img :src="band.logo.url" alt="" />
-        </div>
+
         <div class="flex flex-col sm:flex-row items-center mb-4">
           <!-- col one of details  -->
           <div class="w-full mb-6 sm:w-3/4 my-auto flex">
             <div class="w-full">
-              <h2 class="text-3xl chedder main_red_text">Genre</h2>
+              <h2
+                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
+              >
+                Genre
+              </h2>
               <p>{{ band.genreAlt }}</p>
             </div>
           </div>
           <!-- col two of details  -->
           <div class="w-full mb-6 sm:w-3/4 flex">
             <div class="w-full">
-              <h2 class="text-3xl chedder main_red_text">Location</h2>
+              <h2
+                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
+              >
+                Location
+              </h2>
               <p>{{ band.city }}, {{ band.state }}</p>
             </div>
           </div>
@@ -78,7 +87,11 @@
           <!-- col two of details  -->
           <div class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
-              <h2 class="text-3xl chedder main_red_text">Record Label</h2>
+              <h2
+                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
+              >
+                Record Label
+              </h2>
               <p>{{ band.recordLabel }}</p>
             </div>
           </div>
@@ -87,37 +100,48 @@
         <div class="flex flex-col sm:flex-row items-center mb-4">
           <!-- col one of details  -->
           <!-- col two of details  -->
-          <div class="w-full sm:w-3/4 flex">
+          <div class="w-full flex">
             <div class="w-full mb-6">
               <div>
-                <h2 class="text-3xl chedder main_red_text mb-6">Members</h2>
+                <h2
+                  class="text-3xl chedder main_red_text mb-6 underline underline-offset-4 pb-2"
+                >
+                  Members
+                </h2>
               </div>
 
-              <div
-                v-for="(member, index) in band.members"
-                :key="index + member.id"
-                class="mr-4"
-              >
-                <div v-if="member.image" class="w-full mb-6">
-                  <div class="w-full flex gap-10">
-                    <img class="w-[200px]" :src="member.image.url" alt="" />
-                    <div class="flex-grow flex flex-col w-full">
-                      <div>
-                        <p class="text-xl font-bold">{{ member.name }}</p>
-                        <div v-if="member.dateStart" class="text-gray-500">
-                          started
-                          {{
-                            moment(String(member.dateStart)).format(
-                              'MMMM Do YYYY'
-                            )
-                          }}
+              <div class="block">
+                <div
+                  v-for="(member, index) in band.members"
+                  :key="index + member.id"
+                  class="mr-4"
+                >
+                  <div v-if="member.image" class="w-full mb-6">
+                    <div class="w-full flex flex-col sm:flex-row">
+                      <img
+                        class="object-cover pb-6 h-[120px] min-w-[100px] max-w-[100px] sm:w-[200px] sm:h-[150px] sm:max-w-[200px] pr-2"
+                        :src="member.image.url"
+                        alt=""
+                      />
+                      <div class="flex-grow flex flex-col w-full">
+                        <div>
+                          <p class="text-xl font-bold">{{ member.name }}</p>
+                          <div v-if="member.dateStart" class="text-gray-500">
+                            started
+                            {{
+                              moment(String(member.dateStart)).format(
+                                'MMMM Do YYYY'
+                              )
+                            }}
+                          </div>
                         </div>
-                      </div>
-                      <div v-if="member.instrument" class="mt-6">
-                        <p>Playing {{ member.instrument }}</p>
+                        <div v-if="member.instrument" class="pt-2">
+                          <p>Playing {{ member.instrument }}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <hr />
                 </div>
               </div>
             </div>
@@ -126,19 +150,31 @@
         <div flex flex-col sm:flex-row items-center mb-4>
           <div v-if="band.contact" class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
-              <h2 class="text-3xl chedder main_red_text">Band Contact</h2>
+              <h2
+                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
+              >
+                Band Contact
+              </h2>
               <p>{{ band.contact }}</p>
             </div>
           </div>
           <div class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
-              <h2 class="text-3xl chedder main_red_text">Date Started</h2>
+              <h2
+                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
+              >
+                Date Started
+              </h2>
               <p>{{ band.dateStarted }}</p>
             </div>
           </div>
           <div class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
-              <h2 class="text-3xl chedder main_red_text">Links</h2>
+              <h2
+                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
+              >
+                Links
+              </h2>
               add login to check link -->
               <div v-if="band.linkOne">
                 <a
@@ -158,13 +194,13 @@
       <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
       <!-- edit component -->
 
-      <section class="w-11/12 sm:w-3/4 xl:w-1/2 mx-auto mt-6 px-0 sm:px-14">
-        <h2 class="text-4xl chedder underline underline-offset-2 mb-6">
+      <section class="w-full xl:w-1/2 mx-auto mt-6 px-0 md:px-14">
+        <h2 class="text-3xl main_red_text underline underline-offset-2 pb-2">
           Showz
         </h2>
         <div v-if="band.events">
           <div v-if="band.events.length > 0">
-            <section class="container mx-auto">
+            <section class="mx-auto">
               <div
                 v-for="(event, index) in band.events"
                 :key="event.title + index"
@@ -234,7 +270,11 @@
         </section> -->
         <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
         <section>
-          <h2 class="text-3xl chedder main_red_text my-4 chedder">Releases</h2>
+          <h2
+            class="text-3xl chedder main_red_text my-4 chedder underline underline-offset-4 pb-2"
+          >
+            Releases
+          </h2>
           <div v-if="band.releases">
             <section v-if="band.releases.length > 0">
               <div class="overflow-x-auto">
@@ -373,7 +413,11 @@
             </div>
           </section>
         </div>
-        <h2 class="text-3xl chedder main_red_text my-4 chedder">Songs</h2>
+        <h2
+          class="text-3xl chedder main_red_text my-4 chedder underline underline-offset-4 pb-2"
+        >
+          Songs
+        </h2>
         <!-- songs -->
 
         <div v-if="band.singles">
