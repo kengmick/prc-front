@@ -24,7 +24,7 @@
             />
           </div>
         </FormulateForm>
-        <!-- <FormulateForm v-model="formValues" @submit="submitForm">
+        <FormulateForm v-model="formValues" @submit="submitForm">
           <FormulateInput
             type="group"
             name="members"
@@ -72,7 +72,7 @@
               element-class="w-full"
             />
           </div>
-        </FormulateForm> -->
+        </FormulateForm>
         <div v-if="members">
           <pre>{{ members }}</pre>
         </div>

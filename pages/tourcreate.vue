@@ -1,134 +1,153 @@
 <template>
-  <div class="px-2 sm:conatiner mx-auto mb-6">
+  <div class="px-2 sm:conatiner mx-auto my-6 sm:w-1/2">
     <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
-    <h1 class="main_red_text text-center text-3xl">Create Tour</h1>
+
     <FormulateForm v-model="formValues" @submit="submitForm">
+      <h1 class="main_red_text text-left text-3xl sm:w-4/5 mb-6">
+        Create Tour
+      </h1>
       <FormulateInput
         name="title"
         label="Tour Title"
-        wrapper-class="m-auto sm:w-4/5 "
+        wrapper-class=" sm:w-4/5 "
         element-class="w-full"
-        errors-class="sm:w-4/5 m-auto"
+        errors-class="sm:w-4/5 "
       />
-      <FormulateInput
+      <!-- <FormulateInput
         name="date"
         type="date"
         label="Date Starts"
-        wrapper-class="sm:w-4/5 m-auto"
+        wrapper-class="sm:w-4/5 "
         element-class="w-full"
-        errors-class="sm:w-4/5 m-auto"
-      />
-      <FormulateInput
+        errors-class="sm:w-4/5 "
+      /> -->
+      <!-- <FormulateInput
         name="dateEnds"
         type="date"
         label="Date Ends"
-        wrapper-class="sm:w-4/5 m-auto"
+        wrapper-class="sm:w-4/5 "
         element-class="w-full"
-        errors-class="sm:w-4/5 m-auto"
-      />
+        errors-class="sm:w-4/5 "
+      /> -->
 
-      <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
-        List Bands Playing
-      </h2>
-      <FormulateInput
+      <h2 class="text-left main_red_text text-2xl mb-10 mt-4">Bands On Tour</h2>
+      <!-- <FormulateInput
         type="group"
         name="touringBands"
         :repeatable="true"
         label="Band Playing"
         add-label="+ Add bands"
-        wrapper-class="w-full"
+        wrapper-class="sm:w-4/5 "
         element-class="w-full"
+        errors-class="sm:w-4/5 "
       >
         <FormulateInput
           name="BandName"
           label="Add band name"
-          required="true"
-          wrapper-class="w-full"
+          wrapper-class="sm:w-4/5 "
           element-class="w-full"
+          input-class="w-full"
+          errors-class="sm:w-4/5 "
         />
-      </FormulateInput>
-      <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+      </FormulateInput> -->
+      <h2 class="text-left main_red_text text-2xl mb-10 mt-4">
         Add Tour Poster
       </h2>
       <FormulateInput
         type="image"
         name="touringPoster"
         label="Add Tour Poster"
-        help="Select a png, jpg or gif to upload."
         validation="mime:image/jpeg,image/png,image/gif"
         input-class="w-full sm:w-96 "
-        wrapper-class="w-full sm:w-96 "
-        element-class="w-full sm:w-96 "
+        wrapper-class="sm:w-4/5 "
+        element-class="w-full"
+        errors-class="sm:w-4/5 "
         @change="tourPosterFile = $event.target.files[0]"
       />
-      <!-- <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+      <h2 class="text-left main_red_text text-2xl mb-10 mt-4">
         Add Events of Tour
-      </h2> -->
-      <!-- add event add time ends  -->
-      <!-- <div class="flex-col sm:flex sm:flex-row">
-        <div class="w-full px-4 sm:w-1/2">
-          <FormulateInput
-            name="title"
-            label="Event Title"
-            wrapper-class="m-auto sm:w-4/5 "
-            element-class="w-full"
-            errors-class="sm:w-4/5 m-auto"
-          />
-          <FormulateInput
-            name="date"
-            type="datetime-local"
-            label="Date of event"
-            wrapper-class="sm:w-4/5 m-auto"
-            element-class="w-full"
-            errors-class="sm:w-4/5 m-auto"
-          />
+      </h2>
+      <!-- Events  -->
+      <div class="">
+        <div class="w-full">
+          <!-- needs to be group  -->
 
-          <FormulateInput
-            name="venueName"
-            type="text"
-            label="Event Venue"
-            wrapper-class="sm:w-4/5 m-auto"
-            element-class="w-full"
-            errors-class="sm:w-4/5 m-auto"
-          />
-        </div>
-        <div class="w-full px-4 sm:w-1/2">
-          <FormulateInput
-            name="streetName"
-            type="text"
-            label="Street Name"
-            wrapper-class="sm:w-4/5 m-auto"
-            element-class="w-full"
-            errors-class="sm:w-4/5 m-auto"
-          />
-          <FormulateInput
-            name="streetNumber"
-            type="number"
-            label="Street Number"
-            wrapper-class="sm:w-4/5 m-auto"
-            element-class="w-full"
-            errors-class="sm:w-4/5 m-auto"
-          />
-          <FormulateInput
-            name="state"
-            label="State"
-            wrapper-class="m-auto sm:w-4/5 "
-            element-class="w-full"
-            errors-class="sm:w-4/5 m-auto"
-          />
-          <FormulateInput
-            name="city"
-            label="City"
-            wrapper-class="sm:w-4/5 m-auto"
-            element-class="w-full"
-            errors-class="sm:w-4/5 m-auto"
-          />
-        </div>
-      </div> -->
+          <div>
+            <FormulateInput
+              type="group"
+              name="tourEvents"
+              :repeatable="true"
+              label="Events"
+              add-label="+ Add Events"
+              wrapper-class="w-full"
+              element-class="w-full"
+            >
+              <div>
+                <FormulateInput
+                  name="title"
+                  label="Event Title"
+                  wrapper-class=" sm:w-4/5 "
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 "
+                />
 
-      <!-- <section class="px-4 mt-10 sm:m-20">
-        <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
-          List Bands Playing
+                <FormulateInput
+                  name="venueName"
+                  type="text"
+                  label="Event Venue"
+                  wrapper-class="sm:w-4/5 "
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 "
+                />
+                <!-- <FormulateInput
+                  name="streetName"
+                  type="text"
+                  label="Street Name"
+                  wrapper-class=" sm:w-4/5 "
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 "
+                />
+                <FormulateInput
+                  name="streetNumber"
+                  type="number"
+                  label="Street Number"
+                  wrapper-class="sm:w-4/5 "
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 "
+                />
+                <FormulateInput
+                  name="state"
+                  label="State"
+                  wrapper-class=" sm:w-4/5 "
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 "
+                />
+                <FormulateInput
+                  name="city"
+                  label="City"
+                  wrapper-class="sm:w-4/5 "
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 "
+                /> -->
+                <FormulateInput
+                  type="image"
+                  name="eventPoster"
+                  label="Select an image to upload"
+                  help="Select a png, jpg or gif to upload."
+                  validation="mime:image/jpeg,image/png,image/gif"
+                  input-class="w-full sm:w-96 "
+                  wrapper-class="w-full sm:w-96 "
+                  element-class="w-full sm:w-96 "
+                />
+              </div>
+            </FormulateInput>
+          </div>
+        </div>
+      </div>
+
+      <section class="px-4 mt-10">
+        <h2 class="text-left main_red_text text-2xl mb-10 mt-4">
+          Bands At Event
         </h2>
         <FormulateInput
           type="group"
@@ -136,46 +155,22 @@
           :repeatable="true"
           label="Band Playing"
           add-label="+ Add bands"
-          wrapper-class="w-full"
+          wrapper-class=" sm:w-4/5 "
           element-class="w-full"
+          errors-class="sm:w-4/5 "
         >
           <div>
             <FormulateInput
               name="BandName"
               label="Add band name"
               required="true"
-              wrapper-class="w-full"
+              wrapper-class=" sm:w-4/5 "
               element-class="w-full"
+              errors-class="sm:w-4/5 "
             />
           </div>
         </FormulateInput>
-        <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
-          Add Event Poster
-        </h2>
-        <div class="flex w-full justify-center">
-          <FormulateInput
-            type="image"
-            name="eventPoster"
-            label="Add Event Poster"
-            help="Select a png, jpg or gif to upload."
-            validation="mime:image/jpeg,image/png,image/gif"
-            input-class="w-full sm:w-96 "
-            wrapper-class="w-full sm:w-96 "
-            element-class="w-full sm:w-96 "
-            @change="eventPosterFile = $event.target.files[0]"
-          />
-        </div>
-        <div class="flex w-full justify-center">
-          <FormulateInput
-            name="eventDescription"
-            type="textarea"
-            label="Add a description of event"
-            input-class="w-full sm:w-96 h-72"
-            wrapper-class="w-full sm:w-96 h-72"
-            element-class="w-full sm:w-96 h-72"
-          />
-        </div>
-      </section> -->
+      </section>
       <!-- end of add event to tour  -->
       <FormulateInput
         type="submit"
@@ -208,18 +203,47 @@ export default {
   },
   methods: {
     moment,
+    async log() {
+      const events = []
+      for (let index = 0; index < this.formValues.tourEvents.length; index++) {
+        console.log(
+          'testing ',
+          this.formValues.tourEvents[index].eventPoster.files[0].file
+        )
+        const formData = new FormData()
+        formData.append(
+          'files',
+          this.formValues.tourEvents[index].eventPoster.files[0].file
+        )
+        const [image] = await this.$strapi.create('upload', formData)
+        events.push({
+          ...this.formValues.tourEvents[index],
+          eventPoster: image,
+        })
+      }
+      this.formValues.tourEvents = events
+      console.log(events)
+    },
     async submitForm() {
-      // uploading bandProfileImg
-      // try {
-      //   const formData = new FormData()
-      //   await formData.append('files', this.eventPosterFile)
-      //   const [eventPosterFile] = await this.$strapi.create('upload', formData)
-      //   this.eventPosterFile = eventPosterFile
-      //   this.tourEvents.push(this.formValues.tourEvents)
-      //   this.formValues.tourEvents = this.tourEvents
-      // } catch (error) {
-      //   console.log(error)
-      // }
+      const events = []
+      for (let index = 0; index < this.formValues.tourEvents.length; index++) {
+        console.log(
+          'testing ',
+          this.formValues.tourEvents[index].eventPoster.files[0].file
+        )
+        const formData = new FormData()
+        formData.append(
+          'files',
+          this.formValues.tourEvents[index].eventPoster.files[0].file
+        )
+        const [image] = await this.$strapi.create('upload', formData)
+        events.push({
+          ...this.formValues.tourEvents[index],
+          eventPoster: image,
+        })
+      }
+      this.formValues.tourEvents = await events
+
       try {
         const formData = new FormData()
         await formData.append('files', this.tourPosterFile)
@@ -237,7 +261,7 @@ export default {
         this.tour = tour
       } catch (error) {
         this.errorMessage = 'Sorry ... please try again'
-        console.log('there was a problem')
+        console.log('there was a problem', error)
       }
       // after creation take user to band admin
       if (this.tour) {

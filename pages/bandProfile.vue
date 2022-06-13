@@ -4,7 +4,7 @@
     <div v-if="band">
       <div
         style="z-index: -99999999"
-        class="background_custom object-fill para relative h-[500px]"
+        class="background_custom object-cover para relative h-[500px]"
         :style="{
           'background-image': `url(${band.bandProfileImg.url})`,
         }"
@@ -17,7 +17,7 @@
             :class="!hide ? '' : 'bg-opacity-80'"
             class="mx-auto w-11/12 sm:w-3/4 xl:w-1/2 h-40 bg-black transition-all flex flex-col items-center justify-center duration-500"
           >
-            <h1 class="text-white text-center">
+            <h1 class="text-white text-2xl sm:text-4xl text-center">
               {{ band.bandName }}
             </h1>
             <div
@@ -34,32 +34,42 @@
           :class="load ? '-mt-24' : 'mt-0'"
           class="px-6 w-11/12 sm:w-3/4 xl:w-1/2 bg-black lg:px-16 py-10 mx-auto transition-all duration-500 z-50"
         >
-          <h2 class="text-white text-4xl mb-14">History/Bio/Message</h2>
+          <h2
+            class="text-white text-2xl sm:text-4xl text-center sm:text-left mb-14"
+          >
+            History/Bio/Message
+          </h2>
           <div class="pb-24">
-            <p class="text-white text-xl">{{ band.bio }}</p>
+            <p class="text-white text-base sm:text-xl">{{ band.bio }}</p>
           </div>
-          <div v-if="band.logo" class="m-4 max-w-[200px]">
+          <!-- <div v-if="band.logo" class="m-4 max-w-[200px]">
             <img :src="band.logo.url" alt="" />
-          </div>
+          </div> -->
         </div>
       </section>
       <!-- details section -->
-      <section class="w-full px-4 xl:w-1/2 mx-auto mt-6 md:px-14">
-        <div class="flex items-center gap-10">
-          <nuxtLink
-            v-if="$strapi.user !== null && userPermission === $strapi.user.id"
-            :to="{
-              path: '/bandadmin',
-              query: { band: band.id },
-            }"
-            class="btn_custom"
-            >Edit</nuxtLink
-          >
-        </div>
+      <div
+        class="flex items-center gap-10 w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4"
+      >
+        <nuxtLink
+          v-if="$strapi.user !== null && userPermission === $strapi.user.id"
+          :to="{
+            path: '/bandadmin',
+            query: { band: band.id },
+          }"
+          class="btn_custom text-lg font-medium"
+          >EDIT</nuxtLink
+        >
+      </div>
 
+      <section class="w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
+        <!-- logo here -->
+        <div v-if="band.logo" class="max-w-[200px] h-[200px]">
+          <img :src="band.logo.url" alt="" class="object-fill" />
+        </div>
         <div class="flex flex-col sm:flex-row items-center mb-4">
           <!-- col one of details  -->
-          <div class="w-full mb-6 sm:w-3/4 my-auto flex">
+          <div class="w-full mb-6 sm:w-3/4 flex">
             <div class="w-full">
               <h2
                 class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
@@ -140,8 +150,8 @@
                         </div>
                       </div>
                     </div>
+                    <hr />
                   </div>
-                  <hr />
                 </div>
               </div>
             </div>
@@ -194,11 +204,11 @@
       <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
       <!-- edit component -->
 
-      <section class="w-full xl:w-1/2 mx-auto mt-6 px-0 md:px-14">
+      <section class="w-full xl:w-1/2 mx-auto mt-6 px-4 md:px-14">
         <h2 class="text-3xl main_red_text underline underline-offset-2 pb-2">
           Showz
         </h2>
-        <div v-if="band.events">
+        <div v-if="band.events" class="mb-6">
           <div v-if="band.events.length > 0">
             <section class="mx-auto">
               <div
@@ -276,7 +286,7 @@
             Releases
           </h2>
           <div v-if="band.releases">
-            <section v-if="band.releases.length > 0">
+            <section v-if="band.releases.length > 0" class="mb-6">
               <div class="overflow-x-auto">
                 <table class="w-full">
                   <tr>
@@ -364,7 +374,7 @@
             </table>
           </div>
         </section>
-        <div v-if="band.merch">
+        <div v-if="band.merch" class="mb-6">
           <h2
             v-if="band.merch.length > 0"
             class="text-3xl chedder main_red_text my-4 chedder"
@@ -486,12 +496,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style land="scss" scoped>
 .btn_custom {
   padding: 0.5em 1.5em;
-  border: 1px solid black;
-  background: black;
-  color: white;
+  border: 2px solid black;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1em;
 }
 
 .background_custom {
