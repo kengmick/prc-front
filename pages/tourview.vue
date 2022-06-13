@@ -22,7 +22,10 @@
       <h2 class="block sm:hidden text-xl sm:text-2xl main_red_text">
         {{ tour.title }}
       </h2>
-      <p class="chedder text-xl sm:text-2xl">
+      <p
+        v-if="tour.dateStart && tour.dateEnd"
+        class="chedder text-xl sm:text-2xl"
+      >
         {{ moment(String(tour.dateStart)).format('MMM') }}
         {{ moment(String(tour.dateStart)).format('Do') }}
         <span class="chedder main_red_text mx-4">-</span>
@@ -32,7 +35,7 @@
     </div>
 
     <!-- events -->
-    <div v-if="tour.tourEvents">
+    <div v-if="tour.tourEvents" class="container mx-auto">
       <h1 class="text-5xl main_red_text my-6">Showz</h1>
       <section v-if="tour.tourEvents.length > 0" class="container mx-auto">
         <div
@@ -66,7 +69,7 @@
               <p v-if="event.streetAddress && event.streetName" class="text-xl">
                 The Vic, {{ event.streetAddress }} {{ event.streetName }} /
                 {{ moment(String(event.date)).format('LT') }} -
-                {{ moment(event.timeEnds, 'h').format('LT') }}
+                {{ moment(event.timeStarts, 'h').format('LT') }}
               </p>
               <p v-if="event.city && event.state" class="text-xl">
                 {{ event.city }}, {{ event.state }}

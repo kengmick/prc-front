@@ -13,22 +13,24 @@
         element-class="w-full"
         errors-class="sm:w-4/5 "
       />
-      <!-- <FormulateInput
-        name="date"
+      <FormulateInput
+        name="dateStart"
         type="date"
         label="Date Starts"
         wrapper-class="sm:w-4/5 "
         element-class="w-full"
         errors-class="sm:w-4/5 "
-      /> -->
-      <!-- <FormulateInput
-        name="dateEnds"
+        @change="log($event.target.value)"
+      />
+      <FormulateInput
+        name="dateEnd"
         type="date"
         label="Date Ends"
         wrapper-class="sm:w-4/5 "
         element-class="w-full"
         errors-class="sm:w-4/5 "
-      /> -->
+        @change="log($event.target.value)"
+      />
 
       <h2 class="text-left main_red_text text-2xl mb-10 mt-4">Bands On Tour</h2>
       <!-- <FormulateInput
@@ -99,7 +101,7 @@
                   element-class="w-full"
                   errors-class="sm:w-4/5 "
                 />
-                <!-- <FormulateInput
+                <FormulateInput
                   name="streetName"
                   type="text"
                   label="Street Name"
@@ -122,13 +124,25 @@
                   element-class="w-full"
                   errors-class="sm:w-4/5 "
                 />
+
                 <FormulateInput
-                  name="city"
-                  label="City"
+                  name="date"
+                  type="date"
+                  label="date"
                   wrapper-class="sm:w-4/5 "
                   element-class="w-full"
                   errors-class="sm:w-4/5 "
-                /> -->
+                />
+                <FormulateInput
+                  name="timeStart"
+                  type="time"
+                  label="time starts"
+                  wrapper-class="sm:w-4/5 "
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 "
+                  @change="log($event.target.value)"
+                />
+
                 <FormulateInput
                   type="image"
                   name="eventPoster"
@@ -138,6 +152,14 @@
                   input-class="w-full sm:w-96 "
                   wrapper-class="w-full sm:w-96 "
                   element-class="w-full sm:w-96 "
+                />
+                <FormulateInput
+                  name="eventDescription"
+                  type="textarea"
+                  label="Add a description of event"
+                  input-class="w-full sm:w-96 h-72"
+                  wrapper-class="w-full sm:w-96 h-72"
+                  element-class="w-full sm:w-96 h-72"
                 />
               </div>
             </FormulateInput>
@@ -203,26 +225,8 @@ export default {
   },
   methods: {
     moment,
-    async log() {
-      const events = []
-      for (let index = 0; index < this.formValues.tourEvents.length; index++) {
-        console.log(
-          'testing ',
-          this.formValues.tourEvents[index].eventPoster.files[0].file
-        )
-        const formData = new FormData()
-        formData.append(
-          'files',
-          this.formValues.tourEvents[index].eventPoster.files[0].file
-        )
-        const [image] = await this.$strapi.create('upload', formData)
-        events.push({
-          ...this.formValues.tourEvents[index],
-          eventPoster: image,
-        })
-      }
-      this.formValues.tourEvents = events
-      console.log(events)
+    log(val) {
+      console.log(val)
     },
     async submitForm() {
       const events = []

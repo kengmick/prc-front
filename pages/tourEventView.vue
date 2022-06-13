@@ -6,8 +6,8 @@
         <section>
           <h2 class="mt-4">Date</h2>
           <p class="text-xl">
-            {{ moment(String(event.date)).format('MMMM Do YYYY, h:mm a') }} -
-            {{ moment(event.timeEnd, 'h:mm a').format('LT') }}
+            {{ moment(String(event.date)).format('MMMM Do YYYY') }} @
+            {{ moment(event.timeStart).format('LT') }}
           </p>
 
           <a
@@ -21,18 +21,21 @@
         <h2 class="mt-4">Location</h2>
         <p class="mt-4 ext-lg px-2 md:text-2xl">{{ event.venueName }}</p>
         <h2 class="mt-4">Description</h2>
-        <div v-if="event.eventDescription.split('\n')" class="mt-6">
-          <p
-            v-for="(description, index) in event.eventDescription.split('\n')"
-            :key="description + index"
-            class="mt-4 ext-lg px-2 md:text-2xl"
-          >
-            {{ description }}
+        <div v-if="event.eventDescription" class="mt-6">
+          <div v-if="event.eventDescription.split('\n').length > 1">
+            <p
+              v-for="(description, index) in event.eventDescription.split('\n')"
+              :key="description + index"
+              class="mt-4 ext-lg px-2 md:text-2xl"
+            >
+              {{ description }}
+            </p>
+          </div>
+          <p v-else class="text-lg px-2 md:text-2xl">
+            {{ event.eventDescription }}
           </p>
         </div>
-        <p v-else class="text-lg px-2 md:text-2xl">
-          {{ event.eventDescription }}
-        </p>
+
         <div v-if="event.bandsPlaying">
           <h2 class="mt-4">All Bands</h2>
           <ul>
