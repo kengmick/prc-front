@@ -2,25 +2,31 @@
   <div
     class="rounded-md shadow-md transition-all duration-200 hover:scale-105 h-[500px]"
   >
-    <div class="h-1/6">
-      <p class="chedder text-2xl main_red_text p-6">{{ venue.name }}</p>
-    </div>
-    <div v-if="venue.venueImg" class="w-full h-3/6">
-      <img class="h-full w-full" :src="venue.venueImg.url" alt="" />
-    </div>
-    <div v-if="venue.description" class="h-1/6 pl-6 flex items-center">
-      <p>{{ venue.description.split(' ').slice(0, 10).join(' ') }} ...</p>
-    </div>
-    <div v-else class="h-1/6 pl-6 flex items-center">
-      <p>{{ venue.description }}</p>
-    </div>
-    <div class="h-1/6 pl-6 flex items-center">
-      <NuxtLink
-        class="main_red_text chedder px-4 py-2 border-2 border-black"
-        :to="{ path: 'venueprofile', query: { venue: venue.id } }"
-        >View Venue</NuxtLink
-      >
-    </div>
+    <NuxtLink :to="{ path: 'venueprofile', query: { venue: venue.id } }">
+      <div class="h-1/6">
+        <p class="chedder text-2xl main_red_text p-6">{{ venue.name }}</p>
+      </div>
+      <div v-if="venue.venueImg" class="w-full h-3/6">
+        <img
+          class="h-full w-full object-cover"
+          :src="venue.venueImg.url"
+          alt=""
+        />
+      </div>
+      <div v-if="venue.description" class="h-1/6 pl-6 flex items-center">
+        <p>{{ venue.description.split(' ').slice(0, 10).join(' ') }} ...</p>
+      </div>
+      <div v-else class="h-1/6 pl-6 flex items-center">
+        <p>{{ venue.description }}</p>
+      </div>
+      <div class="h-1/6 pl-6 flex items-center">
+        <NuxtLink
+          class="main_red_text chedder px-4 py-2 border-2 border-black"
+          :to="{ path: 'venueprofile', query: { venue: venue.id } }"
+          >View Venue</NuxtLink
+        >
+      </div>
+    </NuxtLink>
   </div>
 </template>
 

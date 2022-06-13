@@ -9,15 +9,34 @@
             <div class="w-full px-4 sm:w-1/2">
               <FormulateInput
                 name="title"
-                label="Band Playing Show"
+                label="Title"
                 wrapper-class="m-auto sm:w-4/5 "
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+
+              <FormulateInput
+                v-if="userBands"
+                type="select"
+                name="bandName"
+                label="Pick Your Band Optional?"
+                :options="userBands"
+                wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
               <FormulateInput
                 name="date"
-                type="datetime-local"
+                type="date"
                 label="Date of event"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
+                name="timeStarts"
+                type="time"
+                label="timeStarts"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
@@ -143,6 +162,24 @@ export default {
       eventPosterFile: '',
       eventPosterFinal: '',
       end: '',
+      userBands: {},
+      bands: [],
+    }
+  },
+  async mounted() {
+    try {
+      const bands = await this.$strapi.find('bands', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      this.bands = bands
+      const o = {}
+      bands.forEach((b) => {
+        o[b.bandName] = b.bandName
+      })
+      this.userBands = o
+    } catch (error) {
+      this.userBands = null
+      console.log(error)
     }
   },
   methods: {
@@ -159,6 +196,14 @@ export default {
         console.log(error)
       }
       try {
+        if (this.formValues.bandName) {
+          console.log('user picked a band ')
+          const b = this.bands.filter((band) => {
+            return band.bandName === this.formValues.bandName
+          })
+          console.log(b, 'this is the bands')
+          this.formValues.bandName = b[0]
+        }
         const event = await this.$strapi.create('events', {
           ...this.formValues,
           users_permissions_user: this.$strapi.user.id,
@@ -166,10 +211,10 @@ export default {
         this.event = event
       } catch (error) {
         this.errorMessage = 'Sorry ... please try again'
-        console.log('there was a problem')
+        console.log(error)
       }
       // after creation take user to band admin
-      if (this.band) {
+      if (this.event) {
         this.$router.push({
           path: '/eventview',
           query: { event: this.event.id },

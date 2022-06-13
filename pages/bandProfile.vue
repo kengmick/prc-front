@@ -2,6 +2,7 @@
   <div>
     <!-- fix video slider -->
     <div v-if="band">
+      <pre>{{ band }}</pre>
       <div
         style="z-index: -99999999"
         class="background_custom object-cover para relative h-[500px]"
@@ -185,7 +186,7 @@
               >
                 Links
               </h2>
-              add login to check link -->
+
               <div v-if="band.linkOne">
                 <a
                   v-if="band.linkOne"
@@ -193,7 +194,6 @@
                   :href="band.linkOne"
                   target="_blank"
                   >{{ band.linkOne }}</a
-                >
                 >
               </div>
               <h3 v-else>No Links Added ...</h3>
@@ -205,7 +205,7 @@
       <!-- edit component -->
 
       <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto mt-6">
-        <h2 class="text-3xl main_red_text underline underline-offset-2 pb-2">
+        <h2 class="text-3xl main_red_text underline underline-offset-2 pb-6">
           Showz
         </h2>
         <div v-if="band.events" class="mb-6">
@@ -218,7 +218,7 @@
               >
                 <div
                   v-if="event.eventPoster"
-                  class="w-full sm:w-1/2 h-44 sm:h-64"
+                  class="w-full sm:w-1/3 h-44 sm:h-64"
                 >
                   <img
                     class="h-full w-full"
@@ -267,7 +267,7 @@
             </section>
           </div>
         </div>
-        <div v-else class="my-4"><h3>No Upcoming Showz</h3></div>
+        <div v-else class="my-6"><h3>No Upcoming Showz</h3></div>
         <!-- <section v-if="band.oldShows" class="container mx-auto">
           <h2>Historic Shows</h2>
           <div v-for="(show, index) in band.oldShows" :key="show + index">
@@ -461,6 +461,8 @@
         <div v-else class="my-4"><h3>No Songs Uploaded</h3></div>
       </section>
     </div>
+    fdsfds
+    <div v-if="bandEvents">{{ bandEvents }} fdsfsdf</div>
   </div>
 </template>
 
@@ -472,7 +474,7 @@ export default {
       band: null,
       load: false,
       hide: false,
-      events: [],
+      bandEvents: [],
       userPermission: null,
       videos: [],
       posts: [],
@@ -484,19 +486,16 @@ export default {
       const band = await this.$strapi.findOne('bands', this.$route.query.band)
       this.band = band
       this.userPermission = band.users_permissions_user.id
+      const bandEvents = await this.$strapi.find('events', {
+        title: band.title,
+      })
+      this.bandEvents = bandEvents
+      console.log(bandEvents)
     } catch (error) {
       return error
     }
     // get events
-    try {
-      const events = await this.$strapi.find('events', {
-        title: this.band.title,
-      })
-      this.events = events
-      console.log(events, this.band)
-    } catch (error) {
-      return error
-    }
+
     // const posts = await this.$strapi.find('posts', {
     //   band: this.band.id,
     // })

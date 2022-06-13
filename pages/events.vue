@@ -1,6 +1,7 @@
 <template>
   <div v-if="events">
     <h1 class="text-5xl text-center main_red_text my-6">Showz</h1>
+    <pre>{{ events }}</pre>
     <section class="container mx-auto">
       <div
         v-for="(event, index) in events"
