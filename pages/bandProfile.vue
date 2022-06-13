@@ -41,7 +41,7 @@
         </div>
       </section>
       <!-- details section -->
-      <section class="w-11/12 sm:w-3/4 xl:w-1/2 mx-auto mt-6 px-14">
+      <section class="w-11/12 px-1 sm:w-3/4 xl:w-1/2 mx-auto mt-6 md:px-14">
         <div class="flex items-center gap-10">
           <nuxtLink
             v-if="$strapi.user !== null && userPermission === $strapi.user.id"
@@ -89,13 +89,37 @@
           <!-- col two of details  -->
           <div class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
-              <h2 class="text-3xl chedder main_red_text">Members</h2>
-              <span
+              <div>
+                <h2 class="text-3xl chedder main_red_text mb-6">Members</h2>
+              </div>
+
+              <div
                 v-for="(member, index) in band.members"
                 :key="index + member.id"
                 class="mr-4"
-                >{{ member.name }}</span
               >
+                <div v-if="member.image" class="w-full mb-6">
+                  <div class="w-full flex gap-10">
+                    <img class="w-[200px]" :src="member.image.url" alt="" />
+                    <div class="flex-grow flex flex-col w-full">
+                      <div>
+                        <p class="text-xl font-bold">{{ member.name }}</p>
+                        <div v-if="member.dateStart" class="text-gray-500">
+                          started
+                          {{
+                            moment(String(member.dateStart)).format(
+                              'MMMM Do YYYY'
+                            )
+                          }}
+                        </div>
+                      </div>
+                      <div v-if="member.instrument" class="mt-6">
+                        <p>Playing {{ member.instrument }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -115,8 +139,8 @@
           <div class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
               <h2 class="text-3xl chedder main_red_text">Links</h2>
-              <!-- add login to check link  -->
-              <div v-if="LinkOne">
+              add login to check link -->
+              <div v-if="band.linkOne">
                 <a
                   v-if="band.linkOne"
                   class="underline-offset-2 underline"
@@ -124,12 +148,6 @@
                   target="_blank"
                   >{{ band.linkOne }}</a
                 >
-                <a
-                  v-if="band.linkTwo"
-                  class="underline-offset-2 underline"
-                  :href="band.linkTwo"
-                  target="_blank"
-                  >{{ band.linkTwo }}</a
                 >
               </div>
               <h3 v-else>No Links Added ...</h3>
@@ -436,5 +454,10 @@ export default {
   background-position: center center;
   background-size: fill;
   background-repeat: no-repeat;
+}
+.text-background {
+  background: url('~/static/live_background.png');
+  background-clip: text;
+  color: transparent;
 }
 </style>

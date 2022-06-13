@@ -38,13 +38,6 @@
                 errors-class="sm:w-4/5 m-auto"
               />
               <FormulateInput
-                name="bandManager"
-                label="Band manager name?"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              />
-              <FormulateInput
                 name="bandEmail"
                 label="Band email?"
                 wrapper-class="sm:w-4/5 m-auto"
@@ -118,6 +111,31 @@
                   required="true"
                   wrapper-class="w-full"
                   element-class="w-full"
+                />
+                <FormulateInput
+                  name="instrument"
+                  label="Add Instrument"
+                  required="true"
+                  wrapper-class="w-full"
+                  element-class="w-full"
+                />
+                <FormulateInput
+                  type="date"
+                  name="dateStart"
+                  label="Date members started"
+                  required="true"
+                  wrapper-class="w-full"
+                  element-class="w-full"
+                />
+                <FormulateInput
+                  type="image"
+                  name="image"
+                  label="Add image of member"
+                  help="Select a png, jpg or gif to upload."
+                  validation="mime:image/jpeg,image/png,image/gif"
+                  input-class="w-full sm:w-96 "
+                  wrapper-class="w-full sm:w-96 "
+                  element-class="w-full sm:w-96 "
                 />
               </div>
             </FormulateInput>
@@ -248,6 +266,23 @@ export default {
   methods: {
     async submitForm() {
       // uploading bandProfileImg
+      const members = []
+      for (let index = 0; index < this.formValues.members.length; index++) {
+        const formData = new FormData()
+        formData.append(
+          'files',
+          this.formValues.members[index].image.files[0].file
+        )
+        const [image] = await this.$strapi.create('upload', formData)
+
+        members.push({
+          image: image,
+          name: this.formValues.members[index].name,
+          instrument: this.formValues.members[index].instrument,
+          dateStart: this.formValues.members[index].dateStart,
+        })
+      }
+      this.formValues.members = members
       try {
         const formData = new FormData()
         await formData.append('files', this.profileImage)
