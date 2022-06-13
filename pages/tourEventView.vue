@@ -2,7 +2,7 @@
   <div>
     <section v-if="event">
       <section v-if="event && event.eventPoster" class="container mx-auto mt-6">
-        <img :src="image" alt="" class="mx-auto h-[1000px]" />
+        <img :src="image" alt="" class="mx-auto h-[400px] object-cover" />
         <section>
           <h2 class="mt-4">Date</h2>
           <p class="text-xl">

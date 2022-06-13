@@ -4,16 +4,20 @@
       <h1 class="hidden sm:block main_red_text text-center my-6">
         {{ tour.title }}
       </h1>
-      <div v-if="tour.touringPoster" class="mb-10">
+      <div v-if="tour.touringPoster" class="mb-10 h-[400px]">
         <div v-if="tour.touringPoster.formats.large">
           <img
             :src="tour.touringPoster.formats.large.url"
             alt=""
-            class="mx-auto"
+            class="mx-auto object-cover h-[400px]"
           />
         </div>
-        <div v-else>
-          <img :src="tour.touringPoster.url" alt="" class="mx-auto" />
+        <div v-else class="max-h-[400px] object-cover">
+          <img
+            :src="tour.touringPoster.url"
+            alt=""
+            class="mx-auto object-cover h-[400px]"
+          />
         </div>
       </div>
       <h2 class="hidden sm:block text-xl sm:text-2xl main_red_text mb-2">
@@ -69,7 +73,7 @@
               <p v-if="event.streetAddress && event.streetName" class="text-xl">
                 The Vic, {{ event.streetAddress }} {{ event.streetName }} /
                 {{ moment(String(event.date)).format('LT') }} -
-                {{ moment(event.timeStarts, 'h').format('LT') }}
+                {{ moment(event.timeEnds, 'h').format('LT') }}
               </p>
               <p v-if="event.city && event.state" class="text-xl">
                 {{ event.city }}, {{ event.state }}

@@ -9,7 +9,7 @@
             <div class="w-full px-4 sm:w-1/2">
               <FormulateInput
                 name="title"
-                label="Event Title"
+                label="Band Playing Show"
                 wrapper-class="m-auto sm:w-4/5 "
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"

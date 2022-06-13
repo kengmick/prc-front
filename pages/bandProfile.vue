@@ -62,7 +62,7 @@
         >
       </div>
 
-      <section class="w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
+      <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
         <!-- logo here -->
         <div v-if="band.logo" class="max-w-[200px] h-[200px]">
           <img :src="band.logo.url" alt="" class="object-fill" />
@@ -204,7 +204,7 @@
       <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
       <!-- edit component -->
 
-      <section class="w-full xl:w-1/2 mx-auto mt-6 px-4 md:px-14">
+      <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto mt-6">
         <h2 class="text-3xl main_red_text underline underline-offset-2 pb-2">
           Showz
         </h2>
@@ -214,44 +214,44 @@
               <div
                 v-for="(event, index) in band.events"
                 :key="event.title + index"
-                class="shadow-md w-full h-full flex flex-col ms:h-64 sm:my-12 sm:mx-auto sm:flex-row transition-all duration-200 hover:scale-105"
+                class="w-full h-full mx-auto flex flex-col ms:h-64 sm:mx-auto sm:flex-row transition-all duration-200 hover:scale-105"
               >
-                <div v-if="event.eventPoster" class="w-full sm:w-1/3 h-64">
+                <div
+                  v-if="event.eventPoster"
+                  class="w-full sm:w-1/2 h-44 sm:h-64"
+                >
                   <img
                     class="h-full w-full"
                     :src="event.eventPoster.url"
                     alt=""
                   />
                 </div>
-                <div class="p-6">
-                  <p class="chedder text-xl inline sm:text-center sm:block">
-                    {{ moment(String(event.date)).format('MMM') }}
-                  </p>
-                  <p class="chedder text-xl inline sm:text-center sm:block">
-                    {{ moment(String(event.date)).format('Do') }}
-                  </p>
-                </div>
-                <div class="flex flex-col flex-grow p-6">
+
+                <div class="flex flex-col flex-grow py-4 sm:p-6">
                   <div>
-                    <p v-if="event.title" class="chedder text-2xl">
+                    <p v-if="event.title" class="chedder text-xl">
                       {{ event.title }}
+                      {{ moment(String(event.date)).format('MMM') }}
+                      {{ moment(String(event.date)).format('Do') }}
+                    </p>
+                    <p>
+                      {{ moment(String(event.date)).format('LT') }} -
+                      {{ moment(event.timeEnds, 'h').format('LT') }}
                     </p>
                     <p
                       v-if="event.headlinerOne"
-                      class="text-xl font-black pb-2"
+                      class="text-lg font-black pb-2"
                     >
                       Featuring {{ event.headlinerOne }}
                     </p>
                     <p
                       v-if="event.streetAddress && event.streetName"
-                      class="text-xl"
+                      class="text-lg"
                     >
                       The Vic, {{ event.streetAddress }}
-                      {{ event.streetName }} /
-                      {{ moment(String(event.date)).format('LT') }} -
-                      {{ moment(event.timeEnds, 'h').format('LT') }}
+                      {{ event.streetName }}
                     </p>
-                    <p v-if="event.city && event.state" class="text-xl">
+                    <p v-if="event.city && event.state" class="text-lg">
                       {{ event.city }}, {{ event.state }}
                     </p>
                   </div>
@@ -281,7 +281,7 @@
         <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
         <section>
           <h2
-            class="text-3xl chedder main_red_text my-4 chedder underline underline-offset-4 pb-2"
+            class="text-3xl chedder main_red_text chedder underline underline-offset-4 pb-2"
           >
             Releases
           </h2>
@@ -424,7 +424,7 @@
           </section>
         </div>
         <h2
-          class="text-3xl chedder main_red_text my-4 chedder underline underline-offset-4 pb-2"
+          class="text-3xl chedder main_red_text chedder underline underline-offset-4 pb-2 mt-6"
         >
           Songs
         </h2>
@@ -472,16 +472,28 @@ export default {
       band: null,
       load: false,
       hide: false,
+      events: [],
       userPermission: null,
       videos: [],
       posts: [],
     }
   },
   async mounted() {
+    // get bands
     try {
       const band = await this.$strapi.findOne('bands', this.$route.query.band)
       this.band = band
       this.userPermission = band.users_permissions_user.id
+    } catch (error) {
+      return error
+    }
+    // get events
+    try {
+      const events = await this.$strapi.find('events', {
+        title: this.band.title,
+      })
+      this.events = events
+      console.log(events, this.band)
     } catch (error) {
       return error
     }
