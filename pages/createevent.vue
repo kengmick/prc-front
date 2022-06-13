@@ -36,10 +36,12 @@
               <FormulateInput
                 name="timeStarts"
                 type="time"
-                label="timeStarts"
+                step="0.000"
+                label="Time Event Begins"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                @change="log($event.target.value)"
               />
 
               <FormulateInput
@@ -184,6 +186,10 @@ export default {
   },
   methods: {
     moment,
+    log(val) {
+      const d = (val += ':00.000')
+      console.log(d)
+    },
     async submitForm() {
       // uploading bandProfileImg
       try {
@@ -204,11 +210,14 @@ export default {
           console.log(b, 'this is the bands')
           this.formValues.bandName = b[0]
         }
+        this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
+
         const event = await this.$strapi.create('events', {
           ...this.formValues,
           users_permissions_user: this.$strapi.user.id,
         })
         this.event = event
+        console.log(event)
       } catch (error) {
         this.errorMessage = 'Sorry ... please try again'
         console.log(error)

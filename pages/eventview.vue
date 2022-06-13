@@ -12,8 +12,9 @@
         <h1 v-if="event">{{ event.title }}</h1>
         <h2 class="mt-4">Date</h2>
         <p class="text-xl">
-          {{ moment(String(event.date)).format('MMMM Do YYYY, h:mm a') }} -
-          {{ moment(event.timeEnds, 'h').format('LT') }}
+          {{ moment(String(event.date)).format('MMMM Do YYYY') }} @{{
+            moment(event.timeStarts, 'h').format('LT')
+          }}
         </p>
         <h2 class="mt-4">Location</h2>
         <p class="text-xl">
