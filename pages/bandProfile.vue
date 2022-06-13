@@ -2,7 +2,6 @@
   <div>
     <!-- fix video slider -->
     <div v-if="band">
-      <pre>{{ band }}</pre>
       <div
         style="z-index: -99999999"
         class="background_custom object-cover para relative h-[500px]"
