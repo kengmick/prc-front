@@ -70,8 +70,7 @@ export default {
           email: this.formValues.email,
           username: this.formValues.username,
           password: this.formValues.password,
-          tier: 1,
-          firstName: 'jack',
+          acc: 1,
         })
         console.log(user, 'this is user')
         if (user) {

@@ -3,7 +3,7 @@
     <!-- has band venue classified events  -->
     <!-- needs tours record lables albums songs videos  -->
     <div v-if="$strapi.user" class="container mx-auto mt-10">
-      <pre>{{ $strapi.user }}</pre>
+      <div @click="accountUpdate">Update Account</div>
       <img
         src="https://cdn.dribbble.com/users/6142/screenshots/5679189/media/1b96ad1f07feee81fa83c877a1e350ce.png?compress=1&resize=400x300&vertical=top"
         alt=""
@@ -898,6 +898,18 @@ export default {
   },
   methods: {
     moment,
+    async accountUpdate() {
+      try {
+        const updated = await this.$strapi.update(
+          'users',
+          this.$strapi.user.id,
+          { acc: 1 }
+        )
+        console.log(updated)
+      } catch (error) {
+        console.log(error)
+      }
+    },
   },
 }
 </script>
