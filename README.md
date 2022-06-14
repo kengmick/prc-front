@@ -1,3 +1,43 @@
+### Working on
+
+- [] add country to form
+- [] make contacts component
+- [] add user account tier (make changeable )
+- [] picture gallery
+- [] add enumerated genres
+- [] add video links
+  Name x
+
+Logo x
+
+Genre: “Punk/(subgenre name)”: Old Punk, HardCore, Street/Skate, Oi!, Ska/Surf, Crust, Melodic/Pop, Anarcho/Peace, Other (fill in the blank).
+
+Location: City, State (if inside United States) or City, Country (if outside United States)
+
+Date Started x
+
+Contacts
+
+History/Bio/Story/Message x
+
+Pictures
+
+Members: Name, Photo, Instruments played, dates in band x
+
+Showz (shown as an internal link if Show was purchased on web-app) x
+
+Releases: Photo, Title, Label, Date Released (shown as a link if available) x
+
+Merch: Images (shown as a link if available) x
+
+Songs: Name, Date Created, History (shown as a link if available) x
+
+Other External Links (videos, websites, etc.) x
+
+Video Links of the videos they want played on 24/7 livestream in preferred order
+
+Venue Profile:
+
 Punk Rock Compound Web-App
 
 Programs thus far used: Nuxt, Strapi, Seahorse, Digital Ocean

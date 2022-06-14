@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- fix video slider -->
     <div v-if="band">
       <div
         style="z-index: -99999999"
