@@ -70,12 +70,15 @@ export default {
           email: this.formValues.email,
           username: this.formValues.username,
           password: this.formValues.password,
+          tier: 1,
+          firstName: 'jack',
         })
+        console.log(user, 'this is user')
         if (user) {
           this.$router.push({ path: 'profile', query: { user: user.id } })
         }
       } catch (error) {
-        this.errorMessage = 'Sorry ... please try again'
+        this.errorMessage = error
       }
     },
   },

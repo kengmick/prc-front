@@ -47,24 +47,26 @@
             </div>
             <div class="w-full px-4 sm:w-1/2">
               <!-- Tier 2 contact list  -->
-              <FormulateInput
-                v-if="$strapi.user.tier === 1"
-                type="group"
-                name="altContacts"
-                :repeatable="true"
-                label="Band Members"
-                add-label="+ Add members"
-                wrapper-class="w-full"
-                element-class="w-full"
-              >
+              <div v-if="$strapi.user">
+                <pre>{{ $strapi.user }}</pre>
                 <FormulateInput
-                  name="contact"
-                  label="Countact Info"
-                  wrapper-class="sm:w-4/5 m-auto"
+                  type="group"
+                  name="altContacts"
+                  :repeatable="true"
+                  label="Contacts"
+                  add-label="+ Add contact"
+                  wrapper-class="w-full"
                   element-class="w-full"
-                  errors-class="sm:w-4/5 m-auto"
-                />
-              </FormulateInput>
+                >
+                  <FormulateInput
+                    name="contact"
+                    label="Countact Info"
+                    wrapper-class="sm:w-4/5 m-auto"
+                    element-class="w-full"
+                    errors-class="sm:w-4/5 m-auto"
+                  />
+                </FormulateInput>
+              </div>
 
               <FormulateInput
                 v-else
