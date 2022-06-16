@@ -62,14 +62,18 @@
       </div>
       <!-- photo section -->
       <div class="md:container mx-auto w-full sm:w-full md:w-1/2">
-        <h2 v-if="band.pictures">Band Photos</h2>
+        <h2 v-if="band.photos">Band Photos</h2>
       </div>
       <section
-        v-if="band.pictures.length > 0"
+        v-if="band.photos.length > 0"
         class="flex flex-col sm:grid sm:grid-cols-3 sm:container sm:mx-auto w-full md:w-1/2 sm:gap-4"
       >
-        <div v-for="(pic, index) in band.pictures" :key="pic + index">
-          <img class="h-[400px] w-screen object-cover" :src="pic.url" alt="" />
+        <div v-for="(pic, index) in band.photos" :key="pic + index">
+          <img
+            class="h-[400px] w-screen object-cover"
+            :src="pic.pic.url"
+            alt=""
+          />
         </div>
       </section>
 

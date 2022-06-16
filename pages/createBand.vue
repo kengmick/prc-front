@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
-    <h1 class="main_red_text text-center">Create Your Band Profile</h1>
+    <h1 class="text-center my-4">Create Your Band Profile</h1>
     <section class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
       <div class="w-full mt-6 mb-6">
         <FormulateForm v-model="formValues" @submit="submitForm">
@@ -61,45 +61,8 @@
             </div>
             <div class="w-full px-4 sm:w-1/2">
               <!-- Tier 2 contact list  -->
-              <div v-if="$strapi.user">
+              <div v-if="acc < 2">
                 <FormulateInput
-                  v-if="$strapi.user.acc === 2"
-                  type="group"
-                  name="altContacts"
-                  :repeatable="true"
-                  label="Contacts"
-                  add-label="+ Add contact"
-                  wrapper-class="w-full"
-                  element-class="w-full"
-                >
-                  <FormulateInput
-                    name="contact"
-                    label="Countact Info"
-                    wrapper-class="sm:w-4/5 m-auto"
-                    element-class="w-full"
-                    errors-class="sm:w-4/5 m-auto"
-                  />
-                </FormulateInput>
-                <FormulateInput
-                  v-if="$strapi.user.acc === 2"
-                  type="group"
-                  name="links"
-                  :repeatable="true"
-                  label="Links"
-                  add-label="+ Add contact"
-                  wrapper-class="w-full"
-                  element-class="w-full"
-                >
-                  <FormulateInput
-                    name="link"
-                    label="https://somelink.com"
-                    wrapper-class="sm:w-4/5 m-auto"
-                    element-class="w-full"
-                    errors-class="sm:w-4/5 m-auto"
-                  />
-                </FormulateInput>
-                <FormulateInput
-                  v-else
                   name="linkOne"
                   label="Add a Link"
                   placeholder="https://somelink.com"
@@ -110,7 +73,7 @@
               </div>
 
               <FormulateInput
-                v-else
+                v-if="acc < 2"
                 name="contact"
                 label="Band contact"
                 wrapper-class="m-auto sm:w-4/5 "
@@ -152,7 +115,47 @@
             </div>
           </div>
           <section class="px-4 mt-10 sm:m-20">
-            <h2 class="text-2xl main_red_text mb-6">Add Band Members</h2>
+            <!-- altContact and links -->
+            <h2 class="my-4">Add Contacts</h2>
+            <div v-if="acc === 2">
+              <FormulateInput
+                type="group"
+                name="altContacts"
+                :repeatable="true"
+                label="Contacts"
+                add-label="+ Add contact"
+                wrapper-class="w-full"
+                element-class="w-full"
+              >
+                <FormulateInput
+                  name="contact"
+                  label="Countact Info"
+                  wrapper-class="sm:w-4/5 m-auto"
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 m-auto"
+                />
+              </FormulateInput>
+              <h2 class="my-4">Add Links</h2>
+              <FormulateInput
+                type="group"
+                name="links"
+                :repeatable="true"
+                label="Links"
+                add-label="+ Add link"
+                wrapper-class="w-full"
+                element-class="w-full"
+              >
+                <FormulateInput
+                  name="link"
+                  label="https://somelink.com"
+                  wrapper-class="sm:w-4/5 m-auto"
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 m-auto"
+                />
+              </FormulateInput>
+            </div>
+            <!-- end of links and contacts repeatable  -->
+            <h2 class="my-4">Add Band Members</h2>
             <FormulateInput
               type="group"
               name="members"
@@ -194,9 +197,7 @@
                 />
               </div>
             </FormulateInput>
-            <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
-              Add Profile Image
-            </h2>
+            <h2 class="text-center mb-10 mt-4">Add Profile Image</h2>
             <div class="flex w-full justify-center">
               <FormulateInput
                 type="image"
@@ -211,9 +212,7 @@
               />
             </div>
             <!-- logo -->
-            <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
-              Add Your band Logo
-            </h2>
+            <h2 class="text-center mb-10 mt-4">Add Your band Logo</h2>
             <div class="flex w-full justify-center">
               <FormulateInput
                 type="image"
@@ -230,7 +229,7 @@
             <!-- <div v-if="image">
               <img :src="image[0].url" alt="fdsfadsf" />
             </div> -->
-            <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+            <h2 class="text-center mb-10 mt-4">
               Add Previous Shows Played (optional)
             </h2>
             <FormulateInput
@@ -270,6 +269,7 @@
                 />
               </div>
             </FormulateInput>
+            <h2>Add Photos</h2>
             <FormulateInput
               type="group"
               name="pictures"
@@ -318,9 +318,6 @@
             />
           </div>
         </FormulateForm>
-        <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
-          Add photos
-        </h2>
       </div>
     </section>
   </div>
@@ -340,7 +337,12 @@ export default {
       image: '',
       showPosters: [],
       pictures: [],
+      acc: 0,
     }
+  },
+  async mounted() {
+    const user = await this.$strapi.findOne('users', this.$strapi.user.id)
+    this.acc = user.acc
   },
   methods: {
     addPic(val) {
