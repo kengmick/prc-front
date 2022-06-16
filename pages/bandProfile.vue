@@ -91,7 +91,7 @@
               </h2>
               <p>{{ band.genreAlt }}</p>
             </div>
-            <div v-if="band.genre">
+            <div v-if="band.genre && !band.genreAlt">
               <h2
                 class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
               >
@@ -192,14 +192,32 @@
           </div>
         </div>
         <div flex flex-col sm:flex-row items-center mb-4>
-          <div v-if="band.contact" class="w-full sm:w-3/4 flex">
+          <div
+            v-if="band.contact && band.altContacts.length === 0"
+            class="w-full sm:w-3/4 flex"
+          >
+            <div class="w-full mb-6">
+              <h2
+                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
+              >
+                Contacts
+              </h2>
+              <p>{{ band.contact }}</p>
+            </div>
+          </div>
+          <div v-if="band.altContacts.length > 0" class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
               <h2
                 class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
               >
                 Band Contact
               </h2>
-              <p>{{ band.contact }}</p>
+              <p
+                v-for="(contact, index) in band.altContacts"
+                :key="contact.contact + index"
+              >
+                {{ contact.contact }}
+              </p>
             </div>
           </div>
           <div class="w-full sm:w-3/4 flex">
@@ -260,8 +278,8 @@
                   />
                 </div>
 
-                <div class="flex flex-col flex-grow py-4 sm:p-6">
-                  <div>
+                <div class="flex flex-col flex-grow py-4 px-6 sm:p-6 bg-black">
+                  <div class="text-white">
                     <p v-if="event.title" class="chedder text-xl">
                       {{ event.title }}
                       {{ moment(String(event.date)).format('MMM') }}
@@ -320,37 +338,30 @@
           </h2>
           <div v-if="band.releases">
             <section v-if="band.releases.length > 0" class="mb-6">
-              <div class="overflow-x-auto">
-                <table class="w-full">
-                  <tr>
-                    <th v-if="band.releases[0].image" class="text-left chedder">
-                      Image
-                    </th>
-                    <th class="text-left chedder">Title</th>
-                    <!-- <th class="text-left chedder">Link</th> -->
-                  </tr>
-                  <tr
-                    v-for="(r, index) in band.releases"
-                    :key="r.title + index"
+              <div class="flex flex-col sm:grid-cols-3 sm:grid">
+                <div
+                  v-for="(r, index) in band.releases"
+                  :key="r + index"
+                  class="max-w-[350px]"
+                >
+                  <div
+                    v-if="r.title"
+                    class="py-4 px-2 border-2 border-black bg-black"
                   >
-                    <td v-if="r.image">
-                      <img
-                        v-if="r.image"
-                        class="w-[100px] h-[66px] object-cover"
-                        :src="r.image.url"
-                        alt=""
-                      />
-                      <div
-                        v-else
-                        class="w-[100px] h-[66px] bg-black flex items-center justify-center"
-                      >
-                        <img src="~/static/imageIcon.svg" alt="" />
-                      </div>
-                    </td>
-                    <td v-if="r.title">{{ r.title }}</td>
-                    <td v-else>No Description</td>
-                  </tr>
-                </table>
+                    <h3 class="text-white">{{ r.title }}</h3>
+                  </div>
+                  <div v-if="r.image">
+                    <img :src="r.image.url" alt="" />
+                  </div>
+                  <div class="p-2 bg-black text-white">
+                    <div v-if="r.date">
+                      <h3>{{ r.date }}</h3>
+                    </div>
+                    <div v-if="r.link">
+                      <h3>{{ r.link }}</h3>
+                    </div>
+                  </div>
+                </div>
               </div>
             </section>
           </div>
@@ -418,8 +429,30 @@
         <!-- merch goes here  -->
         <div v-if="band.merch">
           <section v-if="band.merch.length > 0">
-            <div class="overflow-x-auto">
-              <table class="w-full">
+            <div class="flex flex-col sm:grid-cols-3 sm:grid">
+              <div class="flex flex-col sm:grid-cols-3 sm:grid">
+                <div
+                  v-for="(m, index) in band.merch"
+                  :key="m + index"
+                  class="w-full sm:w-[350px]"
+                >
+                  <div
+                    v-if="m.productName"
+                    class="py-4 px-2 border-2 border-black bg-black"
+                  >
+                    <h3 class="text-white">{{ m.productName }}</h3>
+                  </div>
+                  <div v-if="m.productImage">
+                    <img :src="m.productImage.url" alt="" />
+                  </div>
+                  <div class="p-2 bg-black text-white">
+                    <div v-if="m.productLink">
+                      <h3>{{ m.productLink }}</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <table class="w-full">
                 <tr>
                   <th
                     v-if="band.merch[0].productImage"
@@ -452,7 +485,7 @@
                   </td>
                   <td v-else>No Link</td>
                 </tr>
-              </table>
+              </table> -->
             </div>
           </section>
         </div>

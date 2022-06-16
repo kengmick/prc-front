@@ -272,7 +272,7 @@
             <h2>Add Photos</h2>
             <FormulateInput
               type="group"
-              name="pictures"
+              name="photos"
               :repeatable="true"
               label="Add Photos"
               add-label="+ Add Photo"
@@ -282,8 +282,8 @@
               <div>
                 <FormulateInput
                   type="image"
-                  name="picture"
-                  label="Select an logo to upload"
+                  name="pic"
+                  label="add photos"
                   help="Select a png, jpg or gif to upload."
                   validation="mime:image/jpeg,image/png,image/gif"
                   input-class="w-full sm:w-96 "
@@ -351,7 +351,7 @@ export default {
     async submitForm() {
       // uploading bandProfileImg
       const members = []
-      if (this.formValues.members.length > 0) {
+      if (this.formValues.members) {
         for (let index = 0; index < this.formValues.members.length; index++) {
           const formData = new FormData()
           formData.append(
@@ -371,19 +371,20 @@ export default {
       this.formValues.members = members
       // getting pictures uploaded
       const pictures = []
-      if (this.formValues.pictures.length > 0) {
-        for (let index = 0; index < this.formValues.pictures.length; index++) {
+      if (this.formValues.photos.length > 0) {
+        for (let index = 0; index < this.formValues.photos.length; index++) {
           const formData = new FormData()
           formData.append(
             'files',
-            this.formValues.pictures[index].picture.files[0].file
+            this.formValues.photos[index].pic.files[0].file
           )
           const [image] = await this.$strapi.create('upload', formData)
 
-          pictures.push({ ...image })
+          pictures.push({ pic: image })
+          console.log('adding pictures ', pictures)
         }
         this.pictures = pictures
-        this.formValues.pictures = pictures
+        this.formValues.photos = pictures
       }
       try {
         const formData = new FormData()
@@ -406,6 +407,7 @@ export default {
       // old shows array
       // making post band to strapi
       try {
+        console.log('form values ===', this.formValues)
         const band = await this.$strapi.create('bands', {
           ...this.formValues,
           users_permissions_user: this.$strapi.user.id,
@@ -413,7 +415,7 @@ export default {
         this.band = band
       } catch (error) {
         this.errorMessage = 'Sorry ... please try again'
-        console.log('there was a problem')
+        console.log(error, 'creating band')
       }
       // after creation take user to band admin
       if (this.band) {
