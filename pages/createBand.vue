@@ -14,17 +14,31 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
-
               <FormulateInput
                 name="genreAlt"
                 :options="{
-                  punk: 'Punk',
-                  ska: 'Ska',
-                  hardcore: 'hardcore',
+                  oldPunk: 'Old Punk',
+                  hardCore: 'HardCore',
+                  streetSkate: 'Street/Skate',
+                  oi: 'Oi!',
+                  skaSurf: 'Ska/Surf',
                   thrash: 'thrash',
+                  crust: 'crust',
+                  melodicPop: 'Melodic/Pop',
+                  anarchoPeace: 'Anarcho/Peace',
+                  other: 'Other',
                 }"
                 type="select"
                 label="What is the genre"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
+                v-if="formValues.genreAlt === 'other'"
+                name="genre"
+                label="What is the genre"
+                placeholder="Add Your band genre"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
@@ -48,8 +62,8 @@
             <div class="w-full px-4 sm:w-1/2">
               <!-- Tier 2 contact list  -->
               <div v-if="$strapi.user">
-                <pre>{{ $strapi.user }}</pre>
                 <FormulateInput
+                  v-if="$strapi.user.acc === 2"
                   type="group"
                   name="altContacts"
                   :repeatable="true"
@@ -66,6 +80,33 @@
                     errors-class="sm:w-4/5 m-auto"
                   />
                 </FormulateInput>
+                <FormulateInput
+                  v-if="$strapi.user.acc === 2"
+                  type="group"
+                  name="links"
+                  :repeatable="true"
+                  label="Links"
+                  add-label="+ Add contact"
+                  wrapper-class="w-full"
+                  element-class="w-full"
+                >
+                  <FormulateInput
+                    name="link"
+                    label="https://somelink.com"
+                    wrapper-class="sm:w-4/5 m-auto"
+                    element-class="w-full"
+                    errors-class="sm:w-4/5 m-auto"
+                  />
+                </FormulateInput>
+                <FormulateInput
+                  v-else
+                  name="linkOne"
+                  label="Add a Link"
+                  placeholder="https://somelink.com"
+                  wrapper-class="sm:w-4/5 m-auto"
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 m-auto"
+                />
               </div>
 
               <FormulateInput
@@ -91,6 +132,9 @@
                 errors-class="sm:w-4/5 m-auto"
               />
               <FormulateInput
+                v-if="
+                  !formValues.country || formValues.coutry !== 'United States'
+                "
                 name="state"
                 label="Home state?"
                 wrapper-class="sm:w-4/5 m-auto"
@@ -101,22 +145,6 @@
               <FormulateInput
                 name="recordLabel"
                 label="Record label?"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              />
-              <FormulateInput
-                name="linkOne"
-                label="Add a Link"
-                placeholder="https://somelink.com"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              />
-              <FormulateInput
-                name="linkTwo"
-                label="Add another link Link"
-                placeholder="https://somelink.com"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
@@ -138,14 +166,12 @@
                 <FormulateInput
                   name="name"
                   label="Add band member first and last name"
-                  required="true"
                   wrapper-class="w-full"
                   element-class="w-full"
                 />
                 <FormulateInput
                   name="instrument"
                   label="Add Instrument"
-                  required="true"
                   wrapper-class="w-full"
                   element-class="w-full"
                 />
@@ -153,7 +179,6 @@
                   type="date"
                   name="dateStart"
                   label="Date members started"
-                  required="true"
                   wrapper-class="w-full"
                   element-class="w-full"
                 />
@@ -221,21 +246,18 @@
                 <FormulateInput
                   name="title"
                   label="Name of Show"
-                  required="false"
                   wrapper-class="w-full"
                   element-class="w-full"
                 />
                 <FormulateInput
                   name="city"
                   label="city of event"
-                  required="false"
                   wrapper-class="w-full"
                   element-class="w-full"
                 />
                 <FormulateInput
                   name="state"
                   label="state of event"
-                  required="false"
                   wrapper-class="w-full"
                   element-class="w-full"
                 />
@@ -243,12 +265,35 @@
                 <FormulateInput
                   name="venueName"
                   label="Venue Name"
-                  required="false"
                   wrapper-class="w-full"
                   element-class="w-full"
                 />
               </div>
             </FormulateInput>
+            <FormulateInput
+              type="group"
+              name="pictures"
+              :repeatable="true"
+              label="Add Photos"
+              add-label="+ Add Photo"
+              wrapper-class="w-full"
+              element-class="w-full"
+            >
+              <div>
+                <FormulateInput
+                  type="image"
+                  name="picture"
+                  label="Select an logo to upload"
+                  help="Select a png, jpg or gif to upload."
+                  validation="mime:image/jpeg,image/png,image/gif"
+                  input-class="w-full sm:w-96 "
+                  wrapper-class="w-full sm:w-96 "
+                  element-class="w-full sm:w-96 "
+                  @change="addPic($event.target.files[0])"
+                />
+              </div>
+            </FormulateInput>
+
             <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
               Add Band Bio
             </h2>
@@ -273,6 +318,9 @@
             />
           </div>
         </FormulateForm>
+        <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+          Add photos
+        </h2>
       </div>
     </section>
   </div>
@@ -291,28 +339,50 @@ export default {
       logoImageFinal: '',
       image: '',
       showPosters: [],
+      pictures: [],
     }
   },
   methods: {
+    addPic(val) {
+      console.log(val)
+    },
     async submitForm() {
       // uploading bandProfileImg
       const members = []
-      for (let index = 0; index < this.formValues.members.length; index++) {
-        const formData = new FormData()
-        formData.append(
-          'files',
-          this.formValues.members[index].image.files[0].file
-        )
-        const [image] = await this.$strapi.create('upload', formData)
+      if (this.formValues.members.length > 0) {
+        for (let index = 0; index < this.formValues.members.length; index++) {
+          const formData = new FormData()
+          formData.append(
+            'files',
+            this.formValues.members[index].image.files[0].file
+          )
+          const [image] = await this.$strapi.create('upload', formData)
 
-        members.push({
-          image: image,
-          name: this.formValues.members[index].name,
-          instrument: this.formValues.members[index].instrument,
-          dateStart: this.formValues.members[index].dateStart,
-        })
+          members.push({
+            image: image,
+            name: this.formValues.members[index].name,
+            instrument: this.formValues.members[index].instrument,
+            dateStart: this.formValues.members[index].dateStart,
+          })
+        }
       }
       this.formValues.members = members
+      // getting pictures uploaded
+      const pictures = []
+      if (this.formValues.pictures.length > 0) {
+        for (let index = 0; index < this.formValues.pictures.length; index++) {
+          const formData = new FormData()
+          formData.append(
+            'files',
+            this.formValues.pictures[index].picture.files[0].file
+          )
+          const [image] = await this.$strapi.create('upload', formData)
+
+          pictures.push({ ...image })
+        }
+        this.pictures = pictures
+        this.formValues.pictures = pictures
+      }
       try {
         const formData = new FormData()
         await formData.append('files', this.profileImage)

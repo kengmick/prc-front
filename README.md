@@ -1,8 +1,8 @@
 ### Working on
 
-- [] add country to form
+- [x] add country to form
 - [] make contacts component
-- [] add user account tier (make changeable )
+- [x] add user account tier (make changeable )
 - [] picture gallery
 - [] add enumerated genres
 - [] add video links
@@ -10,7 +10,7 @@
 
 Logo x
 
-Genre: “Punk/(subgenre name)”: Old Punk, HardCore, Street/Skate, Oi!, Ska/Surf, Crust, Melodic/Pop, Anarcho/Peace, Other (fill in the blank).
+Genre: “Punk/(subgenre name)”: Old Punk, HardCore, Street/Skate, Oi!, Ska/Surf, Crust, Melodic/Pop, Anarcho/Peace, Other (fill in the blank). working on it now
 
 Location: City, State (if inside United States) or City, Country (if outside United States)
 
@@ -99,19 +99,19 @@ Tier 1
 
 Name
 
-Genre: “Punk/(subgenre name)”: Anarcho/Peace, Crust, Hard-Core, Melodic/Pop, Oi!, Old Punk, Ska/Surf, Street/Skate, Other (fill in the blank).
+Genre: “Punk/(subgenre name)”: Anarcho/Peace, Crust, Hard-Core, Melodic/Pop, Oi!, Old Punk, Ska/Surf, Street/Skate, Other (fill in the blank). x
 
-Location: City, State (if inside United States) or City, Country (if outside United States)
+Location: City, State (if inside United States) or City, Country (if outside United States) x
 
-Date Started
+Date Started x
 
-(one) Contact
+(one) Contact x
 
 Tier 2
 
 Name
 
-Logo
+Logo x
 
 Genre: “Punk/(subgenre name)”: Old Punk, HardCore, Street/Skate, Oi!, Ska/Surf, Crust, Melodic/Pop, Anarcho/Peace, Other (fill in the blank).
 

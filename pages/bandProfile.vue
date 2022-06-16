@@ -60,22 +60,48 @@
           >EDIT</nuxtLink
         >
       </div>
+      <!-- photo section -->
+      <div class="md:container mx-auto w-full sm:w-full md:w-1/2">
+        <h2 v-if="band.pictures">Band Photos</h2>
+      </div>
+      <section
+        v-if="band.pictures.length > 0"
+        class="flex flex-col sm:grid sm:grid-cols-3 sm:container sm:mx-auto w-full md:w-1/2 sm:gap-4"
+      >
+        <div v-for="(pic, index) in band.pictures" :key="pic + index">
+          <img class="h-[400px] w-screen object-cover" :src="pic.url" alt="" />
+        </div>
+      </section>
 
       <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
         <!-- logo here -->
-        <div v-if="band.logo" class="max-w-[200px] h-[200px]">
-          <img :src="band.logo.url" alt="" class="object-fill" />
-        </div>
+
         <div class="flex flex-col sm:flex-row items-center mb-4">
           <!-- col one of details  -->
           <div class="w-full mb-6 sm:w-3/4 flex">
-            <div class="w-full">
+            <div v-if="band.genreAlt" class="w-full">
               <h2
                 class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
               >
                 Genre
               </h2>
               <p>{{ band.genreAlt }}</p>
+            </div>
+            <div v-if="band.genre">
+              <h2
+                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
+              >
+                Genre
+              </h2>
+              <p>{{ band.genreAlt }}</p>
+            </div>
+            <div v-if="!band.genre && !band.genreAlt">
+              <h2
+                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
+              >
+                Genre
+              </h2>
+              <p>No Genre</p>
             </div>
           </div>
           <!-- col two of details  -->
@@ -86,7 +112,12 @@
               >
                 Location
               </h2>
-              <p>{{ band.city }}, {{ band.state }}</p>
+              <div v-if="band.city && band.state">
+                <p>{{ band.city }}, {{ band.state }}</p>
+              </div>
+              <div v-if="band.country && band.city">
+                <p>{{ band.country }}, {{ band.city }}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -459,8 +490,6 @@
         <div v-else class="my-4"><h3>No Songs Uploaded</h3></div>
       </section>
     </div>
-    fdsfds
-    <div v-if="bandEvents">{{ bandEvents }} fdsfsdf</div>
   </div>
 </template>
 
@@ -476,6 +505,7 @@ export default {
       userPermission: null,
       videos: [],
       posts: [],
+      formValues: {},
     }
   },
   async mounted() {

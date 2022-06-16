@@ -2,14 +2,77 @@
   <div>
     <!-- has band venue classified events  -->
     <!-- needs tours record lables albums songs videos  -->
-    <div v-if="$strapi.user" class="container mx-auto mt-10">
-      <div @click="accountUpdate">Update Account</div>
-      <img
-        src="https://cdn.dribbble.com/users/6142/screenshots/5679189/media/1b96ad1f07feee81fa83c877a1e350ce.png?compress=1&resize=400x300&vertical=top"
-        alt=""
-      />
-      <p class="text-2xl mt-2">Welcome {{ $strapi.user.username }}</p>
-      <p class="text-2xl mt-2">Email : {{ $strapi.user.email }}</p>
+    <div v-if="user" class="container mx-auto mt-10">
+      <div class="hidden" @click="accountUpdate">Update Account</div>
+
+      <div v-if="user.profileImg">
+        <!-- <pre>{{ user }}</pre> -->
+        <img class="h-[250px]" :src="user.profileImg.url" alt="" />
+      </div>
+      <div v-else>
+        <!-- <pre>{{ user }}</pre> -->
+        <img
+          src="https://cdn.dribbble.com/users/6142/screenshots/5679189/media/1b96ad1f07feee81fa83c877a1e350ce.png?compress=1&resize=400x300&vertical=top"
+          alt=""
+        />
+      </div>
+      <p class="text-2xl mt-2">Welcome {{ user.username }}</p>
+      <p class="text-2xl mt-2">Email : {{ user.email }}</p>
+      <p class="text-2xl mt-2">Password : {{ user.password }}</p>
+      <p
+        v-if="!updateForm"
+        @click="update"
+        class="border bottom-2 border-black py-4 px-2 text-center"
+      >
+        Edit user details
+      </p>
+      <FormulateForm v-model="formValues"
+        ><div v-if="updateForm">
+          <FormulateInput
+            name="username"
+            label="Change User Name"
+            :placeholder="$strapi.user.username"
+            wrapper-class="m-auto sm:w-4/5 "
+            element-class="w-full"
+            errors-class="sm:w-4/5 m-auto"
+          />
+          <FormulateInput
+            name="email"
+            label="email"
+            :placeholder="$strapi.user.email"
+            wrapper-class="m-auto sm:w-4/5 "
+            element-class="w-full"
+            errors-class="sm:w-4/5 m-auto"
+          />
+          <div>
+            <FormulateInput
+              type="image"
+              name="profileImg"
+              label="Select an image to upload"
+              help="Select a png, jpg or gif to upload."
+              validation="mime:image/jpeg,image/png,image/gif"
+              input-class="w-full sm:w-96 "
+              wrapper-class="w-full sm:w-96 "
+              element-class="w-full sm:w-96 "
+              @change="profileImg = $event.target.files[0]"
+            />
+          </div>
+        </div>
+        <div v-if="updateForm">
+          <p
+            class="border bottom-2 border-black py-4 px-2 text-center my-4 cursor-pointer"
+            @click="updateUser"
+          >
+            Update
+          </p>
+          <p
+            class="border bottom-2 border-black py-4 px-2 text-center cursor-pointer"
+            @click="cancelUpdate"
+          >
+            Cancel
+          </p>
+        </div>
+      </FormulateForm>
     </div>
     <div v-if="$strapi.user" class="container mx-auto my-10">
       <div v-if="bands" class="hidden sm:block">
@@ -835,9 +898,29 @@ export default {
       error: '',
       releases: [],
       merch: [],
+      formValues: {},
+      updateForm: false,
+      username: '',
+      email: '',
+      profileImg: '',
+      userImage:
+        'https://cdn.dribbble.com/users/6142/screenshots/5679189/media/1b96ad1f07feee81fa83c877a1e350ce.png?compress=1&resize=400x300&vertical=top',
+      user: {},
     }
   },
   async mounted() {
+    try {
+      const user = await this.$strapi.findOne('users', this.$strapi.user.id)
+      console.log(user)
+      this.user = user
+    } catch (error) {}
+    try {
+      if (this.$strapi.user.profileImg) {
+        this.userImage = this.$strapi.user.profileImg
+      }
+    } catch (error) {
+      console.log(error)
+    }
     try {
       this.posts = await this.$strapi.find('posts', {
         users_permissions_user: this.$strapi.user.id,
@@ -898,6 +981,42 @@ export default {
   },
   methods: {
     moment,
+    cancelUpdate: function () {
+      this.updateForm = false
+    },
+    update: function () {
+      this.updateForm = !this.updateForm
+    },
+    async updateUser() {
+      if (this.profileImg) {
+        try {
+          const formData = new FormData()
+          await formData.append('files', this.profileImg)
+          const [image] = await this.$strapi.create('upload', formData)
+          this.image = image
+          this.profileImg = image
+          this.formValues.profileImg = image
+          await this.$strapi.update('users', this.$strapi.user.id, {
+            ...this.formValues,
+          })
+          window.location.reload(true)
+        } catch (error) {
+          console.log(error)
+        }
+      } else {
+        try {
+          const update = await this.$strapi.update(
+            'users',
+            this.$strapi.user.id,
+            { ...this.formValues }
+          )
+          console.log(update, 'updated user')
+          window.location.reload(true)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    },
     async accountUpdate() {
       try {
         const updated = await this.$strapi.update(
