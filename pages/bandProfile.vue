@@ -267,52 +267,50 @@
                 :key="event.title + index"
                 class="w-full h-full mx-auto flex flex-col ms:h-64 sm:mx-auto sm:flex-row transition-all duration-200 hover:scale-105"
               >
-                <div
-                  v-if="event.eventPoster"
-                  class="w-full sm:w-1/3 h-44 sm:h-64"
+                <NuxtLink
+                  :to="{ path: 'eventview', query: { event: event.id } }"
                 >
-                  <img
-                    class="h-full w-full"
-                    :src="event.eventPoster.url"
-                    alt=""
-                  />
-                </div>
+                  <div v-if="event.eventPoster" class="w-full h-44 sm:h-64">
+                    <img
+                      class="h-full w-full"
+                      :src="event.eventPoster.url"
+                      alt=""
+                    />
+                  </div>
+                </NuxtLink>
 
                 <div class="flex flex-col flex-grow py-4 px-6 sm:p-6 bg-black">
-                  <div class="text-white">
-                    <p v-if="event.title" class="chedder text-xl">
-                      {{ event.title }}
-                      {{ moment(String(event.date)).format('MMM') }}
-                      {{ moment(String(event.date)).format('Do') }}
-                    </p>
-                    <p>
-                      {{ moment(String(event.date)).format('LT') }} -
-                      {{ moment(event.timeEnds, 'h').format('LT') }}
-                    </p>
-                    <p
-                      v-if="event.headlinerOne"
-                      class="text-lg font-black pb-2"
-                    >
-                      Featuring {{ event.headlinerOne }}
-                    </p>
-                    <p
-                      v-if="event.streetAddress && event.streetName"
-                      class="text-lg"
-                    >
-                      The Vic, {{ event.streetAddress }}
-                      {{ event.streetName }}
-                    </p>
-                    <p v-if="event.city && event.state" class="text-lg">
-                      {{ event.city }}, {{ event.state }}
-                    </p>
-                  </div>
-                  <div class="flex-grow flex items-center my-4 sm:my-0">
-                    <NuxtLink
-                      :to="{ path: 'eventview', query: { event: event.id } }"
-                      class="border-2 border-black px-4 py-2"
-                      >View Event</NuxtLink
-                    >
-                  </div>
+                  <NuxtLink
+                    :to="{ path: 'eventview', query: { event: event.id } }"
+                  >
+                    <div class="text-white">
+                      <p v-if="event.title" class="chedder text-xl">
+                        {{ event.title }}
+                        {{ moment(String(event.date)).format('MMM') }}
+                        {{ moment(String(event.date)).format('Do') }}
+                      </p>
+                      <p>
+                        {{ moment(String(event.date)).format('LT') }} -
+                        {{ moment(event.timeEnds, 'h').format('LT') }}
+                      </p>
+                      <p
+                        v-if="event.headlinerOne"
+                        class="text-lg font-black pb-2"
+                      >
+                        Featuring {{ event.headlinerOne }}
+                      </p>
+                      <p
+                        v-if="event.streetAddress && event.streetName"
+                        class="text-lg"
+                      >
+                        The Vic, {{ event.streetAddress }}
+                        {{ event.streetName }}
+                      </p>
+                      <p v-if="event.city && event.state" class="text-lg">
+                        {{ event.city }}, {{ event.state }}
+                      </p>
+                    </div>
+                  </NuxtLink>
                 </div>
               </div>
             </section>
@@ -342,25 +340,29 @@
                 <div
                   v-for="(r, index) in band.releases"
                   :key="r + index"
-                  class="max-w-[350px]"
+                  class="max-w-[350px] hover:scale-110 duration-200 transition-all ease-linear"
                 >
-                  <div
-                    v-if="r.title"
-                    class="py-4 px-2 border-2 border-black bg-black"
-                  >
-                    <h3 class="text-white">{{ r.title }}</h3>
-                  </div>
-                  <div v-if="r.image">
-                    <img :src="r.image.url" alt="" />
-                  </div>
-                  <div class="p-2 bg-black text-white">
-                    <div v-if="r.date">
-                      <h3>{{ r.date }}</h3>
+                  <a :href="r.link" target="_blank">
+                    <div
+                      v-if="r.title"
+                      class="py-4 px-2 border-2 border-black bg-black"
+                    >
+                      <h3 class="text-white">{{ r.title }}</h3>
                     </div>
-                    <div v-if="r.link">
-                      <h3>{{ r.link }}</h3>
+                    <div v-if="r.image">
+                      <img :src="r.image.url" alt="" />
                     </div>
-                  </div>
+                    <div class="p-2 bg-black text-white">
+                      <div v-if="r.date">
+                        <h3>{{ r.date }}</h3>
+                      </div>
+                      <div v-if="r.link">
+                        <h3>
+                          <a :href="r.link" target="_blank">{{ r.link }}</a>
+                        </h3>
+                      </div>
+                    </div>
+                  </a>
                 </div>
               </div>
             </section>
@@ -429,28 +431,34 @@
         <!-- merch goes here  -->
         <div v-if="band.merch">
           <section v-if="band.merch.length > 0">
-            <div class="flex flex-col sm:grid-cols-3 sm:grid">
-              <div class="flex flex-col sm:grid-cols-3 sm:grid">
-                <div
-                  v-for="(m, index) in band.merch"
-                  :key="m + index"
-                  class="w-full sm:w-[350px]"
-                >
-                  <div
-                    v-if="m.productName"
-                    class="py-4 px-2 border-2 border-black bg-black"
-                  >
-                    <h3 class="text-white">{{ m.productName }}</h3>
-                  </div>
+            <div class="flex flex-col gap-4 sm:grid-cols-3 sm:grid sm:gap-4">
+              <div
+                v-for="(m, index) in band.merch"
+                :key="m + index"
+                class="w-full sm:w-[300px] hover:scale-110 transition-all ease-linear duration-200"
+              >
+                <a :href="m.productLink" target="_blank">
                   <div v-if="m.productImage">
-                    <img :src="m.productImage.url" alt="" />
-                  </div>
-                  <div class="p-2 bg-black text-white">
-                    <div v-if="m.productLink">
-                      <h3>{{ m.productLink }}</h3>
+                    <div
+                      v-if="m.productName"
+                      class="py-4 px-2 border-2 border-black bg-black"
+                    >
+                      <h3 class="text-white">{{ m.productName }}</h3>
+                    </div>
+                    <div>
+                      <img :src="m.productImage.url" alt="" />
+                    </div>
+                    <div class="p-2 bg-black text-white">
+                      <div v-if="m.productLink">
+                        <h3>
+                          <a :href="m.productLink" target="_blank">{{
+                            m.productLink
+                          }}</a>
+                        </h3>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </a>
               </div>
               <!-- <table class="w-full">
                 <tr>
@@ -510,14 +518,16 @@
                   :key="song.songTitle + index"
                 >
                   <td v-if="song.songTitle">
-                    <a :href="song.link" class="underline">{{
+                    <a :href="song.link" target="_blank" class="underline">{{
                       song.songTitle
                     }}</a>
                   </td>
                   <td v-else>No Title</td>
                   <td v-if="song.date">{{ song.date }}</td>
                   <td v-else>No Release Date</td>
-                  <td v-if="song.link"><a :href="song.link">View Album</a></td>
+                  <td v-if="song.link">
+                    <a :href="song.link" target="_blank">View Song</a>
+                  </td>
                   <td v-else>No Link</td>
                 </tr>
               </table>
