@@ -252,7 +252,7 @@
                 <a
                   v-for="link in band.links"
                   :key="link"
-                  class="underline-offset-2 underline"
+                  class="underline-offset-2 underline block"
                   :href="link.link"
                   target="_blank"
                   >{{ link.link }}
@@ -546,6 +546,9 @@
           </section>
         </div>
         <div v-else class="my-4"><h3>No Songs Uploaded</h3></div>
+      </section>
+      <section>
+        <h2>Posts</h2>
       </section>
     </div>
   </div>

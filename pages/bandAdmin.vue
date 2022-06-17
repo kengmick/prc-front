@@ -91,7 +91,7 @@
             </div>
             <section class="px-4 mt-10 sm:m-20">
               <div v-if="acc === 2">
-                <h2 class="text-2xl main_red_text mb-6">Add Contacts</h2>
+                <h2>Add Contacts</h2>
                 <FormulateInput
                   type="group"
                   name="altContacts"
@@ -110,9 +110,7 @@
                   />
                 </FormulateInput>
               </div>
-              <h2 v-if="acc === 2" class="text-2xl main_red_text mb-6">
-                Add Band Members
-              </h2>
+              <h2 v-if="acc === 2">Add Band Members</h2>
               <FormulateInput
                 v-if="acc === 2"
                 type="group"
@@ -167,6 +165,25 @@
                   </div> -->
                 </div>
               </FormulateInput>
+              <h2 v-if="acc === 2">Add Links</h2>
+              <FormulateInput
+                v-if="acc === 2"
+                type="group"
+                name="links"
+                :repeatable="true"
+                label="Links"
+                add-label="+ Add link"
+                wrapper-class="w-full"
+                element-class="w-full"
+              >
+                <FormulateInput
+                  name="link"
+                  label="https://somelink.com"
+                  wrapper-class="sm:w-4/5 m-auto"
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 m-auto"
+                />
+              </FormulateInput>
               <h2 v-if="acc === 2">Add Photos</h2>
               <FormulateInput
                 v-if="acc === 2"
@@ -212,7 +229,7 @@
                 v-if="changeProfile"
                 class="text-center main_red_text text-2xl mb-10 mt-4"
               >
-                Add New Profile Image
+                Add Band Profile Image
               </h2>
               <div v-if="changeProfile" class="flex w-full justify-center">
                 <FormulateInput
@@ -378,7 +395,7 @@ export default {
         console.log('form photos', this.formValues.photos)
       }
       try {
-        if (this.changeProfile) {
+        if (this.profileImage) {
           const formData = new FormData()
           await formData.append('files', this.profileImage)
           const [image] = await this.$strapi.create('upload', formData)

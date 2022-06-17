@@ -3,7 +3,7 @@
     <h1 class="text-center text-5xl main_red_text mt-10">all bands</h1>
     <section
       v-if="bands"
-      class="mx-6 my-10 flex flex-col gap-10 lg:grid lg:grid-cols-3 lg:gap-10"
+      class="mx-6 my-10 flex flex-col gap-10 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-10 xl:grid-cols-4"
     >
       <BandCard
         v-for="(band, index) in bands"

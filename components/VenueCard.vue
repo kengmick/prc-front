@@ -13,6 +13,12 @@
           alt=""
         />
       </div>
+      <div
+        v-else
+        class="w-full h-3/6 flex justify-center items-center bg-black"
+      >
+        <img src="~static/imageIcon.svg" alt="" />
+      </div>
       <div v-if="venue.description" class="h-1/6 pl-6 flex items-center">
         <p>{{ venue.description.split(' ').slice(0, 10).join(' ') }} ...</p>
       </div>
