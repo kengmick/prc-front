@@ -153,7 +153,7 @@
       </div>
       <div v-if="venue.links" class="mt-4">
         <h3 class="text-3xl mb-4">Links</h3>
-        <div v-for="(l, index) in venue.links" :key="link + index">
+        <div v-for="(l, index) in venue.links" :key="l + index">
           <a :href="l.link" class="text-xl">{{ l.link }}</a>
         </div>
       </div>

@@ -1,6 +1,7 @@
 ### Working on
 
 add shows, comments, and merch to venue profile
+
 Video Links of the videos they want played on 24/7 livestream in preferred order
 All pages have a search function and comment function.
 Comments are available for all Logged-In Members.

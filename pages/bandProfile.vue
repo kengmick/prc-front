@@ -1,34 +1,41 @@
 <template>
   <div>
     <div v-if="band">
-      <div
-        style="z-index: -99999999"
-        class="background_custom object-cover para relative h-[500px]"
-        :style="{
-          'background-image': `url(${band.bandProfileImg.url})`,
-        }"
-      >
+      <div v-if="band.bandProfileImg">
         <div
-          :class="load ? 'bottom-20' : 'bottom-0'"
-          class="w-full absolute left-0 h-40 mx-auto transition-all duration-500"
+          style="z-index: -99999999"
+          class="background_custom object-cover para relative h-[500px]"
+          :style="{
+            'background-image': `url(${band.bandProfileImg.url})`,
+          }"
         >
           <div
-            :class="!hide ? '' : 'bg-opacity-80'"
-            class="mx-auto w-11/12 sm:w-3/4 xl:w-1/2 h-40 bg-black transition-all flex flex-col items-center justify-center duration-500"
+            :class="load ? 'bottom-20' : 'bottom-0'"
+            class="w-full absolute left-0 h-40 mx-auto transition-all duration-500"
           >
-            <h1 class="text-white text-2xl sm:text-4xl text-center">
-              {{ band.bandName }}
-            </h1>
             <div
-              :class="!hide ? '' : 'opacity-0 ß'"
-              class="flex transition-all duration-1000"
+              :class="!hide ? '' : 'bg-opacity-80'"
+              class="mx-auto w-11/12 sm:w-3/4 xl:w-1/2 h-40 bg-black transition-all flex flex-col items-center justify-center duration-500"
             >
-              <img src="~/static/red.svg" alt="" />
+              <h1 class="text-white text-2xl sm:text-4xl text-center">
+                {{ band.bandName }}
+              </h1>
+              <div
+                :class="!hide ? '' : 'opacity-0 ß'"
+                class="flex transition-all duration-1000"
+              >
+                <img src="~/static/red.svg" alt="" />
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <section class="mx-auto w-full z-50">
+      <div v-else>
+        <h1 class="text-2xl sm:text-4xl text-center">
+          {{ band.bandName }}
+        </h1>
+      </div>
+      <section v-if="band.bio" class="mx-auto w-full z-50">
         <div
           :class="load ? '-mt-24' : 'mt-0'"
           class="px-6 w-11/12 sm:w-3/4 xl:w-1/2 bg-black lg:px-16 py-10 mx-auto transition-all duration-500 z-50"
@@ -65,7 +72,7 @@
         <h2 v-if="band.photos">Band Photos</h2>
       </div>
       <section
-        v-if="band.photos.length > 0"
+        v-if="band.photos"
         class="flex flex-col sm:grid sm:grid-cols-3 sm:container sm:mx-auto w-full md:w-1/2 sm:gap-4"
       >
         <div v-for="(pic, index) in band.photos" :key="pic + index">
@@ -129,7 +136,7 @@
           <!-- col one of details  -->
 
           <!-- col two of details  -->
-          <div class="w-full sm:w-3/4 flex">
+          <div v-if="band.recordLabel" class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
               <h2
                 class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
@@ -141,7 +148,10 @@
           </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row items-center mb-4">
+        <div
+          v-if="band.members"
+          class="flex flex-col sm:flex-row items-center mb-4"
+        >
           <!-- col one of details  -->
           <!-- col two of details  -->
           <div class="w-full flex">
@@ -193,7 +203,7 @@
         </div>
         <div flex flex-col sm:flex-row items-center mb-4>
           <div
-            v-if="band.contact && band.altContacts.length === 0"
+            v-if="band.contact && !band.altContacts"
             class="w-full sm:w-3/4 flex"
           >
             <div class="w-full mb-6">
@@ -205,7 +215,7 @@
               <p>{{ band.contact }}</p>
             </div>
           </div>
-          <div v-if="band.altContacts.length > 0" class="w-full sm:w-3/4 flex">
+          <div v-if="band.altContacts" class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
               <h2
                 class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
@@ -220,7 +230,7 @@
               </p>
             </div>
           </div>
-          <div class="w-full sm:w-3/4 flex">
+          <div v-if="band.dateStarted" class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
               <h2
                 class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
@@ -247,7 +257,6 @@
                   target="_blank"
                   >{{ link.link }}
                 </a>
-                <pre>{{ link }}</pre>
               </div>
               <h3 v-else>No Links Added ...</h3>
             </div>

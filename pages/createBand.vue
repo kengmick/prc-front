@@ -116,8 +116,9 @@
           </div>
           <section class="px-4 mt-10 sm:m-20">
             <!-- altContact and links -->
-            <h2 class="my-4">Add Contacts</h2>
+
             <div v-if="acc === 2">
+              <h2 class="my-4">Add Contacts</h2>
               <FormulateInput
                 type="group"
                 name="altContacts"
@@ -155,8 +156,9 @@
               </FormulateInput>
             </div>
             <!-- end of links and contacts repeatable  -->
-            <h2 class="my-4">Add Band Members</h2>
+            <h2 v-if="acc === 2" class="my-4">Add Band Members</h2>
             <FormulateInput
+              v-if="acc === 2"
               type="group"
               name="members"
               :repeatable="true"
@@ -197,8 +199,9 @@
                 />
               </div>
             </FormulateInput>
-            <h2 class="text-center mb-10 mt-4">Add Profile Image</h2>
-            <div class="flex w-full justify-center">
+
+            <div v-if="acc === 2" class="flex w-full justify-center">
+              <h2 class="text-center mb-10 mt-4">Add Profile Image</h2>
               <FormulateInput
                 type="image"
                 name="bandProfileImg"
@@ -212,8 +215,10 @@
               />
             </div>
             <!-- logo -->
-            <h2 class="text-center mb-10 mt-4">Add Your band Logo</h2>
-            <div class="flex w-full justify-center">
+            <h2 v-if="acc === 2" class="text-center mb-10 mt-4">
+              Add Your band Logo
+            </h2>
+            <div v-if="acc === 2" class="flex w-full justify-center">
               <FormulateInput
                 type="image"
                 name="logo"
@@ -229,10 +234,11 @@
             <!-- <div v-if="image">
               <img :src="image[0].url" alt="fdsfadsf" />
             </div> -->
-            <h2 class="text-center mb-10 mt-4">
+            <h2 v-if="acc === 2" class="text-center mb-10 mt-4">
               Add Previous Shows Played (optional)
             </h2>
             <FormulateInput
+              v-if="acc === 2"
               type="group"
               name="oldShows"
               :repeatable="true"
@@ -269,8 +275,9 @@
                 />
               </div>
             </FormulateInput>
-            <h2>Add Photos</h2>
+            <h2 v-if="acc === 2">Add Photos</h2>
             <FormulateInput
+              v-if="acc === 2"
               type="group"
               name="photos"
               :repeatable="true"
@@ -294,10 +301,13 @@
               </div>
             </FormulateInput>
 
-            <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+            <h2
+              v-if="acc === 2"
+              class="text-center main_red_text text-2xl mb-10 mt-4"
+            >
               Add Band Bio
             </h2>
-            <div class="flex w-full justify-center">
+            <div v-if="acc === 2" class="flex w-full justify-center">
               <FormulateInput
                 name="bio"
                 type="textarea"
@@ -337,7 +347,7 @@ export default {
       image: '',
       showPosters: [],
       pictures: [],
-      acc: 0,
+      acc: 1,
     }
   },
   async mounted() {
@@ -351,7 +361,7 @@ export default {
     async submitForm() {
       // uploading bandProfileImg
       const members = []
-      if (this.formValues.members) {
+      if (this.formValues.members && this.acc === 2) {
         for (let index = 0; index < this.formValues.members.length; index++) {
           const formData = new FormData()
           formData.append(
@@ -371,7 +381,7 @@ export default {
       this.formValues.members = members
       // getting pictures uploaded
       const pictures = []
-      if (this.formValues.photos.length > 0) {
+      if (this.formValues.photos && this.acc === 2) {
         for (let index = 0; index < this.formValues.photos.length; index++) {
           const formData = new FormData()
           formData.append(
@@ -386,23 +396,30 @@ export default {
         this.pictures = pictures
         this.formValues.photos = pictures
       }
-      try {
-        const formData = new FormData()
-        await formData.append('files', this.profileImage)
-        const [image] = await this.$strapi.create('upload', formData)
-        this.image = image
-        this.formValues.bandProfileImg = image
-      } catch (error) {
-        console.log(error)
+      if (this.profileImage) {
+        try {
+          console.log('profile image ')
+          const formData = new FormData()
+          await formData.append('files', this.profileImage)
+          const [image] = await this.$strapi.create('upload', formData)
+          this.image = image
+          this.formValues.bandProfileImg = image
+          console.log(image)
+        } catch (error) {
+          console.log(error)
+        }
       }
-      try {
-        const formData = new FormData()
-        await formData.append('files', this.logoImage)
-        const [logoImageFinal] = await this.$strapi.create('upload', formData)
-        this.logoImageFinal = logoImageFinal
-        this.formValues.logo = logoImageFinal
-      } catch (error) {
-        console.log(error)
+      if (this.logoImage) {
+        try {
+          console.log('logoImage')
+          const formData = new FormData()
+          await formData.append('files', this.logoImage)
+          const [logoImageFinal] = await this.$strapi.create('upload', formData)
+          this.logoImageFinal = logoImageFinal
+          this.formValues.logo = logoImageFinal
+        } catch (error) {
+          console.log(error)
+        }
       }
       // old shows array
       // making post band to strapi

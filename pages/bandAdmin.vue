@@ -110,8 +110,11 @@
                   />
                 </FormulateInput>
               </div>
-              <h2 class="text-2xl main_red_text mb-6">Add Band Members</h2>
+              <h2 v-if="acc === 2" class="text-2xl main_red_text mb-6">
+                Add Band Members
+              </h2>
               <FormulateInput
+                v-if="acc === 2"
                 type="group"
                 name="members"
                 :repeatable="true"
@@ -164,8 +167,9 @@
                   </div> -->
                 </div>
               </FormulateInput>
-              <h2>Add Photos</h2>
+              <h2 v-if="acc === 2">Add Photos</h2>
               <FormulateInput
+                v-if="acc === 2"
                 type="group"
                 name="photos"
                 :repeatable="true"
@@ -188,7 +192,10 @@
                   />
                 </div>
               </FormulateInput>
-              <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+              <h2
+                v-if="acc === 2"
+                class="text-center main_red_text text-2xl mb-10 mt-4"
+              >
                 {{ band.bandName }} profile image
               </h2>
               <div v-if="currentImage && !changeProfile">
@@ -227,10 +234,13 @@
               <!-- <div v-if="image">
               <img :src="image[0].url" alt="fdsfadsf" />
             </div> -->
-              <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+              <h2
+                v-if="acc === 2"
+                class="text-center main_red_text text-2xl mb-10 mt-4"
+              >
                 Add Band Bio
               </h2>
-              <div class="flex w-full justify-center">
+              <div v-if="acc === 2" class="flex w-full justify-center">
                 <FormulateInput
                   name="bio"
                   type="textarea"
@@ -280,7 +290,7 @@ export default {
   async mounted() {
     try {
       const user = await this.$strapi.findOne('users', this.$strapi.user.id)
-      this.acc = user.acc
+      this.acc = user.acc || 1
     } catch (error) {
       this.$nuxt.error({ statusCode: 404, message: error })
     }
@@ -288,7 +298,9 @@ export default {
       const band = await this.$strapi.findOne('bands', this.$route.query.band)
       this.band = band
       this.formValues = band
-      this.currentImage = band.bandProfileImg.url
+      if (band.bandProfileImg) {
+        this.currentImage = band.bandProfileImg.url
+      }
       this.formValues.members = band.members
       this.pictures = band.pictures || []
     } catch (error) {
@@ -407,7 +419,21 @@ export default {
         this.errorMessage = 'Sorry ... please try again'
         console.log('there was a problem', error)
       }
+      try {
+        const band = await this.$strapi.update(
+          'bands',
+          this.$route.query.band,
+          {
+            ...this.formValues,
+            users_permissions_user: this.$strapi.user.id,
+          }
+        )
+        this.band = band
+      } catch (error) {
+        console.log('error in creating band', error)
+      }
       // after creation take user to band admin
+
       if (this.band) {
         this.$router.push({
           path: '/bandprofile',
