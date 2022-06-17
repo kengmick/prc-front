@@ -547,8 +547,42 @@
         </div>
         <div v-else class="my-4"><h3>No Songs Uploaded</h3></div>
       </section>
-      <section>
+      <section class="container mx-auto">
         <h2>Posts</h2>
+        <section class="my-10">
+          <!-- profileImg.url username, image -->
+          <div v-for="(post, index) in posts" :key="post + index">
+            <div
+              v-if="post.users_permissions_user.profileImg"
+              class="mb-6 flex justify-center"
+            >
+              <div class="flex">
+                <img
+                  class="max-w-[200px]"
+                  :src="post.users_permissions_user.profileImg.url"
+                  alt=""
+                />
+              </div>
+              <div class="w-3/4 ml-10">
+                <h3>
+                  {{ post.users_permissions_user.username }}
+                  <span>{{ post.created_at }}</span>
+                </h3>
+                <p class="speech-bubble text-white w-3/4 p-6">
+                  {{ post.data }} fdsfadsafsda ffdsa fdsaf adsf asdf asdf
+                  asdffdsfadsafsda ffdsa fdsaf adsf asdf asdf asdffdsfadsafsda
+                  ffdsa fdsaf adsf asdf asdf asdffdsfadsafsda ffdsa fdsaf adsf
+                  asdf asdf asdffdsfadsafsda ffdsa fdsaf adsf asdf asdf
+                  asdffdsfadsafsda ffdsa fdsaf adsf asdf asdf asdffdsfadsafsda
+                  ffdsa fdsaf adsf asdf asdf asdffdsfadsafsda ffdsa fdsaf adsf
+                  asdf asdf asdffdsfadsafsda ffdsa fdsaf adsf asdf asdf
+                  asdffdsfadsafsda ffdsa fdsaf adsf asdf asdf asdffdsfadsafsda
+                  ffdsa fdsaf adsf asdf asdf asdf sadf sadf
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </section>
     </div>
   </div>
@@ -585,10 +619,10 @@ export default {
     }
     // get events
 
-    // const posts = await this.$strapi.find('posts', {
-    //   band: this.band.id,
-    // })
-    // this.posts = posts
+    const posts = await this.$strapi.find('posts', {
+      bands: this.band.id,
+    })
+    this.posts = posts
   },
   methods: {
     moment,
@@ -614,5 +648,26 @@ export default {
   background: url('~/static/live_background.png');
   background-clip: text;
   color: transparent;
+}
+
+.speech-bubble {
+  position: relative;
+  background: #000;
+  border-radius: 0.4em;
+}
+
+.speech-bubble:after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 21px solid transparent;
+  border-right-color: #000;
+  border-left: 0;
+  border-top: 0;
+  margin-top: -10.5px;
+  margin-left: -21px;
 }
 </style>
