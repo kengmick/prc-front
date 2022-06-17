@@ -25,6 +25,17 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+              <FormulateInput
+                type="image"
+                name="profileImg"
+                label="Select an profile image to upload"
+                validation="mime:image/jpeg,image/png,image/gif"
+                input-class="w-full  "
+                wrapper-class="m-auto sm:w-4/5 "
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+                @change="profileImage = $event.target.files[0]"
+              />
             </div>
             <div class="flex-grow mb-6 px-4">
               <FormulateInput
@@ -61,18 +72,26 @@ export default {
     return {
       formValues: {},
       errorMessage: '',
+      profileImage: '',
     }
   },
   methods: {
     async submitForm() {
+      if (this.formValues.profileImg) {
+        const formData = new FormData()
+        await formData.append('files', this.profileImage)
+        const [image] = await this.$strapi.create('upload', formData)
+        this.image = image
+        this.formValues.profileImg = image
+      }
       try {
         const user = await this.$strapi.register({
           email: this.formValues.email,
           username: this.formValues.username,
           password: this.formValues.password,
+          profileImg: this.formValues.profileImg || null,
           acc: 1,
         })
-        console.log(user, 'this is user')
         if (user) {
           this.$router.push({ path: 'profile', query: { user: user.id } })
         }

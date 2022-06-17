@@ -1,7 +1,7 @@
 <template>
   <!-- get gallery working  -->
   <div>
-    <section v-if="venue && image" class="container mx-auto mt-6 px-2 sm:px-0">
+    <section v-if="venue" class="container mx-auto mt-6 px-2 sm:px-0">
       <div
         v-if="venue.logo"
         class="flex flex-col sm:flex-row items-center mb-4"
@@ -12,25 +12,36 @@
       <div v-else>
         <h1 class="main_red_text chedder text-center">{{ venue.name }}</h1>
       </div>
-      <div
-        class="h-[500px] back"
-        :style="`background-image: url(${image})`"
-      ></div>
+      <div v-if="venue.venueImg" class="max-h-[500px]">
+        <img
+          class="max-h-[500px] w-full object-cover"
+          :src="venue.venueImg.url"
+          alt=""
+        />
+      </div>
       <!-- gallery  -->
       <!-- media Gallery -->
-      <section v-if="venue.venueImages.length > 0" class="container mx-auto">
-        <h2 class="my-6">Pictures</h2>
+      <section v-if="venue.photos" class="container mx-auto">
+        <h3 class="my-6 text-3xl">Pictures</h3>
         <section
-          class="mx-6 my-10 flex flex-col gap-10 lg:grid lg:grid-cols-3 lg:gap-10"
+          v-if="venue.photos.length > 0"
+          class="mx-6 flex max-h-[350px] flex-col gap-10 lg:grid lg:grid-cols-3 lg:gap-10"
         >
-          <div v-for="(img, index) in venue.venueImages" :key="img.id + index">
-            <img :src="img.url" alt="" />
+          <div v-for="(img, index) in venue.photos" :key="img.pic.url + index">
+            <img
+              class="h-[350px] object-cover w-full"
+              :src="img.pic.url"
+              alt=""
+            />
           </div>
         </section>
       </section>
       <!-- description -->
       <h2 class="mt-4 text-3xl">History/Bio/Message</h2>
-      <div v-if="venue.description.split('\n')" class="mt-6">
+      <div
+        v-if="venue.description && venue.description.split('\n')"
+        class="mt-6"
+      >
         <p
           v-for="(description, index) in venue.description.split('\n')"
           :key="description + index"
@@ -44,7 +55,12 @@
     <section class="container mx-auto px-2 sm:px-0">
       <!-- date started , genre(if applicable ) location streetNumber zip streetName contact -->
       <h3 class="text-3xl my-4">Location</h3>
-      <p v-if="venue.streetNumber" class="text-xl">
+      <p
+        v-if="
+          venue.streetNumber && venue.streetName && venue.city && venue.state
+        "
+        class="text-xl"
+      >
         {{ venue.streetNumber }} {{ venue.streetName }}, {{ venue.city }},
         {{ venue.state }} {{ venue.zip }}
       </p>
@@ -68,10 +84,10 @@
       </div>
       <div v-if="venue.events" class="mt-4">
         <!-- link to punk shows  -->
-        <h3 class="text-3xl mb-4">Showz</h3>
+
         <!-- shows here -->
         <div>
-          <h1 class="text-5xl text-center main_red_text my-6">Showz</h1>
+          <h3 class="text-3xl mb-4">Showz</h3>
           <section class="container mx-auto">
             <div
               v-for="(event, index) in venue.events"
@@ -125,13 +141,28 @@
           </section>
         </div>
       </div>
-      <div v-if="venue.contact" class="mt-4">
-        <!-- link to punk shows  -->
+      <div v-if="venue.altContacts" class="mt-4">
+        <h3 class="text-3xl mb-4">Contacts</h3>
+        <div v-for="(l, index) in venue.altContacts" :key="l + index">
+          <p class="text-xl">{{ l.contact }}</p>
+        </div>
+      </div>
+      <div v-if="venue.contact && !venue.altContacts" class="mt-4">
+        <h3 class="text-3xl mb-4">Contact</h3>
+        <p class="text-xl">{{ venue.contact }}</p>
+      </div>
+      <div v-if="venue.links" class="mt-4">
+        <h3 class="text-3xl mb-4">Links</h3>
+        <div v-for="(l, index) in venue.links" :key="link + index">
+          <a :href="l.link" class="text-xl">{{ l.link }}</a>
+        </div>
+      </div>
+      <div v-if="venue.link && !venue.links" class="mt-4">
         <h3 class="text-3xl mb-4">Links</h3>
         <a :href="venue.link" class="text-xl">{{ venue.link }}</a>
       </div>
     </section>
-    <!-- comments  -->
+
     <!-- comment box -->
     <section class="container mx-auto my-10">
       <h2 class="text-center text-2xl">Comments</h2>
@@ -178,8 +209,8 @@ export default {
         this.$route.query.venue
       )
       this.venue = venue
-      this.image = venue.venueImg.url
-      this.venueImages = venue.venueImages
+      // this.image = venue.venueImg.url
+      // this.venueImages = venue.venueImages
     } catch (error) {
       console.log(error)
     }

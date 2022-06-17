@@ -238,14 +238,16 @@
                 Links
               </h2>
 
-              <div v-if="band.linkOne">
+              <div v-if="band.links">
                 <a
-                  v-if="band.linkOne"
+                  v-for="link in band.links"
+                  :key="link"
                   class="underline-offset-2 underline"
-                  :href="band.linkOne"
+                  :href="link.link"
                   target="_blank"
-                  >{{ band.linkOne }}</a
-                >
+                  >{{ link.link }}
+                </a>
+                <pre>{{ link }}</pre>
               </div>
               <h3 v-else>No Links Added ...</h3>
             </div>
@@ -437,7 +439,7 @@
                 :key="m + index"
                 class="w-full sm:w-[300px] hover:scale-110 transition-all ease-linear duration-200"
               >
-                <a :href="m.productLink" target="_blank">
+                <a :href="`${m.productLink}`" target="_blank">
                   <div v-if="m.productImage">
                     <div
                       v-if="m.productName"

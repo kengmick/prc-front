@@ -1,26 +1,28 @@
 ### Working on
 
-- [x] add country to form
-- [] make contacts component
-- [x] add user account tier (make changeable )
-- [] picture gallery
-- [] add enumerated genres
-- [] add video links
-  Name x
+add shows, comments, and merch to venue profile
+Video Links of the videos they want played on 24/7 livestream in preferred order
+All pages have a search function and comment function.
+Comments are available for all Logged-In Members.
+Comments include: User name, profile picture, comment, and date/time of post.
+Invitation to sign up for Free Membership to Post Comments and Create Profiles.
+Two Advertisement boxes on bottom of Main Page.
+
+=======
 
 Logo x
 
-Genre: “Punk/(subgenre name)”: Old Punk, HardCore, Street/Skate, Oi!, Ska/Surf, Crust, Melodic/Pop, Anarcho/Peace, Other (fill in the blank). working on it now
+Genre: “Punk/(subgenre name)”: Old Punk, HardCore, Street/Skate, Oi!, Ska/Surf, Crust, Melodic/Pop, Anarcho/Peace, Other (fill in the blank). working on it now x
 
-Location: City, State (if inside United States) or City, Country (if outside United States)
+Location: City, State (if inside United States) or City, Country (if outside United States) x
 
 Date Started x
 
-Contacts
+Contacts x
 
 History/Bio/Story/Message x
 
-Pictures
+Pictures x
 
 Members: Name, Photo, Instruments played, dates in band x
 
@@ -34,38 +36,17 @@ Songs: Name, Date Created, History (shown as a link if available) x
 
 Other External Links (videos, websites, etc.) x
 
-Video Links of the videos they want played on 24/7 livestream in preferred order
-
-Venue Profile:
-
-Punk Rock Compound Web-App
-
-Programs thus far used: Nuxt, Strapi, Seahorse, Digital Ocean
-
-Notes For All Pages:
-All pages have a search function and comment function.
-
-Comments are available for all Logged-In Members.
-
-Comments include: User name, profile picture, comment, and date/time of post.
-
-Clicking external and internal links automatically opens that link in a new tab.
-
 Main Page:
 
 24/7 livestream feed near top of Main Page
 
-Two Advertisement boxes on bottom of Main Page.
-
 Punk Rock Compound Logo
 
-Invitation to sign up for Free Membership to Post Comments and Create Profiles.
+SIGN UP: User Name, Profile Picture, Email, Create Password x
 
-SIGN UP: User Name, Profile Picture, Email, Create Password
+LOG IN: User Name, Password x
 
-LOG IN: User Name, Password
-
-NAVIGATION BAR: Band (Profiles),Venue (Profiles), Label/Distro (Profiles), Show (Listings), Tour (Listings), Classified (Listings)
+NAVIGATION BAR: Band (Profiles),Venue (Profiles), Label/Distro (Profiles), Show (Listings), Tour (Listings), Classified (Listings) x
 
 [Eventually Add PRC Merchandise Tab: “Merch”]
 

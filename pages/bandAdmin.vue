@@ -90,31 +90,26 @@
               </div>
             </div>
             <section class="px-4 mt-10 sm:m-20">
-               <div v-if="acc === 2">
-                 <h2 class="text-2xl main_red_text mb-6">Add Contacts</h2>
-               <FormulateInput
-                type="group"
-                name="altContacts"
-                :repeatable="true"
-                label="Add Contacts"
-                add-label="+ Add Contact"
-                wrapper-class="w-full"
-                element-class="w-full"
-              >
-                <div>
+              <div v-if="acc === 2">
+                <h2 class="text-2xl main_red_text mb-6">Add Contacts</h2>
+                <FormulateInput
+                  type="group"
+                  name="altContacts"
+                  :repeatable="true"
+                  label="Add Contacts"
+                  add-label="+ Add Contact"
+                  wrapper-class="w-full"
+                  element-class="w-full"
+                >
                   <FormulateInput
-                    type="image"
-                    name="picture"
-                    label="Select an logo to upload"
-                    help="Select a png, jpg or gif to upload."
-                    validation="mime:image/jpeg,image/png,image/gif"
+                    name="contact"
+                    label="Add Contact"
                     input-class="w-full sm:w-96 "
                     wrapper-class="w-full sm:w-96 "
                     element-class="w-full sm:w-96 "
-                    @change="addPic($event.target.files[0])"
                   />
-                </div>
-               </div>
+                </FormulateInput>
+              </div>
               <h2 class="text-2xl main_red_text mb-6">Add Band Members</h2>
               <FormulateInput
                 type="group"
@@ -254,6 +249,7 @@
                 grouping-class="bg-black"
                 element-class="w-full"
               />
+              <div class="btn_custom" @click="cancel">Cancel</div>
             </div>
           </div>
         </FormulateForm>
@@ -308,6 +304,12 @@ export default {
     },
     toggleImage: function () {
       this.changeProfile = !this.changeProfile
+    },
+    cancel: function () {
+      this.$router.push({
+        path: '/bandprofile',
+        query: { band: this.band.id },
+      })
     },
     async submitForm() {
       // uploading bandProfileImg
