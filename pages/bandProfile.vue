@@ -278,7 +278,7 @@
               :key="event.title + index"
               class="shadow-md w-full min-h-64 my-12 mx-auto flex flex-col sm:flex-row transition-all duration-200 hover:scale-105"
             >
-              <div v-if="event.eventPoster" class="w-fullsm:w-1/3 h-64">
+              <div v-if="event.eventPoster" class="w-full sm:w-1/2 h-64">
                 <img
                   class="h-full w-full object-cover"
                   :src="event.eventPoster.url"
@@ -691,6 +691,7 @@ export default {
       post: '',
       postValue: false,
       message: 'type something here to share',
+      events: [],
     }
   },
   async mounted() {

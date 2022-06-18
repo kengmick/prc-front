@@ -93,31 +93,42 @@
       </div>
     </div>
     <!-- mobile nav -->
-    <div
-      class="block md:hidden main_page_padding_left_right grid_half main-bar-container"
-    >
+    <div class="flex md:hidden px-4 main-bar-container">
       <!-- main logo -->
-      <NuxtLink to="/">
+
+      <div class="w-full">
+        <NuxtLink to="/">
+          <img
+            class="logo"
+            src="~/static/logo-prc.svg"
+            alt=""
+            @click="mobileTopNav"
+          />
+        </NuxtLink>
+      </div>
+      <!-- mobile menu icon  -->
+      <div class="flex flex-grow w-full justify-end">
         <img
-          class="logo"
-          src="~/static/logo-prc.svg"
+          :class="{ open: isOpen, scroll: hasScrolled }"
+          class="menu fixed z-50 transition-all duration-200 ease-linear top-[110px] h-[30px] w-[30px]"
+          :src="`/${menuIcon}`"
           alt=""
-          @click="mobileTopNav"
+          @click="toggleMenu"
         />
-      </NuxtLink>
-      <img class="menu" src="~/static/menu.svg" alt="" @click="toggleMenu" />
-      <div class="flex justify-between">
+      </div>
+      <!-- <div class="flex justify-between">
         <div v-if="!$strapi.user" @click="toggleMenu">
           <NuxtLink class="chedder text-2xl" to="/signup">signup</NuxtLink>
         </div>
         <div v-if="!$strapi.user" @click="mobileTopNav">
           <NuxtLink class="chedder text-2xl" to="/loginuser">Sign In</NuxtLink>
         </div>
-      </div>
+      </div> -->
     </div>
+    <!-- 136 plus 56  192 -->
     <section
-      class="z-20 h-[calc(100vh-192px)] text-white flex flex-col justify-around items-center w-screen bg-red-500 fixed py-20 md:py-32 lg:py-40 transition-all ease-in-out duration-200"
-      :class="isOpen ? ' ' : 'translate-x-full'"
+      class="z-20 h-[100vh] text-white flex flex-col justify-around items-center w-screen bg-red-500 fixed top-0 py-20 md:py-32 lg:py-40 transition-all ease-in-out duration-200 translate-x-full"
+      :class="isOpen ? 'translate-x-0' : ' opacity-0'"
     >
       <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>
@@ -169,12 +180,31 @@ export default {
   data() {
     return {
       isOpen: false,
+      menuIcon: 'menu.svg',
+      hasScrolled: false,
     }
   },
+  beforeMount() {
+    window.addEventListener('scroll', this.handleScroll)
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll)
+  },
+
   methods: {
+    handleScroll() {
+      // Your scroll handling here
+      if (window.scrollY >= 56) {
+        this.hasScrolled = true
+      }
+      if (window.scrollY <= 36) {
+        this.hasScrolled = false
+      }
+    },
     mobileTopNav() {
       if (this.isOpen) {
         this.isOpen = false
+        this.menuIcon = 'menu.svg'
       }
     },
     toggleMenu() {
@@ -182,8 +212,10 @@ export default {
       const bodyElement = document.querySelectorAll('body')[0]
       if (this.isOpen) {
         bodyElement.style = 'overflow:hidden;'
+        this.menuIcon = 'close.svg'
       } else {
         bodyElement.style = ''
+        this.menuIcon = 'menu.svg'
       }
     },
     logoutMobile() {
@@ -223,6 +255,15 @@ export default {
 }
 .menu {
   justify-self: self-end;
+}
+.open {
+  top: 36px;
+}
+.scroll {
+  top: 25px;
+}
+.close {
+  top: 136px;
 }
 @media (max-width: 360px) {
   .contact-text {
