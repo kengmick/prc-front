@@ -8,7 +8,11 @@
         class="shadow-md w-full h-full flex flex-col ms:h-64 sm:my-12 sm:mx-auto sm:flex-row transition-all duration-200 hover:scale-105"
       >
         <div v-if="event.eventPoster" class="w-full sm:w-1/3 h-64">
-          <img class="h-full w-full" :src="event.eventPoster.url" alt="" />
+          <img
+            class="h-full w-full object-cover"
+            :src="event.eventPoster.url"
+            alt=""
+          />
         </div>
         <div class="p-6">
           <p class="chedder text-xl inline sm:text-center sm:block">

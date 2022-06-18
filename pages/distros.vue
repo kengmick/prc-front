@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="container mx-auto">
     <h1 class="text-center text-3xl main_red_text mt-10">Distros/Labels</h1>
     <section
       v-if="distros"
-      class="mx-6 my-10 flex flex-col gap-10 lg:grid lg:grid-cols-3 lg:gap-10"
+      class="mx-6 my-10 flex flex-col gap-6 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-10"
     >
       <DistroCard
         v-for="(distro, index) in distros"

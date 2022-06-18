@@ -116,9 +116,8 @@
       </div>
     </div>
     <section
-      v-show="isOpen"
-      class="z-20 flex flex-col justify-around items-center w-screen bg-red-500 fixed py-20 md:py-32 lg:py-40"
-      :class="isOpen ? 'h-[calc(100vh-192px)] ' : 'h-0'"
+      class="z-20 h-[calc(100vh-192px)] text-white flex flex-col justify-around items-center w-screen bg-red-500 fixed py-20 md:py-32 lg:py-40 transition-all ease-in-out duration-200"
+      :class="isOpen ? ' ' : 'translate-x-full'"
     >
       <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>

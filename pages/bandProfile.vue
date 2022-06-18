@@ -270,7 +270,67 @@
         <h2 class="text-3xl main_red_text underline underline-offset-2 pb-6">
           Showz
         </h2>
-        <div v-if="band.events" class="mb-6">
+
+        <div v-if="events" class="container mx-auto">
+          <section v-if="events.length > 0" class="container mx-auto">
+            <div
+              v-for="(event, index) in events"
+              :key="event.title + index"
+              class="shadow-md w-full min-h-64 my-12 mx-auto flex flex-col sm:flex-row transition-all duration-200 hover:scale-105"
+            >
+              <div v-if="event.eventPoster" class="w-fullsm:w-1/3 h-64">
+                <img
+                  class="h-full w-full object-cover"
+                  :src="event.eventPoster.url"
+                  alt=""
+                />
+              </div>
+              <div class="p-6">
+                <p class="chedder text-xl text-center inline-block sm:block">
+                  {{ moment(String(event.date)).format('MMM') }}
+                </p>
+                <p class="chedder text-xl text-center inline-block sm:block">
+                  {{ moment(String(event.date)).format('Do') }}
+                </p>
+              </div>
+              <div class="flex flex-col flex-grow p-6">
+                <div>
+                  <p v-if="event.title" class="chedder text-2xl">
+                    {{ event.title }}
+                  </p>
+                  <p v-if="event.headlinerOne" class="text-xl font-black pb-2">
+                    Featuring {{ event.headlinerOne }}
+                  </p>
+                  <p
+                    v-if="event.streetAddress && event.streetName"
+                    class="text-xl"
+                  >
+                    The Vic, {{ event.streetAddress }} {{ event.streetName }} /
+                    {{ moment(String(event.date)).format('LT') }} -
+                    {{ moment(event.timeEnds, 'h').format('LT') }}
+                  </p>
+                  <p v-if="event.city && event.state" class="text-xl">
+                    {{ event.city }}, {{ event.state }}
+                  </p>
+                </div>
+                <div class="flex-grow flex items-center mt-6 sm:mt-2">
+                  <NuxtLink
+                    :to="{
+                      path: 'eventview',
+                      query: { event: event.id },
+                    }"
+                    class="border-2 border-black px-4 py-2"
+                    >View Event</NuxtLink
+                  >
+                </div>
+              </div>
+            </div>
+          </section>
+          <section v-else class="container mx-auto">
+            <h3>No Showz Added</h3>
+          </section>
+        </div>
+        <!-- <div v-if="band.events" class="mb-6">
           <div v-if="band.events.length > 0">
             <section class="mx-auto">
               <div
@@ -326,8 +386,9 @@
               </div>
             </section>
           </div>
-        </div>
-        <div v-else class="my-6"><h3>No Upcoming Showz</h3></div>
+        </div> -->
+        <!-- <div v-else class="my-6"><h3>No Upcoming Showz</h3></div> -->
+
         <!-- <section v-if="band.oldShows" class="container mx-auto">
           <h2>Historic Shows</h2>
           <div v-for="(show, index) in band.oldShows" :key="show + index">
@@ -549,7 +610,7 @@
       </section>
       <section class="container mx-auto">
         <h2>Posts</h2>
-        <section class="my-10">
+        <section class="mt-10 sm:mb-10">
           <!-- profileImg.url username, image -->
           <div v-for="(post, index) in posts" :key="post + index">
             <div
@@ -579,7 +640,7 @@
           </div>
           <!-- add post bod  -->
           <div class="w-full mx-auto">
-            <div class="w-full flex justify-center items-center px-4 sm:px-0">
+            <div class="w-full flex justify-center items-center sm:px-0">
               <textarea
                 class="w-full sm:w-3/4 p-4 border-[1px] border-gray-400 mx-auto focus-visible:border-black post_input"
                 placeholder="type something here to share ..."
@@ -638,13 +699,14 @@ export default {
       const band = await this.$strapi.findOne('bands', this.$route.query.band)
       this.band = band
       this.userPermission = band.users_permissions_user.id
-      const bandEvents = await this.$strapi.find('events', {
-        title: band.title,
+      const id = [...this.band.events]
+      const ids = await id.map((e) => {
+        return ['id', e.id]
       })
-      this.bandEvents = bandEvents
-      console.log(bandEvents)
+      const events = await this.$strapi.find('events', ids)
+      this.events = events
     } catch (error) {
-      return error
+      console.log(error, 'there was an error ')
     }
     // get events
 
@@ -726,6 +788,9 @@ export default {
   border-top: 0;
   margin-top: -10.5px;
   margin-left: -21px;
+}
+textarea {
+  resize: none;
 }
 textarea:focus-visible {
   outline-color: rgba(128, 128, 128, 0.797);
