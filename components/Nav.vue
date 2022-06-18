@@ -76,9 +76,9 @@
             >Classifieds</NuxtLink
           >
         </div>
-        <div>
+        <!-- <div>
           <NuxtLink class="chedder text-2xl" to="/Merch">Merch</NuxtLink>
-        </div>
+        </div> -->
 
         <div v-if="$strapi.user">
           <div>
@@ -143,9 +143,9 @@
           >Classifieds</NuxtLink
         >
       </div>
-      <div @click="toggleMenu">
+      <!-- <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/merch">Merch</NuxtLink>
-      </div>
+      </div> -->
       <div v-if="$strapi.user" @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/profile">profile</NuxtLink>
       </div>

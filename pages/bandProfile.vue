@@ -1,12 +1,12 @@
 <template>
   <div>
     <div v-if="band">
-      <div v-if="band.bandProfileImg">
+      <div v-if="band.ProfileImg">
         <div
           style="z-index: -99999999"
           class="background_custom object-cover para relative h-[500px]"
           :style="{
-            'background-image': `url(${band.bandProfileImg.url})`,
+            'background-image': `url(${band.ProfileImg.url})`,
           }"
         >
           <div
@@ -553,32 +553,58 @@
           <!-- profileImg.url username, image -->
           <div v-for="(post, index) in posts" :key="post + index">
             <div
-              v-if="post.users_permissions_user.profileImg"
+              v-if="post.users_permissions_user"
               class="mb-6 flex justify-center"
             >
-              <div class="flex">
+              <div
+                v-if="post.users_permissions_user.profileImg"
+                class="flex rounded-full w-20 h-20"
+              >
                 <img
-                  class="max-w-[200px]"
+                  class="max-w-[200px] object-cover h-12 w-12 sm:w-20 sm:h-20 rounded-full"
                   :src="post.users_permissions_user.profileImg.url"
                   alt=""
                 />
               </div>
-              <div class="w-3/4 ml-10">
+              <div class="w-full sm:1/2 ml-10">
                 <h3>
                   {{ post.users_permissions_user.username }}
                   <span>{{ post.created_at }}</span>
                 </h3>
-                <p class="speech-bubble text-white w-3/4 p-6">
-                  {{ post.data }} fdsfadsafsda ffdsa fdsaf adsf asdf asdf
-                  asdffdsfadsafsda ffdsa fdsaf adsf asdf asdf asdffdsfadsafsda
-                  ffdsa fdsaf adsf asdf asdf asdffdsfadsafsda ffdsa fdsaf adsf
-                  asdf asdf asdffdsfadsafsda ffdsa fdsaf adsf asdf asdf
-                  asdffdsfadsafsda ffdsa fdsaf adsf asdf asdf asdffdsfadsafsda
-                  ffdsa fdsaf adsf asdf asdf asdffdsfadsafsda ffdsa fdsaf adsf
-                  asdf asdf asdffdsfadsafsda ffdsa fdsaf adsf asdf asdf
-                  asdffdsfadsafsda ffdsa fdsaf adsf asdf asdf asdffdsfadsafsda
-                  ffdsa fdsaf adsf asdf asdf asdf sadf sadf
+                <p class="speech-bubble text-white p-2">
+                  {{ post.data }}
                 </p>
+              </div>
+            </div>
+          </div>
+          <!-- add post bod  -->
+          <div class="w-full mx-auto">
+            <div class="w-full flex justify-center items-center px-4 sm:px-0">
+              <textarea
+                class="w-full sm:w-3/4 p-4 border-[1px] border-gray-400 mx-auto focus-visible:border-black post_input"
+                placeholder="type something here to share ..."
+                @change="postValue = $event.target.value"
+              >
+              </textarea>
+            </div>
+            <div
+              class="border-[1px] border-gray-400 w-full sm:w-3/4 mx-auto flex"
+            >
+              <div
+                class="flex items-center justify-center p-6 border-r-[.5px] border-black cursor-pointer"
+                @click="sendPost(postValue)"
+              >
+                <h3><span class="pr-2">💬</span> Send</h3>
+              </div>
+              <div
+                class="flex items-center justify-center p-6 border-[.5px] border-black"
+              >
+                <img
+                  class="h-4 inline pr-2"
+                  src="~/static/imageIcon.svg"
+                  alt=""
+                />
+                <h3>Add Image</h3>
               </div>
             </div>
           </div>
@@ -601,6 +627,9 @@ export default {
       videos: [],
       posts: [],
       formValues: {},
+      post: '',
+      postValue: false,
+      message: 'type something here to share',
     }
   },
   async mounted() {
@@ -626,6 +655,30 @@ export default {
   },
   methods: {
     moment,
+    setVal: function (val) {
+      console.log(val, 'val')
+      this.postValue = val
+    },
+    async sendPost(val) {
+      try {
+        if (this.postValue) {
+          await this.$strapi.create('posts', {
+            bands: this.band.id,
+            data: this.postValue,
+            users_permissions_user: this.$strapi.user.id,
+          })
+          const posts = await this.$strapi.find('posts', {
+            bands: this.band.id,
+          })
+          const ele = document.getElementById('inputVal')
+          ele.value = ''
+          this.postValue = false
+          this.posts = posts
+        }
+      } catch (error) {
+        console.log('error saving post ', error)
+      }
+    },
   },
 }
 </script>
@@ -638,7 +691,11 @@ export default {
   text-align: center;
   margin-bottom: 1em;
 }
-
+.custom_border {
+  border: 0.5px solid rgba(128, 128, 128, 0.814);
+  border-radius: 10%;
+  padding: 1em;
+}
 .background_custom {
   background-position: center center;
   background-size: fill;
@@ -669,5 +726,12 @@ export default {
   border-top: 0;
   margin-top: -10.5px;
   margin-left: -21px;
+}
+textarea:focus-visible {
+  outline-color: rgba(128, 128, 128, 0.797);
+}
+
+.post_input {
+  outline: none;
 }
 </style>
