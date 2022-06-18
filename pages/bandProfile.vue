@@ -1,33 +1,14 @@
 <template>
   <div>
     <div v-if="band">
-      <div v-if="band.ProfileImg">
-        <div
-          style="z-index: -99999999"
-          class="background_custom object-cover para relative h-[500px]"
-          :style="{
-            'background-image': `url(${band.ProfileImg.url})`,
-          }"
-        >
-          <div
-            :class="load ? 'bottom-20' : 'bottom-0'"
-            class="w-full absolute left-0 h-40 mx-auto transition-all duration-500"
-          >
-            <div
-              :class="!hide ? '' : 'bg-opacity-80'"
-              class="mx-auto w-11/12 sm:w-3/4 xl:w-1/2 h-40 bg-black transition-all flex flex-col items-center justify-center duration-500"
-            >
-              <h1 class="text-white text-2xl sm:text-4xl text-center">
-                {{ band.bandName }}
-              </h1>
-              <div
-                :class="!hide ? '' : 'opacity-0 ß'"
-                class="flex transition-all duration-1000"
-              >
-                <img src="~/static/red.svg" alt="" />
-              </div>
-            </div>
-          </div>
+      <div v-if="band.bandProfileImg">
+        <!-- image here  -->
+        <div class="w-full h-[40vh] z-0">
+          <img
+            class="object-cover h-[40vh] w-full z-0"
+            :src="band.bandProfileImg.url"
+            alt=""
+          />
         </div>
       </div>
       <div v-else>
@@ -38,8 +19,13 @@
       <section v-if="band.bio" class="mx-auto w-full z-50">
         <div
           :class="load ? '-mt-24' : 'mt-0'"
-          class="px-6 w-11/12 sm:w-3/4 xl:w-1/2 bg-black lg:px-16 py-10 mx-auto transition-all duration-500 z-50"
+          class="px-6 w-11/12 sm:w-3/4 xl:w-1/2 bg-black lg:px-16 py-10 mx-auto transition-all duration-500 z-50 translate-y-[-100px]"
         >
+          <h2
+            class="text-white text-2xl sm:text-4xl text-center sm:text-left mb-14"
+          >
+            {{ band.bandName }}
+          </h2>
           <h2
             class="text-white text-2xl sm:text-4xl text-center sm:text-left mb-14"
           >
