@@ -219,6 +219,7 @@ Date (internal link for Showz that have Listing)
 Venue Name (internal link if Venue has Profile)
 
 Location: City, State (if inside United States) or City, Country (if outside United States)
+tour poster
 
 Classified Listing:
 

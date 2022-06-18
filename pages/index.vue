@@ -27,11 +27,14 @@
         />
       </SliderContainer>
     </section>
+
     <section class="my-10">
       <h2 class="chedder text-center text-5xl">Featured Event</h2>
       <FeaturedEvent v-if="event" :event="event" />
     </section>
-
+    <section class="my-10">
+      <Cta />
+    </section>
     <section>
       <NewsLetterCta />
     </section>

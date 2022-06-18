@@ -238,6 +238,7 @@ export default {
       venueImages: [],
       posts: [],
       postValue: false,
+      events: [],
     }
   },
 
