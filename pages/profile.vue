@@ -1,6 +1,7 @@
 <template>
   <div class="px-2">
     <!-- user profile  -->
+    fdsafsdaf
     <section class="md:container md:mx-auto">
       <div
         v-if="user"
