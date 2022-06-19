@@ -71,6 +71,17 @@
                 errors-class="sm:w-4/5 m-auto"
               />
               <FormulateInput
+                name="country"
+                label="Country other than the USA"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+                @change="formValues.country = $event.target.values"
+              />
+              <FormulateInput
+                v-if="
+                  !formValues.country && formValues.country !== 'United States'
+                "
                 name="state"
                 label="State"
                 wrapper-class="m-auto sm:w-4/5 "

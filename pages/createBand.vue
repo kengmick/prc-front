@@ -86,6 +86,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                @change="formValues.country = $event.target.value"
               />
               <FormulateInput
                 name="city"
@@ -96,7 +97,7 @@
               />
               <FormulateInput
                 v-if="
-                  !formValues.country || formValues.coutry !== 'United States'
+                  !formValues.country && formValues.coutry !== 'United States'
                 "
                 name="state"
                 label="Home state?"

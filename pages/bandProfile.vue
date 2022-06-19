@@ -19,7 +19,7 @@
       <section v-if="band.bio" class="mx-auto w-full z-50">
         <div
           :class="load ? '-mt-24' : 'mt-0'"
-          class="px-6 w-11/12 sm:w-3/4 xl:w-1/2 bg-black lg:px-16 py-10 mx-auto transition-all duration-500 z-50 translate-y-[-100px]"
+          class="px-6 w-11/12 sm:w-3/4 xl:w-3/4 bg-black lg:px-16 py-10 mx-auto transition-all duration-500 z-50 translate-y-[-100px]"
         >
           <h2
             class="text-white text-2xl sm:text-4xl text-center sm:text-left mb-14"
@@ -503,8 +503,12 @@
                     >
                       <h3 class="text-white">{{ m.productName }}</h3>
                     </div>
-                    <div>
-                      <img :src="m.productImage.url" alt="" />
+                    <div class="flex justify-center items-center">
+                      <img
+                        class="object-cover h-[300px]"
+                        :src="m.productImage.url"
+                        alt=""
+                      />
                     </div>
                     <div class="p-2 bg-black text-white">
                       <div v-if="m.productLink">
