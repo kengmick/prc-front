@@ -40,10 +40,10 @@
 
     <!-- events -->
     <div v-if="events && tour" class="container mx-auto">
-      <h1 class="text-5xl main_red_text my-6">Showz</h1>
-      <div v-if="user">
+      <h3 class="text-3xl my-6">Showz</h3>
+      <div v-if="user" class="px-2 my-6">
         <div
-          class="inline-flex items-center border-2 border-black px-4 py-2 cursor-pointer"
+          class="flex justify-center sm:inline-flex items-center border-2 border-black px-4 py-2 cursor-pointer"
           @click="addEventForm"
         >
           <svg
@@ -61,7 +61,7 @@
               d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
             />
           </svg>
-          <h3 class="text-3xl pl-2">Add Show To Tour</h3>
+          <h3 class="text-2xl pl-2 w-auto">Add Show To Tour</h3>
         </div>
       </div>
       <!-- add event form here  -->
@@ -361,7 +361,7 @@
       </section>
     </div>
     <section class="container mx-auto">
-      <h2>Posts</h2>
+      <h3 class="text-3xl">Posts</h3>
       <section class="my-10">
         <!-- profileImg.url username, image -->
         <div v-for="(post, index) in posts" :key="post + index">
@@ -395,21 +395,23 @@
             <textarea
               id="inputVal"
               name="inputVal"
-              class="w-3/4 p-4 border-[1px] border-gray-400 mx-auto focus-visible:border-black post_input"
+              class="w-full sm:w-3/4 p-4 border-[1px] border-gray-400 mx-auto focus-visible:border-black post_input"
               placeholder="type something here to share ..."
               @change="postValue = $event.target.value"
             >
             </textarea>
           </div>
-          <div class="border-[1px] border-gray-400 w-3/4 mx-auto flex">
+          <div
+            class="border-[1px] border-gray-400 w-full sm:w-3/4 mx-auto flex"
+          >
             <div
-              class="flex items-center justify-center p-6 border-r-2 border-black"
+              class="flex flex-grow w-full items-center justify-center p-6 border-r-2 border-black"
               @click="sendPost"
             >
               <h3><span class="pr-2">💬</span> Send</h3>
             </div>
             <div
-              class="flex items-center justify-center p-6 border-r-2 border-black"
+              class="flex flex-grow w-full items-center justify-center p-6 border-r-2 border-black"
             >
               <img
                 class="h-4 inline pr-2"

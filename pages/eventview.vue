@@ -9,7 +9,7 @@
       </div>
       <!-- edit button  -->
       <section v-if="user">
-        <div class="flex-grow flex items-center my-12 w-[450px]">
+        <div class="flex-grow flex items-center my-12 w-full md:w-[450px]">
           <NuxtLink
             v-if="user"
             :to="{
