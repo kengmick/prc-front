@@ -1,31 +1,97 @@
 <template>
   <div>
-    <!-- has band venue classified events  -->
-    <!-- needs tours record lables albums songs videos  -->
-    <div v-if="user" class="container mx-auto mt-10">
-      <div class="hidden" @click="accountUpdate">Update Account</div>
-
-      <div v-if="user.profileImg">
-        <!-- <pre>{{ user }}</pre> -->
-        <img class="h-[250px]" :src="user.profileImg.url" alt="" />
-      </div>
-      <div v-else>
-        <!-- <pre>{{ user }}</pre> -->
-        <img
-          src="https://cdn.dribbble.com/users/6142/screenshots/5679189/media/1b96ad1f07feee81fa83c877a1e350ce.png?compress=1&resize=400x300&vertical=top"
-          alt=""
-        />
-      </div>
-      <p class="text-2xl mt-2">Welcome {{ user.username }}</p>
-      <p class="text-2xl mt-2">Email : {{ user.email }}</p>
-      <p class="text-2xl mt-2">Password : {{ user.password }}</p>
-      <p
-        v-if="!updateForm"
-        @click="update"
-        class="border bottom-2 border-black py-4 px-2 text-center"
+    <!-- user profile  -->
+    <section class="md:container md:mx-auto">
+      <div
+        v-if="user"
+        class="mx-auto flex flex-col md:flex-row justify-center md:justify-start md:my-12"
       >
-        Edit user details
-      </p>
+        <div class="sm:w-3/5 md:w-2/5">
+          <div v-if="user.profileImg">
+            <img :src="user.profileImg.url" alt="" class="w-full" />
+          </div>
+          <div
+            v-else
+            class="full bg-black h-[300px] flex justify-center items-center"
+          >
+            <img src="~/static/imageIcon.svg" alt="" class="w-12" />
+          </div>
+          <div class="bg-black text-white chedder p-6 w-full">
+            {{ user.username }}
+          </div>
+
+          <div class="hidden md:block my-6 w-full">
+            <div class="w-full">
+              <div
+                class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full"
+                @click="update"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="currentColor"
+                  class="bi bi-plus-circle"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                  />
+                  <path
+                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                  />
+                </svg>
+                <h3 class="text-3xl pl-2 text-center">Edit User</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sm:px-6 py-2">
+          <p class="m-2">
+            <span
+              class="px-4 py-2 mr-4 font-bold chedder inline-block sm:w-[150px]"
+              >Account Tier</span
+            >{{ user.acc }}
+          </p>
+          <hr />
+          <p class="m-2">
+            <span
+              class="px-4 py-2 mr-4 text-black font-bold chedder inline-block sm:w-[150px]"
+              >Account Email</span
+            >{{ user.email }}
+          </p>
+          <hr />
+
+          <div class="block md:hidden my-6">
+            <div class="w-full">
+              <div
+                class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full"
+                @click="update"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="currentColor"
+                  class="bi bi-plus-circle"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                  />
+                  <path
+                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                  />
+                </svg>
+                <h3 class="text-3xl pl-2 text-center">Edit User</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Edit user forms  -->
+    <section class="container mx-auto">
       <FormulateForm v-model="formValues"
         ><div v-if="updateForm">
           <FormulateInput
@@ -73,811 +139,155 @@
           </p>
         </div>
       </FormulateForm>
+    </section>
+
+    <!-- Add Bands  -->
+    <div class="container mx-auto">
+      <div class="w-full">
+        <NuxtLink to="/createband">
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-2/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Add Bands</h3>
+          </div>
+        </NuxtLink>
+      </div>
     </div>
-    <div v-if="$strapi.user" class="container mx-auto my-10">
-      <div v-if="bands" class="hidden sm:block">
-        <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
-          <p class="text-2xl chedder text-white flex-grow">Band Profiles</p>
-          <div>
-            <nuxtLink
-              :to="{ path: '/createband' }"
-              class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
-              >+ Create Band
-            </nuxtLink>
+    <!-- show band here  -->
+    <section v-if="bands" class="w-full container mx-auto my-10">
+      <div
+        class="flex flex-col sm:grid sm:grid-cols-2 md:grid-cols-3 gap-10 items-center justify-center"
+      >
+        <BandCard
+          v-for="(band, index) in bands"
+          :key="band.bandName + index"
+          :band="band"
+        />
+      </div>
+    </section>
+    <!-- end show band  -->
+    <div class="container mx-auto my-6">
+      <div class="w-full">
+        <NuxtLink to="/createevent">
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-2/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Add Events</h3>
           </div>
-        </div>
-        <table class="w-screen sm: full">
-          <tr>
-            <th>Band Name</th>
-            <th>Date Created</th>
-            <th>Actions</th>
-          </tr>
+        </NuxtLink>
+      </div>
+    </div>
+    <!-- show venues  -->
+    <!-- venue end here  -->
+    <div class="container mx-auto my-6">
+      <div class="w-full">
+        <NuxtLink to="/createVenue">
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-2/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Add Venues</h3>
+          </div>
+        </NuxtLink>
+      </div>
+    </div>
+    <!-- show classifed -->
 
-          <tr v-for="(band, index) in bands" :key="band.bandName + index">
-            <td>{{ band.bandName }}</td>
-            <td>{{ moment(String(band.created_at)).format('MMM Do') }}</td>
-            <td>
-              <div class="flex gap-6">
-                <nuxtLink
-                  :to="{ path: '/bandprofile', query: { band: band.id } }"
-                  class="btn_custom"
-                  >View
-                </nuxtLink>
-                <nuxtLink
-                  :to="{
-                    path: '/bandadmin',
-                    query: { band: band.id },
-                  }"
-                  class="btn_custom"
-                  >Edit</nuxtLink
-                >
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div v-if="bands" class="block px-2 sm:hidden">
-        <!-- lable section, create band button, band title, date created, view, edit -->
-        <!-- card Container -->
-        <div class="flex">
-          <h3 class="text-3xl flex-grow mb-4">Bands</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{ path: '/createband' }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Create Band</NuxtLink
+    <div class="container mx-auto my-6">
+      <div class="w-full">
+        <NuxtLink to="/classifiedcreate">
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-2/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
             >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Add Classified</h3>
           </div>
-        </div>
-        <section class="shadow-xl h-[400px] overflow-auto">
-          <ul>
-            <li
-              v-for="(band, index) in bands"
-              :key="band.bandName + index"
-              class="flex flex-col py-4"
-            >
-              <p class="flex-grow text-xl font-bold">{{ band.bandName }}</p>
-              <p class="flex-grow texl-lg font-bold">
-                Created on
-                {{ moment(String(band.created_at)).format('MMM Do') }}
-              </p>
-              <div class="mt-4">
-                <NuxtLink
-                  :to="{ path: '/bandprofile', query: { band: band.id } }"
-                  class="chedder py-2 px-4 border-2 border-black"
-                >
-                  View</NuxtLink
-                >
-                <NuxtLink
-                  :to="{
-                    path: '/bandadmin',
-                    query: { band: band.id },
-                  }"
-                  class="chedder py-2 px-4 border-2 border-black ml-2"
-                  >Edit</NuxtLink
-                >
-              </div>
-            </li>
-          </ul>
-        </section>
+        </NuxtLink>
       </div>
-      <!-- Classifieds -->
-      <div v-if="classifieds" class="mt-6 hidden sm:block">
-        <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
-          <p class="text-2xl chedder text-white flex-grow">Classifieds</p>
-          <div>
-            <nuxtLink
-              :to="{ path: '/createclassified' }"
-              class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
-              >+ Create Classified
-            </nuxtLink>
-          </div>
-        </div>
-        <table class="w-full">
-          <tr>
-            <th>Article Title</th>
-            <th>Date Created</th>
-            <th>Actions</th>
-          </tr>
+    </div>
 
-          <tr v-for="article in classifieds" :key="article.name">
-            <td>{{ article.title }}</td>
-            <td>{{ moment(String(article.created_at)).format('MMM Do') }}</td>
-            <td>
-              <div class="flex gap-6">
-                <nuxtLink
-                  :to="{
-                    path: '/classifiedview',
-                    query: { article: article.id },
-                  }"
-                  class="btn_custom"
-                  >View
-                </nuxtLink>
-                <nuxtLink
-                  :to="{
-                    path: '/classifiededit',
-                    query: { article: article.id },
-                  }"
-                  class="btn_custom"
-                  >Edit</nuxtLink
-                >
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div v-if="classifieds" class="block px-2 sm:hidden">
-        <!-- lable section, create band button, band title, date created, view, edit -->
-        <!-- card Container -->
-        <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Classifieds</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{ path: '/classifiedcreate' }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Classified</NuxtLink
+    <div class="container mx-auto my-6">
+      <div class="w-full">
+        <NuxtLink to="/createVenue">
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-2/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
             >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Add Releases</h3>
           </div>
-        </div>
-        <section class="shadow-xl h-[400px] overflow-auto">
-          <ul>
-            <li
-              v-for="(article, index) in classifieds"
-              :key="article.title + index"
-              class="flex flex-col py-4"
-            >
-              <p class="flex-grow text-xl font-bold">{{ article.title }}</p>
-              <p class="flex-grow texl-lg font-bold">
-                Created on
-                {{ moment(String(article.created_at)).format('MMM Do') }}
-              </p>
-              <div class="mt-4">
-                <NuxtLink
-                  :to="{
-                    path: '/classifiedview',
-                    query: { article: article.id },
-                  }"
-                  class="chedder py-2 px-4 border-2 border-black"
-                >
-                  View</NuxtLink
-                >
-                <NuxtLink
-                  :to="{
-                    path: '/classifiededit',
-                    query: { article: article.id },
-                  }"
-                  class="chedder py-2 px-4 border-2 border-black ml-2"
-                  >Edit</NuxtLink
-                >
-              </div>
-            </li>
-          </ul>
-        </section>
-      </div>
-      <!-- venues -->
-      <!-- desktop venue -->
-      <div v-if="venues.length > 0" class="mt-6 hidden sm:block">
-        <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
-          <p class="text-2xl chedder text-white flex-grow">Venues</p>
-          <div>
-            <nuxtLink
-              :to="{ path: '/createVenue' }"
-              class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
-              >+ Create Venue
-            </nuxtLink>
-          </div>
-        </div>
-        <table class="w-full">
-          <tr>
-            <th>Venue Name</th>
-            <th>Date Created</th>
-            <th>Actions</th>
-          </tr>
-
-          <tr v-for="(venue, index) in venues" :key="venue.name + index">
-            <td>{{ venue.name }}</td>
-            <td>{{ moment(String(venue.created_at)).format('MMM Do') }}</td>
-            <td>
-              <div class="flex gap-6">
-                <nuxtLink
-                  :to="{ path: '/venueprofile', query: { venue: venue.id } }"
-                  class="btn_custom"
-                  >View
-                </nuxtLink>
-                <nuxtLink
-                  :to="{
-                    path: '/venueedit',
-                    query: { venue: venue.id },
-                  }"
-                  class="btn_custom"
-                  >Edit</nuxtLink
-                >
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div v-else class="block px-2 sm:hidden">
-        <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Venues</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{ path: '/createvenue' }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Venue</NuxtLink
-            >
-          </div>
-        </div>
-        <h3>No Venues Added</h3>
-      </div>
-      <div v-if="venues.length > 0" class="block px-2 sm:hidden">
-        <!-- lable section, create band button, band title, date created, view, edit -->
-        <!-- card Container -->
-        <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Venues</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{ path: '/createvenue' }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Venue</NuxtLink
-            >
-          </div>
-        </div>
-        <section class="shadow-xl h-[400px] overflow-auto">
-          <ul>
-            <li
-              v-for="(v, index) in venues"
-              :key="v.name + index"
-              class="flex flex-col py-4"
-            >
-              <p class="flex-grow text-xl font-bold">{{ v.name }}</p>
-              <p class="flex-grow texl-lg font-bold">
-                Created on
-                {{ moment(String(v.created_at)).format('MMM Do') }}
-              </p>
-              <div class="mt-4">
-                <NuxtLink
-                  :to="{
-                    path: '/venueprofile',
-                    query: { venue: v.id },
-                  }"
-                  class="chedder py-2 px-4 border-2 border-black"
-                >
-                  View</NuxtLink
-                >
-                <NuxtLink
-                  :to="{
-                    path: '/venueedit',
-                    query: { venue: v.id },
-                  }"
-                  class="chedder py-2 px-4 border-2 border-black ml-2"
-                  >Edit</NuxtLink
-                >
-              </div>
-            </li>
-          </ul>
-        </section>
-      </div>
-      <div v-else class="block px-2 sm:hidden">
-        <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Venues</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{ path: '/createvenue' }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Venue</NuxtLink
-            >
-          </div>
-        </div>
-        <h3>No Venues Added</h3>
-      </div>
-
-      <div v-if="events.length > 0" class="mt-6 hidden sm:block">
-        <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
-          <p class="text-2xl chedder text-white flex-grow">Showz</p>
-          <div>
-            <nuxtLink
-              :to="{ path: '/createevent' }"
-              class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
-              >+ Create Show
-            </nuxtLink>
-          </div>
-        </div>
-        <table class="w-full">
-          <tr>
-            <th>Event Name</th>
-            <th>Date Created</th>
-            <th>Actions</th>
-          </tr>
-
-          <tr v-for="(event, index) in events" :key="event.title + index">
-            <td>Show</td>
-            <td>{{ event.title }}</td>
-            <td>
-              <div class="flex gap-6">
-                <nuxtLink
-                  :to="{ path: '/eventview', query: { event: event.id } }"
-                  class="btn_custom"
-                  >View
-                </nuxtLink>
-                <nuxtLink
-                  :to="{
-                    path: '/eventedit',
-                    query: { event: event.id },
-                  }"
-                  class="btn_custom"
-                  >Edit</nuxtLink
-                >
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div v-else class="block px-2 sm:hidden">
-        <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Showz</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{ path: '/createevent' }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Show</NuxtLink
-            >
-          </div>
-        </div>
-        <h3>No Showz Added</h3>
-      </div>
-      <div v-if="events.length > 0" class="block px-2 sm:hidden">
-        <!-- lable section, create band button, band title, date created, view, edit -->
-        <!-- card Container -->
-        <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Showz</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{ path: '/createevent' }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Show</NuxtLink
-            >
-          </div>
-        </div>
-        <section class="shadow-xl h-[400px] overflow-auto">
-          <ul>
-            <li
-              v-for="(ev, index) in events"
-              :key="ev.title + index"
-              class="flex flex-col py-4"
-            >
-              <p class="flex-grow text-xl font-bold">{{ ev.title }}</p>
-              <p class="flex-grow texl-lg font-bold">
-                Created on
-                {{ moment(String(ev.created_at)).format('MMM Do') }}
-              </p>
-              <div class="mt-4">
-                <NuxtLink
-                  :to="{
-                    path: '/eventview',
-                    query: { event: ev.id },
-                  }"
-                  class="chedder py-2 px-4 border-2 border-black"
-                >
-                  View</NuxtLink
-                >
-                <NuxtLink
-                  :to="{
-                    path: '/eventedit',
-                    query: { event: ev.id },
-                  }"
-                  class="chedder py-2 px-4 border-2 border-black ml-2"
-                  >Edit</NuxtLink
-                >
-              </div>
-            </li>
-          </ul>
-        </section>
-      </div>
-      <div v-else class="block px-2 sm:hidden">
-        <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Events</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{ path: '/createevent' }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Events</NuxtLink
-            >
-          </div>
-        </div>
-        <h3>No Events Added</h3>
-      </div>
-      <!-- Tours desktop tour -->
-      <div v-if="tours.length > 0" class="mt-6 hidden sm:block">
-        <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
-          <p class="text-2xl chedder text-white flex-grow">Tours</p>
-          <div>
-            <nuxtLink
-              :to="{ path: '/tourcreate' }"
-              class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
-              >+ Create Tour
-            </nuxtLink>
-          </div>
-        </div>
-        <table class="w-full">
-          <tr>
-            <th>Tour Name</th>
-            <th>Date Created</th>
-            <th>Actions</th>
-          </tr>
-
-          <tr v-for="(tour, index) in tours" :key="tour.title + index">
-            <td>Tour</td>
-            <td>{{ tour.title }}</td>
-            <!-- <td>{{ moment(String(venue.created_at)).format('MMM Do') }}</td> -->
-            <td>
-              <div class="flex gap-6">
-                <nuxtLink
-                  :to="{ path: '/tourview', query: { tour: tour.id } }"
-                  class="btn_custom"
-                  >View
-                </nuxtLink>
-                <nuxtLink
-                  :to="{
-                    path: '/touredit',
-                    query: { tour: tour.id },
-                  }"
-                  class="btn_custom"
-                  >Edit</nuxtLink
-                >
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div v-else class="block px-2 sm:hidden">
-        <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Tours</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{ path: '/tourcreate' }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Add tour</NuxtLink
-            >
-          </div>
-        </div>
-        <h3>No Tours Added</h3>
-      </div>
-      <!-- mobile tours  -->
-      <div v-if="tours.length > 0" class="block px-2 sm:hidden">
-        <!-- lable section, create band button, band title, date created, view, edit -->
-        <!-- card Container -->
-        <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Tours</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{ path: '/tourcreate' }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Tour</NuxtLink
-            >
-          </div>
-        </div>
-        <section class="shadow-xl h-[400px] overflow-auto">
-          <ul>
-            <li
-              v-for="(t, index) in tours"
-              :key="t.title + index"
-              class="flex flex-col py-4"
-            >
-              <p class="flex-grow text-xl font-bold">Title :{{ t.title }}</p>
-              <p class="flex-grow texl-lg font-bold">
-                Created on
-                {{ moment(String(t.created_at)).format('MMM Do') }}
-              </p>
-              <div class="mt-4">
-                <NuxtLink
-                  :to="{
-                    path: '/tourview',
-                    query: {
-                      tour: t.id,
-                    },
-                  }"
-                  class="chedder py-2 px-4 border-2 border-black"
-                >
-                  View</NuxtLink
-                >
-                <NuxtLink
-                  :to="{
-                    path: '/touredit',
-                    query: {
-                      tour: t.id,
-                    },
-                  }"
-                  class="chedder py-2 px-4 border-2 border-black ml-2"
-                  >Edit</NuxtLink
-                >
-              </div>
-            </li>
-          </ul>
-        </section>
-      </div>
-      <div v-else class="block px-2 sm:hidden">
-        <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Tour</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{ path: '/tourcreate' }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Tour</NuxtLink
-            >
-          </div>
-        </div>
-        <h3>No tours Added</h3>
-      </div>
-      <!-- desktop releases  -->
-      <div v-if="releases.length > 0" class="mt-6 hidden sm:block">
-        <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
-          <p class="text-2xl chedder text-white flex-grow">Releases</p>
-          <div>
-            <nuxtLink
-              :to="{ path: '/releasecreate' }"
-              class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
-              >+ Create Release
-            </nuxtLink>
-          </div>
-        </div>
-        <table class="w-full">
-          <tr>
-            <th>Name</th>
-            <th>Date Created</th>
-            <th>Actions</th>
-          </tr>
-
-          <tr v-for="(r, index) in releases" :key="r.title + index">
-            <td>Tour</td>
-            <td>{{ r.title }}</td>
-            <!-- <td>{{ moment(String(venue.created_at)).format('MMM Do') }}</td> -->
-            <td>
-              <div class="flex gap-6">
-                <nuxtLink
-                  :to="{
-                    path: '/releaseview',
-                    query: { release: r.id, bandId: r.band.id },
-                  }"
-                  class="btn_custom"
-                  >View
-                </nuxtLink>
-                <nuxtLink
-                  :to="{
-                    path: '/releaseview',
-                    query: { release: r.id, band: r.bandId },
-                  }"
-                  class="btn_custom"
-                  >Edit</nuxtLink
-                >
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div v-else class="block px-2 sm:hidden">
-        <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Releases</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{ path: '/releasecreate' }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Release</NuxtLink
-            >
-          </div>
-        </div>
-        <h3>No Releases Added</h3>
-      </div>
-      <!-- mobile releases -->
-      <!-- <pre>{{ releases }}</pre> -->
-      <div v-if="releases.length > 0" class="block px-2 sm:hidden">
-        <!-- lable section, create band button, band title, date created, view, edit -->
-        <!-- card Container -->
-        <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Releases</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{ path: '/releasecreate' }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Release</NuxtLink
-            >
-          </div>
-        </div>
-        <section class="shadow-xl h-[400px] overflow-auto">
-          <ul>
-            <li
-              v-for="(r, index) in releases"
-              :key="r.title + index"
-              class="flex flex-col py-4"
-            >
-              <p class="flex-grow text-xl font-bold">Title :{{ r.title }}</p>
-              <p class="flex-grow text-xl font-bold">Band :{{ r.band }}</p>
-              <p class="flex-grow texl-lg font-bold">
-                Created on
-                {{ moment(String(r.created_at)).format('MMM Do') }}
-              </p>
-              <div class="mt-4">
-                <NuxtLink
-                  :to="{
-                    path: '/releaseview',
-                    query: {
-                      realease: r.id,
-                      band: r.band.bandName,
-                      bandId: r.bandId,
-                    },
-                  }"
-                  class="chedder py-2 px-4 border-2 border-black"
-                >
-                  View</NuxtLink
-                >
-                <NuxtLink
-                  :to="{
-                    path: '/releaseview',
-                    query: {
-                      realease: r.id,
-                      band: r.band.bandName,
-                      bandId: r.bandId,
-                    },
-                  }"
-                  class="chedder py-2 px-4 border-2 border-black ml-2"
-                  >Edit</NuxtLink
-                >
-              </div>
-            </li>
-          </ul>
-        </section>
-      </div>
-      <div v-else class="block px-2 sm:hidden">
-        <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Releases</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{ path: '/releasecreate' }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Release</NuxtLink
-            >
-          </div>
-        </div>
-        <h3>No Releases Added</h3>
-      </div>
-
-      <!-- merch  -->
-      <!-- desktop merch -->
-      <div v-if="merch.length > 0" class="mt-6 hidden sm:block">
-        <div class="h-[74px] w-full bord bg-black flex items-center px-[16px]">
-          <p class="text-2xl chedder text-white flex-grow">Merch</p>
-          <div>
-            <nuxtLink
-              :to="{ path: '/createmerch' }"
-              class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
-              >+ Create Merch
-            </nuxtLink>
-          </div>
-        </div>
-        <table class="w-full">
-          <tr>
-            <th>Product</th>
-            <th>Date Created</th>
-            <th>Actions</th>
-          </tr>
-
-          <tr v-for="(m, index) in merch" :key="m.productName + index">
-            <td v-if="m.productImage">
-              <img :src="m.productImage.formats.thumbnail.url" alt="" />
-            </td>
-            <td v-else>No Image</td>
-            <td>{{ m.productName }}</td>
-            <!-- <td>{{ moment(String(venue.created_at)).format('MMM Do') }}</td> -->
-            <td>
-              <div class="flex gap-6">
-                <nuxtLink
-                  :to="{
-                    path: '/merchview',
-                    query: { merch: m.id, band: m.bandName, band: m.bandId },
-                  }"
-                  class="btn_custom"
-                  >View
-                </nuxtLink>
-                <nuxtLink
-                  :to="{
-                    path: '/merchview',
-                    query: { merch: m.id, band: m.bandName, band: m.bandId },
-                  }"
-                  class="btn_custom"
-                  >Edit</nuxtLink
-                >
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div v-else class="block px-2 sm:hidden">
-        <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Merch</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{ path: '/createmerch' }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Merch</NuxtLink
-            >
-          </div>
-        </div>
-        <h3>No Merch Added</h3>
-      </div>
-      <div v-if="merch.length > 0" class="block px-2 sm:hidden">
-        <!-- lable section, create band button, band title, date created, view, edit -->
-        <!-- card Container -->
-        <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Merch</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{
-                path: '/createmerch',
-              }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Merch</NuxtLink
-            >
-          </div>
-        </div>
-        <section class="shadow-xl max-h-[400px] overflow-auto">
-          <ul>
-            <li
-              v-for="(m, index) in merch"
-              :key="m.productName + index"
-              class="flex flex-col py-4"
-            >
-              <p class="flex-grow text-xl font-bold">
-                Product :{{ m.productName }}
-              </p>
-              <div v-if="m.productImage">
-                <img :src="m.productImage.formats.thumbnail.url" alt="" />
-              </div>
-              <p class="flex-grow text-xl font-bold">Band :{{ m.band }}</p>
-              <p class="flex-grow texl-lg font-bold">
-                Created on
-                {{ moment(String(m.created_at)).format('MMM Do') }}
-              </p>
-              <div class="mt-4">
-                <NuxtLink
-                  :to="{
-                    path: '/merchview',
-                    query: {
-                      merch: m.id,
-                      bandId: m.bandId,
-                    },
-                  }"
-                  class="chedder py-2 px-4 border-2 border-black"
-                >
-                  View</NuxtLink
-                >
-                <NuxtLink
-                  :to="{
-                    path: '/merchview',
-                    query: {
-                      merch: m.id,
-                      bandId: m.band.id,
-                    },
-                  }"
-                  class="chedder py-2 px-4 border-2 border-black ml-2"
-                  >Edit</NuxtLink
-                >
-              </div>
-            </li>
-          </ul>
-        </section>
-      </div>
-      <div v-else class="block px-2 sm:hidden">
-        <div class="flex mt-32">
-          <h3 class="text-3xl flex-grow mb-4">Merch</h3>
-          <div class="pr-2">
-            <NuxtLink
-              :to="{ path: '/releasecreate' }"
-              class="chedder py-2 px-4 border-2 border-black"
-              >+ Add Merch</NuxtLink
-            >
-          </div>
-        </div>
-        <h3>No Merch Added</h3>
+        </NuxtLink>
       </div>
     </div>
   </div>
@@ -929,9 +339,11 @@ export default {
       this.error = 'sorry ... something went wrong'
     }
     try {
-      this.bands = await this.$strapi.find('bands', {
+      const bands = await this.$strapi.find('bands', {
         users_permissions_user: this.$strapi.user.id,
       })
+      this.bands = bands
+      console.log(this.bands, bands, 'this is the bands')
     } catch (error) {
       this.error = 'sorry ... something went wrong'
     }
