@@ -18,7 +18,7 @@
       <!-- gallery  -->
       <!-- media Gallery -->
       <section v-if="distroImages" class="container mx-auto px-2 sm:px-0">
-        <h2 class="my-6">Pictures</h2>
+        <h2 class="my-6 text-3xl">Pictures</h2>
         <section
           class="mx-6 my-10 flex flex-col gap-10 lg:grid lg:grid-cols-3 lg:gap-10"
         >
@@ -38,11 +38,14 @@
           {{ description }}
         </p>
       </div>
-      <p v-else class="text-lg px-2 md:text-2xl">{{ distro.description }}</p>
+      <div v-else class="text-lg px-2 md:text-2xl">
+        <p>{{ distro.name }}</p>
+        <p>{{ distro.description }}</p>
+      </div>
     </section>
     <section class="container mx-auto px-2 sm:px-0">
       <!-- date started , genre(if applicable ) location streetNumber zip streetName contact -->
-      <h3 class="text-3xl mb-4">Location</h3>
+      <h3 class="mb-4">Location</h3>
       <!-- change streeNumber to street Number ... missing the letter t  -->
       <p v-if="distro.streeNumber" class="text-xl">
         {{ distro.streetNumber }} {{ distro.streetName }}, {{ distro.city }},
@@ -66,23 +69,333 @@
           {{ distro.contact }}
         </p>
       </div>
-      <div v-if="distro.contact" class="mt-4">
-        <h3 class="text-3xl mb-4">Links</h3>
-        <p class="text-xl">
-          {{ distro.contact }}
-        </p>
+    </section>
+    <section v-if="user && distro" class="container mx-auto">
+      <div class="flex-grow flex items-center my-12 w-[450px]">
+        <div
+          class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
+          @click="addEventForm"
+        >
+          <div class="flex items-center justify-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="red"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <p class="pl-2 text-lg font-bold">Add Event</p>
+          </div>
+        </div>
       </div>
-      <div v-if="distro.contact" class="mt-4">
-        <h3 class="text-3xl mb-4">Merch</h3>
-        <p class="text-xl">
-          {{ distro.contact }}
-        </p>
+    </section>
+
+    <!-- add events  -->
+    <section v-if="eventForm" class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
+      <div class="w-full mt-6 mb-6">
+        <FormulateForm v-model="formValues" @submit="addEvents">
+          <div class="flex-col sm:flex sm:flex-row">
+            <div class="w-full px-4 sm:w-1/2">
+              <FormulateInput
+                name="title"
+                label="Title"
+                wrapper-class="m-auto sm:w-4/5 "
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+
+              <!-- <FormulateInput
+                  v-if="userBands"
+                  type="select"
+                  name="bandName"
+                  label="Pick Your Band Optional?"
+                  :options="userBands"
+                  wrapper-class="sm:w-4/5 m-auto"
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 m-auto"
+                /> -->
+              <FormulateInput
+                name="date"
+                type="date"
+                label="Date of event"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
+                name="timeStarts"
+                type="time"
+                label="Time Event Begins"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+                @change="formValues.timeStarts = $event.target.value += ':00'"
+              />
+              <FormulateInput
+                name="venueName"
+                type="text"
+                label="Event Venue"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+            </div>
+            <div class="w-full px-4 sm:w-1/2">
+              <FormulateInput
+                name="streetName"
+                type="text"
+                label="Street Name"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
+                name="steetAddress"
+                type="number"
+                label="Street Number"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
+                name="country"
+                label="Country other than the USA"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+                @change="formValues.country = $event.target.values"
+              />
+              <FormulateInput
+                v-if="
+                  !formValues.country && formValues.country !== 'United States'
+                "
+                name="state"
+                label="State"
+                wrapper-class="m-auto sm:w-4/5 "
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
+                name="city"
+                label="City"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+            </div>
+          </div>
+
+          <section class="px-4 mt-10 sm:m-20">
+            <!-- <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+                List Bands Playing
+              </h2>
+              <FormulateInput
+                type="group"
+                name="bandsPlaying"
+                :repeatable="true"
+                label="Band Playing"
+                add-label="+ Add bands"
+                wrapper-class="w-full"
+                element-class="w-full"
+              >
+                <div>
+                  <FormulateInput
+                    name="BandName"
+                    label="Add band name"
+                    required="true"
+                    wrapper-class="w-full"
+                    element-class="w-full"
+                  />
+                </div>
+              </FormulateInput> -->
+            <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+              Add Event Poster
+            </h2>
+            <div class="flex w-full justify-center">
+              <FormulateInput
+                type="image"
+                name="eventPoster"
+                label="Add Event Poster"
+                help="Select a png, jpg or gif to upload."
+                validation="mime:image/jpeg,image/png,image/gif"
+                input-class="w-full sm:w-96 "
+                wrapper-class="w-full sm:w-96 "
+                element-class="w-full sm:w-96 "
+                @change="eventPosterFile = $event.target.files[0]"
+              />
+            </div>
+            <div class="flex w-full justify-center">
+              <FormulateInput
+                name="eventDescription"
+                type="textarea"
+                label="Add a description of event"
+                input-class="w-full sm:w-96 h-72"
+                wrapper-class="w-full sm:w-96 h-72"
+                element-class="w-full sm:w-96 h-72"
+              />
+            </div>
+          </section>
+          <!-- <div>
+              <FormulateInput
+                type="submit"
+                label="Next"
+                wrapper-class="w-full mt-10 px-4 sm:mx-10"
+                grouping-class="bg-black"
+                element-class="w-full"
+              />
+            </div> -->
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full"
+            @click="addEvents"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="#08f2a8"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Create Event</h3>
+          </div>
+
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full mt-6"
+            @click="eventForm = false"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="red"
+              class="bi bi-x-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Cancel Event</h3>
+          </div>
+        </FormulateForm>
       </div>
+    </section>
+    <section v-if="events" class="container mx-auto">
+      <div
+        v-for="(event, index) in events"
+        :key="event.title + index"
+        class="shadow-md w-full h-64 my-12 mx-auto flex transition-all duration-200 hover:scale-105"
+      >
+        <div v-if="event.eventPoster" class="w-1/3 h-64">
+          <img
+            class="h-full w-full object-cover"
+            :src="event.eventPoster.url"
+            alt=""
+          />
+        </div>
+        <div class="p-6">
+          <p class="chedder text-xl text-center">
+            {{ moment(String(event.date)).format('MMM') }}
+          </p>
+          <p class="chedder text-xl text-center">
+            {{ moment(String(event.date)).format('Do') }}
+          </p>
+        </div>
+        <div class="flex flex-col flex-grow p-6">
+          <div>
+            <p v-if="event.title" class="chedder text-2xl">
+              {{ event.title }}
+            </p>
+            <p v-if="event.headlinerOne" class="text-xl font-black pb-2">
+              Featuring {{ event.headlinerOne }}
+            </p>
+            <p v-if="event.streetAddress && event.streetName" class="text-xl">
+              The Vic, {{ event.streetAddress }} {{ event.streetName }} /
+              {{ moment(String(event.date)).format('LT') }} -
+              {{ moment(event.timeEnds, 'h').format('LT') }}
+            </p>
+            <p v-if="event.city && event.state" class="text-xl">
+              {{ event.city }}, {{ event.state }}
+            </p>
+          </div>
+          <div class="flex-grow flex items-center">
+            <NuxtLink
+              :to="{
+                path: 'eventview',
+                query: { event: event.id },
+              }"
+              class="border-2 border-black px-6 py-4"
+              ><div class="flex items-center justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-eye"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"
+                  />
+                  <path
+                    d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"
+                  />
+                </svg>
+                <p class="pl-2">View Event</p>
+              </div></NuxtLink
+            >
+            <NuxtLink
+              v-if="user"
+              :to="{
+                path: 'eventedit',
+                query: { event: event.id },
+              }"
+              class="border-2 border-black px-6 py-4 ml-2"
+              ><div class="flex items-center justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-pencil"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
+                  />
+                </svg>
+                <p class="pl-2">Edit Event</p>
+              </div></NuxtLink
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+    <section v-else class="container mx-auto">
+      <h3>No Showz Added</h3>
     </section>
     <!-- comments  -->
     <!-- comment box -->
     <section class="container mx-auto">
-      <h2>Posts</h2>
+      <h2 class="text-3xl">Posts</h2>
       <section class="my-10">
         <!-- profileImg.url username, image -->
         <div v-for="(post, index) in posts" :key="post + index">
@@ -147,6 +460,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   data() {
     return {
@@ -155,6 +469,11 @@ export default {
       distroImages: [],
       posts: [],
       postValue: false,
+      user: null,
+      eventPosterFile: '',
+      eventForm: false,
+      formValues: {},
+      events: [],
     }
   },
   async mounted() {
@@ -164,8 +483,16 @@ export default {
         this.$route.query.distro
       )
       this.distro = distro
+      this.user = distro.id
       this.image = distro.distroImage.url
       this.distroImages = distro.distroImages
+      this.user = this.$strapi.user.id
+      const id = [...this.distro.events]
+      const ids = await id.map((e) => {
+        return ['id', e.id]
+      })
+      const events = await this.$strapi.find('events', ids)
+      this.events = events
     } catch (error) {
       console.log(error)
     }
@@ -179,6 +506,52 @@ export default {
     }
   },
   methods: {
+    moment,
+    async addEvents(val) {
+      if (this.eventPosterFile) {
+        try {
+          const formData = new FormData()
+          await formData.append('files', this.eventPosterFile)
+          // upload to strapi here
+          const [eventPosterFinal] = await this.$strapi.create(
+            'upload',
+            formData
+          )
+          this.eventPosterFinal = eventPosterFinal
+          this.formValues.eventPoster = eventPosterFinal
+
+          const event = await this.$strapi.create('events', {
+            users_permissions_user: this.$strapi.user.id,
+            ...this.formValues,
+          })
+          await this.events.push(event)
+          await this.$strapi.update('record-labels', this.distro.id, {
+            events: [...this.distro.events, event],
+          })
+          this.eventForm = false
+        } catch (error) {
+          this.message = 'Sorry we could not create the event'
+          console.log('uploading image ', error)
+        }
+      } else {
+        try {
+          const event = await this.$strapi.create('events', {
+            users_permissions_user: this.$strapi.user.id,
+            ...this.formValues,
+          })
+          await this.$strapi.update('record-labels', this.distro.id, {
+            events: [...this.distro.events, event],
+          })
+          await this.events.push(event)
+          this.eventForm = false
+        } catch (error) {
+          console.log('adding event ', error)
+        }
+      }
+    },
+    addEventForm: function () {
+      this.eventForm = true
+    },
     setVal: function (val) {
       this.postValue = val
     },

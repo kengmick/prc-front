@@ -108,7 +108,234 @@
         </p>
       </div>
       <div v-if="events" class="container mx-auto">
-        <h1 class="text-5xl main_red_text my-6">Showz</h1>
+        <h3 class="text-3xl my-4">Showz</h3>
+        <!-- add show button -->
+        <div v-if="user">
+          <div
+            class="inline-flex items-center border-2 border-black px-4 py-2 cursor-pointer"
+            @click="addEventForm"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2">Add Show To Venue</h3>
+          </div>
+        </div>
+        <section v-if="eventForm" class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
+          <div class="w-full mt-6 mb-6">
+            <FormulateForm v-model="formValues" @submit="addEvents">
+              <div class="flex-col sm:flex sm:flex-row">
+                <div class="w-full px-4 sm:w-1/2">
+                  <FormulateInput
+                    name="title"
+                    label="Title"
+                    wrapper-class="m-auto sm:w-4/5 "
+                    element-class="w-full"
+                    errors-class="sm:w-4/5 m-auto"
+                  />
+
+                  <!-- <FormulateInput
+                  v-if="userBands"
+                  type="select"
+                  name="bandName"
+                  label="Pick Your Band Optional?"
+                  :options="userBands"
+                  wrapper-class="sm:w-4/5 m-auto"
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 m-auto"
+                /> -->
+                  <FormulateInput
+                    name="date"
+                    type="date"
+                    label="Date of event"
+                    wrapper-class="sm:w-4/5 m-auto"
+                    element-class="w-full"
+                    errors-class="sm:w-4/5 m-auto"
+                  />
+                  <FormulateInput
+                    name="timeStarts"
+                    type="time"
+                    label="Time Event Begins"
+                    wrapper-class="sm:w-4/5 m-auto"
+                    element-class="w-full"
+                    errors-class="sm:w-4/5 m-auto"
+                    @change="
+                      formValues.timeStarts = $event.target.value += ':00'
+                    "
+                  />
+                  <FormulateInput
+                    name="venueName"
+                    type="text"
+                    label="Event Venue"
+                    wrapper-class="sm:w-4/5 m-auto"
+                    element-class="w-full"
+                    errors-class="sm:w-4/5 m-auto"
+                  />
+                </div>
+                <div class="w-full px-4 sm:w-1/2">
+                  <FormulateInput
+                    name="streetName"
+                    type="text"
+                    label="Street Name"
+                    wrapper-class="sm:w-4/5 m-auto"
+                    element-class="w-full"
+                    errors-class="sm:w-4/5 m-auto"
+                  />
+                  <FormulateInput
+                    name="steetAddress"
+                    type="number"
+                    label="Street Number"
+                    wrapper-class="sm:w-4/5 m-auto"
+                    element-class="w-full"
+                    errors-class="sm:w-4/5 m-auto"
+                  />
+                  <FormulateInput
+                    name="country"
+                    label="Country other than the USA"
+                    wrapper-class="sm:w-4/5 m-auto"
+                    element-class="w-full"
+                    errors-class="sm:w-4/5 m-auto"
+                    @change="formValues.country = $event.target.values"
+                  />
+                  <FormulateInput
+                    v-if="
+                      !formValues.country &&
+                      formValues.country !== 'United States'
+                    "
+                    name="state"
+                    label="State"
+                    wrapper-class="m-auto sm:w-4/5 "
+                    element-class="w-full"
+                    errors-class="sm:w-4/5 m-auto"
+                  />
+                  <FormulateInput
+                    name="city"
+                    label="City"
+                    wrapper-class="sm:w-4/5 m-auto"
+                    element-class="w-full"
+                    errors-class="sm:w-4/5 m-auto"
+                  />
+                </div>
+              </div>
+
+              <section class="px-4 mt-10 sm:m-20">
+                <!-- <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+                List Bands Playing
+              </h2>
+              <FormulateInput
+                type="group"
+                name="bandsPlaying"
+                :repeatable="true"
+                label="Band Playing"
+                add-label="+ Add bands"
+                wrapper-class="w-full"
+                element-class="w-full"
+              >
+                <div>
+                  <FormulateInput
+                    name="BandName"
+                    label="Add band name"
+                    required="true"
+                    wrapper-class="w-full"
+                    element-class="w-full"
+                  />
+                </div>
+              </FormulateInput> -->
+                <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+                  Add Event Poster
+                </h2>
+                <div class="flex w-full justify-center">
+                  <FormulateInput
+                    type="image"
+                    name="eventPoster"
+                    label="Add Event Poster"
+                    help="Select a png, jpg or gif to upload."
+                    validation="mime:image/jpeg,image/png,image/gif"
+                    input-class="w-full sm:w-96 "
+                    wrapper-class="w-full sm:w-96 "
+                    element-class="w-full sm:w-96 "
+                    @change="eventPosterFile = $event.target.files[0]"
+                  />
+                </div>
+                <div class="flex w-full justify-center">
+                  <FormulateInput
+                    name="eventDescription"
+                    type="textarea"
+                    label="Add a description of event"
+                    input-class="w-full sm:w-96 h-72"
+                    wrapper-class="w-full sm:w-96 h-72"
+                    element-class="w-full sm:w-96 h-72"
+                  />
+                </div>
+              </section>
+              <!-- <div>
+              <FormulateInput
+                type="submit"
+                label="Next"
+                wrapper-class="w-full mt-10 px-4 sm:mx-10"
+                grouping-class="bg-black"
+                element-class="w-full"
+              />
+            </div> -->
+              <div
+                class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full"
+                @click="addEvents"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="#08f2a8"
+                  class="bi bi-plus-circle"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                  />
+                  <path
+                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                  />
+                </svg>
+                <h3 class="text-3xl pl-2 text-center">Create Event</h3>
+              </div>
+
+              <div
+                class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full mt-6"
+                @click="eventForm = false"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="red"
+                  class="bi bi-x-circle"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                  />
+                  <path
+                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                  />
+                </svg>
+                <h3 class="text-3xl pl-2 text-center">Cancel Event</h3>
+              </div>
+            </FormulateForm>
+          </div>
+        </section>
+        <!-- end of add show button  -->
         <section v-if="events.length > 0" class="container mx-auto">
           <div
             v-for="(event, index) in events"
@@ -265,6 +492,8 @@ export default {
       postValue: false,
       events: [],
       user: null,
+      eventForm: false,
+      formValues: {},
     }
   },
 
@@ -301,8 +530,53 @@ export default {
   },
   methods: {
     moment,
+    async addEvents(val) {
+      if (this.eventPosterFile) {
+        try {
+          const formData = new FormData()
+          await formData.append('files', this.eventPosterFile)
+          // upload to strapi here
+          const [eventPosterFinal] = await this.$strapi.create(
+            'upload',
+            formData
+          )
+          this.eventPosterFinal = eventPosterFinal
+          this.formValues.eventPoster = eventPosterFinal
+
+          const event = await this.$strapi.create('events', {
+            users_permissions_user: this.$strapi.user.id,
+            ...this.formValues,
+          })
+          await this.events.push(event)
+          await this.$strapi.update('venues', this.venue.id, {
+            events: [...this.venue.events, event],
+          })
+          this.eventForm = false
+        } catch (error) {
+          this.message = 'Sorry we could not create the event'
+          console.log('uploading image ', error)
+        }
+      } else {
+        try {
+          const event = await this.$strapi.create('events', {
+            users_permissions_user: this.$strapi.user.id,
+            ...this.formValues,
+          })
+          await this.$strapi.update('venues', this.venue.id, {
+            events: [...this.venue.events, event],
+          })
+          await this.events.push(event)
+          this.eventForm = false
+        } catch (error) {
+          console.log('adding event ', error)
+        }
+      }
+    },
     setVal: function (val) {
       this.postValue = val
+    },
+    addEventForm: function () {
+      this.eventForm = true
     },
     async sendPost(val) {
       try {

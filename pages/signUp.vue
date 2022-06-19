@@ -90,7 +90,7 @@ export default {
           username: this.formValues.username,
           password: this.formValues.password,
           profileImg: this.formValues.profileImg || null,
-          acc: 1,
+          acc: 2,
         })
         if (user) {
           this.$router.push({ path: 'profile', query: { user: user.id } })

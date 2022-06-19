@@ -37,15 +37,15 @@
       </section>
       <!-- description -->
       <section>
-        <h1 v-if="event">{{ event.title }}</h1>
-        <h2 class="mt-4">Date</h2>
-        <p class="text-xl">
+        <h1 v-if="event" class="my-6">{{ event.title }}</h1>
+        <h3 class="text-3xl mt-4">Date</h3>
+        <p class="mt-4">
           {{ moment(String(event.date)).format('MMMM Do YYYY') }} @{{
             moment(event.timeStarts, 'h').format('LT')
           }}
         </p>
-        <h2 class="mt-4">Location</h2>
-        <p class="text-xl">
+        <h3 class="text-3xl mt-4">Location</h3>
+        <p class="mt-4">
           @{{ event.venueName }} - {{ event.streetName }}
           {{ event.streetNumber }} {{ event.city }}, {{ event.state }}
         </p>
@@ -58,13 +58,13 @@
         >
       </section>
 
-      <h2 class="mt-4">Description</h2>
-      <div v-if="event.eventDescription" class="mt-6">
+      <h3 class="text-3xl mt-6">Description</h3>
+      <div v-if="event.eventDescription">
         <div v-if="event.eventDescription.split('\n')">
           <p
             v-for="(description, index) in event.eventDescription.split('\n')"
             :key="description + index"
-            class="mt-4 ext-lg px-2 md:text-2xl"
+            class="mt-4"
           >
             {{ description }}
           </p>
@@ -81,9 +81,9 @@
       </div>
 
       <section v-if="event.headlinersOne">
-        <h2 class="mt-4">Headliners</h2>
+        <h3 class="text-3xl mt-6">Headliners</h3>
         <ul>
-          <li v-if="event.headlinerOne" class="chedder text-xl">
+          <li v-if="event.headlinerOne" class="chedder text-xl mt-4">
             {{ event.headlinerOne }}
           </li>
           <li v-if="event.headlinerTwo" class="chedder text-xl">
@@ -99,12 +99,12 @@
       </section>
     </section>
     <section v-if="event.bandsPlaying">
-      <h2 class="mt-4">All Bands</h2>
+      <h3 class="text-3xl mt-6">All Bands</h3>
       <ul>
         <li
           v-for="(band, index) in event.bandsPlaying"
           :key="band + index"
-          class="chedder text-xl"
+          class="chedder mt-4"
         >
           {{ band.BandName }}
         </li>
@@ -112,7 +112,7 @@
     </section>
     <!-- comment box -->
     <section class="container mx-auto">
-      <h2>Posts</h2>
+      <h3 class="text-3xl mt-6">Posts</h3>
       <section class="my-10">
         <!-- profileImg.url username, image -->
         <div v-for="(post, index) in posts" :key="post + index">
