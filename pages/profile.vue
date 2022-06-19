@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="px-2">
     <!-- user profile  -->
     <section class="md:container md:mx-auto">
       <div
@@ -45,6 +45,32 @@
               </div>
             </div>
           </div>
+          <!-- upgrade button  -->
+          <div class="hidden md:block my-6 w-full">
+            <div class="w-full">
+              <div
+                class="inline-flex items-center justify-center border-2 border-black px-4 py-2 w-full cursor-not-allowed bg-gray-100"
+                @click="update"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="currentColor"
+                  class="bi bi-plus-circle"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                  />
+                  <path
+                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                  />
+                </svg>
+                <h3 class="text-3xl pl-2 text-center">Upgrade Account</h3>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="sm:px-6 py-2">
           <p class="m-2">
@@ -84,6 +110,31 @@
                   />
                 </svg>
                 <h3 class="text-3xl pl-2 text-center">Edit User</h3>
+              </div>
+            </div>
+          </div>
+          <div class="block md:hidden my-6 w-full">
+            <div class="w-full">
+              <div
+                class="inline-flex items-center justify-center border-2 border-black px-4 py-2 w-full cursor-not-allowed bg-gray-100"
+                @click="update"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="currentColor"
+                  class="bi bi-plus-circle"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                  />
+                  <path
+                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                  />
+                </svg>
+                <h3 class="text-3xl pl-2 text-center">Upgrade Account</h3>
               </div>
             </div>
           </div>
@@ -143,6 +194,7 @@
 
     <!-- Add Bands  -->
     <div class="container mx-auto">
+      <h2 class="underline mt-10 mb-2">Your Bands</h2>
       <div class="w-full">
         <NuxtLink to="/createband">
           <div
@@ -182,6 +234,7 @@
     </section>
     <!-- end show band  -->
     <div class="container mx-auto my-6">
+      <h2 class="underline mt-10 mb-2">Your Showz</h2>
       <div class="w-full">
         <NuxtLink to="/createevent">
           <div
@@ -273,6 +326,7 @@
     <!-- show venues  -->
     <!-- venue end here  -->
     <div class="container mx-auto my-6">
+      <h2 class="underline mt-10 mb-2">Your Venues</h2>
       <div class="w-full">
         <NuxtLink to="/createVenue">
           <div
@@ -306,8 +360,9 @@
         <VenueCard
           v-for="(venue, index) in venues"
           :key="venue.title + index"
-          :band="band"
+          :venue="venue"
         />
+        <div />
       </div>
     </section>
     <!-- add classifed -->
@@ -368,8 +423,30 @@
       </div>
     </div>
     <!-- show releases if has relases  -->
-    <section>
+    <section class="container mx-auto">
       <h2>Releases</h2>
+    </section>
+    <section v-if="releases" class="container mx-auto">
+      <div class="grid grid-cols-4 gap-10">
+        <div
+          v-for="r in releases"
+          :key="r.title"
+          class="transition-all duration-200 hover:scale-105"
+        >
+          <NuxtLink :to="{ path: 'releaseview', query: { release: r.id } }">
+            <div v-if="r.image" class="w-full h-[300px]">
+              <img class="h-full object-cover" :src="r.image.url" alt="" />
+            </div>
+            <div v-else class="flex items-center justify-center bg-black">
+              <img class="h-20 w-20" src="~/static/imageIcon.svg" alt="" />
+            </div>
+            <!-- card content -->
+            <div>
+              <h2>{{ r.title }}</h2>
+            </div>
+          </NuxtLink>
+        </div>
+      </div>
     </section>
 
     <section>The End</section>
@@ -430,13 +507,19 @@ export default {
     } catch (error) {
       this.error = 'sorry ... something went wrong'
     }
-    this.bands.forEach((b) => {
-      if (b.releases) {
-        b.releases.forEach((r, index) => {
-          this.releases.push({ ...r, band: b.bandName, bandId: b.id })
-        })
-      }
-    })
+    // this.bands.forEach((b) => {
+    //   if (b.releases) {
+    //     b.releases.forEach((r, index) => {
+    //       this.releases.push({ ...r, id: r.id, band: b.bandName, bandId: b.id })
+    //     })
+    //   }
+    // })
+    try {
+      const re = await this.$strapi.find('releases', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      this.releases = re
+    } catch (error) {}
     this.bands.forEach((b) => {
       if (b.merch) {
         b.merch.forEach((m, index) => {
@@ -453,10 +536,13 @@ export default {
     }
 
     try {
-      this.venues = await this.$strapi.find('venues', {
+      const venues = await this.$strapi.find('venues', {
         users_permissions_user: this.$strapi.user.id,
       })
+      this.venues = venues
+      console.log(this.venues, 'venues')
     } catch (error) {
+      console.log(error)
       this.error = 'sorry ... something went wrong'
     }
     try {
