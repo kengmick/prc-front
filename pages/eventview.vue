@@ -4,7 +4,7 @@
       <div v-if="event.eventPoster">
         <div
           class="h-[500px] back"
-          :style="`background-image: url(${image})`"
+          :style="`background-image: url(${event.eventPoster.url})`"
         ></div>
       </div>
       <!-- edit button  -->
