@@ -23,18 +23,8 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+
               <FormulateInput
-                name="country"
-                type="text"
-                label="country if outside the usa"
-                wrapper-class="sm:w-4/5 m-auto mb-4"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              />
-              <FormulateInput
-                v-if="
-                  !formValues.country || formValues.country === 'United States'
-                "
                 name="streetNumber"
                 type="number"
                 label="Street Number"
@@ -54,23 +44,20 @@
             </div>
             <div class="w-full px-4 sm:w-1/2">
               <FormulateInput
-                v-if="
-                  !formValues.country || formValues.country === 'United States'
-                "
-                name="streetName"
-                type="text"
-                label="Street Name"
+                name="country"
+                label="Country other than USA?"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                @change="formValues.country = $event.target.value"
               />
               <FormulateInput
                 v-if="
-                  !formValues.country || formValues.country === 'United States'
+                  !formValues.country && formValues.country !== 'United States'
                 "
                 name="state"
-                label="State"
-                wrapper-class="m-auto sm:w-4/5 "
+                label="state?"
+                wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
@@ -243,23 +230,23 @@ export default {
   },
   methods: {
     async submitForm() {
-      const pictures = []
-      if (this.formValues.photos) {
-        console.log('this is the photos condition')
-        for (let index = 0; index < this.formValues.photos.length; index++) {
-          const formData = new FormData()
-          formData.append(
-            'files',
-            this.formValues.photos[index].pic.files[0].file
-          )
-          const [image] = await this.$strapi.create('upload', formData)
+      // const pictures = []
+      // if (this.formValues.photos) {
+      //   console.log('this is the photos condition')
+      //   for (let index = 0; index < this.formValues.photos.length; index++) {
+      //     const formData = new FormData()
+      //     formData.append(
+      //       'files',
+      //       this.formValues.photos[index].pic.files[0].file
+      //     )
+      //     const [image] = await this.$strapi.create('upload', formData)
 
-          pictures.push({ pic: image })
-          console.log('adding pictures ', pictures)
-        }
-        this.pictures = pictures
-        this.formValues.photos = pictures
-      }
+      //     pictures.push({ pic: image })
+      //     console.log('adding pictures ', pictures)
+      //   }
+      //   this.pictures = pictures
+      //   this.formValues.photos = pictures
+      // }
       if (this.logoImgFile) {
         console.log('logo image file ')
         try {
@@ -287,24 +274,18 @@ export default {
         }
       }
       // uploading bandProfileImg
-      try {
-        const formData = new FormData()
-        await formData.append('files', this.logoImgFile)
-        const [logoImageFinal] = await this.$strapi.create('upload', formData)
-        this.logoImageFinal = logoImageFinal
-        this.formValues.logo = logoImageFinal
-      } catch (error) {
-        console.log(error)
+      if (this.logoImgFile) {
+        try {
+          const formData = new FormData()
+          await formData.append('files', this.logoImgFile)
+          const [logoImageFinal] = await this.$strapi.create('upload', formData)
+          this.logoImageFinal = logoImageFinal
+          this.formValues.logo = logoImageFinal
+        } catch (error) {
+          console.log(error)
+        }
       }
-      try {
-        const formData = new FormData()
-        await formData.append('files', this.venueImgFile)
-        const [venueImgFinal] = await this.$strapi.create('upload', formData)
-        this.venueImgFinal = venueImgFinal
-        this.formValues.venueImg = venueImgFinal
-      } catch (error) {
-        console.log(error)
-      }
+
       // old shows array
       // making post band to strapi
       try {
