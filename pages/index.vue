@@ -1,6 +1,7 @@
 <template>
   <div>
     <HeroAlt />
+
     <section>
       <h2 class="text-center my-10 text-5xl">Featured Bands</h2>
       <div
