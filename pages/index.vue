@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Hero />
+    <div class="hidden xl:block"><HeroAlt /></div>
+    <div class="block xl:hidden"><Hero /></div>
 
     <section>
       <h2 class="text-center my-10 text-5xl">Featured Bands</h2>

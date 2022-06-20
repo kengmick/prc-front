@@ -1,12 +1,19 @@
 <template>
-  <div class="h-full w-full relative">
-    <video class="w-screen" autoplay muted loop>
-      <source src=video.webm type=video/webm> <source src=pen.mp4
-      type=video/mp4>
-    </video>
-    <NuxtLink to="/livestream">
-      <div class="arrow-right relative top-0"></div
-    ></NuxtLink>
+  <div class="hidden xl:block">
+    <div
+      class="h-[80vh] sm:h-[86vh] w-screen bg-black flex justify-center items-center"
+    >
+      <div class="container__image" :class="{ an: ani }">
+        <div
+          class="absolute top-[63%] left-[40%] arrow-right transition-all ease-linear duration-800"
+          :class="{ 'opacity-0': !show }"
+        ></div>
+        <div class="container__info container__author"></div>
+        <div class="container__info container__location">
+          <h1 class="text-white chedder">24/7 Live Stream</h1>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -20,7 +27,15 @@ export default {
       hasFeatVideo: false,
       liveId: null,
       videoId: null,
+      ani: false,
+      show: false,
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.ani = true
+      this.show = true
+    }, 11)
   },
 
   methods: {
@@ -32,84 +47,152 @@ export default {
 </script>
 
 <style scoped>
+/* stylelint-disable */
 .arrow-right {
-  width: 0;
-  height: 0;
+  border-top: 120px solid transparent;
+  border-bottom: 120px solid transparent;
+  border-left: 220px solid #c11a08c7;
+}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  background-color: #f4f6f8;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.container__image {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background-image: url('~/static/live_background.png');
+  background-size: cover;
+  transition: ease-in-out 0.3s;
+  z-index: 2;
+}
+.container__image:before {
+  content: ' ';
   position: absolute;
-  top: 35%;
-  left: 45%;
-  border-top: 130px solid transparent;
-  border-bottom: 130px solid transparent;
-  border-left: 250px solid #c11a08a1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  background: inherit;
+  background-position: bottom;
+  filter: blur(10px) saturate(11%);
+  transform: scaleX(0.4);
+  transition: ease-in-out 0.4s;
+  border-radius: 120px;
+  transform-origin: right;
+  opacity: 0;
+  z-index: -1;
+}
+.container__image .container__info {
+  position: relative;
+  line-height: 1.8;
+  transition: ease-in-out 0.3s;
+  opacity: 0;
+}
+.container__image .container__location {
+  transition-delay: 0.15s;
+}
+.container__image:hover {
+  border-radius: 0;
+  width: 600px;
+  height: 600px;
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(9, 55, 53, 0.08),
+    0px 16px 24px rgba(9, 55, 53, 0.1), 0px 24px 32px rgba(9, 55, 53, 0.14);
 }
 
-#bars {
-  height: 30px;
-  left: 50%;
-  margin: -30px 0 0 -20px;
-  position: absolute;
-  top: 50%;
-  width: 40px;
+.an {
+  border-radius: 0;
+  width: 600px;
+  height: 600px;
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(9, 55, 53, 0.08),
+    0px 16px 24px rgba(9, 55, 53, 0.1), 0px 24px 32px rgba(9, 55, 53, 0.14);
 }
 
-.bar {
-  background: #e20074;
-  bottom: 1px;
-  height: 3px;
-  position: absolute;
-  width: 3px;
-  animation: sound 0ms -800ms linear infinite alternate;
+.an:before {
+  width: 100%;
+  opacity: 0.18;
+  filter: blur(10px) saturate(100%);
+  transform: scale(2.8) translate3d(-18%, 0px, 0px);
 }
 
-@keyframes sound {
-  0% {
-    opacity: 0.35;
-    height: 3px;
-  }
-  100% {
-    opacity: 1;
-    height: 28px;
-  }
+.an .container__info {
+  transform: translate3d(-90%, 0px, 0px);
+  opacity: 1;
 }
 
-.bar:nth-child(1) {
-  left: 1px;
-  animation-duration: 474ms;
+.container__image:hover:before {
+  width: 100%;
+  opacity: 0.18;
+  filter: blur(10px) saturate(100%);
+  transform: scale(2.8) translate3d(-18%, 0px, 0px);
 }
-.bar:nth-child(2) {
-  left: 5px;
-  animation-duration: 433ms;
+
+.container__image:hover .container__info {
+  transform: translate3d(-90%, 0px, 0px);
+  opacity: 1;
 }
-.bar:nth-child(3) {
-  left: 9px;
-  animation-duration: 407ms;
+
+.container__image.an {
+  border-radius: 0;
+  width: 450px;
+  height: 310px;
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.04), 0px 2px 6px rgba(9, 55, 53, 0.08),
+    0px 16px 24px rgba(9, 55, 53, 0.1), 0px 24px 32px rgba(9, 55, 53, 0.14);
 }
-.bar:nth-child(4) {
-  left: 13px;
-  animation-duration: 458ms;
+.container__image.an:before {
+  width: 100%;
+  opacity: 0.18;
+  filter: blur(10px) saturate(11%);
+  transform: scale(2.8) translate3d(-18%, 0px, 0px);
 }
-.bar:nth-child(5) {
-  left: 17px;
-  animation-duration: 400ms;
+.container__image.an:before {
+  width: 100%;
+  opacity: 0.18;
+  filter: blur(10px) saturate(0%);
+  transform: scale(2.8) translate3d(-18%, 0px, 0px);
 }
-.bar:nth-child(6) {
-  left: 21px;
-  animation-duration: 427ms;
+.container__image.an .container__info {
+  transform: translate3d(-90%, 0px, 0px);
+  opacity: 1;
 }
-.bar:nth-child(7) {
-  left: 25px;
-  animation-duration: 441ms;
+
+.an {
+  color: red;
 }
-.bar:nth-child(8) {
-  left: 29px;
-  animation-duration: 419ms;
+
+.link {
+  border-bottom: 1px solid transparent;
+  color: #06c0a8;
+  text-decoration: none;
+  transition: ease-in 0.13s;
 }
-.bar:nth-child(9) {
-  left: 33px;
-  animation-duration: 487ms;
-}
-.bar:nth-child(10) {
-  left: 37px;
-  animation-duration: 442ms;
+.link:hover {
+  background-color: #06c0a8;
+  color: #ffffff;
 }
 </style>

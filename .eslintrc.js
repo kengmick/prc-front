@@ -15,5 +15,6 @@ module.exports = {
     'vue/attribute-hyphenation': 0,
     'vue/multi-word-component-names': 0,
     'object-shorthand': 0,
+    'length-zero-no-unit': 0,
   },
 }
