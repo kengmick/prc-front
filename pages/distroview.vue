@@ -452,6 +452,7 @@
         </div>
         <!-- add post bod  -->
         <div class="w-full mx-auto">
+          <p class="text-red-500">{{ postError }}</p>
           <div class="w-full flex justify-center items-center">
             <textarea
               id="inputVal"
@@ -501,6 +502,7 @@ export default {
       eventForm: false,
       formValues: {},
       events: [],
+      postError: '',
     }
   },
   async mounted() {
@@ -590,6 +592,9 @@ export default {
     async sendPost(val) {
       try {
         if (this.postValue) {
+          if (!this.$strapi.user) {
+            this.postError = 'You must be logged in to comment'
+          }
           await this.$strapi.create('posts', {
             record_label: this.distro.id,
             data: this.postValue,
@@ -604,6 +609,7 @@ export default {
           this.posts = posts
         }
       } catch (error) {
+        this.postError = 'You must be logged in to comment'
         console.log('error saving post ', error)
       }
     },
