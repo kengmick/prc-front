@@ -257,9 +257,7 @@
           Showz
         </h2>
         <section v-if="user && band" class="container mx-auto">
-          <div
-            class="flex-grow flex items-center my-12 w-[450px] cursor-pointer"
-          >
+          <div class="flex-grow flex items-center my-12 w-full cursor-pointer">
             <div
               class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
               @click="addEventForm"

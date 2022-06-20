@@ -37,6 +37,9 @@
     <section class="my-10">
       <Cta />
     </section>
+    <section class="my-10">
+      <Gallery />
+    </section>
     <section>
       <NewsLetterCta />
     </section>
