@@ -5,18 +5,17 @@
     <div class="h-1/6">
       <p class="chedder text-2xl main_red_text p-6">{{ distro.name }}</p>
     </div>
-    <div class="w-full h-3/6">
+    <div v-if="distro.distroImage" class="w-full h-3/6">
       <img
         class="h-full w-full object-cover"
-        :src="distro.distroImage.formats.medium.url"
+        :src="distro.distroImage.url"
         alt=""
       />
     </div>
-    <div
-      v-if="distro.description.length >= 100"
-      class="h-1/6 pl-6 flex items-center"
-    >
-      <p>{{ distro.description.split(' ').slice(0, 10).join(' ') }} ...</p>
+    <div v-if="distro.description" class="h-1/6 pl-6 flex items-center">
+      <p v-if="distro.description.split('/n')">
+        {{ distro.description.split(' ').slice(0, 10).join(' ') }} ...
+      </p>
     </div>
     <div v-else class="h-1/6 pl-6 flex items-center">
       <p>{{ distro.description }}</p>

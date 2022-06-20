@@ -50,7 +50,7 @@
           class="mx-6 my-10 flex flex-col gap-10 lg:grid lg:grid-cols-3 lg:gap-10"
         >
           <div v-for="(img, index) in distroImages" :key="img.id + index">
-            <img :src="img.formats.medium.url" alt="" />
+            <img :src="img.url" alt="" />
           </div>
         </section>
       </section>
