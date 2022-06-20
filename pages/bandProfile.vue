@@ -928,6 +928,7 @@ export default {
       const band = await this.$strapi.findOne('bands', this.$route.query.band)
       this.band = band
       this.user = band.id
+      console.log(this.band)
       this.userPermission = band.users_permissions_user.id
       const id = [...this.band.events]
       const ids = await id.map((e) => {
