@@ -1,7 +1,15 @@
 <template>
-  <div class="px-2 sm:conatiner mx-auto my-6 sm:w-1/2">
-    <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
-    <!-- <img
+  <div>
+    <div
+      v-if="loading"
+      class="fixed top-0 left-0 h-screen w-screen z-50 bg-black flex justify-center items-center"
+    >
+      <Spinner class="mr-6" />
+      <h3 class="text-white">Creating Distro</h3>
+    </div>
+    <div class="px-2 sm:conatiner mx-auto my-6 sm:w-1/2">
+      <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
+      <!-- <img
       id="barcode"
       src="https://api.qrserver.com/v1/create-qr-code/?data=HelloWorld&size=100x100"
       alt=""
@@ -9,81 +17,84 @@
       width="50"
       height="50"
     /> -->
-    <FormulateForm v-model="formValues" @submit="submitForm">
-      <h1 class="main_red_text text-left text-3xl sm:w-4/5 mb-6">
-        Create Tour
-      </h1>
-      <FormulateInput
-        name="title"
-        label="Band Name"
-        wrapper-class=" sm:w-4/5 mx-auto "
-        element-class="w-full"
-        errors-class="sm:w-4/5 "
-      />
-      <FormulateInput
-        name="dateStart"
-        type="date"
-        label="Date Starts"
-        wrapper-class=" sm:w-4/5 mx-auto "
-        element-class="w-full"
-        errors-class="sm:w-4/5 "
-        @change="log($event.target.value)"
-      />
-      <FormulateInput
-        name="dateEnd"
-        type="date"
-        label="Date Ends"
-        wrapper-class=" sm:w-4/5 mx-auto "
-        element-class="w-full"
-        errors-class="sm:w-4/5 "
-        @change="log($event.target.value)"
-      />
-
-      <h2 class="text-left main_red_text text-2xl mb-10 mt-4">Bands On Tour</h2>
-      <FormulateInput
-        type="group"
-        name="touringBands"
-        :repeatable="true"
-        label="Band Playing"
-        add-label="+ Add bands"
-        wrapper-class=" sm:w-4/5 mx-auto "
-        element-class="w-full"
-        errors-class="sm:w-4/5 "
-      >
+      <FormulateForm v-model="formValues" @submit="submitForm">
+        <h1 class="main_red_text text-left text-3xl sm:w-4/5 mb-6">
+          Create Tour
+        </h1>
         <FormulateInput
-          name="BandName"
-          label="Add band name"
+          name="title"
+          label="Band Name"
           wrapper-class=" sm:w-4/5 mx-auto "
           element-class="w-full"
-          input-class="w-full"
           errors-class="sm:w-4/5 "
         />
-      </FormulateInput>
-      <h2 class="text-left main_red_text text-2xl mb-10 mt-4">
-        Add Tour Poster
-      </h2>
-      <FormulateInput
-        type="image"
-        name="touringPoster"
-        label="Add Tour Poster"
-        validation="mime:image/jpeg,image/png,image/gif"
-        input-class="w-full sm:w-96 "
-        wrapper-class=" sm:w-4/5 mx-auto "
-        element-class="w-full"
-        errors-class="sm:w-4/5 "
-        @change="tourPosterFile = $event.target.files[0]"
-      />
-      <!-- Events  -->
+        <FormulateInput
+          name="dateStart"
+          type="date"
+          label="Date Starts"
+          wrapper-class=" sm:w-4/5 mx-auto "
+          element-class="w-full"
+          errors-class="sm:w-4/5 "
+          @change="log($event.target.value)"
+        />
+        <FormulateInput
+          name="dateEnd"
+          type="date"
+          label="Date Ends"
+          wrapper-class=" sm:w-4/5 mx-auto "
+          element-class="w-full"
+          errors-class="sm:w-4/5 "
+          @change="log($event.target.value)"
+        />
 
-      <!-- end of add event to tour  -->
-      <FormulateInput
-        type="submit"
-        label="Next"
-        wrapper-class="w-full mt-10 px-4 sm:mx-10"
-        grouping-class="bg-black"
-        element-class="w-full"
-      />
-    </FormulateForm>
+        <h2 class="text-left main_red_text text-2xl mb-10 mt-4">
+          Bands On Tour
+        </h2>
+        <FormulateInput
+          type="group"
+          name="touringBands"
+          :repeatable="true"
+          label="Band Playing"
+          add-label="+ Add bands"
+          wrapper-class=" sm:w-4/5 mx-auto "
+          element-class="w-full"
+          errors-class="sm:w-4/5 "
+        >
+          <FormulateInput
+            name="BandName"
+            label="Add band name"
+            wrapper-class=" sm:w-4/5 mx-auto "
+            element-class="w-full"
+            input-class="w-full"
+            errors-class="sm:w-4/5 "
+          />
+        </FormulateInput>
+        <h2 class="text-left main_red_text text-2xl mb-10 mt-4">
+          Add Tour Poster
+        </h2>
+        <FormulateInput
+          type="image"
+          name="touringPoster"
+          label="Add Tour Poster"
+          validation="mime:image/jpeg,image/png,image/gif"
+          input-class="w-full sm:w-96 "
+          wrapper-class=" sm:w-4/5 mx-auto "
+          element-class="w-full"
+          errors-class="sm:w-4/5 "
+          @change="tourPosterFile = $event.target.files[0]"
+        />
+        <!-- Events  -->
+
+        <!-- end of add event to tour  -->
+        <FormulateInput
+          type="submit"
+          label="Next"
+          wrapper-class="w-full mt-10 px-4 sm:mx-10"
+          grouping-class="bg-black"
+          element-class="w-full"
+        />
+      </FormulateForm>
+    </div>
   </div>
 </template>
 
@@ -107,6 +118,7 @@ export default {
       bands: [],
       tourEvents: [],
       events: false,
+      loading: false,
     }
   },
   async mounted() {
@@ -139,6 +151,7 @@ export default {
         this.tourPosterFinal = tourPosterFinal
         this.formValues.touringPoster = tourPosterFinal
       } catch (error) {
+        this.loading = false
         console.log(error)
       }
       try {
@@ -147,7 +160,9 @@ export default {
           users_permissions_user: this.$strapi.user.id,
         })
         this.tour = tour
+        this.loading = false
       } catch (error) {
+        this.loading = false
         this.errorMessage = 'Sorry ... please try again'
         console.log('there was a problem', error)
       }

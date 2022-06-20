@@ -913,6 +913,7 @@ export default {
       formValues: {},
       post: '',
       postValue: false,
+      postError: '',
       message: 'type something here to share',
       events: [],
       user: null,
@@ -923,6 +924,7 @@ export default {
   },
   async mounted() {
     // get bands
+
     try {
       const band = await this.$strapi.findOne('bands', this.$route.query.band)
       this.band = band
@@ -1006,11 +1008,11 @@ export default {
           const posts = await this.$strapi.find('posts', {
             bands: this.band.id,
           })
-          const ele = document.getElementById('inputVal')
-          ele.value = ''
+
           this.postValue = false
           this.posts = posts
         }
+        this.postError = 'you must be logged in to comment '
       } catch (error) {
         console.log('error saving post ', error)
       }

@@ -1,5 +1,12 @@
 <template>
   <div>
+    <div
+      v-if="loading"
+      class="fixed top-0 left-0 h-screen w-screen z-50 bg-black flex justify-center items-center"
+    >
+      <Spinner class="mr-6" />
+      <h3 class="text-white">Creating Distro</h3>
+    </div>
     <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
     <h1 class="text-center my-4">Create Your Distro/label</h1>
     <section class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
@@ -226,6 +233,7 @@ export default {
       pictures: [],
       acc: 1,
       distro: {},
+      loading: false,
     }
   },
   async mounted() {
@@ -238,7 +246,7 @@ export default {
     },
     async submitForm() {
       // uploading bandProfileImg
-
+      this.loading = true
       // getting pictures uploaded
       const pictures = []
       if (this.formValues.photos && this.acc === 2) {
@@ -268,6 +276,7 @@ export default {
         } catch (error) {
           this.formValues.distroImage = ''
           console.log(error)
+          this.loading = false
         }
       }
       if (this.logoImage) {
@@ -281,6 +290,7 @@ export default {
         } catch (error) {
           this.formValues.logo = ''
           console.log(error)
+          this.loading = false
         }
       }
       // old shows array
@@ -292,9 +302,11 @@ export default {
           users_permissions_user: this.$strapi.user.id,
         })
         this.distro = distro
+        this.loading = false
       } catch (error) {
         this.errorMessage = 'Sorry ... please try again'
         console.log(error, 'creating band')
+        this.loading = false
       }
       // after creation take user to band admin
       if (this.distro) {
