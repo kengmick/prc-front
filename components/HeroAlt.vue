@@ -1,7 +1,7 @@
 <template>
   <div class="h-full w-full relative">
     <video class="w-screen" autoplay muted loop>
-      <source src=video.webm type=video/webm> <source src=penny.mp4
+      <source src=video.webm type=video/webm> <source src=bac.mp4
       type=video/mp4>
     </video>
     <NuxtLink to="/livestream">
