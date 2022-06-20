@@ -194,7 +194,11 @@
 
     <!-- Add Bands  -->
     <div class="container mx-auto">
-      <h2 class="underline mt-10 mb-2">Your Bands</h2>
+      <h2
+        class="bg-black w-full text-center text-white py-24 my-10 underline-offset-2"
+      >
+        Your Bands
+      </h2>
       <div class="w-full">
         <NuxtLink to="/createband">
           <div
@@ -234,7 +238,11 @@
     </section>
     <!-- end show band  -->
     <div class="container mx-auto my-6">
-      <h2 class="underline mt-10 mb-2">Your Showz</h2>
+      <h2
+        class="bg-black w-full text-center text-white py-24 my-10 underline-offset-2"
+      >
+        Your Showz
+      </h2>
       <div class="w-full">
         <NuxtLink to="/createevent">
           <div
@@ -370,7 +378,13 @@
       </div>
     </section>
     <!-- add classifed -->
-
+    <section class="container mx-auto">
+      <h2
+        class="bg-black w-full text-center text-white py-24 my-10 underline-offset-2"
+      >
+        Your Classifieds
+      </h2>
+    </section>
     <div class="container mx-auto my-6">
       <div class="w-full">
         <NuxtLink to="/classifiedcreate">
