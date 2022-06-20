@@ -120,8 +120,8 @@
                 />
               </FormulateInput> -->
 
-            <div v-if="acc === 2" class="flex w-full justify-center">
-              <h2 class="text-center mb-10 mt-4">Add Profile Image</h2>
+            <div v-if="acc === 2" class="w-full justify-center">
+              <h3 class="mb-10 mt-4 text-3xl">Add Profile Image</h3>
               <FormulateInput
                 type="image"
                 name="distroImage"
@@ -135,10 +135,10 @@
               />
             </div>
             <!-- logo -->
-            <h2 v-if="acc === 2" class="text-center mb-10 mt-4">
+            <h3 v-if="acc === 2" class="text-3xl mb-10 mt-4">
               Add Your band Logo
-            </h2>
-            <div v-if="acc === 2" class="flex w-full justify-center">
+            </h3>
+            <div v-if="acc === 2" class="w-full">
               <FormulateInput
                 type="image"
                 name="logo"
