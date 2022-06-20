@@ -332,6 +332,89 @@
       </div>
     </section>
     <!-- show venues  -->
+
+    <!-- tours -->
+    <div class="container mx-auto my-6">
+      <h2
+        class="bg-black w-full text-center text-white py-24 my-10 underline-offset-2"
+      >
+        Your Tours
+      </h2>
+      <div class="w-full">
+        <NuxtLink to="/tourcreate">
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-2/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Add Tour</h3>
+          </div>
+        </NuxtLink>
+      </div>
+    </div>
+
+    <!-- tours  -->
+    <section class="container mx-auto">
+      <div v-if="tours" class="container mx-auto">
+        <section v-if="events.length > 0" class="container mx-auto">
+          <div
+            v-for="(event, index) in tours"
+            :key="event.title + index"
+            class="shadow-md w-full min-h-64 my-12 mx-auto flex flex-col sm:flex-row transition-all duration-200 hover:scale-105"
+          >
+            <div v-if="event.touringPoster" class="w-full sm:w-1/2 h-64">
+              <img
+                class="h-full w-full object-cover"
+                :src="event.touringPoster.url"
+                alt=""
+              />
+            </div>
+            <div class="p-6">
+              <p class="chedder text-xl text-center inline-block sm:block">
+                {{ moment(String(event.dateState)).format('MMM:dd') }}
+              </p>
+              <p class="chedder text-xl text-center inline-block sm:block">
+                {{ moment(String(event.dateEnd)).format('MMM:dd') }}
+              </p>
+            </div>
+            <div class="flex flex-col flex-grow p-6">
+              <div>
+                <p v-if="event.title" class="chedder text-2xl">
+                  {{ event.title }}
+                </p>
+              </div>
+              <div class="flex-grow flex items-center mt-6 sm:mt-2">
+                <NuxtLink
+                  :to="{
+                    path: 'tourview',
+                    query: { tour: event.id },
+                  }"
+                  class="border-2 border-black px-4 py-2"
+                  >View Tour</NuxtLink
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+        <section v-else class="container mx-auto">
+          <h3>No Tours Added</h3>
+        </section>
+      </div>
+    </section>
+
     <!-- venue end here  -->
     <div class="container mx-auto my-6">
       <h2
