@@ -17,6 +17,7 @@
         />
       </div>
     </section>
+    <Price />
     <section>
       <h2 class="text-center my-10 text-5xl">All bands</h2>
       <SliderContainer v-if="bands !== []">

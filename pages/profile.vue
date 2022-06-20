@@ -141,6 +141,7 @@
         </div>
       </div>
     </section>
+
     <!-- Edit user forms  -->
     <section class="container mx-auto">
       <FormulateForm v-model="formValues"
@@ -191,7 +192,7 @@
         </div>
       </FormulateForm>
     </section>
-
+    <Price />
     <!-- Add Bands  -->
     <div class="container mx-auto">
       <h2

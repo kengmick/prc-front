@@ -98,7 +98,7 @@
       </div>
     </div>
     <!-- grid of pictures -->
-    <div class="hidden sm:grid grid-cols-3 gap-0 w-1/2">
+    <div class="hidden sm:grid grid-cols-3 gap-2 w-1/2 bg-white">
       <img class="h-full object-cover" src="~/static/pit.jpg" alt="" />
       <img class="h-full object-cover" src="~/static/pit.jpg" alt="" />
       <img class="h-full object-cover" src="~/static/pit.jpg" alt="" />
