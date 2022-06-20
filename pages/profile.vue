@@ -1,7 +1,6 @@
 <template>
   <div class="px-2">
     <!-- user profile  -->
-    fdsafsdaf
     <section class="md:container md:mx-auto">
       <div
         v-if="user"
@@ -327,7 +326,11 @@
     <!-- show venues  -->
     <!-- venue end here  -->
     <div class="container mx-auto my-6">
-      <h2 class="underline mt-10 mb-2">Your Venues</h2>
+      <h2
+        class="bg-black w-full text-center text-white py-24 my-10 underline-offset-2"
+      >
+        Your Venues
+      </h2>
       <div class="w-full">
         <NuxtLink to="/createVenue">
           <div
@@ -397,7 +400,75 @@
     <!-- Show Classified -->
 
     <!-- add release button  -->
+
+    <!-- show releases if has relases  -->
+    <section class="container mx-auto">
+      <h2
+        class="bg-black w-full text-center text-white py-24 my-10 underline-offset-2"
+      >
+        Your Releases
+      </h2>
+      <div class="container mx-auto my-6">
+        <div class="w-full">
+          <NuxtLink to="/releasecreate">
+            <div
+              class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-2/5"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="25"
+                fill="currentColor"
+                class="bi bi-plus-circle"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                />
+                <path
+                  d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                />
+              </svg>
+              <h3 class="text-3xl pl-2 text-center">Add Releases</h3>
+            </div>
+          </NuxtLink>
+        </div>
+      </div>
+    </section>
+
+    <section v-if="releases" class="container mx-auto">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+        <div
+          v-for="r in releases"
+          :key="r.title"
+          class="transition-all duration-200 hover:scale-105"
+        >
+          <NuxtLink :to="{ path: 'releaseview', query: { release: r.id } }">
+            <div v-if="r.image" class="w-full h-[300px]">
+              <img class="h-full object-cover" :src="r.image.url" alt="" />
+            </div>
+            <div v-else class="flex items-center justify-center bg-black">
+              <img class="h-20 w-20" src="~/static/imageIcon.svg" alt="" />
+            </div>
+            <!-- card content -->
+            <div>
+              <p class="chedder text-2xl">{{ r.title }}</p>
+            </div>
+          </NuxtLink>
+        </div>
+      </div>
+    </section>
+    <section class="container mx-auto">
+      <p>No Releases</p>
+    </section>
+
+    <!-- distros -->
     <div class="container mx-auto my-6">
+      <h2
+        class="bg-black w-full text-center text-white py-24 my-10 underline-offset-2"
+      >
+        Your Distros
+      </h2>
       <div class="w-full">
         <NuxtLink to="/releasecreate">
           <div
@@ -418,39 +489,25 @@
                 d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
               />
             </svg>
-            <h3 class="text-3xl pl-2 text-center">Add Releases</h3>
+            <h3 class="text-3xl pl-2 text-center">Add Distro</h3>
           </div>
         </NuxtLink>
       </div>
     </div>
-    <!-- show releases if has relases  -->
-    <section class="container mx-auto">
-      <h2>Releases</h2>
-    </section>
-    <section v-if="releases" class="container mx-auto">
-      <div class="grid grid-cols-4 gap-10">
-        <div
-          v-for="r in releases"
-          :key="r.title"
-          class="transition-all duration-200 hover:scale-105"
-        >
-          <NuxtLink :to="{ path: 'releaseview', query: { release: r.id } }">
-            <div v-if="r.image" class="w-full h-[300px]">
-              <img class="h-full object-cover" :src="r.image.url" alt="" />
-            </div>
-            <div v-else class="flex items-center justify-center bg-black">
-              <img class="h-20 w-20" src="~/static/imageIcon.svg" alt="" />
-            </div>
-            <!-- card content -->
-            <div>
-              <h2>{{ r.title }}</h2>
-            </div>
-          </NuxtLink>
+
+    <section v-if="distros" class="container mx-auto">
+      <div>
+        <div v-for="d in distros" :key="d.name">
+          <div v-if="d.distroImage">
+            <div><img :src="d.distroImage.url" alt="" /></div>
+          </div>
+          <div>
+            <p class="chedder text-2xl">{{ d.name }}</p>
+          </div>
         </div>
       </div>
     </section>
-
-    <section>The End</section>
+    <section v-else>No Distros Added</section>
   </div>
 </template>
 
@@ -468,6 +525,7 @@ export default {
       posts: [],
       error: '',
       releases: [],
+      distros: [],
       merch: [],
       formValues: {},
       updateForm: false,
@@ -484,7 +542,17 @@ export default {
       const user = await this.$strapi.findOne('users', this.$strapi.user.id)
       console.log(user)
       this.user = user
-    } catch (error) {}
+    } catch (error) {
+      console.log('error is user')
+    }
+    try {
+      this.distros = await this.$strapi.find('record-labels', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+    } catch (error) {
+      this.error = 'sorry ... something went wrong distros'
+    }
+
     try {
       if (this.$strapi.user.profileImg) {
         this.userImage = this.$strapi.user.profileImg
@@ -533,7 +601,7 @@ export default {
         users_permissions_user: this.$strapi.user.id,
       })
     } catch (error) {
-      this.error = 'sorry ... something went wrong'
+      this.error = 'sorry ... something went wrong events'
     }
 
     try {
@@ -544,14 +612,14 @@ export default {
       console.log(this.venues, 'venues')
     } catch (error) {
       console.log(error)
-      this.error = 'sorry ... something went wrong'
+      this.error = 'sorry ... something went wrong venues'
     }
     try {
       this.classifieds = await this.$strapi.find('classifieds', {
         users_permissions_user: this.$strapi.user.id,
       })
     } catch (error) {
-      this.error = 'sorry ... something went wrong'
+      this.error = 'sorry ... something went wrong classified'
     }
     try {
       this.tours = await this.$strapi.find('tours', {
