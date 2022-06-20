@@ -151,13 +151,13 @@ body {
   width: 100%;
   opacity: 0.18;
   filter: blur(10px) saturate(11%);
-  transform: scale(2.8) translate3d(-18%, 0px, 0px);
+  transform: scale(1.5) translate3d(-18%, 0px, 0px);
 }
 .container__image.an:before {
   width: 100%;
   opacity: 0.18;
   filter: blur(10px) saturate(0%);
-  transform: scale(2.8) translate3d(-18%, 0px, 0px);
+  transform: scale(1.5) translate3d(-18%, 0px, 0px);
 }
 .container__image.an .container__info {
   transform: translate3d(-40%, 0px, 0px);
