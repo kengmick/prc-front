@@ -488,7 +488,8 @@
           </div>
         </section>
 
-        <div v-if="events" class="container mx-auto">
+        <!-- <div v-if="events" class="container mx-auto">
+          fsdafsdafsdafdsafsadfsdfadsf
           <section v-if="events.length > 0" class="container mx-auto">
             <div
               v-for="(event, index) in events"
@@ -546,7 +547,7 @@
           <section v-else class="container mx-auto">
             <h3>No Showz Added</h3>
           </section>
-        </div>
+        </div> -->
         <!-- <div v-if="band.events" class="mb-6">
           <div v-if="band.events.length > 0">
             <section class="mx-auto">
@@ -603,8 +604,103 @@
               </div>
             </section>
           </div>
-        </div> -->
-        <!-- <div v-else class="my-6"><h3>No Upcoming Showz</h3></div> -->
+        </div>
+        <div v-else class="my-6"><h3>No Upcoming Showz</h3></div> -->
+
+        <section v-if="events" class="container mx-auto">
+          <div
+            v-for="(event, index) in events"
+            :key="event.title + index"
+            class="shadow-md w-full h-64 my-12 mx-auto flex transition-all duration-200 hover:scale-105"
+          >
+            <div v-if="event.eventPoster" class="w-1/3 h-64">
+              <img
+                class="h-full w-full object-cover"
+                :src="event.eventPoster.url"
+                alt=""
+              />
+            </div>
+            <div class="p-6">
+              <p class="chedder text-xl text-center">
+                {{ moment(String(event.date)).format('MMM') }}
+              </p>
+              <p class="chedder text-xl text-center">
+                {{ moment(String(event.date)).format('Do') }}
+              </p>
+            </div>
+            <div class="flex flex-col flex-grow p-6">
+              <div>
+                <p v-if="event.title" class="chedder text-2xl">
+                  {{ event.title }}
+                </p>
+                <p v-if="event.headlinerOne" class="text-xl font-black pb-2">
+                  Featuring {{ event.headlinerOne }}
+                </p>
+                <p
+                  v-if="event.streetAddress && event.streetName"
+                  class="text-xl"
+                >
+                  The Vic, {{ event.streetAddress }} {{ event.streetName }} /
+                  {{ moment(String(event.date)).format('LT') }} -
+                  {{ moment(event.timeEnds, 'h').format('LT') }}
+                </p>
+                <p v-if="event.city && event.state" class="text-xl">
+                  {{ event.city }}, {{ event.state }}
+                </p>
+              </div>
+              <div class="flex-grow flex items-center">
+                <NuxtLink
+                  :to="{
+                    path: 'eventview',
+                    query: { event: event.id },
+                  }"
+                  class="border-2 border-black px-6 py-4"
+                  ><div class="flex items-center justify-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-eye"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"
+                      />
+                      <path
+                        d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"
+                      />
+                    </svg>
+                    <p class="pl-2">View Event</p>
+                  </div></NuxtLink
+                >
+                <NuxtLink
+                  v-if="user"
+                  :to="{
+                    path: 'eventedit',
+                    query: { event: event.id },
+                  }"
+                  class="border-2 border-black px-6 py-4 ml-2"
+                  ><div class="flex items-center justify-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-pencil"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
+                      />
+                    </svg>
+                    <p class="pl-2">Edit Event</p>
+                  </div></NuxtLink
+                >
+              </div>
+            </div>
+          </div>
+        </section>
 
         <!-- <section v-if="band.oldShows" class="container mx-auto">
           <h2>Historic Shows</h2>
@@ -859,6 +955,8 @@
               </div>
             </div>
           </div>
+          <h2>Add Logo</h2>
+          <div></div>
           <!-- add post bod  -->
           <div class="w-full mx-auto">
             <p class="text-red-500">{{ postError }}</p>
@@ -905,6 +1003,7 @@ export default {
       band: null,
       load: false,
       hide: false,
+      events: [],
       bandEvents: [],
       userPermission: null,
       videos: [],
@@ -914,11 +1013,12 @@ export default {
       postValue: false,
       postError: '',
       message: 'type something here to share',
-      events: [],
       user: null,
       eventPosterFile: '',
       eventForm: false,
       formValuesEvent: {},
+      postImage: '',
+      finalPostImage: '',
     }
   },
   async mounted() {
@@ -928,18 +1028,17 @@ export default {
       const band = await this.$strapi.findOne('bands', this.$route.query.band)
       this.band = band
       this.user = band.id
-      console.log(this.band)
       this.userPermission = band.users_permissions_user.id
       const id = [...this.band.events]
       const ids = await id.map((e) => {
         return ['id', e.id]
       })
-      console.log(ids)
 
-      const events = await this.$strapi.find('events', band.id)
+      const events = await this.$strapi.find('events', ids)
       this.events = events
       console.log(events, 'events ')
     } catch (error) {
+      console.log('no events found ')
       console.log(error, 'there was an error ')
     }
     // get events
@@ -1002,7 +1101,7 @@ export default {
     },
     async sendPost(val) {
       try {
-        if (this.postValue) {
+        if (this.postValue && !this.postImage) {
           if (this.$strapi.user) {
             this.postError = 'you must be logged in to comment '
           }
@@ -1018,7 +1117,29 @@ export default {
           this.postValue = false
           this.posts = posts
         }
-        this.postError = 'you must be logged in to comment '
+        if (this.postValue && this.postImage) {
+          // check to see if user is logged in
+          if (this.$strapi.user) {
+            this.postError = 'you must be logged in to comment '
+          }
+          // upload image to strapi
+          const formData = new FormData()
+          await formData.append('files', this.postImage)
+          const [img] = await this.$strapi.create('upload', formData)
+          this.postImage = img
+          this.image = img
+          await this.$strapi.create('posts', {
+            bands: this.band.id,
+            data: this.postValue,
+            users_permissions_user: this.$strapi.user.id,
+          })
+          const posts = await this.$strapi.find('posts', {
+            bands: this.band.id,
+          })
+
+          this.postValue = false
+          this.posts = posts
+        }
       } catch (error) {
         this.postError = 'you must be logged in to comment '
         console.log('error saving post ', error)
