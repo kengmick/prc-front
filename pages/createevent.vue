@@ -180,6 +180,7 @@ export default {
     }
   },
   async mounted() {
+    // finds all band to populate form
     try {
       const bands = await this.$strapi.find('bands', {
         users_permissions_user: this.$strapi.user.id,
@@ -189,12 +190,14 @@ export default {
       bands.forEach((b) => {
         o[b.bandName] = b.bandName
       })
+      // This is user band for the full
       this.userBands = o
     } catch (error) {
       this.userBands = null
       console.log(error)
     }
   },
+
   methods: {
     moment,
     log(val) {
@@ -213,25 +216,36 @@ export default {
         console.log(error)
       }
       try {
+        // if user picks band find band
         if (this.formValues.bandName) {
-          console.log('user picked a band ')
           const b = this.bands.filter((band) => {
             return band.bandName === this.formValues.bandName
           })
-          console.log(b, 'this is the bands')
-          this.formValues.bandName = b[0]
+
+          if (this.formValues.timeStarts) {
+            this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
+          }
+          const event = await this.$strapi.create('events', {
+            ...this.formValues,
+            users_permissions_user: this.$strapi.user.id,
+          })
+          this.event = event
+          await this.$strapi.update('bands', b[0].id, {
+            events: [...b[0].events, event],
+          })
         }
-        this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
+        if (this.formValues.timeStarts) {
+          this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
+        }
 
         const event = await this.$strapi.create('events', {
           ...this.formValues,
           users_permissions_user: this.$strapi.user.id,
         })
         this.event = event
-        console.log(event)
       } catch (error) {
         this.errorMessage = 'Sorry ... please try again'
-        console.log(error)
+        console.log(error, 'there was an error ')
       }
       // after creation take user to band admin
       if (this.event) {

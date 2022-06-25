@@ -1028,17 +1028,15 @@ export default {
       const band = await this.$strapi.findOne('bands', this.$route.query.band)
       this.band = band
       this.user = band.id
+      // not sure what this is doinig
       this.userPermission = band.users_permissions_user.id
-      const id = [...this.band.events]
-      const ids = await id.map((e) => {
-        return ['id', e.id]
-      })
+      // const id = [...this.band.events]
+      // const ids = await id.map((e) => {
+      //   return ['id', e.id]
+      // })
 
-      const events = await this.$strapi.find('events', ids)
-      this.events = events
-      console.log(events, 'events ')
+      this.events = this.band.events
     } catch (error) {
-      console.log('no events found ')
       console.log(error, 'there was an error ')
     }
     // get events
