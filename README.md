@@ -1,13 +1,24 @@
 ### Working on
 
-add shows, comments, and merch to venue profile
+### presentation mobile
 
-Video Links of the videos they want played on 24/7 livestream in preferred order
-All pages have a search function and comment function.
-Comments are available for all Logged-In Members.
-Comments include: User name, profile picture, comment, and date/time of post.
-Invitation to sign up for Free Membership to Post Comments and Create Profiles.
-Two Advertisement boxes on bottom of Main Page.
+- [] band page photos on medium screen, add event button size on other screens
+- [] update post comments box again
+- [] hero component on mobile device
+- [] posts on venue page to large mobile
+- [] tour page shows need flex col
+- [] classified list page needs more formattting
+- [] pricing table needs text content
+- [] featured event title needs margin bottom
+- [] ticket button in featured event needs to link somewhere
+- [] admin page needs videos and featured event and add live stream
+- [] event view needs padding around context and design efforts
+- [] home page needs to be added to mobile menue
+- [] put border around band cards for button
+
+important
+
+    add event event only shown to proper users
 
 =======
 

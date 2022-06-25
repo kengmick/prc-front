@@ -934,8 +934,11 @@ export default {
       const ids = await id.map((e) => {
         return ['id', e.id]
       })
-      const events = await this.$strapi.find('events', ids)
+      console.log(ids)
+
+      const events = await this.$strapi.find('events', band.id)
       this.events = events
+      console.log(events, 'events ')
     } catch (error) {
       console.log(error, 'there was an error ')
     }

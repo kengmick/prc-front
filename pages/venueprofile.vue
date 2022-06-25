@@ -513,7 +513,8 @@ export default {
       const ids = await id.map((e) => {
         return ['id', e.id]
       })
-      const events = await this.$strapi.find('events', ids)
+      console.log(ids)
+      const events = await this.$strapi.find('events', venue.id)
       this.events = events
       // this.image = venue.venueImg.url
       // this.venueImages = venue.venueImages

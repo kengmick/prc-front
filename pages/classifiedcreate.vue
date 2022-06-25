@@ -1,7 +1,14 @@
 <template>
   <div>
     <h3>Classified Create Page</h3>
-    <section class="container mx-auto px-2 my-4">
+    <div
+      v-if="loading"
+      class="fixed top-0 left-0 h-screen w-screen z-50 bg-black flex justify-center items-center"
+    >
+      <Spinner class="mr-6" />
+      <h3 class="text-white">Creating Classified</h3>
+    </div>
+    <section v-if="!loading" class="container mx-auto px-2 my-4">
       <FormulateForm v-model="formValues" @submit="submitForm">
         <FormulateInput
           name="title"
@@ -50,6 +57,20 @@
           element-class="w-full"
           errors-class="sm:w-4/5 m-auto"
         />
+        <h2 class="text-center mb-10 mt-4">Add An Image</h2>
+        <div class="w-full flex justify-center">
+          <FormulateInput
+            type="image"
+            name="image"
+            label="Select an image to upload"
+            help="Select a png, jpg or gif to upload."
+            validation="mime:image/jpeg,image/png,image/gif"
+            input-class="w-full sm:w-96 "
+            wrapper-class="w-full sm:w-96 "
+            element-class="w-full sm:w-96 "
+            @change="pic = $event.target.files[0]"
+          />
+        </div>
         <section>
           <FormulateInput
             name="description"
@@ -70,6 +91,7 @@
         />
       </FormulateForm>
     </section>
+
     <div v-if="errorMessage">
       <pre>{{ errorMessage }}</pre>
     </div>
@@ -84,25 +106,35 @@ export default {
       formValues: {},
       errorMessage: '',
       classified: {},
+      pic: '',
+      finalImage: '',
+      loading: false,
     }
   },
   methods: {
     moment,
+
     async submitForm() {
-      this.formValues.category = 'jam'
       try {
+        const formData = new FormData()
+        await formData.append('files', this.pic)
+        const [finalImage] = await this.$strapi.create('upload', formData)
+        this.finalImage = finalImage
+        this.formValues.image = finalImage
+      } catch (error) {
+        console.log(error)
+      }
+      try {
+        console.log(this.formValues)
         const article = await this.$strapi.create('classifieds', {
           ...this.formValues,
           users_permissions_user: this.$strapi.user.id,
         })
-        console.log('created')
         this.classified = article
-      } catch (error) {
-        console.log('there was an error ')
-        this.errorMessage = 'Sorry ... please try again'
-      }
-      // after creation take user to band admin
+        console.log(this.classified, article, 'article ')
+      } catch (error) {}
       if (this.classified) {
+        this.loading = false
         this.$router.push({
           path: '/classifiedview',
           query: { article: this.classified.id },
