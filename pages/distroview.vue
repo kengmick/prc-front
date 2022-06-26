@@ -536,8 +536,8 @@ export default {
       events: [],
       // form vals
       formValues: {},
-      popup: false,
       // post data
+      popup: false,
       posts: [],
       post: '',
       postValue: false,

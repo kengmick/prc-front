@@ -112,7 +112,8 @@
     </section>
     <!-- comment box -->
     <section class="container mx-auto">
-      <h3 class="text-3xl mt-6">Posts</h3>
+      <h2 class="text-3xl">Posts</h2>
+
       <section class="my-10">
         <!-- profileImg.url username, image -->
         <div v-for="(post, index) in posts" :key="post + index">
@@ -136,29 +137,39 @@
               </h3>
               <p class="speech-bubble text-white w-full sm:w-3/4 p-6">
                 {{ post.data }}
+                <span v-if="post.image"
+                  ><img
+                    class="max-w-[200px] max-h-[200px]"
+                    :src="post.image.url"
+                    alt=""
+                /></span>
               </p>
             </div>
           </div>
         </div>
         <!-- add post bod  -->
         <div class="w-full mx-auto">
-          <div class="w-full flex justify-center items-center">
+          <p class="text-red-500">{{ postError }}</p>
+          <div class="w-full flex justify-center items-center px-4 sm:px-0">
             <textarea
-              class="w-3/4 p-4 border-[1px] border-gray-400 mx-auto focus-visible:border-black post_input"
+              class="w-full sm:w-3/4 p-4 border-[1px] border-gray-400 mx-auto focus-visible:border-black post_input"
               placeholder="type something here to share ..."
               @change="postValue = $event.target.value"
             >
             </textarea>
           </div>
-          <div class="border-[1px] border-gray-400 w-3/4 mx-auto flex">
+          <div
+            class="border-[1px] border-gray-400 w-full sm:w-3/4 mx-auto flex"
+          >
             <div
-              class="flex items-center justify-center p-6 border-r-2 border-black"
-              @click="sendPost"
+              class="flex items-center justify-center p-6 border-r-[.5px] border-black cursor-pointer"
+              @click="sendPost(postValue)"
             >
               <h3><span class="pr-2">💬</span> Send</h3>
             </div>
             <div
-              class="flex items-center justify-center p-6 border-r-2 border-black"
+              class="flex items-center justify-center p-6 border-[.5px] border-black cursor-pointer"
+              @click="popupToggle"
             >
               <img
                 class="h-4 inline pr-2"
@@ -170,6 +181,31 @@
           </div>
         </div>
       </section>
+    </section>
+    <section
+      v-if="popup"
+      class="h-screen w-screen bg-black bg-opacity-10 fixed top-0 left-0 flex items-center justify-center"
+    >
+      <!-- upload form  -->
+      <div
+        class="w-1/4 h-2/5 bg-gray-100 shadow-sm flex justify-center items-center relative"
+      >
+        <!-- form goes here -->
+        <FormulateInput
+          type="image"
+          label="Select an image to upload"
+          help="Select a png, jpg or gif to upload."
+          validation="mime:image/jpeg,image/png,image/gif"
+          input-class="w-full sm:w-96 "
+          wrapper-class="w-full sm:w-96 "
+          element-class="w-full sm:w-96 "
+          @change="postImage = $event.target.files[0]"
+        />
+        <!-- close icon -->
+        <div class="absolute top-3 right-3" @click="popupToggle">
+          <img class="h-6 w-6" src="~/static/close_black.svg" alt="" />
+        </div>
+      </div>
     </section>
   </div>
 </template>
@@ -184,9 +220,16 @@ export default {
     return {
       event: '',
       image: '',
-      posts: [],
-      postValue: false,
       user: null,
+      // post data
+      popup: false,
+      posts: [],
+      post: '',
+      postValue: false,
+      postError: '',
+      message: 'type something here to share',
+      postImage: '',
+      finalPostImage: '',
     }
   },
   async mounted() {
@@ -211,24 +254,67 @@ export default {
   },
   methods: {
     moment,
+    popupToggle() {
+      this.popup = !this.popup
+    },
     setVal: function (val) {
       this.postValue = val
     },
     async sendPost(val) {
+      console.log('sending post ')
       try {
-        if (this.postValue) {
+        if (this.postValue && !this.postImage) {
+          if (!this.$strapi.user) {
+            this.postError = 'you must be logged in to comment '
+            return this.postError
+          }
+          // creats post if users is logged in and does not upload an image
           await this.$strapi.create('posts', {
             event: this.event.id,
             data: this.postValue,
             users_permissions_user: this.$strapi.user.id,
           })
+          // gets all the posts after creating new post above
           const posts = await this.$strapi.find('posts', {
             event: this.event.id,
           })
-          this.postValue = false
+          // clears the post value box
+          this.postValue = ''
+          this.posts = posts
+        }
+        // will try to create post with an image uploadd
+        if (this.postValue && this.postImage) {
+          // check to see if user is logged in
+          if (!this.$strapi.user) {
+            this.postError = 'you must be logged in to comment '
+            return this.postError
+          }
+          // image upload
+          const formData = new FormData()
+          await formData.append('files', this.postImage)
+          const [img] = await this.$strapi.create('upload', formData)
+          this.finalPostImage = img
+
+          await this.$strapi.create('posts', {
+            // tells where to assign the post
+            event: this.event.id,
+            // sets the post message
+            data: this.postValue,
+            // sets the post image
+            image: this.finalPostImage,
+            // Ties post to a user
+            users_permissions_user: this.$strapi.user.id,
+          })
+          // fix the post value in the form after creating post ... it should clear out
+          this.postValue = ''
+          const posts = await this.$strapi.find('posts', {
+            event: this.event.id,
+          })
+
           this.posts = posts
         }
       } catch (error) {
+        this.postError = 'you must be logged in to comment '
         console.log('error saving post ', error)
       }
     },
