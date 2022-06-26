@@ -1,3 +1,8 @@
+# note
+
+- add a way to change what band is tied to the event in the event edit form on band profile page
+- Order shows by date
+
 ### Working on
 
 ### presentation mobile

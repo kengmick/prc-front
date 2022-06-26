@@ -564,12 +564,7 @@ export default {
       this.image = distro.distroImage.url
       this.distroImages = distro.distroImages
       this.user = this.$strapi.user.id
-      const id = [...this.distro.events]
-      const ids = await id.map((e) => {
-        return ['id', e.id]
-      })
-      const events = await this.$strapi.find('events', ids)
-      this.events = events
+      this.events = this.distro.events
     } catch (error) {
       console.log(error)
     }
@@ -584,6 +579,48 @@ export default {
   },
   methods: {
     moment,
+    // async addEvents(val) {
+    //   if (this.eventPosterFile) {
+    //     try {
+    //       const formData = new FormData()
+    //       await formData.append('files', this.eventPosterFile)
+    //       // upload to strapi here
+    //       const [eventPosterFinal] = await this.$strapi.create(
+    //         'upload',
+    //         formData
+    //       )
+    //       this.eventPosterFinal = eventPosterFinal
+    //       this.formValues.eventPoster = eventPosterFinal
+
+    //       const event = await this.$strapi.create('events', {
+    //         users_permissions_user: this.$strapi.user.id,
+    //         ...this.formValues,
+    //       })
+    //       await this.events.push(event)
+    //       await this.$strapi.update('record_labels', this.distro.id, {
+    //         events: [...this.distro.events, event],
+    //       })
+    //       this.eventForm = false
+    //     } catch (error) {
+    //       this.message = 'Sorry we could not create the event'
+    //       console.log('uploading image ', error)
+    //     }
+    //   } else {
+    //     try {
+    //       const event = await this.$strapi.create('events', {
+    //         users_permissions_user: this.$strapi.user.id,
+    //         ...this.formValues,
+    //       })
+    //       await this.$strapi.update('record_labels', this.distro.id, {
+    //         events: [...this.distro.events, event],
+    //       })
+    //       await this.events.push(event)
+    //       this.eventForm = false
+    //     } catch (error) {
+    //       console.log('adding event ', error)
+    //     }
+    //   }
+    // },
     popupToggle() {
       this.popup = !this.popup
     },

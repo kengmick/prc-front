@@ -335,7 +335,7 @@
             </FormulateForm>
           </div>
         </section>
-        <!-- end of add show button  -->
+        <!-- Events list section  -->
         <div v-if="events" class="container mx-auto">
           <section v-if="events.length > 0" class="container mx-auto">
             <div
@@ -551,13 +551,8 @@ export default {
       if (this.$strapi.user.id === venue.users_permissions_user.id) {
         this.user = this.$strapi.user.id
       }
-      const id = [...this.venue.events]
-      const ids = await id.map((e) => {
-        return ['id', e.id]
-      })
-      console.log(ids)
-      const events = await this.$strapi.find('events', venue.id)
-      this.events = events
+
+      this.events = venue.events
       // this.image = venue.venueImg.url
       // this.venueImages = venue.venueImages
     } catch (error) {
