@@ -529,6 +529,7 @@ export default {
       // image data
       image: '',
       distroImages: [],
+      // user logged in data
       user: null,
       // event data
       eventPosterFile: '',
