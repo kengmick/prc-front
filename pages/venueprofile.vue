@@ -454,6 +454,7 @@
         </div>
         <!-- add post bod  -->
         <div class="w-full mx-auto">
+          <p class="text-red-500">{{ postError }}</p>
           <div class="w-full flex justify-center items-center px-4 sm:px-0">
             <textarea
               class="w-full sm:w-3/4 p-4 border-[1px] border-gray-400 mx-auto focus-visible:border-black post_input"
