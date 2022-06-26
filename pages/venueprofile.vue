@@ -442,6 +442,12 @@
               </h3>
               <p class="speech-bubble text-white w-3/4 p-6">
                 {{ post.data }}
+                <span v-if="post.image"
+                  ><img
+                    class="max-w-[200px] max-h-[200px]"
+                    :src="post.image.url"
+                    alt=""
+                /></span>
               </p>
             </div>
           </div>
@@ -466,7 +472,8 @@
               <h3><span class="pr-2">💬</span> Send</h3>
             </div>
             <div
-              class="flex items-center justify-center p-6 border-[.5px] border-black"
+              class="flex items-center justify-center p-6 border-[.5px] border-black cursor-pointer"
+              @click="popupToggle"
             >
               <img
                 class="h-4 inline pr-2"
@@ -479,6 +486,33 @@
         </div>
       </section>
     </section>
+    <!-- pop up upload image to post  ======= -->
+    <section
+      v-if="popup"
+      class="h-screen w-screen bg-black bg-opacity-10 fixed top-0 flex items-center justify-center"
+    >
+      <!-- upload form  -->
+      <div
+        class="w-1/4 h-2/5 bg-gray-100 shadow-sm flex justify-center items-center relative"
+      >
+        <!-- form goes here -->
+        <FormulateInput
+          type="image"
+          label="Select an image to upload"
+          help="Select a png, jpg or gif to upload."
+          validation="mime:image/jpeg,image/png,image/gif"
+          input-class="w-full sm:w-96 "
+          wrapper-class="w-full sm:w-96 "
+          element-class="w-full sm:w-96 "
+          @change="postImage = $event.target.files[0]"
+        />
+        <!-- close icon -->
+        <div class="absolute top-3 right-3" @click="popupToggle">
+          <img class="h-6 w-6" src="~/static/close_black.svg" alt="" />
+        </div>
+      </div>
+    </section>
+    <!-- end of popup form for image post  -->
   </div>
 </template>
 
@@ -490,12 +524,19 @@ export default {
       venue: {},
       image: '',
       venueImages: [],
-      posts: [],
-      postValue: false,
       events: [],
       user: null,
       eventForm: false,
       formValues: {},
+      // posts data
+      posts: [],
+      popup: false,
+      post: '',
+      postValue: false,
+      postError: '',
+      message: 'type something here to share',
+      postImage: '',
+      finalPostImage: '',
     }
   },
 
@@ -533,6 +574,9 @@ export default {
   },
   methods: {
     moment,
+    popupToggle() {
+      this.popup = !this.popup
+    },
     async addEvents(val) {
       if (this.eventPosterFile) {
         try {
@@ -583,19 +627,58 @@ export default {
     },
     async sendPost(val) {
       try {
-        if (this.postValue) {
+        if (this.postValue && !this.postImage) {
+          if (!this.$strapi.user) {
+            this.postError = 'you must be logged in to comment '
+            return this.postError
+          }
+          // creats post if users is logged in and does not upload an image
           await this.$strapi.create('posts', {
             venue: this.venue.id,
             data: this.postValue,
             users_permissions_user: this.$strapi.user.id,
           })
+          // gets all the posts after creating new post above
           const posts = await this.$strapi.find('posts', {
             venue: this.venue.id,
           })
-          this.postValue = false
+          // clears the post value box
+          this.postValue = ''
+          this.posts = posts
+        }
+        // will try to create post with an image uploadd
+        if (this.postValue && this.postImage) {
+          // check to see if user is logged in
+          if (!this.$strapi.user) {
+            this.postError = 'you must be logged in to comment '
+            return this.postError
+          }
+          // image upload
+          const formData = new FormData()
+          await formData.append('files', this.postImage)
+          const [img] = await this.$strapi.create('upload', formData)
+          this.finalPostImage = img
+
+          await this.$strapi.create('posts', {
+            // tells where to assign the post
+            venue: this.venue.id,
+            // sets the post message
+            data: this.postValue,
+            // sets the post image
+            image: this.finalPostImage,
+            // Ties post to a user
+            users_permissions_user: this.$strapi.user.id,
+          })
+          // fix the post value in the form after creating post ... it should clear out
+          this.postValue = ''
+          const posts = await this.$strapi.find('posts', {
+            venue: this.venue.id,
+          })
+
           this.posts = posts
         }
       } catch (error) {
+        this.postError = 'you must be logged in to comment '
         console.log('error saving post ', error)
       }
     },

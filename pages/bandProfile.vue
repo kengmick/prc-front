@@ -925,11 +925,12 @@
         </div>
         <div v-else class="my-4"><h3>No Songs Uploaded</h3></div>
       </section>
+      <!-- posts  -->
       <section class="container mx-auto">
         <h2>Posts</h2>
         <section class="mt-10 sm:mb-10">
           <!-- profileImg.url username, image -->
-          <div v-for="(post, index) in posts" :key="post + index">
+          <div v-for="(post, index) in posts" :key="index">
             <div
               v-if="post.users_permissions_user"
               class="mb-6 flex justify-center"
@@ -951,12 +952,16 @@
                 </h3>
                 <p class="speech-bubble text-white p-2">
                   {{ post.data }}
+                  <span v-if="post.image"
+                    ><img
+                      class="max-w-[200px] max-h-[200px]"
+                      :src="post.image.url"
+                      alt=""
+                  /></span>
                 </p>
               </div>
             </div>
           </div>
-          <h2>Add Logo</h2>
-          <div></div>
           <!-- add post bod  -->
           <div class="w-full mx-auto">
             <p class="text-red-500">{{ postError }}</p>
@@ -978,7 +983,8 @@
                 <h3><span class="pr-2">💬</span> Send</h3>
               </div>
               <div
-                class="flex items-center justify-center p-6 border-[.5px] border-black"
+                class="flex items-center justify-center p-6 border-[.5px] border-black cursor-pointer"
+                @click="popupToggle"
               >
                 <img
                   class="h-4 inline pr-2"
@@ -992,6 +998,33 @@
         </section>
       </section>
     </div>
+    <!-- pop up upload image to post  ======= -->
+    <section
+      v-if="popup"
+      class="h-screen w-screen bg-black bg-opacity-10 fixed top-0 flex items-center justify-center"
+    >
+      <!-- upload form  -->
+      <div
+        class="w-1/4 h-2/5 bg-gray-100 shadow-sm flex justify-center items-center relative"
+      >
+        <!-- form goes here -->
+        <FormulateInput
+          type="image"
+          label="Select an image to upload"
+          help="Select a png, jpg or gif to upload."
+          validation="mime:image/jpeg,image/png,image/gif"
+          input-class="w-full sm:w-96 "
+          wrapper-class="w-full sm:w-96 "
+          element-class="w-full sm:w-96 "
+          @change="postImage = $event.target.files[0]"
+        />
+        <!-- close icon -->
+        <div class="absolute top-3 right-3" @click="popupToggle">
+          <img class="h-6 w-6" src="~/static/close_black.svg" alt="" />
+        </div>
+      </div>
+    </section>
+    <!-- end of popup form for image post  -->
   </div>
 </template>
 
@@ -1000,23 +1033,29 @@ import moment from 'moment'
 export default {
   data() {
     return {
+      // band and events
       band: null,
-      load: false,
-      hide: false,
       events: [],
       bandEvents: [],
+      // loading data
+      load: false,
+      hide: false,
+      // userpermission helper
       userPermission: null,
+      user: null,
       videos: [],
-      posts: [],
       formValues: {},
+      // event data
+      eventPosterFile: '',
+      eventForm: false,
+      formValuesEvent: {},
+      // post data
+      posts: [],
+      popup: false,
       post: '',
       postValue: false,
       postError: '',
       message: 'type something here to share',
-      user: null,
-      eventPosterFile: '',
-      eventForm: false,
-      formValuesEvent: {},
       postImage: '',
       finalPostImage: '',
     }
@@ -1048,6 +1087,7 @@ export default {
   },
   methods: {
     moment,
+    // add events
     async addEvents(val) {
       if (this.eventPosterFile) {
         try {
@@ -1097,45 +1137,59 @@ export default {
       console.log(val, 'val')
       this.postValue = val
     },
+    popupToggle() {
+      this.popup = !this.popup
+    },
+
     async sendPost(val) {
       try {
         if (this.postValue && !this.postImage) {
-          if (this.$strapi.user) {
+          if (!this.$strapi.user) {
             this.postError = 'you must be logged in to comment '
+            return this.postError
           }
+          // creats post if users is logged in and does not upload an image
           await this.$strapi.create('posts', {
             bands: this.band.id,
             data: this.postValue,
             users_permissions_user: this.$strapi.user.id,
           })
+          // gets all the posts after creating new post above
           const posts = await this.$strapi.find('posts', {
             bands: this.band.id,
           })
-
-          this.postValue = false
+          // clears the post value box
+          this.postValue = ''
           this.posts = posts
         }
+        // will try to create post with an image uploadd
         if (this.postValue && this.postImage) {
           // check to see if user is logged in
-          if (this.$strapi.user) {
+          if (!this.$strapi.user) {
             this.postError = 'you must be logged in to comment '
+            return this.postError
           }
-          // upload image to strapi
+          // image upload
           const formData = new FormData()
           await formData.append('files', this.postImage)
           const [img] = await this.$strapi.create('upload', formData)
-          this.postImage = img
-          this.image = img
+          this.finalPostImage = img
+
           await this.$strapi.create('posts', {
+            // tells where to assign the post
             bands: this.band.id,
+            // sets the post message
             data: this.postValue,
+            // sets the post image
+            image: this.finalPostImage,
+            // Ties post to a user
             users_permissions_user: this.$strapi.user.id,
           })
+          this.postValue = ''
           const posts = await this.$strapi.find('posts', {
             bands: this.band.id,
           })
 
-          this.postValue = false
           this.posts = posts
         }
       } catch (error) {
