@@ -16,11 +16,14 @@
         :style="`background-image: url(${image})`"
       ></div>
       <section v-if="user">
-        <div class="flex-grow flex items-center my-12 w-full md:w-[450px]">
+        <div
+          v-if="distro.users_permissions_user"
+          class="flex-grow flex items-center my-12 w-full md:w-[450px]"
+        >
           <NuxtLink
-            v-if="user"
+            v-if="distro.users_permissions_user.id === $strapi.user.id"
             :to="{
-              path: 'distroedit',
+              path: 'distrosedit',
               query: { distro: distro.id },
             }"
             class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
@@ -97,8 +100,14 @@
         </p>
       </div>
     </section>
-    <section v-if="user && distro" class="container mx-auto">
-      <div class="flex-grow flex items-center my-12 w-full md:w-[450px]">
+    <section
+      v-if="user && distro.users_permissions_user"
+      class="container mx-auto"
+    >
+      <div
+        v-if="distro.users_permissions_user.id === user.id"
+        class="flex-grow flex items-center my-12 w-full md:w-[450px]"
+      >
         <div
           class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
           @click="addEventForm"

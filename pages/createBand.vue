@@ -87,14 +87,14 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
-              <FormulateInput
+              <!-- <FormulateInput
                 name="country"
                 label="Country other than USA?"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
                 @change="formValues.country = $event.target.value"
-              />
+              /> -->
               <FormulateInput
                 name="city"
                 label="City that the band is from?"
@@ -156,7 +156,7 @@
               >
                 <FormulateInput
                   name="link"
-                  label="https://somelink.com"
+                  label="Add A Link"
                   wrapper-class="sm:w-4/5 m-auto"
                   element-class="w-full"
                   errors-class="sm:w-4/5 m-auto"
@@ -434,11 +434,24 @@ export default {
       // old shows array
       // Creating band data
       try {
+        if (this.formValues.links) {
+          const links = this.formValues.links.map((l) => {
+            // this will map over the array
+            const val = l.link.split('').slice(0, 4).join('')
+            if (val === 'http') {
+              return { link: l }
+            }
+            return { link: `https://${l.link}` }
+          })
+          console.log(links)
+          this.formValues.links = links
+        }
         if (this.formValues.genre) {
           this.formValues.genreAlt = 'other'
         } else if (this.formValues.genreAlt) {
           this.formValues.genre = null
         }
+
         const band = await this.$strapi.create('bands', {
           ...this.formValues,
           users_permissions_user: this.$strapi.user.id,

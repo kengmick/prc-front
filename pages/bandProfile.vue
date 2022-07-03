@@ -1,7 +1,6 @@
 <template>
   <div>
     <div v-if="band">
-      <pre>{{ band }}</pre>
       <div v-if="band.bandProfileImg">
         <!-- image here  -->
         <div class="w-full h-[40vh] z-0">

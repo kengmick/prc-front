@@ -1,6 +1,6 @@
 <template class="h-full">
   <section class="container m-auto h-full mt-28 mb-36">
-    <h1 class="text-center main_red_text">Login</h1>
+    <h1 class="text-center main_red_text">Sign In</h1>
     <div class="px-4 w-full sm:w-96 m-auto">
       <FormulateForm v-model="formValues" @submit="login">
         <div>
@@ -23,7 +23,7 @@
         </div>
         <FormulateInput
           type="submit"
-          label="Login"
+          label="Sign In"
           wrapper-class="flex justify-center mt-6"
         />
         <p v-if="errorMessage">{{ errorMessage }}</p>
