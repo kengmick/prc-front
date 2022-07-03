@@ -4,6 +4,7 @@
     <section v-if="band" class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
       <div class="w-full mt-6 mb-6">
         <FormulateForm v-model="formValues" @submit="submitForm">
+          <pre>{{ formValues.genreAlt }} {{ formValues.genre }} fdsfsd</pre>
           <div class="flex-col flex">
             <div class="w-full px-4">
               <FormulateInput
@@ -16,7 +17,7 @@
               />
               <FormulateInput
                 name="genreAlt"
-                :value="band.gereAlt || ''"
+                :value="band.genreAlt || ''"
                 :options="{
                   oldPunk: 'Old Punk',
                   hardCore: 'HardCore',
@@ -35,6 +36,7 @@
                 element-class="w-full"
                 errors-class=" m-auto"
               />
+              <!-- if edit genre clear out the old value  -->
               <FormulateInput
                 v-if="formValues.genreAlt === 'other'"
                 name="genre"
@@ -330,6 +332,7 @@ export default {
       const band = await this.$strapi.findOne('bands', this.$route.query.band)
       this.band = band
       this.formValues = band
+      // this.formValues.genreAlt = band.genreAlt
       if (band.bandProfileImg) {
         this.currentImage = band.bandProfileImg.url
       }
@@ -356,6 +359,8 @@ export default {
       })
     },
     async submitForm() {
+      // logic for editing genre
+
       // uploading bandProfileImg
       if (this.changeMem) {
         const members = []
@@ -422,6 +427,7 @@ export default {
       }
       // making post band to strapi
       try {
+        // update band below
         const { members, bandProfileImg, photos, ...rest } = this.formValues
         if (bandProfileImg) {
           const band = await this.$strapi.update(
@@ -436,6 +442,7 @@ export default {
           )
           this.band = band
         }
+        // updating band
         const band = await this.$strapi.update(
           'bands',
           this.$route.query.band,
@@ -452,6 +459,7 @@ export default {
         console.log('there was a problem', error)
       }
       try {
+        // updating band
         const band = await this.$strapi.update(
           'bands',
           this.$route.query.band,

@@ -2,6 +2,7 @@
   <div>
     <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
     <h1 class="main_red_text text-center">Create Show</h1>
+
     <section class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
       <div class="w-full mt-6 mb-6">
         <FormulateForm v-model="formValues" @submit="submitForm">
@@ -21,6 +22,36 @@
                 name="bandName"
                 label="Pick Your Band Optional?"
                 :options="userBands"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
+                v-if="userDistros"
+                type="select"
+                name="distroName"
+                label="Pick Your Distro Optional?"
+                :options="userDistros"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
+                v-if="userTours"
+                type="select"
+                name="tourName"
+                label="Pick Your Tour Optional?"
+                :options="userTours"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
+                v-if="userVenues"
+                type="select"
+                name="venueName"
+                label="Pick Your Venue Optional?"
+                :options="userVenues"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
@@ -175,8 +206,16 @@ export default {
       eventPosterFile: '',
       eventPosterFinal: '',
       end: '',
-      userBands: {},
+      // profiles to populate form options
+      userBands: null,
+      userVenues: null,
+      userTours: null,
+      userDistros: null,
+      // profiles array
       bands: [],
+      venues: [],
+      tours: [],
+      distros: [],
     }
   },
   async mounted() {
@@ -194,6 +233,56 @@ export default {
       this.userBands = o
     } catch (error) {
       this.userBands = null
+      console.log(error)
+    }
+    // venues
+    try {
+      const venues = await this.$strapi.find('venues', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      this.venues = venues
+      const o = {}
+      venues.forEach((v) => {
+        o[v.name] = v.name
+      })
+      // This is user band for the full
+      this.userVenues = o
+    } catch (error) {
+      this.userVenues = null
+      console.log(error)
+    }
+    // distros
+    // must work on later
+    try {
+      const distros = await this.$strapi.find('record-labels', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      this.distros = distros
+      const o = {}
+      distros.forEach((d) => {
+        o[d.name] = d.name
+      })
+      // This is user band for the full
+      this.userDistros = o
+    } catch (error) {
+      this.userDistros = null
+      console.log(error)
+    }
+    // tour
+    try {
+      const tours = await this.$strapi.find('tours', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      this.tour = tours
+      const o = {}
+      tours.forEach((t) => {
+        console.log(t, ' this is the tour')
+        o[t.title] = t.title
+      })
+      // This is user band for the full
+      this.userTours = o
+    } catch (error) {
+      this.userTours = null
       console.log(error)
     }
   },
@@ -217,6 +306,24 @@ export default {
       }
       try {
         // if user picks band find band
+        if (this.formValues.bandName) {
+          const b = this.bands.filter((band) => {
+            return band.bandName === this.formValues.bandName
+          })
+
+          if (this.formValues.timeStarts) {
+            this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
+          }
+          const event = await this.$strapi.create('events', {
+            ...this.formValues,
+            users_permissions_user: this.$strapi.user.id,
+          })
+          this.event = event
+          await this.$strapi.update('bands', b[0].id, {
+            events: [...b[0].events, event],
+          })
+        }
+        // if user picks a venue
         if (this.formValues.bandName) {
           const b = this.bands.filter((band) => {
             return band.bandName === this.formValues.bandName

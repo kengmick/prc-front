@@ -124,11 +124,12 @@ export default {
   methods: {
     async submitForm() {
       try {
+        // creates user and setting tier to the number 2 .... full access
         const user = await this.$strapi.register({
           email: this.email,
           username: this.username,
           password: this.password,
-          acc: 1,
+          acc: 2,
         })
         if (user) {
           this.$router.push({ path: 'profile', query: { user: user.id } })

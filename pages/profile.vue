@@ -6,9 +6,13 @@
         v-if="user"
         class="mx-auto flex flex-col md:flex-row justify-center md:justify-start md:my-12"
       >
-        <div class="sm:w-3/5 md:w-2/5">
+        <div>
           <div v-if="user.profileImg">
-            <img :src="user.profileImg.url" alt="" class="w-full" />
+            <img
+              :src="user.profileImg.url"
+              alt=""
+              class="w-full object-fill sm:w-[250px] h-[250px]"
+            />
           </div>
           <div
             v-else
@@ -16,36 +20,25 @@
           >
             <img src="~/static/imageIcon.svg" alt="" class="w-12" />
           </div>
-          <div class="bg-black text-white chedder p-6 w-full">
+          <div class="bg-black text-white chedder p-6 w-auto">
             {{ user.username }}
           </div>
-
-          <div class="hidden md:block my-6 w-full">
-            <div class="w-full">
-              <div
-                class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full"
-                @click="update"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
-                  fill="currentColor"
-                  class="bi bi-plus-circle"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-                  />
-                  <path
-                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
-                  />
-                </svg>
-                <h3 class="text-3xl pl-2 text-center">Edit User</h3>
-              </div>
-            </div>
-          </div>
-          <!-- upgrade button  -->
+        </div>
+        <div class="sm:px-6 py-2">
+          <p class="m-2">
+            <span
+              class="px-4 py-2 mr-4 font-bold chedder inline-block sm:w-[150px]"
+              >Account Tier</span
+            >{{ user.acc }}
+          </p>
+          <hr />
+          <p class="m-2">
+            <span
+              class="px-4 py-2 mr-4 text-black font-bold chedder inline-block sm:w-[150px]"
+              >Account Email</span
+            >{{ user.email }}
+          </p>
+          <hr />
           <div class="hidden md:block my-6 w-full">
             <div class="w-full">
               <div
@@ -71,22 +64,31 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="sm:px-6 py-2">
-          <p class="m-2">
-            <span
-              class="px-4 py-2 mr-4 font-bold chedder inline-block sm:w-[150px]"
-              >Account Tier</span
-            >{{ user.acc }}
-          </p>
-          <hr />
-          <p class="m-2">
-            <span
-              class="px-4 py-2 mr-4 text-black font-bold chedder inline-block sm:w-[150px]"
-              >Account Email</span
-            >{{ user.email }}
-          </p>
-          <hr />
+          <div class="hidden md:block my-6 w-full">
+            <div class="w-full">
+              <div
+                class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full"
+                @click="update"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="25"
+                  height="25"
+                  fill="currentColor"
+                  class="bi bi-plus-circle"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                  />
+                  <path
+                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                  />
+                </svg>
+                <h3 class="text-3xl pl-2 text-center">Edit User</h3>
+              </div>
+            </div>
+          </div>
 
           <div class="block md:hidden my-6">
             <div class="w-full">
@@ -192,11 +194,13 @@
         </div>
       </FormulateForm>
     </section>
-    <Price />
+    <!-- pricing modle  -->
+    <!-- <Price /> -->
     <!-- Add Bands  -->
+    <h2 class="text-center chedder main_red_text">Create Your Content</h2>
     <div class="container mx-auto">
       <h2
-        class="bg-black w-full text-center text-white py-24 my-10 underline-offset-2"
+        class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
       >
         Your Bands
       </h2>
@@ -240,7 +244,7 @@
     <!-- end show band  -->
     <div class="container mx-auto my-6">
       <h2
-        class="bg-black w-full text-center text-white py-24 my-10 underline-offset-2"
+        class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
       >
         Your Showz
       </h2>
@@ -337,7 +341,7 @@
     <!-- tours -->
     <div class="container mx-auto my-6">
       <h2
-        class="bg-black w-full text-center text-white py-24 my-10 underline-offset-2"
+        class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
       >
         Your Tours
       </h2>
@@ -419,7 +423,7 @@
     <!-- venue end here  -->
     <div class="container mx-auto my-6">
       <h2
-        class="bg-black w-full text-center text-white py-24 my-10 underline-offset-2"
+        class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
       >
         Your Venues
       </h2>
@@ -464,7 +468,7 @@
     <!-- add classifed -->
     <section class="container mx-auto">
       <h2
-        class="bg-black w-full text-center text-white py-24 my-10 underline-offset-2"
+        class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
       >
         Your Classifieds
       </h2>
@@ -502,7 +506,7 @@
     <!-- show releases if has relases  -->
     <section class="container mx-auto">
       <h2
-        class="bg-black w-full text-center text-white py-24 my-10 underline-offset-2"
+        class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
       >
         Your Releases
       </h2>
@@ -563,7 +567,7 @@
     <!-- distros -->
     <div class="container mx-auto my-6">
       <h2
-        class="bg-black w-full text-center text-white py-24 my-10 underline-offset-2"
+        class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
       >
         Your Distros
       </h2>

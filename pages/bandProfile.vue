@@ -1,6 +1,7 @@
 <template>
   <div>
     <div v-if="band">
+      <pre>{{ band }}</pre>
       <div v-if="band.bandProfileImg">
         <!-- image here  -->
         <div class="w-full h-[40vh] z-0">
@@ -76,15 +77,15 @@
         <div class="flex flex-col sm:flex-row items-center mb-4">
           <!-- col one of details  -->
           <div class="w-full mb-6 sm:w-3/4 flex">
-            <div v-if="band.genreAlt" class="w-full">
+            <div v-if="band.genre">
               <h2
                 class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
               >
                 Genre
               </h2>
-              <p>{{ band.genreAlt }}</p>
+              <p>{{ band.genre }}</p>
             </div>
-            <div v-if="band.genre && !band.genreAlt">
+            <div v-if="band.genreAlt && !band.genre" class="w-full">
               <h2
                 class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
               >

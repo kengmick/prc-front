@@ -2,6 +2,7 @@
 
 - add a way to change what band is tied to the event in the event edit form on band profile page
 - Order shows by date
+- shows need indication of what band it belongs too if user chooses a any type of profile
 
 ### Working on
 

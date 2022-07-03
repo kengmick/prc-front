@@ -356,6 +356,7 @@ export default {
       showPosters: [],
       pictures: [],
       acc: 1,
+      otherGen: '',
     }
   },
   async mounted() {
@@ -431,9 +432,13 @@ export default {
         }
       }
       // old shows array
-      // making post band to strapi
+      // Creating band data
       try {
-        console.log('form values ===', this.formValues)
+        if (this.formValues.genre) {
+          this.formValues.genreAlt = 'other'
+        } else if (this.formValues.genreAlt) {
+          this.formValues.genre = null
+        }
         const band = await this.$strapi.create('bands', {
           ...this.formValues,
           users_permissions_user: this.$strapi.user.id,
