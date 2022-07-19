@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-black py-2 px-4">
+  <div class="bg-black py-2 px-4 cursor-pointer">
     <p class="text-white text-center text-[13px]">{{ text }}</p>
   </div>
 </template>

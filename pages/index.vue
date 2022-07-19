@@ -9,7 +9,14 @@
         v-if="bands !== []"
         class="flex flex-col w-[80%] mx-auto xl:flex-row xl:w-auto justify-center gap-14"
       >
-        <BandCard
+        <!-- <BandCard
+          v-for="(band, index) in bands.slice(0, 3)"
+          :key="band.bandName + index"
+          :band="band"
+          :isFeatured="true"
+          style="min-width: 25vw"
+        /> -->
+        <PosterCard
           v-for="(band, index) in bands.slice(0, 3)"
           :key="band.bandName + index"
           :band="band"

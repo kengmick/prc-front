@@ -253,7 +253,10 @@
       <!-- edit component -->
 
       <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto mt-6">
-        <h2 class="text-3xl main_red_text underline underline-offset-2 pb-6">
+        <h2
+          id="showz"
+          class="text-3xl main_red_text underline underline-offset-2 pb-6"
+        >
           Showz
         </h2>
         <section v-if="user && band" class="container mx-auto">
@@ -713,7 +716,7 @@
           </div>
         </section> -->
         <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
-        <section>
+        <section id="releases">
           <h2
             class="text-3xl chedder main_red_text chedder underline underline-offset-4 pb-2"
           >
@@ -887,6 +890,7 @@
           </section>
         </div>
         <h2
+          id="songs"
           class="text-3xl chedder main_red_text chedder underline underline-offset-4 pb-2 mt-6"
         >
           Songs
@@ -926,7 +930,7 @@
         <div v-else class="my-4"><h3>No Songs Uploaded</h3></div>
       </section>
       <!-- posts  -->
-      <section class="container mx-auto">
+      <section id="posts" class="container mx-auto">
         <h2>Posts</h2>
         <section class="mt-10 sm:mb-10">
           <!-- profileImg.url username, image -->
