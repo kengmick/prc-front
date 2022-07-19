@@ -165,16 +165,16 @@
       </section>
       <!-- action buttons  -->
       <section class="flex justify-around px-[16px] pt-[8px]">
-        <Button text="Become Fanatic" @click.native="fav" />
+        <Button text="Become Fanatic" @click.native="fav(band.id)" />
         <Button text="$ 1 Add" />
         <Button text="$ 3 Classified" />
         <Button text="Share" />
       </section>
     </div>
     <section
-      @click="close"
       v-if="errorMessage"
       class="w-screen h-full fixed top-0 right-0 flex items-center justify-center bg-black opacity-50 z-40"
+      @click="close"
     ></section>
     <div
       v-if="errorMessage"
@@ -201,14 +201,42 @@ export default {
   data() {
     return {
       errorMessage: '',
+      userFavs: [],
+      updated: null,
     }
   },
 
   methods: {
-    fav() {
+    async fav(bandId) {
+      const stringId = bandId.toString()
+      console.log(stringId)
       if (!this.$strapi.user) {
         this.errorMessage = 'You have to be logged in to your favorites '
+      } else {
+        // get all user favorite stuff ... if they have any ... add a new favorite to it ... then resave all favoites to the user favs then route to favorite page the userFavs is an array so you can iterate over it using an array method wich is really an object at the end of the day or it wouldn't be about to have a method attached to it. Thank you for coming ... please come again soon.
+        const user = await this.$strapi.user
+        this.userFavs = await user.favs
+        const json = { favObject: { type: 'band', id: stringId } }
+        this.userFavs.push(json)
+        //  favs: [...this.userFavs, { favObject: { ...json } }],
+        console.log(this.userFavs)
+        try {
+          const f = await this.$strapi.update('users', this.$strapi.user.id, {
+            favs: this.userFavs,
+          })
+
+          console.log(f)
+        } catch (error) {
+          this.errorMesage = 'error'
+          console.log(error, 'this is the error message')
+        }
       }
+      // if (this.updated) {
+      //   this.$router.push({
+      //     path: 'favorites',
+      //     query: { user: this.$strapi.user.id, favs: this.updated },
+      //   })
+      // }
     },
     close() {
       this.errorMessage = ''

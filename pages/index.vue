@@ -17,7 +17,7 @@
           style="min-width: 25vw"
         /> -->
         <PosterCard
-          v-for="(band, index) in bands.slice(0, 3)"
+          v-for="(band, index) in bands.slice(0, 5)"
           :key="band.bandName + index"
           :band="band"
           :isFeatured="true"
@@ -30,11 +30,12 @@
     <section>
       <h2 class="text-center my-10 text-5xl">All bands</h2>
       <SliderContainer v-if="bands !== []">
-        <BandCard
+        <PosterCard
           v-for="(band, index) in bands"
           :key="band.bandName + index"
           :band="band"
-          style="min-width: 500px"
+          :isFeatured="true"
+          style="min-width: 25vw"
         />
       </SliderContainer>
     </section>
