@@ -11,13 +11,16 @@
     >
       <!-- header of card -->
       <div class="h-[58px] w-full bg-black flex items-center justify-center">
-        <p
-          v-if="band.bandName"
-          class="chedder text-center card_header_size text-white m-0"
-        >
-          <!-- add band.bandName -->
-          {{ band.bandName }}
-        </p>
+        <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
+          <p
+            v-if="band.bandName"
+            class="chedder text-center card_header_size text-white m-0"
+            style="text-decoration: underline"
+          >
+            <!-- add band.bandName -->
+            {{ band.bandName }}
+          </p>
+        </NuxtLink>
       </div>
       <!-- end header of card -->
       <!-- innder container for card info -->
@@ -112,19 +115,24 @@
         <!-- Logo Box and Add Box -->
         <section class="flex gap-[16px] mt-[16px]">
           <!-- logo -->
+
           <div v-if="band.logo" class="h-[240px] w-[240px]">
-            <img
-              class="object-cover w-full h-full border-4 border-black"
-              :src="band.logo.url"
-              alt=""
-            />
+            <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
+              <img
+                class="object-cover w-full h-full border-4 border-black hover:scale-110 transition-all duration-100"
+                :src="band.logo.url"
+                alt=""
+              />
+            </NuxtLink>
           </div>
           <div v-else class="h-[240px] w-[240px]">
-            <img
-              class="object-cover w-full h-full border-4 border-black"
-              src="~/static/punk-background.png"
-              alt=""
-            />
+            <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
+              <img
+                class="object-cover w-full h-full border-4 border-black hover:scale-110 transition-all duration-100"
+                src="~/static/punk-background.png"
+                alt=""
+              />
+            </NuxtLink>
           </div>
           <!-- addvertisement box -->
           <div class="h-[240px] w-[144px] border-4 border-main-red bg-white">
@@ -144,19 +152,80 @@
         <div
           class="h-[187px] border-4 border-black p-[16px] bg-white flex flex-col justify-around"
         >
-          <h2 class="text-[13px]">Latest Announments !!!</h2>
+          <div v-if="announcement" class="flex items-center">
+            <h2 class="text-[13px] grow">{{ announcement.title }}</h2>
+            <div>
+              <img
+                v-if="index !== 0"
+                src="~/static/left.svg"
+                alt=""
+                class="h-8"
+                @click="back"
+              />
+              <img
+                v-if="index !== announcements.length - 1"
+                src="~/static/right.svg"
+                alt=""
+                class="h-8"
+                @click="forward"
+              />
+            </div>
+          </div>
+          <div v-else>
+            <h2 class="text-[13px]">Keep posted on upcoming announcements</h2>
+          </div>
 
-          <div class="flex gap-2">
-            <div class="h-[72px] w-[72px] bg-slate-400 flex-grow"></div>
+          <div v-if="announcement" class="flex gap-2">
+            <div v-if="announcement.image" class="h-[72px] w-[72px] flex-grow">
+              <img
+                :src="announcement.image.url"
+                alt=""
+                class="object-fill h-full"
+              />
+            </div>
+            <div v-else class="h-[72px] w-[72px] flex-grow">
+              <img
+                src="~/static/punk-background.png"
+                alt=""
+                class="object-fill h-full"
+              />
+            </div>
             <div class="w-10/12 flex items-center">
               <p class="text-[12px]">
-                This is some really cool announcement about our new show or band
+                {{ announcement.text }}
               </p>
             </div>
           </div>
 
-          <div class="bg-black pt-2 pb-2">
-            <p class="text-white text-center text-[13px]">View Announcement</p>
+          <div v-else class="flex gap-2">
+            <div class="h-[72px] w-[72px] flex-grow">
+              <img
+                src="~/static/punk-background.png"
+                alt=""
+                class="object-fill h-full"
+              />
+            </div>
+            <div class="w-10/12 flex items-center">
+              <p class="text-[12px]">There are no annoucements yet released</p>
+            </div>
+          </div>
+
+          <div v-if="announcement" class="bg-black pt-2 pb-2">
+            <NuxtLink
+              :to="{
+                path: 'announcement',
+                query: {
+                  profileId: band.id,
+                  announcementId: announcement.id,
+                  profileType: 'bands',
+                  profileName: band.bandName,
+                },
+              }"
+            >
+              <p class="text-white text-center text-[13px]">
+                View Announcement
+              </p>
+            </NuxtLink>
           </div>
         </div>
         <!-- end of context -->
@@ -168,6 +237,15 @@
         <Button text="$ 1 Add" />
         <Button text="$ 3 Classified" />
         <Button text="Share" />
+      </section>
+      <section class="px-[16px] pt-[8px]">
+        <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
+          <Button
+            class="bg-main-red chedder text-lg"
+            text="View Profile"
+            @click="logit"
+          />
+        </NuxtLink>
       </section>
     </div>
     <section
@@ -202,10 +280,23 @@ export default {
       errorMessage: '',
       userFavs: [],
       updated: null,
+      index: 0,
     }
   },
 
+  computed: {
+    announcement() {
+      return this.band.announcements[this.index] || ''
+    },
+    announcements() {
+      return this.band.announcements || ''
+    },
+  },
+
   methods: {
+    logit() {
+      console.log('hey this is a double click')
+    },
     async fav(bandId) {
       const stringId = bandId.toString()
       console.log(stringId)
@@ -239,6 +330,16 @@ export default {
     },
     close() {
       this.errorMessage = ''
+    },
+    forward() {
+      if (this.index !== this.announcements.length - 1) {
+        this.index++
+      }
+    },
+    back() {
+      if (this.index !== 0) {
+        this.index--
+      }
     },
   },
 }

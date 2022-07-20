@@ -16,12 +16,15 @@
           :isFeatured="true"
           style="min-width: 25vw"
         /> -->
+
         <PosterCard
-          v-for="(band, index) in bands.slice(0, 5)"
+          v-for="(band, index) in bands.slice(0, 3)"
           :key="band.bandName + index"
           :band="band"
           :isFeatured="true"
           style="min-width: 25vw"
+          class="hover:scale-110 transition-all duration-100"
+          @dblclick="console.log('hello')"
         />
       </div>
     </section>

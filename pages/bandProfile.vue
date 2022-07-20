@@ -1,6 +1,9 @@
 <template>
   <div>
     <div v-if="band">
+      <div v-if="band.announcements">
+        <pre>{{ band.announcements }}</pre>
+      </div>
       <div v-if="band.bandProfileImg">
         <!-- image here  -->
         <div class="w-full h-[40vh] z-0">
@@ -70,8 +73,11 @@
         </div>
       </section>
       <!-- The announcements component -->
+      <div class="sm:container sm:mx-auto w-full md:w-1/2 mt-6">
+        <h2>Announcements</h2>
+      </div>
       <section
-        v-if="band.announcements"
+        v-if="band.announcements.length > 0"
         class="sm:container sm:mx-auto w-full md:w-1/2 mt-6"
       >
         <Announcement
@@ -80,6 +86,36 @@
           :profileId="band.id"
           :announcements="band.announcements"
         />
+      </section>
+      <section v-else class="sm:container sm:mx-auto w-full md:w-1/2 mt-6">
+        <p>there are no announcements at this time</p>
+      </section>
+      <section v-if="user === userPermission" class="container mx-auto">
+        <div class="flex-grow flex items-center my-12 w-full cursor-pointer">
+          <div
+            class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
+            @click="addAnnouncements"
+          >
+            <div class="flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="red"
+                class="bi bi-plus-circle"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                />
+                <path
+                  d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                />
+              </svg>
+              <p class="pl-2 text-lg font-bold">Create Announcement</p>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
@@ -228,7 +264,7 @@
 
       <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto mt-6">
         <h2 id="showz" class="text-3xl main_red_text pb-6">Showz</h2>
-        <section v-if="user && band" class="container mx-auto">
+        <section v-if="user === userPermission" class="container mx-auto">
           <div class="flex-grow flex items-center my-12 w-full cursor-pointer">
             <div
               class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
@@ -647,7 +683,7 @@
                   </div></NuxtLink
                 >
                 <NuxtLink
-                  v-if="user"
+                  v-if="user.id === userPermission"
                   :to="{
                     path: 'eventedit',
                     query: { event: event.id },
@@ -1032,7 +1068,7 @@ export default {
     try {
       const band = await this.$strapi.findOne('bands', this.$route.query.band)
       this.band = band
-      this.user = band.id
+      this.user = this.$strapi.user.id
       // not sure what this is doinig
       this.userPermission = band.users_permissions_user.id
       // const id = [...this.band.events]
@@ -1095,6 +1131,12 @@ export default {
           console.log('adding event ', error)
         }
       }
+    },
+    addAnnouncements(val) {
+      this.$router.push({
+        path: 'announcementcreate',
+        query: { user: this.user, bandId: this.band.id },
+      })
     },
     addEventForm: function () {
       this.eventForm = true
