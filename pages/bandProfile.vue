@@ -69,6 +69,18 @@
           />
         </div>
       </section>
+      <!-- The announcements component -->
+      <section
+        v-if="band.announcements"
+        class="sm:container sm:mx-auto w-full md:w-1/2 mt-6"
+      >
+        <Announcement
+          profileType="bands"
+          :profileName="band.bandName"
+          :profileId="band.id"
+          :announcements="band.announcements"
+        />
+      </section>
 
       <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
         <!-- logo here -->
@@ -77,38 +89,22 @@
           <!-- col one of details  -->
           <div class="w-full mb-6 sm:w-3/4 flex">
             <div v-if="band.genre">
-              <h2
-                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
-              >
-                Genre
-              </h2>
+              <h2 class="text-3xl chedder main_red_text pb-2">Genre</h2>
               <p>{{ band.genre }}</p>
             </div>
             <div v-if="band.genreAlt && !band.genre" class="w-full">
-              <h2
-                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
-              >
-                Genre
-              </h2>
+              <h2 class="text-3xl chedder main_red_text pb-2">Genre</h2>
               <p>{{ band.genreAlt }}</p>
             </div>
             <div v-if="!band.genre && !band.genreAlt">
-              <h2
-                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
-              >
-                Genre
-              </h2>
+              <h2 class="text-3xl chedder main_red_text pb-2">Genre</h2>
               <p>No Genre</p>
             </div>
           </div>
           <!-- col two of details  -->
           <div class="w-full mb-6 sm:w-3/4 flex">
             <div class="w-full">
-              <h2
-                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
-              >
-                Location
-              </h2>
+              <h2 class="text-3xl chedder main_red_text pb-2">Location</h2>
               <div v-if="band.city && band.state">
                 <p>{{ band.city }}, {{ band.state }}</p>
               </div>
@@ -124,11 +120,7 @@
           <!-- col two of details  -->
           <div v-if="band.recordLabel" class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
-              <h2
-                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
-              >
-                Record Label
-              </h2>
+              <h2 class="text-3xl chedder main_red_text pb-2">Record Label</h2>
               <p>{{ band.recordLabel }}</p>
             </div>
           </div>
@@ -143,9 +135,7 @@
           <div class="w-full flex">
             <div class="w-full mb-6">
               <div>
-                <h2
-                  class="text-3xl chedder main_red_text mb-6 underline underline-offset-4 pb-2"
-                >
+                <h2 class="text-3xl chedder main_red_text mb-6 pb-2">
                   Members
                 </h2>
               </div>
@@ -193,21 +183,13 @@
             class="w-full sm:w-3/4 flex"
           >
             <div class="w-full mb-6">
-              <h2
-                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
-              >
-                Contacts
-              </h2>
+              <h2 class="text-3xl chedder main_red_text pb-2">Contacts</h2>
               <p>{{ band.contact }}</p>
             </div>
           </div>
           <div v-if="band.altContacts" class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
-              <h2
-                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
-              >
-                Band Contact
-              </h2>
+              <h2 class="text-3xl chedder main_red_text pb-2">Band Contact</h2>
               <p
                 v-for="(contact, index) in band.altContacts"
                 :key="contact.contact + index"
@@ -218,21 +200,13 @@
           </div>
           <div v-if="band.dateStarted" class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
-              <h2
-                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
-              >
-                Date Started
-              </h2>
+              <h2 class="text-3xl chedder main_red_text pb-2">Date Started</h2>
               <p>{{ band.dateStarted }}</p>
             </div>
           </div>
           <div class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
-              <h2
-                class="text-3xl chedder main_red_text underline underline-offset-4 pb-2"
-              >
-                Links
-              </h2>
+              <h2 class="text-3xl chedder main_red_text pb-2">Links</h2>
 
               <div v-if="band.links">
                 <a
@@ -253,12 +227,7 @@
       <!-- edit component -->
 
       <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto mt-6">
-        <h2
-          id="showz"
-          class="text-3xl main_red_text underline underline-offset-2 pb-6"
-        >
-          Showz
-        </h2>
+        <h2 id="showz" class="text-3xl main_red_text pb-6">Showz</h2>
         <section v-if="user && band" class="container mx-auto">
           <div class="flex-grow flex items-center my-12 w-full cursor-pointer">
             <div
@@ -717,11 +686,7 @@
         </section> -->
         <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
         <section id="releases">
-          <h2
-            class="text-3xl chedder main_red_text chedder underline underline-offset-4 pb-2"
-          >
-            Releases
-          </h2>
+          <h2 class="text-3xl chedder main_red_text chedder pb-2">Releases</h2>
           <div v-if="band.releases">
             <section v-if="band.releases.length > 0" class="mb-6">
               <div class="flex flex-col sm:grid-cols-3 sm:grid">
@@ -889,10 +854,7 @@
             </div>
           </section>
         </div>
-        <h2
-          id="songs"
-          class="text-3xl chedder main_red_text chedder underline underline-offset-4 pb-2 mt-6"
-        >
+        <h2 id="songs" class="text-3xl chedder main_red_text chedder pb-2 mt-6">
           Songs
         </h2>
         <!-- songs -->

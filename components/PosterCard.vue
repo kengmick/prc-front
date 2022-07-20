@@ -145,9 +145,8 @@
           class="h-[187px] border-4 border-black p-[16px] bg-white flex flex-col justify-around"
         >
           <h2 class="text-[13px]">Latest Announments !!!</h2>
-          <!-- this data is an array and a slider ... content will change on click -->
+
           <div class="flex gap-2">
-            <!-- placeholder image box -->
             <div class="h-[72px] w-[72px] bg-slate-400 flex-grow"></div>
             <div class="w-10/12 flex items-center">
               <p class="text-[12px]">
@@ -155,7 +154,7 @@
               </p>
             </div>
           </div>
-          <!-- button -->
+
           <div class="bg-black pt-2 pb-2">
             <p class="text-white text-center text-[13px]">View Announcement</p>
           </div>

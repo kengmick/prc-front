@@ -1,7 +1,10 @@
 <template>
   <div v-if="$strapi.user">
     <h1 class="text-center">Favorite Bands</h1>
-    <section v-if="favBands" class="grid grid-cols-3">
+    <section
+      v-if="favBands"
+      class="w-screen flex justify-around sm:w-full flex-wrap"
+    >
       <PosterCard
         v-for="(band, index) in favBands"
         :key="band.bandName + index"
