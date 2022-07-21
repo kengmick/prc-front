@@ -1,4 +1,5 @@
 <template>
+  <!-- only workds for a band profile for now look at how query and conditionals are set up  -->
   <div>
     <h1 class="text-center">Create Announcement</h1>
     <section class="container mx-auto mb-6">
@@ -28,7 +29,7 @@
           wrapper-class="m-auto sm:w-4/5 "
           element-class="w-full"
           errors-class="sm:w-4/5 m-auto"
-          @change="logoImgFile = $event.target.files[0]"
+          @change="annImageFile = $event.target.files[0]"
         />
 
         <div class="flex justify-center items-center">
@@ -42,6 +43,12 @@
         </div>
       </FormulateForm>
     </section>
+    <section
+      v-if="loading"
+      class="w-screen h-screen fixed flex justify-center items-center top-0 z-50"
+    >
+      <Spinner />
+    </section>
   </div>
 </template>
 
@@ -50,22 +57,60 @@ export default {
   data() {
     return {
       formValues: {},
+      annImageFile: '',
+      annImageFinal: '',
+      profileId: '',
+      profileType: '',
+      prfileName: '',
+      loading: false,
     }
   },
 
   methods: {
     async createBandAnn() {
       const b = await this.$strapi.findOne('bands', 28)
-
-      b.announcements.push({
-        title: 'hello',
-        text: 'this is some filler text for now',
-      })
-      console.log(b.announcements, this.$strapi.user.id)
+      if (this.annImageFile) {
+        try {
+          this.loading = true
+          const formData = new FormData()
+          await formData.append('files', this.annImageFile)
+          const [annImageFinal] = await this.$strapi.create('upload', formData)
+          this.annImageFinal = annImageFinal
+        } catch (error) {
+          console.log(error, 'the image did not upload proper ')
+        }
+      }
+      if (this.annImageFinal) {
+        const announ = {
+          title: this.formValues.title,
+          text: this.formValues.text,
+          image: this.annImageFinal,
+        }
+        b.announcements.push(announ)
+      }
+      const announ = {
+        title: this.formValues.title,
+        text: this.formValues.text,
+      }
+      b.announcements.push(announ)
       const band = await this.$strapi.update('bands', 28, {
-        announcements: [...b.announcements, this.formValues],
+        announcements: [...b.announcements],
       })
-      console.log(band)
+      // if title route to title
+
+      if (band) {
+        console.log('this is the band ')
+        this.$router.push({
+          path: 'announcement',
+          query: {
+            profileId: band.id,
+            title: announ.title,
+            profileType: 'bands',
+            profileName: band.bandName,
+          },
+        })
+        this.loading = false
+      }
     },
   },
 }

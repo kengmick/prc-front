@@ -154,7 +154,7 @@
         >
           <div v-if="announcement" class="flex items-center">
             <h2 class="text-[13px] grow">{{ announcement.title }}</h2>
-            <div>
+            <div class="flex">
               <img
                 v-if="index !== 0"
                 src="~/static/left.svg"
@@ -255,9 +255,11 @@
     ></section>
     <div
       v-if="errorMessage"
-      class="w-1/2 h-1/2 fixed top-1/4 right-1/4 flex justify-center items-center bg-white z-50"
+      class="w-[25%] h-[25%] fixed top-[45%] right-[38%] flex flex-col justify-center items-center bg-white z-50"
     >
-      <h2 class="text-xl text-black">{{ errorMessage }} something</h2>
+      <h2 class="text-xl text-black">{{ errorMessage }}</h2>
+      <Button text="Sign Up" />
+      <Button text="Log In" />
       <div class="absolute top-2 right-2 cursor-pointer" @click="close">
         Close <span class="text-2xl">x</span>
       </div>
@@ -321,12 +323,11 @@ export default {
           console.log(error, 'this is the error message')
         }
       }
-      // if (this.updated) {
-      //   this.$router.push({
-      //     path: 'favorites',
-      //     query: { user: this.$strapi.user.id, favs: this.updated },
-      //   })
-      // }
+
+      this.$router.push({
+        path: 'favorites',
+        query: { user: this.$strapi.user.id, favs: this.updated },
+      })
     },
     close() {
       this.errorMessage = ''

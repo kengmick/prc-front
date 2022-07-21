@@ -30,7 +30,7 @@
     </section>
     <!-- this describes the pricing model  -->
     <!-- <Price /> -->
-    <section>
+    <!-- <section>
       <h2 class="text-center my-10 text-5xl">All bands</h2>
       <SliderContainer v-if="bands !== []">
         <PosterCard
@@ -41,7 +41,7 @@
           style="min-width: 25vw"
         />
       </SliderContainer>
-    </section>
+    </section> -->
 
     <section class="my-10">
       <h2 class="chedder text-center text-5xl">Featured Event</h2>

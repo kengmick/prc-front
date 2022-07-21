@@ -1,9 +1,6 @@
 <template>
   <div>
     <div v-if="band">
-      <div v-if="band.announcements">
-        <pre>{{ band.announcements }}</pre>
-      </div>
       <div v-if="band.bandProfileImg">
         <!-- image here  -->
         <div class="w-full h-[40vh] z-0">

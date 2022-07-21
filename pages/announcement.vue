@@ -31,8 +31,11 @@ export default {
     })
 
     const announcement = band[0].announcements.filter((a) => {
-      console.log(parseInt(this.$route.query.announcementId))
-      return a.id === parseInt(this.$route.query.announcementId)
+      if (this.$route.query.title) {
+        return a.title === this.$route.query.title
+      } else {
+        return a.id === parseInt(this.$route.query.announcementId)
+      }
     })
     this.announcement = announcement[0]
     console.log(announcement)
@@ -41,4 +44,3 @@ export default {
 </script>
 
 <style lang="scss" scoped></style>
-// query: { profileId: profileId, announcementId: announcement.id },
