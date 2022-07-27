@@ -966,6 +966,7 @@
             <p class="text-red-500">{{ postError }}</p>
             <div class="w-full flex justify-center items-center sm:px-0">
               <textarea
+                v-model="postValue"
                 class="w-full sm:w-3/4 p-4 border-[1px] border-gray-400 mx-auto focus-visible:border-black post_input"
                 placeholder="type something here to share ..."
                 @change="postValue = $event.target.value"
@@ -1024,6 +1025,12 @@
       </div>
     </section>
     <!-- end of popup form for image post  -->
+    <section
+      v-if="loading"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white"
+    >
+      <Spinner />
+    </section>
   </div>
 </template>
 
@@ -1052,11 +1059,12 @@ export default {
       posts: [],
       popup: false,
       post: '',
-      postValue: false,
+      postValue: null,
       postError: '',
       message: 'type something here to share',
       postImage: '',
       finalPostImage: '',
+      loading: false,
     }
   },
   async mounted() {
@@ -1147,6 +1155,7 @@ export default {
     },
 
     async sendPost(val) {
+      this.loading = true
       try {
         if (this.postValue && !this.postImage) {
           if (!this.$strapi.user) {
@@ -1166,6 +1175,7 @@ export default {
           // clears the post value box
           this.postValue = ''
           this.posts = posts
+          this.loading = false
         }
         // will try to create post with an image uploadd
         if (this.postValue && this.postImage) {
@@ -1191,6 +1201,37 @@ export default {
             users_permissions_user: this.$strapi.user.id,
           })
           this.postValue = ''
+          this.postImage = null
+          const posts = await this.$strapi.find('posts', {
+            bands: this.band.id,
+          })
+
+          this.posts = posts
+          this.loading = false
+        }
+        if (this.postImage && !this.postValue) {
+          // check to see if user is logged in
+          if (!this.$strapi.user) {
+            this.postError = 'you must be logged in to comment '
+            return this.postError
+          }
+          // image upload
+          const formData = new FormData()
+          await formData.append('files', this.postImage)
+          const [img] = await this.$strapi.create('upload', formData)
+          this.finalPostImage = img
+
+          await this.$strapi.create('posts', {
+            // tells where to assign the post
+            bands: this.band.id,
+            // sets the post image
+            image: this.finalPostImage,
+            // Ties post to a user
+            users_permissions_user: this.$strapi.user.id,
+          })
+          this.postValue = ''
+          this.postImage = null
+          this.loading = false
           const posts = await this.$strapi.find('posts', {
             bands: this.band.id,
           })

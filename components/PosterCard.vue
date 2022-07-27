@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="band">
     <!-- if band has logo then will render it else will default to prc background  -->
     <div
       class="w-full sm:w-[432px] h-auto pb-[16px] border-4 border-main-red"
@@ -248,27 +248,13 @@
         </NuxtLink>
       </section>
     </div>
-    <section
-      v-if="errorMessage"
-      class="w-screen h-full fixed top-0 right-0 flex items-center justify-center bg-black opacity-50 z-40"
-      @click="close"
-    ></section>
-    <div
-      v-if="errorMessage"
-      class="w-[25%] h-[25%] fixed top-[45%] right-[38%] flex flex-col justify-center items-center bg-white z-50"
-    >
-      <h2 class="text-xl text-black">{{ errorMessage }}</h2>
-      <Button text="Sign Up" />
-      <Button text="Log In" />
-      <div class="absolute top-2 right-2 cursor-pointer" @click="close">
-        Close <span class="text-2xl">x</span>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
+import Button from './Button.vue'
 export default {
+  components: { Button },
   props: {
     band: {
       type: Object,
@@ -301,9 +287,11 @@ export default {
     },
     async fav(bandId) {
       const stringId = bandId.toString()
-      console.log(stringId)
+
       if (!this.$strapi.user) {
-        this.errorMessage = 'You have to be logged in to your favorites '
+        alert('you must be logged in to favorite')
+        console.log('the user is not logged in ')
+        return this.$emit('popup', 'this event logged ....')
       } else {
         // get all user favorite stuff ... if they have any ... add a new favorite to it ... then resave all favoites to the user favs then route to favorite page the userFavs is an array so you can iterate over it using an array method wich is really an object at the end of the day or it wouldn't be about to have a method attached to it. Thank you for coming ... please come again soon.
         const user = await this.$strapi.user
@@ -319,7 +307,7 @@ export default {
 
           console.log(f)
         } catch (error) {
-          this.errorMesage = 'error'
+          this.errorMessage = 'error'
           console.log(error, 'this is the error message')
         }
       }
@@ -350,7 +338,25 @@ export default {
 .card_header_size {
   font-size: 56px;
 }
+.error {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  align-items: center;
+  z-index: 9999999999999;
+  background: red;
+}
 .card_basic_info_text {
   font-size: 27px;
+}
+
+.modal {
+  height: 100vh;
+  width: 100vw;
+  background: green;
 }
 </style>

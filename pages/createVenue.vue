@@ -35,9 +35,10 @@
                 v-if="
                   !formValues.country || formValues.country === 'United States'
                 "
-                name="streetNumber"
-                type="number"
-                label="Street Number"
+                name="streetAddress"
+                type="text"
+                label="Street Address and Name"
+                placeholder="5555 wolf ave"
                 wrapper-class="sm:w-4/5 m-auto mb-4"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
@@ -53,7 +54,7 @@
               />
             </div>
             <div class="w-full px-4 sm:w-1/2">
-              <FormulateInput
+              <!-- <FormulateInput
                 v-if="
                   !formValues.country || formValues.country === 'United States'
                 "
@@ -63,7 +64,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-              />
+              /> -->
               <FormulateInput
                 v-if="
                   !formValues.country || formValues.country === 'United States'

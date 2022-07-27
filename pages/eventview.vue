@@ -152,6 +152,7 @@
           <p class="text-red-500">{{ postError }}</p>
           <div class="w-full flex justify-center items-center px-4 sm:px-0">
             <textarea
+              v-model="postValue"
               class="w-full sm:w-3/4 p-4 border-[1px] border-gray-400 mx-auto focus-visible:border-black post_input"
               placeholder="type something here to share ..."
               @change="postValue = $event.target.value"
@@ -207,6 +208,12 @@
         </div>
       </div>
     </section>
+    <section
+      v-if="loading"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white"
+    >
+      <Spinner />
+    </section>
   </div>
 </template>
 
@@ -225,11 +232,12 @@ export default {
       popup: false,
       posts: [],
       post: '',
-      postValue: false,
+      postValue: null,
       postError: '',
       message: 'type something here to share',
       postImage: '',
       finalPostImage: '',
+      loading: false,
     }
   },
   async mounted() {
@@ -261,7 +269,7 @@ export default {
       this.postValue = val
     },
     async sendPost(val) {
-      console.log('sending post ')
+      this.loading = true
       try {
         if (this.postValue && !this.postImage) {
           if (!this.$strapi.user) {
@@ -279,7 +287,8 @@ export default {
             event: this.event.id,
           })
           // clears the post value box
-          this.postValue = ''
+          this.postValue = null
+          this.loading = false
           this.posts = posts
         }
         // will try to create post with an image uploadd
@@ -307,11 +316,44 @@ export default {
           })
           // fix the post value in the form after creating post ... it should clear out
           this.postValue = ''
+          this.postImage = null
           const posts = await this.$strapi.find('posts', {
             event: this.event.id,
           })
 
           this.posts = posts
+          this.postValue = null
+          this.loading = false
+        }
+        if (!this.postValue && this.postImage) {
+          // check to see if user is logged in
+          if (!this.$strapi.user) {
+            this.postError = 'you must be logged in to comment '
+            return this.postError
+          }
+          // image upload
+          const formData = new FormData()
+          await formData.append('files', this.postImage)
+          const [img] = await this.$strapi.create('upload', formData)
+          this.finalPostImage = img
+
+          await this.$strapi.create('posts', {
+            // tells where to assign the post
+            event: this.event.id,
+            // sets the post image
+            image: this.finalPostImage,
+            // Ties post to a user
+            users_permissions_user: this.$strapi.user.id,
+          })
+          // fix the post value in the form after creating post ... it should clear out
+          this.postValue = null
+          const posts = await this.$strapi.find('posts', {
+            event: this.event.id,
+          })
+
+          this.posts = posts
+          this.postImage = null
+          this.loading = false
         }
       } catch (error) {
         this.postError = 'you must be logged in to comment '

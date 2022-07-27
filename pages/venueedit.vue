@@ -25,9 +25,8 @@
               />
 
               <FormulateInput
-                name="streetNumber"
-                type="number"
-                label="Street Number"
+                name="streetAddress"
+                label="Address"
                 wrapper-class="sm:w-4/5 m-auto mb-4"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"

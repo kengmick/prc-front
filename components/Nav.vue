@@ -2,6 +2,7 @@
   <section>
     <!-- top bar -->
     <div
+      id="deskNav"
       class="block main_page_padding_left_right bg-black grid_half top-bar-min-height"
     >
       <!-- mail icon with contact info -->
@@ -193,6 +194,10 @@ export default {
 
   methods: {
     handleScroll() {
+      // if (window.scrollY >= 80) {
+      //   const ele = document.getElementById('deskNav')
+      //   return (ele.style.top = 0)
+      // }
       // Your scroll handling here
       if (window.scrollY >= 56) {
         this.hasScrolled = true
@@ -264,6 +269,11 @@ export default {
 }
 .close {
   top: 136px;
+}
+.sticky {
+  position: fixed;
+  top: 55.99;
+  width: 100%;
 }
 @media (max-width: 360px) {
   .contact-text {

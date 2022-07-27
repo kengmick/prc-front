@@ -1,6 +1,6 @@
 <template class="h-full">
   <section class="container m-auto h-full mt-28 mb-36">
-    <h1 class="text-center main_red_text">Sign In</h1>
+    <h1 class="text-center main_red_text">Log In</h1>
     <div class="px-4 w-full sm:w-96 m-auto">
       <FormulateForm v-model="formValues" @submit="login">
         <div>
@@ -29,6 +29,12 @@
         <p v-if="errorMessage">{{ errorMessage }}</p>
       </FormulateForm>
     </div>
+    <section
+      v-if="loading"
+      class="h-screen w-screen absolute right-0 flex justify-center items-center top-0 bg-white"
+    >
+      <Spinner />
+    </section>
   </section>
 </template>
 
@@ -36,18 +42,21 @@
 export default {
   data: () => {
     return {
+      loading: false,
       formValues: {},
       errorMessage: '',
     }
   },
   methods: {
     async login() {
+      this.loading = true
       try {
         await this.$strapi.login({
           identifier: this.formValues.identifier,
           password: this.formValues.password,
         })
         this.$router.push('/profile')
+        this.loading = false
       } catch (error) {
         this.formValues = {}
         this.errorMessage = 'sorry ... please try loging in again '

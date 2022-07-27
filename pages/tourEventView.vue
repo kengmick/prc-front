@@ -86,22 +86,64 @@ export default {
       this.postValue = val
     },
     async sendPost(val) {
+      this.loading = true
+      console.log(this.loading)
       try {
-        if (this.postValue) {
+        if (this.postValue && !this.postImage) {
+          if (!this.$strapi.user) {
+            this.postError = 'you must be logged in to comment '
+            return this.postError
+          }
+          // creats post if users is logged in and does not upload an image
           await this.$strapi.create('posts', {
-            event: this.event.id,
+            record_label: this.distro.id,
             data: this.postValue,
             users_permissions_user: this.$strapi.user.id,
           })
+          // gets all the posts after creating new post above
           const posts = await this.$strapi.find('posts', {
-            event: this.event.id,
+            record_label: this.distro.id,
           })
-          const ele = document.getElementById('inputVal')
-          ele.value = ''
-          this.postValue = false
+          // clears the post value box
+          this.postValue = ''
           this.posts = posts
+          this.loading = false
+        }
+        // will try to create post with an image uploadd
+        if (this.postValue && this.postImage) {
+          // check to see if user is logged in
+          if (!this.$strapi.user) {
+            this.postError = 'you must be logged in to comment '
+            return this.postError
+          }
+          // image upload
+          const formData = new FormData()
+          await formData.append('files', this.postImage)
+          const [img] = await this.$strapi.create('upload', formData)
+          this.finalPostImage = img
+
+          await this.$strapi.create('posts', {
+            // tells where to assign the post
+            record_label: this.distro.id,
+            // sets the post message
+            data: this.postValue,
+            // sets the post image
+            image: this.finalPostImage,
+            // Ties post to a user
+            users_permissions_user: this.$strapi.user.id,
+          })
+          // fix the post value in the form after creating post ... it should clear out
+          this.postValue = ''
+          const posts = await this.$strapi.find('posts', {
+            record_label: this.distro.id,
+          })
+
+          this.posts = posts
+          this.postImage = null
+          this.loading = false
         }
       } catch (error) {
+        this.postError = 'you must be logged in to comment '
         console.log('error saving post ', error)
       }
     },

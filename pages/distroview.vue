@@ -77,9 +77,9 @@
       <!-- date started , genre(if applicable ) location streetNumber zip streetName contact -->
       <h3 class="mb-4">Location</h3>
       <!-- change streeNumber to street Number ... missing the letter t  -->
-      <p v-if="distro.streeNumber" class="text-xl">
-        {{ distro.streetNumber }} {{ distro.streetName }}, {{ distro.city }},
-        {{ distro.state }} {{ distro.zip }}
+      <p v-if="distro.streetAddress" class="text-xl">
+        {{ distro.streetAddress }} {{ distro.city }}, {{ distro.state }}
+        {{ distro.zip }}
       </p>
       <!-- <div v-if="distro.genre" class="mt-4">
         <h3 class="text-3xl mb-4">Genre</h3>
@@ -471,6 +471,7 @@
           <p class="text-red-500">{{ postError }}</p>
           <div class="w-full flex justify-center items-center px-4 sm:px-0">
             <textarea
+              v-model="postValue"
               class="w-full sm:w-3/4 p-4 border-[1px] border-gray-400 mx-auto focus-visible:border-black post_input"
               placeholder="type something here to share ..."
               @change="postValue = $event.target.value"
@@ -526,6 +527,12 @@
         </div>
       </div>
     </section>
+    <section
+      v-if="loading"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white"
+    >
+      <Spinner />
+    </section>
   </div>
 </template>
 
@@ -550,11 +557,12 @@ export default {
       popup: false,
       posts: [],
       post: '',
-      postValue: false,
+      postValue: null,
       postError: '',
       message: 'type something here to share',
       postImage: '',
       finalPostImage: '',
+      loading: false,
     }
   },
   async mounted() {
@@ -682,7 +690,8 @@ export default {
       this.postValue = val
     },
     async sendPost(val) {
-      console.log('sending post ')
+      this.loading = true
+      console.log(this.loading)
       try {
         if (this.postValue && !this.postImage) {
           if (!this.$strapi.user) {
@@ -702,6 +711,7 @@ export default {
           // clears the post value box
           this.postValue = ''
           this.posts = posts
+          this.loading = false
         }
         // will try to create post with an image uploadd
         if (this.postValue && this.postImage) {
@@ -733,6 +743,8 @@ export default {
           })
 
           this.posts = posts
+          this.postImage = null
+          this.loading = false
         }
       } catch (error) {
         this.postError = 'you must be logged in to comment '

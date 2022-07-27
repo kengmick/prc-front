@@ -63,6 +63,12 @@
         </div>
       </div>
     </section>
+    <section
+      v-if="loading"
+      class="absoulte h-screen w-screen absolute flex items-center justify-center top-0 right-0"
+    >
+      <Spinner />
+    </section>
   </div>
 </template>
 
@@ -73,11 +79,13 @@ export default {
       formValues: {},
       errorMessage: '',
       profileImage: '',
+      loading: false,
     }
   },
   methods: {
     async submitForm() {
       if (this.formValues.profileImg) {
+        this.loading = true
         const formData = new FormData()
         await formData.append('files', this.profileImage)
         const [image] = await this.$strapi.create('upload', formData)
@@ -89,10 +97,11 @@ export default {
           email: this.formValues.email,
           username: this.formValues.username,
           password: this.formValues.password,
-          profileImg: this.formValues.profileImg || null,
+          // profileImg: this.formValues.profileImg || null,
           acc: 2,
         })
         if (user) {
+          this.loading = false
           this.$router.push({ path: 'profile', query: { user: user.id } })
         }
       } catch (error) {

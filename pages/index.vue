@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="relative">
     <div class="hidden xl:block"><HeroAlt /></div>
     <div class="block xl:hidden"><Hero /></div>
 
@@ -74,6 +74,11 @@ export default {
     } catch (error) {
       return error
     }
+  },
+  methods: {
+    log() {
+      console.log('this is the event emited ')
+    },
   },
 }
 </script>
