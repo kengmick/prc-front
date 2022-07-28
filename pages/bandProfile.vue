@@ -289,208 +289,201 @@
           </div>
         </section>
 
-        <section v-if="eventForm" class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
-          <div class="w-full mt-6 mb-6">
-            <h3 class="text-3xl">Add Event Details</h3>
-            <FormulateForm v-model="formValues" @submit="addEvents">
-              <div class="">
-                <div class="w-full px-4">
-                  <FormulateInput
-                    name="title"
-                    label="Title"
-                    wrapper-class="m-auto  "
-                    element-class="w-full"
-                    errors-class=" m-auto"
-                  />
+        <section v-if="eventForm">
+          <h1 class="main_red_text text-center">Create Show</h1>
 
-                  <!-- <FormulateInput
-                  v-if="userBands"
-                  type="select"
-                  name="bandName"
-                  label="Pick Your Band Optional?"
-                  :options="userBands"
-                  wrapper-class=" m-auto"
-                  element-class="w-full"
-                  errors-class=" m-auto"
-                /> -->
-                  <FormulateInput
-                    name="date"
-                    type="date"
-                    label="Date of event"
-                    wrapper-class=" m-auto"
-                    element-class="w-full"
-                    errors-class="m-auto"
-                  />
-                  <FormulateInput
-                    name="timeStarts"
-                    type="time"
-                    label="Time Event Begins"
-                    wrapper-class=" m-auto"
-                    element-class="w-full"
-                    errors-class=" m-auto"
-                    @change="
-                      formValues.timeStarts = $event.target.value += ':00'
-                    "
-                  />
-                  <FormulateInput
-                    name="venueName"
-                    type="text"
-                    label="Event Venue"
-                    wrapper-class=" m-auto"
-                    element-class="w-full"
-                    errors-class=" m-auto"
-                  />
-                </div>
-                <div class="w-full px-4">
-                  <FormulateInput
-                    name="streetName"
-                    type="text"
-                    label="Street Name"
-                    wrapper-class=" m-auto"
-                    element-class="w-full"
-                    errors-class=" m-auto"
-                  />
-                  <FormulateInput
-                    name="steetAddress"
-                    type="number"
-                    label="Street Number"
-                    wrapper-class=" m-auto"
-                    element-class="w-full"
-                    errors-class=" m-auto"
-                  />
-                  <FormulateInput
-                    name="country"
-                    label="Country other than the USA"
-                    wrapper-class=" m-auto"
-                    element-class="w-full"
-                    errors-class=" m-auto"
-                    @change="formValues.country = $event.target.values"
-                  />
-                  <FormulateInput
-                    v-if="
-                      !formValues.country &&
-                      formValues.country !== 'United States'
-                    "
-                    name="state"
-                    label="State"
-                    wrapper-class="m-auto  "
-                    element-class="w-full"
-                    errors-class=" m-auto"
-                  />
-                  <FormulateInput
-                    name="city"
-                    label="City"
-                    wrapper-class=" m-auto"
-                    element-class="w-full"
-                    errors-class=" m-auto"
-                  />
-                </div>
-              </div>
+          <section class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
+            <div class="w-full mt-6 mb-6">
+              <FormulateForm v-model="formValues" @submit="submitForm">
+                <div class="flex-col sm:flex sm:flex-row">
+                  <div class="w-full px-4 sm:w-1/2">
+                    <FormulateInput
+                      name="title"
+                      label="Title"
+                      wrapper-class="m-auto sm:w-4/5 "
+                      element-class="w-full"
+                      errors-class="sm:w-4/5 m-auto"
+                    />
 
-              <section class="px-4 mt-10 sm:m-20">
-                <!-- <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
-                List Bands Playing
-              </h2>
-              <FormulateInput
-                type="group"
-                name="bandsPlaying"
-                :repeatable="true"
-                label="Band Playing"
-                add-label="+ Add bands"
-                wrapper-class="w-full"
+                    <FormulateInput
+                      v-if="userBands"
+                      value="null"
+                      type="select"
+                      name="bandName"
+                      label="Add show to your band Optional?"
+                      :options="userBands"
+                      wrapper-class="sm:w-4/5 m-auto"
+                      element-class="w-full"
+                      errors-class="sm:w-4/5 m-auto"
+                    />
+                    <!-- <FormulateInput
+                v-if="userDistros"
+                value="null"
+                type="select"
+                name="distroName"
+                label="Add show to your distro Optional?"
+                :options="userDistros"
+                wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
-              >
+                errors-class="sm:w-4/5 m-auto"
+              /> -->
+                    <FormulateInput
+                      v-if="userTours"
+                      value="null"
+                      type="select"
+                      name="tourName"
+                      label="Add Show to your tour Optional?"
+                      :options="userTours"
+                      wrapper-class="sm:w-4/5 m-auto"
+                      element-class="w-full"
+                      errors-class="sm:w-4/5 m-auto"
+                    />
+                    <!-- <FormulateInput
+                v-if="userVenues"
+                value="null"
+                type="select"
+                name="venueName"
+                label="Add Show to your Venue Optional?"
+                :options="userVenues"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              /> -->
+                    <FormulateInput
+                      name="date"
+                      type="date"
+                      label="Date of event"
+                      wrapper-class="sm:w-4/5 m-auto"
+                      element-class="w-full"
+                      errors-class="sm:w-4/5 m-auto"
+                    />
+                    <FormulateInput
+                      name="timeStarts"
+                      type="time"
+                      step="0.000"
+                      label="Time Event Begins"
+                      wrapper-class="sm:w-4/5 m-auto"
+                      element-class="w-full"
+                      errors-class="sm:w-4/5 m-auto"
+                    />
+
+                    <FormulateInput
+                      name="venueName"
+                      type="text"
+                      label="Event Venue"
+                      wrapper-class="sm:w-4/5 m-auto"
+                      element-class="w-full"
+                      errors-class="sm:w-4/5 m-auto"
+                    />
+                  </div>
+                  <div class="w-full px-4 sm:w-1/2">
+                    <FormulateInput
+                      v-if="
+                        !formValues.country ||
+                        formValues.country === 'United States'
+                      "
+                      name="streetAddress"
+                      validation="required"
+                      type="text"
+                      label="Street Address and Name"
+                      placeholder="5555 wolf ave"
+                      wrapper-class="sm:w-4/5 m-auto mb-4"
+                      element-class="w-full"
+                      errors-class="sm:w-4/5 m-auto"
+                    />
+                    <FormulateInput
+                      name="country"
+                      label="Country other than the USA"
+                      wrapper-class="sm:w-4/5 m-auto"
+                      element-class="w-full"
+                      errors-class="sm:w-4/5 m-auto"
+                      @change="formValues.country = $event.target.values"
+                    />
+                    <FormulateInput
+                      v-if="
+                        !formValues.country &&
+                        formValues.country !== 'United States'
+                      "
+                      name="state"
+                      label="State"
+                      wrapper-class="m-auto sm:w-4/5 "
+                      element-class="w-full"
+                      errors-class="sm:w-4/5 m-auto"
+                      validation="required"
+                    />
+                    <FormulateInput
+                      name="city"
+                      label="City"
+                      wrapper-class="sm:w-4/5 m-auto"
+                      element-class="w-full"
+                      errors-class="sm:w-4/5 m-auto"
+                      validation="required"
+                    />
+                  </div>
+                </div>
+
+                <section class="px-4 mt-10 sm:m-20">
+                  <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+                    List Bands Playing
+                  </h2>
+                  <!-- list of bands playing optional  <FormulateInput
+              type="group"
+              name="bandsPlaying"
+              :repeatable="true"
+              label="Band Playing"
+              add-label="+ Add bands"
+              wrapper-class="w-full"
+              element-class="w-full"
+            >
+              <div>
+                <FormulateInput
+                  name="BandName"
+                  label="Add band name"
+                  required="true"
+                  wrapper-class="w-full"
+                  element-class="w-full"
+                />
+              </div>
+            </FormulateInput> -->
+                  <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+                    Add Event Poster
+                  </h2>
+                  <div class="flex w-full justify-center">
+                    <FormulateInput
+                      type="image"
+                      name="eventPoster"
+                      label="Add Event Poster"
+                      help="Select a png, jpg or gif to upload."
+                      validation="mime:image/jpeg,image/png,image/gif"
+                      input-class="w-full sm:w-96 "
+                      wrapper-class="w-full sm:w-96 "
+                      element-class="w-full sm:w-96 "
+                      @change="eventPosterFile = $event.target.files[0]"
+                    />
+                  </div>
+                  <div class="flex w-full justify-center">
+                    <FormulateInput
+                      name="eventDescription"
+                      type="textarea"
+                      label="Add a description of event"
+                      input-class="w-full sm:w-96 h-72"
+                      wrapper-class="w-full sm:w-96 h-72"
+                      element-class="w-full sm:w-96 h-72"
+                    />
+                  </div>
+                </section>
                 <div>
                   <FormulateInput
-                    name="BandName"
-                    label="Add band name"
-                    required="true"
-                    wrapper-class="w-full"
+                    type="submit"
+                    label="Next"
+                    wrapper-class="w-full mt-10 px-4 sm:mx-10"
+                    grouping-class="bg-black"
                     element-class="w-full"
                   />
                 </div>
-              </FormulateInput> -->
-                <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
-                  Add Event Poster
-                </h2>
-                <div class="flex w-full justify-center">
-                  <FormulateInput
-                    type="image"
-                    name="eventPoster"
-                    label="Add Event Poster"
-                    help="Select a png, jpg or gif to upload."
-                    validation="mime:image/jpeg,image/png,image/gif"
-                    input-class="w-full sm:w-96 "
-                    wrapper-class="w-full sm:w-96 "
-                    element-class="w-full sm:w-96 "
-                    @change="eventPosterFile = $event.target.files[0]"
-                  />
-                </div>
-                <div class="flex w-full justify-center">
-                  <FormulateInput
-                    name="eventDescription"
-                    type="textarea"
-                    label="Add a description of event"
-                    input-class="w-full sm:w-96 h-72"
-                    wrapper-class="w-full sm:w-96 h-72"
-                    element-class="w-full sm:w-96 h-72"
-                  />
-                </div>
-              </section>
-              <!-- <div>
-              <FormulateInput
-                type="submit"
-                label="Next"
-                wrapper-class="w-full mt-10 px-4 sm:mx-10"
-                grouping-class="bg-black"
-                element-class="w-full"
-              />
-            </div> -->
-              <div
-                class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full"
-                @click="addEvents"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
-                  fill="#08f2a8"
-                  class="bi bi-plus-circle"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-                  />
-                  <path
-                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
-                  />
-                </svg>
-                <h3 class="text-3xl pl-2 text-center">Create Event</h3>
-              </div>
-
-              <div
-                class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full mt-6"
-                @click="eventForm = false"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
-                  fill="red"
-                  class="bi bi-x-circle"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-                  />
-                  <path
-                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-                  />
-                </svg>
-                <h3 class="text-3xl pl-2 text-center">Cancel Event</h3>
-              </div>
-            </FormulateForm>
-          </div>
+              </FormulateForm>
+            </div>
+          </section>
         </section>
 
         <!-- <div v-if="events" class="container mx-auto">
@@ -1027,9 +1020,23 @@
     <!-- end of popup form for image post  -->
     <section
       v-if="loading"
-      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
     >
       <Spinner />
+    </section>
+    <section
+      v-if="errorMessage"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <div>
+        <h2>{{ errorMessage }}</h2>
+        <h3
+          class="text-center text-2xl cursor-pointer"
+          @click="errorMessage = null"
+        >
+          Close X
+        </h3>
+      </div>
     </section>
   </div>
 </template>
@@ -1065,6 +1072,7 @@ export default {
       postImage: '',
       finalPostImage: '',
       loading: false,
+      errorMessage: null,
     }
   },
   async mounted() {
@@ -1095,46 +1103,46 @@ export default {
   methods: {
     moment,
     // add events
-    async addEvents(val) {
-      if (this.eventPosterFile) {
-        try {
-          const formData = new FormData()
-          await formData.append('files', this.eventPosterFile)
-          // upload to strapi here
-          const [eventPosterFinal] = await this.$strapi.create(
-            'upload',
-            formData
-          )
-          this.eventPosterFinal = eventPosterFinal
-          this.formValues.eventPoster = eventPosterFinal
-
-          const event = await this.$strapi.create('events', {
-            users_permissions_user: this.$strapi.user.id,
-            ...this.formValues,
-          })
-          await this.events.push(event)
-          await this.$strapi.update('bands', this.band.id, {
-            events: [...this.band.events, event],
-          })
-          this.eventForm = false
-        } catch (error) {
-          this.message = 'Sorry we could not create the event'
-          console.log('uploading image ', error)
-        }
-      } else {
-        try {
-          const event = await this.$strapi.create('events', {
-            users_permissions_user: this.$strapi.user.id,
-            ...this.formValues,
-          })
-          await this.$strapi.update('bands', this.band.id, {
-            events: [...this.band.events, event],
-          })
-          await this.events.push(event)
-          this.eventForm = false
-        } catch (error) {
-          console.log('adding event ', error)
-        }
+    async submitForm() {
+      // uploading bandProfileImg
+      this.loading = true
+      if (this.formValues.timeStarts) {
+        this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
+      }
+      try {
+        const formData = new FormData()
+        await formData.append('files', this.eventPosterFile)
+        const [eventPosterFinal] = await this.$strapi.create('upload', formData)
+        this.eventPosterFinal = eventPosterFinal
+        this.formValues.eventPoster = eventPosterFinal
+      } catch (error) {
+        console.log(error)
+        this.loading = false
+        this.errorMessage =
+          'Could not upload the event poster ... please try again '
+      }
+      try {
+        const event = await this.$strapi.create('events', {
+          ...this.formValues,
+          users_permissions_user: this.$strapi.user.id,
+        })
+        // put band id and update the band
+        const updatedEvents = await this.$strapi.update('bands', this.band.id, {
+          events: [...this.band.events, event],
+        })
+        this.events = updatedEvents.events
+        this.loading = false
+      } catch (error) {
+        console.log(error, 'there was an error ')
+        this.loading = false
+        this.errorMessage = 'Sorry, something went wrong ... please try again '
+      }
+      // after creation take user to band admin
+      if (this.event) {
+        this.$router.push({
+          path: '/eventview',
+          query: { event: this.event.id },
+        })
       }
     },
     addAnnouncements(val) {
@@ -1147,7 +1155,6 @@ export default {
       this.eventForm = true
     },
     setVal: function (val) {
-      console.log(val, 'val')
       this.postValue = val
     },
     popupToggle() {
@@ -1239,6 +1246,7 @@ export default {
           this.posts = posts
         }
       } catch (error) {
+        this.loading = false
         this.postError = 'you must be logged in to comment '
         console.log('error saving post ', error)
       }

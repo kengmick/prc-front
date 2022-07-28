@@ -347,6 +347,7 @@ export default {
             users_permissions_user: this.$strapi.user.id,
           })
           this.event = event
+          // put band id and update the band
           await this.$strapi.update('bands', b[0].id, {
             events: [...b[0].events, event],
           })
