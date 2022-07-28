@@ -31,18 +31,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
-              <FormulateInput
-                v-if="
-                  !formValues.country || formValues.country === 'United States'
-                "
-                name="streetAddress"
-                type="text"
-                label="Street Address and Name"
-                placeholder="5555 wolf ave"
-                wrapper-class="sm:w-4/5 m-auto mb-4"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              />
+
               <FormulateInput
                 v-if="acc === 1"
                 name="contact"
@@ -66,6 +55,13 @@
                 errors-class="sm:w-4/5 m-auto"
               /> -->
               <FormulateInput
+                name="city"
+                label="City"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
                 v-if="
                   !formValues.country || formValues.country === 'United States'
                 "
@@ -75,10 +71,16 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+
               <FormulateInput
-                name="city"
-                label="City"
-                wrapper-class="sm:w-4/5 m-auto"
+                v-if="
+                  !formValues.country || formValues.country === 'United States'
+                "
+                name="streetAddress"
+                type="text"
+                label="Street Address and Name"
+                placeholder="5555 wolf ave"
+                wrapper-class="sm:w-4/5 m-auto mb-4"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />

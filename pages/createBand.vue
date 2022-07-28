@@ -359,7 +359,7 @@ export default {
   data() {
     return {
       formValues: {},
-      errorMessage: 'Sorry we could not upload your logo ... please try again',
+      errorMessage: null,
       band: {},
       created: false,
       profileImage: '',

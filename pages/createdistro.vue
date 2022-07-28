@@ -168,7 +168,7 @@
             <FormulateInput
               v-if="acc === 2"
               type="group"
-              name="photos"
+              name="distroImages"
               :repeatable="true"
               label="Add Photos"
               add-label="+ Add Photo"
@@ -218,6 +218,9 @@
           </div>
         </FormulateForm>
       </div>
+    </section>
+    <section v-if="pictures">
+      <pre>{{ pictures }}</pre>
     </section>
     <section
       v-if="loading"
@@ -273,28 +276,36 @@ export default {
       // uploading bandProfileImg
       this.loading = true
       // getting pictures uploaded
-      const pictures = []
-      if (this.formValues.photos && this.acc === 2) {
-        for (let index = 0; index < this.formValues.photos.length; index++) {
-          try {
-            const formData = new FormData()
-            formData.append(
-              'files',
-              this.formValues.photos[index].pic.files[0].file
-            )
-            const [image] = await this.$strapi.create('upload', formData)
 
-            pictures.push({ pic: image })
-            console.log('adding pictures ', pictures)
-          } catch (error) {
-            console.log(error)
-            this.loading = false
-            this.errorMessage =
-              'Sorry ... we could not upload the photos for for the photo gallery. Please try agin  '
-          }
+      const pictures = []
+      // this is where the photo gallery is created
+      if (this.formValues.distroImages) {
+        console.log('this is the photos condition')
+        for (
+          let index = 0;
+          index < this.formValues.distroImages.length;
+          index++
+        ) {
+          const formData = new FormData()
+          formData.append(
+            'files',
+            this.formValues.distroImages[index].pic.files[0].file
+          )
+          const [image] = await this.$strapi.create('upload', formData)
+
+          pictures.push({ image })
+          console.log('adding pictures ', pictures)
         }
         this.pictures = pictures
-        this.formValues.photos = pictures
+        console.log('pictures', this.pictures)
+
+        this.formValues.distroImages = pictures.map((i) => {
+          return i.image
+        })
+        console.log(
+          this.formValues.distroImages,
+          'this is the formvalues distroImages !!!!!!!'
+        )
       }
       if (this.profileImage) {
         try {
@@ -333,6 +344,92 @@ export default {
       // making post band to strapi
       try {
         console.log('form values ===', this.formValues)
+        this.formValues.distroImages = [
+          {
+            id: 434,
+            name: 'IMG_4191.JPG',
+            alternativeText: null,
+            caption: null,
+            width: 555,
+            height: 416,
+            formats: {
+              thumbnail: {
+                name: 'thumbnail_IMG_4191.JPG',
+                hash: 'thumbnail_IMG_4191_0a7065a99b',
+                ext: '.JPG',
+                mime: 'image/jpeg',
+                width: 208,
+                height: 156,
+                size: 1.6,
+                path: null,
+                url: 'https://punkrockcompund.s3.amazonaws.com/thumbnail_IMG_4191_0a7065a99b.JPG',
+              },
+              small: {
+                name: 'small_IMG_4191.JPG',
+                hash: 'small_IMG_4191_0a7065a99b',
+                ext: '.JPG',
+                mime: 'image/jpeg',
+                width: 500,
+                height: 375,
+                size: 3.86,
+                path: null,
+                url: 'https://punkrockcompund.s3.amazonaws.com/small_IMG_4191_0a7065a99b.JPG',
+              },
+            },
+            hash: 'IMG_4191_0a7065a99b',
+            ext: '.JPG',
+            mime: 'image/jpeg',
+            size: 3.96,
+            url: 'https://punkrockcompund.s3.amazonaws.com/IMG_4191_0a7065a99b.JPG',
+            previewUrl: null,
+            provider: 'aws-s3',
+            provider_metadata: null,
+            created_at: '2022-07-28T22:28:30.791Z',
+            updated_at: '2022-07-28T22:28:30.791Z',
+          },
+          {
+            id: 433,
+            name: 'IMG_4191.JPG',
+            alternativeText: null,
+            caption: null,
+            width: 555,
+            height: 416,
+            formats: {
+              thumbnail: {
+                name: 'thumbnail_IMG_4191.JPG',
+                hash: 'thumbnail_IMG_4191_2f6a4a4f8d',
+                ext: '.JPG',
+                mime: 'image/jpeg',
+                width: 208,
+                height: 156,
+                size: 1.6,
+                path: null,
+                url: 'https://punkrockcompund.s3.amazonaws.com/thumbnail_IMG_4191_2f6a4a4f8d.JPG',
+              },
+              small: {
+                name: 'small_IMG_4191.JPG',
+                hash: 'small_IMG_4191_2f6a4a4f8d',
+                ext: '.JPG',
+                mime: 'image/jpeg',
+                width: 500,
+                height: 375,
+                size: 3.86,
+                path: null,
+                url: 'https://punkrockcompund.s3.amazonaws.com/small_IMG_4191_2f6a4a4f8d.JPG',
+              },
+            },
+            hash: 'IMG_4191_2f6a4a4f8d',
+            ext: '.JPG',
+            mime: 'image/jpeg',
+            size: 3.96,
+            url: 'https://punkrockcompund.s3.amazonaws.com/IMG_4191_2f6a4a4f8d.JPG',
+            previewUrl: null,
+            provider: 'aws-s3',
+            provider_metadata: null,
+            created_at: '2022-07-28T22:28:30.037Z',
+            updated_at: '2022-07-28T22:28:30.037Z',
+          },
+        ]
         const distro = await this.$strapi.create('record-labels', {
           ...this.formValues,
           users_permissions_user: this.$strapi.user.id,

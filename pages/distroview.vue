@@ -40,19 +40,25 @@
                   d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
                 />
               </svg>
-              <p class="pl-2 text-lg font-bold">Edit Event</p>
+              <p class="pl-2 text-lg font-bold">Edit Distro/label</p>
             </div>
           </NuxtLink>
         </div>
       </section>
       <!-- gallery  -->
       <!-- media Gallery -->
-      <section v-if="distroImages" class="container mx-auto px-2 sm:px-0">
-        <h2 class="my-6 text-3xl">Pictures</h2>
+      <section
+        v-if="distro.distroImages"
+        class="container mx-auto px-2 sm:px-0"
+      >
+        <h2 class="my-6 text-3xl">Photos</h2>
         <section
           class="mx-6 my-10 flex flex-col gap-10 lg:grid lg:grid-cols-3 lg:gap-10"
         >
-          <div v-for="(img, index) in distroImages" :key="img.id + index">
+          <div
+            v-for="(img, index) in distro.distroImages"
+            :key="img.id + index"
+          >
             <img :src="img.url" alt="" />
           </div>
         </section>
@@ -334,6 +340,7 @@
         </FormulateForm>
       </div>
     </section>
+
     <section v-if="events" class="container mx-auto">
       <div
         v-for="(event, index) in events"
@@ -363,10 +370,13 @@
             <p v-if="event.headlinerOne" class="text-xl font-black pb-2">
               Featuring {{ event.headlinerOne }}
             </p>
-            <p v-if="event.streetAddress && event.streetName" class="text-xl">
-              The Vic, {{ event.streetAddress }} {{ event.streetName }} /
-              {{ moment(String(event.date)).format('LT') }} -
-              {{ moment(event.timeEnds, 'h').format('LT') }}
+            <p v-if="event.streetAddress" class="text-xl">
+              <span v-if="event.venueName"> {{ event.venueName }}</span>
+              {{ event.streetAddress }} /
+              {{ moment(String(event.date)).format('MMMM Do YYYY') }}
+              {{ moment(event.timeStarts, 'h').format('LT') }}
+              <!-- {{ moment(String(event.date)).format('LT') }} -
+                {{ moment(event.timeEnds, 'h').format('LT') }} -->
             </p>
             <p v-if="event.city && event.state" class="text-xl">
               {{ event.city }}, {{ event.state }}
@@ -399,7 +409,7 @@
               </div></NuxtLink
             >
             <NuxtLink
-              v-if="user"
+              v-if="user.id === userPermission"
               :to="{
                 path: 'eventedit',
                 query: { event: event.id },
