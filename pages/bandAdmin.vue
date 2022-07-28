@@ -299,6 +299,26 @@
         </FormulateForm>
       </div>
     </section>
+    <section
+      v-if="loading"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <Spinner />
+    </section>
+    <section
+      v-if="errorMessage"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <div>
+        <h2>{{ errorMessage }}</h2>
+        <h3
+          class="text-center text-2xl cursor-pointer"
+          @click="errorMessage = null"
+        >
+          Close X
+        </h3>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -319,6 +339,7 @@ export default {
       changePics: false,
       changeMem: false,
       members: [],
+      loading: false,
     }
   },
   async mounted() {
@@ -359,8 +380,7 @@ export default {
       })
     },
     async submitForm() {
-      // logic for editing genre
-
+      this.loading = true
       // uploading bandProfileImg
       if (this.changeMem) {
         const members = []
@@ -441,6 +461,7 @@ export default {
             }
           )
           this.band = band
+          this.loading = false
         }
         // updating band
         const band = await this.$strapi.update(
@@ -454,9 +475,11 @@ export default {
           }
         )
         this.band = band
+        this.loading = false
       } catch (error) {
         this.errorMessage = 'Sorry ... please try again'
         console.log('there was a problem', error)
+        this.loading = false
       }
       try {
         // updating band
@@ -469,8 +492,10 @@ export default {
           }
         )
         this.band = band
+        this.loading = false
       } catch (error) {
         console.log('error in creating band', error)
+        this.loading = false
       }
       // after creation take user to band admin
 

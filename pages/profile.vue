@@ -609,7 +609,26 @@
         </div>
       </div>
     </section>
-    <section v-else>No Distros Added</section>
+    <section
+      v-if="loading"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <Spinner />
+    </section>
+    <section
+      v-if="errorMessage"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <div>
+        <h2>{{ errorMessage }}</h2>
+        <h3
+          class="text-center text-2xl cursor-pointer"
+          @click="errorMessage = null"
+        >
+          Close X
+        </h3>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -637,6 +656,7 @@ export default {
       userImage:
         'https://cdn.dribbble.com/users/6142/screenshots/5679189/media/1b96ad1f07feee81fa83c877a1e350ce.png?compress=1&resize=400x300&vertical=top',
       user: {},
+      loading: false,
     }
   },
   async mounted() {
@@ -740,6 +760,7 @@ export default {
       this.updateForm = !this.updateForm
     },
     async updateUser() {
+      this.loading = true
       if (this.profileImg) {
         try {
           const formData = new FormData()
@@ -753,6 +774,9 @@ export default {
           })
           window.location.reload(true)
         } catch (error) {
+          this.loading = false
+          console.log('there was an error ')
+          this.errorMessage = 'Sorry, something went wrong ... please try again'
           console.log(error)
         }
       } else {
@@ -763,21 +787,22 @@ export default {
             { ...this.formValues }
           )
           console.log(update, 'updated user')
+          this.loading = false
           window.location.reload(true)
         } catch (error) {
-          console.log(error)
+          this.loading = false
+          console.log('there was an error ')
+          this.errorMessage = 'Sorry, something went wrong ... please try again'
         }
       }
     },
     async accountUpdate() {
       try {
-        const updated = await this.$strapi.update(
-          'users',
-          this.$strapi.user.id,
-          { acc: 1 }
-        )
-        console.log(updated)
+        this.loading = true
+        await this.$strapi.update('users', this.$strapi.user.id, { acc: 1 })
+        this.loading = false
       } catch (error) {
+        this.loading = false
         console.log(error)
       }
     },

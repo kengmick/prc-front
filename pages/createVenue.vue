@@ -202,6 +202,26 @@
         </FormulateForm>
       </div>
     </section>
+    <section
+      v-if="loading"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <Spinner />
+    </section>
+    <section
+      v-if="errorMessage"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <div>
+        <h2>{{ errorMessage }}</h2>
+        <h3
+          class="text-center text-2xl cursor-pointer"
+          @click="errorMessage = null"
+        >
+          Close X
+        </h3>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -220,6 +240,7 @@ export default {
       showPosters: [],
       venue: {},
       acc: 1,
+      loading: false,
     }
   },
   async mounted() {
@@ -232,6 +253,7 @@ export default {
   },
   methods: {
     async submitForm() {
+      this.loading = true
       const pictures = []
       if (this.formValues.photos) {
         console.log('this is the photos condition')
@@ -284,10 +306,12 @@ export default {
           users_permissions_user: this.$strapi.user.id,
         })
         this.venue = venue
+        this.loading = false
         console.log('venue ', venue)
       } catch (error) {
         this.errorMessage = 'Sorry ... please try again'
-        console.log('there was a problem')
+        this.loading = false
+        console.log('there was a problem in creating venue')
       }
       // after creation take user to band admin
       if (this.venue) {

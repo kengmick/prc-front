@@ -1,12 +1,5 @@
 <template>
   <div>
-    <div
-      v-if="loading"
-      class="fixed top-0 left-0 h-screen w-screen z-50 bg-black flex justify-center items-center"
-    >
-      <Spinner class="mr-6" />
-      <h3 class="text-white">Creating Distro</h3>
-    </div>
     <div class="px-2 sm:conatiner mx-auto my-6 sm:w-1/2">
       <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
       <!-- <img
@@ -95,6 +88,26 @@
         />
       </FormulateForm>
     </div>
+    <section
+      v-if="loading"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <Spinner />
+    </section>
+    <section
+      v-if="errorMessage"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <div>
+        <h2>{{ errorMessage }}</h2>
+        <h3
+          class="text-center text-2xl cursor-pointer"
+          @click="errorMessage = null"
+        >
+          Close X
+        </h3>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -152,6 +165,8 @@ export default {
         this.formValues.touringPoster = tourPosterFinal
       } catch (error) {
         this.loading = false
+        this.errorMessage =
+          'Sorry, we could not upload the tour poster ... please try again'
         console.log(error)
       }
       try {
@@ -163,7 +178,7 @@ export default {
         this.loading = false
       } catch (error) {
         this.loading = false
-        this.errorMessage = 'Sorry ... please try again'
+        this.errorMessage = 'Sorry, something went wrong ... please try again'
         console.log('there was a problem', error)
       }
 

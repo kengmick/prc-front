@@ -641,13 +641,13 @@
                 <p v-if="event.headlinerOne" class="text-xl font-black pb-2">
                   Featuring {{ event.headlinerOne }}
                 </p>
-                <p
-                  v-if="event.streetAddress && event.streetName"
-                  class="text-xl"
-                >
-                  The Vic, {{ event.streetAddress }} {{ event.streetName }} /
-                  {{ moment(String(event.date)).format('LT') }} -
-                  {{ moment(event.timeEnds, 'h').format('LT') }}
+                <p v-if="event.streetAddress" class="text-xl">
+                  <span v-if="event.venueName"> {{ event.venueName }}</span>
+                  {{ event.streetAddress }} /
+                  {{ moment(String(event.date)).format('MMMM Do YYYY') }}
+                  {{ moment(event.timeStarts, 'h').format('LT') }}
+                  <!-- {{ moment(String(event.date)).format('LT') }} -
+                {{ moment(event.timeEnds, 'h').format('LT') }} -->
                 </p>
                 <p v-if="event.city && event.state" class="text-xl">
                   {{ event.city }}, {{ event.state }}

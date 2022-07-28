@@ -65,7 +65,7 @@
     </section>
     <section
       v-if="loading"
-      class="absoulte h-screen w-screen absolute flex items-center justify-center top-0 right-0"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
     >
       <Spinner />
     </section>

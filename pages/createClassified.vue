@@ -84,6 +84,26 @@
         </FormulateForm>
       </div>
     </section>
+    <section
+      v-if="loading"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <Spinner />
+    </section>
+    <section
+      v-if="errorMessage"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <div>
+        <h2>{{ errorMessage }}</h2>
+        <h3
+          class="text-center text-2xl cursor-pointer"
+          @click="errorMessage = null"
+        >
+          Close X
+        </h3>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -93,10 +113,12 @@ export default {
     return {
       formValues: {},
       classified: {},
+      loading: false,
     }
   },
   methods: {
     async submitForm() {
+      this.loading = true
       console.log('creating ... ')
       try {
         const classified = await this.$strapi.create('classifieds', {
@@ -104,8 +126,10 @@ export default {
           users_permissions_user: this.$strapi.user.id,
         })
         this.classified = classified
+        this.loading = false
       } catch (error) {
-        this.errorMessage = 'Sorry ... please try again'
+        this.loading = false
+        this.errorMessage = 'Sorry, something went wrong ... please try again'
         console.log('there was a problem')
       }
       // after creation take user to band admin

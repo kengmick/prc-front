@@ -1,12 +1,5 @@
 <template>
   <div>
-    <div
-      v-if="loading"
-      class="fixed top-0 left-0 h-screen w-screen z-50 bg-black flex justify-center items-center"
-    >
-      <Spinner class="mr-6" />
-      <h3 class="text-white">Creating Distro</h3>
-    </div>
     <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
     <h1 class="text-center my-4">Create Your Distro/label</h1>
     <section class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
@@ -69,7 +62,7 @@
               />
               <FormulateInput
                 name="city"
-                label="City that the band is from?"
+                label="City?"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
@@ -81,6 +74,18 @@
                 name="state"
                 label="Home state?"
                 wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
+                v-if="
+                  !formValues.country || formValues.country === 'United States'
+                "
+                name="streetAddress"
+                type="text"
+                label="Street Address and Name"
+                placeholder="5555 wolf ave"
+                wrapper-class="sm:w-4/5 m-auto mb-4"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
@@ -214,6 +219,26 @@
         </FormulateForm>
       </div>
     </section>
+    <section
+      v-if="loading"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <Spinner />
+    </section>
+    <section
+      v-if="errorMessage"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <div>
+        <h2>{{ errorMessage }}</h2>
+        <h3
+          class="text-center text-2xl cursor-pointer"
+          @click="errorMessage = null"
+        >
+          Close X
+        </h3>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -222,7 +247,7 @@ export default {
   data() {
     return {
       formValues: {},
-      errorMessage: '',
+      errorMessage: null,
       band: {},
       created: false,
       profileImage: '',
@@ -251,15 +276,22 @@ export default {
       const pictures = []
       if (this.formValues.photos && this.acc === 2) {
         for (let index = 0; index < this.formValues.photos.length; index++) {
-          const formData = new FormData()
-          formData.append(
-            'files',
-            this.formValues.photos[index].pic.files[0].file
-          )
-          const [image] = await this.$strapi.create('upload', formData)
+          try {
+            const formData = new FormData()
+            formData.append(
+              'files',
+              this.formValues.photos[index].pic.files[0].file
+            )
+            const [image] = await this.$strapi.create('upload', formData)
 
-          pictures.push({ pic: image })
-          console.log('adding pictures ', pictures)
+            pictures.push({ pic: image })
+            console.log('adding pictures ', pictures)
+          } catch (error) {
+            console.log(error)
+            this.loading = false
+            this.errorMessage =
+              'Sorry ... we could not upload the photos for for the photo gallery. Please try agin  '
+          }
         }
         this.pictures = pictures
         this.formValues.photos = pictures
@@ -277,6 +309,8 @@ export default {
           this.formValues.distroImage = ''
           console.log(error)
           this.loading = false
+          this.errorMessage =
+            'Sorry .. we could not upload the cover image for the distro ... please try again'
         }
       }
       if (this.logoImage) {
@@ -291,6 +325,8 @@ export default {
           this.formValues.logo = ''
           console.log(error)
           this.loading = false
+          this.errorMessage =
+            'Sorry .. we could not upload the cover image for the distro ... please try again'
         }
       }
       // old shows array
@@ -307,6 +343,7 @@ export default {
         this.errorMessage = 'Sorry ... please try again'
         console.log(error, 'creating band')
         this.loading = false
+        this.errorMessage = 'Sorry .. something went wrong please try again'
       }
       // after creation take user to band admin
       if (this.distro) {

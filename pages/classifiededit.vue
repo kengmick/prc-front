@@ -70,9 +70,26 @@
         />
       </FormulateForm>
     </section>
-    <div v-if="errorMessage">
-      <pre>{{ errorMessage }}</pre>
-    </div>
+    <section
+      v-if="loading"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <Spinner />
+    </section>
+    <section
+      v-if="errorMessage"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <div>
+        <h2>{{ errorMessage }}</h2>
+        <h3
+          class="text-center text-2xl cursor-pointer"
+          @click="errorMessage = null"
+        >
+          Close X
+        </h3>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -84,6 +101,7 @@ export default {
       formValues: {},
       errorMessage: '',
       classified: {},
+      loading: false,
     }
   },
   async mounted() {
@@ -101,6 +119,7 @@ export default {
   methods: {
     moment,
     async submitForm() {
+      this.loading = true
       try {
         const article = await this.$strapi.update(
           'classifieds',
@@ -111,9 +130,11 @@ export default {
           }
         )
         this.classified = article
+        this.loading = false
       } catch (error) {
+        this.loading = false
         console.log('there was an error ')
-        this.errorMessage = 'Sorry ... please try again'
+        this.errorMessage = 'Sorry, something went wrong ... please try again'
         this.$nuxt.error({ statusCode: 404, message: error })
       }
       // after creation take user to band admin

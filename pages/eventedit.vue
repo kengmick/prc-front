@@ -34,18 +34,15 @@
             </div>
             <div class="w-full px-4 sm:w-1/2">
               <FormulateInput
-                name="streetName"
+                v-if="
+                  !formValues.country || formValues.country === 'United States'
+                "
+                name="streetAddress"
+                validation="required"
                 type="text"
-                label="Street Name"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              />
-              <FormulateInput
-                name="steetAddress"
-                type="number"
-                label="Street Number"
-                wrapper-class="sm:w-4/5 m-auto"
+                label="Street Address and Name"
+                placeholder="5555 wolf ave"
+                wrapper-class="sm:w-4/5 m-auto mb-4"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
@@ -66,6 +63,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                validation="required"
               />
 
               <FormulateInput
@@ -74,6 +72,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                validation="required"
               />
             </div>
           </div>
@@ -82,7 +81,7 @@
             <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
               List Bands Playing
             </h2>
-            <FormulateInput
+            <!-- <FormulateInput
               type="group"
               name="bandsPlaying"
               :repeatable="true"
@@ -100,7 +99,7 @@
                   element-class="w-full"
                 />
               </div>
-            </FormulateInput>
+            </FormulateInput> -->
             <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
               Add Event Poster
             </h2>
@@ -140,6 +139,26 @@
         </FormulateForm>
       </div>
     </section>
+    <section
+      v-if="loading"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <Spinner />
+    </section>
+    <section
+      v-if="errorMessage"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <div>
+        <h2>{{ errorMessage }}</h2>
+        <h3
+          class="text-center text-2xl cursor-pointer"
+          @click="errorMessage = null"
+        >
+          Close X
+        </h3>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -155,6 +174,7 @@ export default {
       eventPosterFile: '',
       eventPosterFinal: '',
       end: '',
+      loading: false,
     }
   },
   async mounted() {
@@ -164,6 +184,7 @@ export default {
         this.$route.query.event
       )
       this.formValues = event
+      this.event = event
     } catch (error) {
       this.$nuxt.error({ statusCode: 404, message: error })
     }
@@ -172,6 +193,7 @@ export default {
     moment,
     async submitForm() {
       // uploading bandProfileImg
+      this.loading = true
       if (this.eventPosterFile) {
         try {
           const formData = new FormData()
@@ -184,16 +206,23 @@ export default {
           this.formValues.eventPoster = eventPosterFinal
         } catch (error) {
           console.log(error)
+          this.loading = false
+          this.errorMessage =
+            'Sorry, could not update the event poster ... please try again '
         }
       }
       try {
-        const event = await this.$strapi.create('events', {
+        const event = await this.$strapi.update('events', this.event.id, {
           ...this.formValues,
           users_permissions_user: this.$strapi.user.id,
         })
         this.event = event
+        this.loading = false
       } catch (error) {
         this.errorMessage = 'Sorry ... please try again'
+        this.loading = false
+        this.errorMessage =
+          'Sorry, could not update the event poster ... please try again '
         console.log('there was a problem')
       }
       // after creation take user to band admin

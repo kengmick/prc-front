@@ -80,19 +80,12 @@
     <section class="container mx-auto px-2 sm:px-0">
       <!-- date started , genre(if applicable ) location streetNumber zip streetName contact -->
       <h3 class="text-3xl my-4">Location</h3>
-      <p v-if="venue.streetAddress">
-        {{ venue.streetAddress }} there is a street address
+      <p v-if="venue.streetAddress && venue.city && venue.state">
+        {{ venue.streetAddress }} {{ venue.city }}, {{ venue.state }}
+        {{ venue.zip }}
       </p>
-      <div v-if="venue.streeAddress === null || ''">
-        <p
-          v-if="
-            venue.streetNumber && venue.streetName && venue.city && venue.state
-          "
-          class="text-xl"
-        >
-          {{ venue.streetNumber }} {{ venue.streetName }}, {{ venue.city }},
-          {{ venue.state }} {{ venue.zip }}
-        </p>
+      <div v-else>
+        <p>No Location Provided</p>
       </div>
       <!-- <div v-if="venue.genre" class="mt-4">
         <h3 class="text-3xl mb-4">Genre</h3>

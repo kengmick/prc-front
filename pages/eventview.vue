@@ -45,9 +45,13 @@
           }}
         </p>
         <h3 class="text-3xl mt-4">Location</h3>
-        <p class="mt-4">
-          @{{ event.venueName }} - {{ event.streetName }}
-          {{ event.streetNumber }} {{ event.city }}, {{ event.state }}
+        <p v-if="event.venueName" class="mt-4">
+          @{{ event.venueName }} - {{ event.streetAddress }} {{ event.city }},
+          {{ event.state }}
+        </p>
+        <p v-else>
+          {{ event.streetAddress }} {{ event.city }},
+          {{ event.state }}
         </p>
         <a
           v-if="event.ticketLink"
@@ -99,7 +103,9 @@
       </section>
     </section>
     <section v-if="event.bandsPlaying">
-      <h3 class="text-3xl mt-6">All Bands</h3>
+      <h3 v-if="event.bandsPlaying.length !== 0" class="text-3xl mt-6">
+        All Bands
+      </h3>
       <ul>
         <li
           v-for="(band, index) in event.bandsPlaying"
@@ -111,7 +117,7 @@
       </ul>
     </section>
     <!-- comment box -->
-    <section class="container mx-auto">
+    <section class="container mx-auto my-6">
       <h2 class="text-3xl">Posts</h2>
 
       <section class="my-10">

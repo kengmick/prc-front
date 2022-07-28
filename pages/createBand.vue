@@ -1,12 +1,5 @@
 <template>
   <div>
-    <div
-      v-if="loading"
-      class="fixed top-0 left-0 h-screen w-screen z-50 bg-black flex justify-center items-center"
-    >
-      <Spinner class="mr-6" />
-      <h3 class="text-white">Creating Band</h3>
-    </div>
     <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
     <h1 class="text-center my-4">Create Your Band Profile</h1>
     <section class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
@@ -338,6 +331,26 @@
         </FormulateForm>
       </div>
     </section>
+    <section
+      v-if="loading"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <Spinner />
+    </section>
+    <section
+      v-if="errorMessage"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <div>
+        <h2>{{ errorMessage }}</h2>
+        <h3
+          class="text-center text-2xl cursor-pointer"
+          @click="errorMessage = null"
+        >
+          Close X
+        </h3>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -346,7 +359,7 @@ export default {
   data() {
     return {
       formValues: {},
-      errorMessage: '',
+      errorMessage: 'Sorry we could not upload your logo ... please try again',
       band: {},
       created: false,
       profileImage: '',
@@ -357,6 +370,7 @@ export default {
       pictures: [],
       acc: 1,
       otherGen: '',
+      loading: false,
     }
   },
   async mounted() {
@@ -417,6 +431,9 @@ export default {
           console.log(image)
         } catch (error) {
           console.log(error)
+          this.errorMessage =
+            'Sorry we could not upload your profile image ... please try again '
+          this.loading = false
         }
       }
       if (this.logoImage) {
@@ -429,6 +446,9 @@ export default {
           this.formValues.logo = logoImageFinal
         } catch (error) {
           console.log(error)
+          this.errorMessage =
+            'Sorry we could not upload your logo ... please try again'
+          this.loading = false
         }
       }
       // old shows array

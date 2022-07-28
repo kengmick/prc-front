@@ -18,44 +18,48 @@
 
               <FormulateInput
                 v-if="userBands"
+                value="null"
                 type="select"
                 name="bandName"
-                label="Pick Your Band Optional?"
+                label="Add show to your band Optional?"
                 :options="userBands"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
-              <FormulateInput
+              <!-- <FormulateInput
                 v-if="userDistros"
+                value="null"
                 type="select"
                 name="distroName"
-                label="Pick Your Distro Optional?"
+                label="Add show to your distro Optional?"
                 :options="userDistros"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-              />
+              /> -->
               <FormulateInput
                 v-if="userTours"
+                value="null"
                 type="select"
                 name="tourName"
-                label="Pick Your Tour Optional?"
+                label="Add Show to your tour Optional?"
                 :options="userTours"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
-              <FormulateInput
+              <!-- <FormulateInput
                 v-if="userVenues"
+                value="null"
                 type="select"
                 name="venueName"
-                label="Pick Your Venue Optional?"
+                label="Add Show to your Venue Optional?"
                 :options="userVenues"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-              />
+              /> -->
               <FormulateInput
                 name="date"
                 type="date"
@@ -86,18 +90,15 @@
             </div>
             <div class="w-full px-4 sm:w-1/2">
               <FormulateInput
-                name="streetName"
+                v-if="
+                  !formValues.country || formValues.country === 'United States'
+                "
+                name="streetAddress"
+                validation="required"
                 type="text"
-                label="Street Name"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              />
-              <FormulateInput
-                name="steetAddress"
-                type="number"
-                label="Street Number"
-                wrapper-class="sm:w-4/5 m-auto"
+                label="Street Address and Name"
+                placeholder="5555 wolf ave"
+                wrapper-class="sm:w-4/5 m-auto mb-4"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
@@ -118,6 +119,7 @@
                 wrapper-class="m-auto sm:w-4/5 "
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                validation="required"
               />
               <FormulateInput
                 name="city"
@@ -125,6 +127,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                validation="required"
               />
             </div>
           </div>
@@ -133,7 +136,7 @@
             <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
               List Bands Playing
             </h2>
-            <FormulateInput
+            <!-- list of bands playing optional  <FormulateInput
               type="group"
               name="bandsPlaying"
               :repeatable="true"
@@ -151,7 +154,7 @@
                   element-class="w-full"
                 />
               </div>
-            </FormulateInput>
+            </FormulateInput> -->
             <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
               Add Event Poster
             </h2>
@@ -191,6 +194,26 @@
         </FormulateForm>
       </div>
     </section>
+    <section
+      v-if="loading"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <Spinner />
+    </section>
+    <section
+      v-if="errorMessage"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <div>
+        <h2>{{ errorMessage }}</h2>
+        <h3
+          class="text-center text-2xl cursor-pointer"
+          @click="errorMessage = null"
+        >
+          Close X
+        </h3>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -216,6 +239,7 @@ export default {
       venues: [],
       tours: [],
       distros: [],
+      loading: false,
     }
   },
   async mounted() {
@@ -295,6 +319,7 @@ export default {
     },
     async submitForm() {
       // uploading bandProfileImg
+      this.loading = true
       try {
         const formData = new FormData()
         await formData.append('files', this.eventPosterFile)
@@ -303,6 +328,9 @@ export default {
         this.formValues.eventPoster = eventPosterFinal
       } catch (error) {
         console.log(error)
+        this.loading = false
+        this.errorMessage =
+          'Could not upload the event poster ... please try again '
       }
       try {
         // if user picks band find band
@@ -323,36 +351,17 @@ export default {
             events: [...b[0].events, event],
           })
         }
-        // if user picks a venue
-        if (this.formValues.bandName) {
-          const b = this.bands.filter((band) => {
-            return band.bandName === this.formValues.bandName
-          })
-
-          if (this.formValues.timeStarts) {
-            this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
-          }
-          const event = await this.$strapi.create('events', {
-            ...this.formValues,
-            users_permissions_user: this.$strapi.user.id,
-          })
-          this.event = event
-          await this.$strapi.update('bands', b[0].id, {
-            events: [...b[0].events, event],
-          })
-        }
-        if (this.formValues.timeStarts) {
-          this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
-        }
 
         const event = await this.$strapi.create('events', {
           ...this.formValues,
           users_permissions_user: this.$strapi.user.id,
         })
         this.event = event
+        this.loading = false
       } catch (error) {
-        this.errorMessage = 'Sorry ... please try again'
         console.log(error, 'there was an error ')
+        this.loading = false
+        this.errorMessage = 'Sorry, something went wrong ... please try again '
       }
       // after creation take user to band admin
       if (this.event) {
