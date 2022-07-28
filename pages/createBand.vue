@@ -378,6 +378,17 @@ export default {
     this.acc = user.acc
   },
   methods: {
+    log() {
+      if (this.formValues.links) {
+        const links = this.formValues.links.map((l) => {
+          const newLink = l.replace(/^https?:\/\//, '')
+          console.log(newLink, 'newLink')
+          return { link: newLink }
+        })
+        console.log(links)
+        this.formValues.links = links
+      }
+    },
     addPic(val) {
       console.log(val)
     },
@@ -456,12 +467,8 @@ export default {
       try {
         if (this.formValues.links) {
           const links = this.formValues.links.map((l) => {
-            // this will map over the array
-            const val = l.link.split('').slice(0, 4).join('')
-            if (val === 'http') {
-              return { link: l }
-            }
-            return { link: `https://${l.link}` }
+            const newLink = l.link.replace(/^https?:\/\//, '')
+            return { link: newLink }
           })
           console.log(links)
           this.formValues.links = links
@@ -471,12 +478,13 @@ export default {
         } else if (this.formValues.genreAlt) {
           this.formValues.genre = null
         }
-
+        console.log('creating the band now ... ')
         const band = await this.$strapi.create('bands', {
           ...this.formValues,
           users_permissions_user: this.$strapi.user.id,
         })
         this.band = band
+        console.log(band, 'this is the new created band ', band.id)
         this.loading = false
       } catch (error) {
         this.errorMessage = 'Sorry ... please try again'

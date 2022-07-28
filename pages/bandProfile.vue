@@ -1,6 +1,7 @@
 <template>
   <div>
     <div v-if="band">
+      <pre>{{ band.links }}</pre>
       <div v-if="band.bandProfileImg">
         <!-- image here  -->
         <div class="w-full h-[40vh] z-0">
@@ -246,7 +247,7 @@
                   v-for="link in band.links"
                   :key="link"
                   class="underline-offset-2 underline block"
-                  :href="link.link"
+                  :href="`https://${link.link}`"
                   target="_blank"
                   >{{ link.link }}
                 </a>
