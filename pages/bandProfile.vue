@@ -1,7 +1,6 @@
 <template>
   <div>
     <div v-if="band">
-      <pre>{{ band.links }}</pre>
       <div v-if="band.bandProfileImg">
         <!-- image here  -->
         <div class="w-full h-[40vh] z-0">
@@ -262,6 +261,7 @@
 
       <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto mt-6">
         <h2 id="showz" class="text-3xl main_red_text pb-6">Showz</h2>
+        <p v-if="events.length === 0">No Showz Coming up</p>
         <section v-if="user === userPermission" class="container mx-auto">
           <div class="flex-grow flex items-center my-12 w-full cursor-pointer">
             <div
@@ -284,9 +284,68 @@
                     d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
                   />
                 </svg>
-                <p class="pl-2 text-lg font-bold">Add Event</p>
+                <p class="pl-2 text-lg font-bold">Add Showz</p>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section class="container mx-auto">
+          <div v-if="events" class="container mx-auto">
+            <section v-if="events.length > 0" class="container mx-auto">
+              <div
+                v-for="(event, index) in events"
+                :key="event.title + index"
+                class="shadow-md w-full min-h-64 my-12 mx-auto flex flex-col sm:flex-row transition-all duration-200 hover:scale-105"
+              >
+                <div v-if="event.eventPoster" class="w-full sm:w-1/2 h-64">
+                  <img
+                    class="h-full w-full object-cover"
+                    :src="event.eventPoster.url"
+                    alt=""
+                  />
+                </div>
+                <div class="p-6">
+                  <p class="chedder text-xl text-center inline-block sm:block">
+                    {{ moment(String(event.date)).format('MMM') }}
+                  </p>
+                  <p class="chedder text-xl text-center inline-block sm:block">
+                    {{ moment(String(event.date)).format('Do') }}
+                  </p>
+                </div>
+                <div class="flex flex-col flex-grow p-6">
+                  <div>
+                    <p v-if="event.title" class="chedder text-2xl">
+                      {{ event.title }}
+                    </p>
+                    <p
+                      v-if="event.headlinerOne"
+                      class="text-xl font-black pb-2"
+                    >
+                      Featuring {{ event.headlinerOne }}
+                    </p>
+                    <p v-if="event.streetAddress" class="text-xl">
+                      The Vic, {{ event.streetAddress }} /
+                      {{ moment(String(event.date)).format('MMMM Do YYYY') }}
+                      @{{ moment(event.timeStarts, 'h').format('LT') }}
+                    </p>
+                    <p v-if="event.city && event.state" class="text-xl">
+                      {{ event.city }}, {{ event.state }}
+                    </p>
+                  </div>
+                  <div class="flex-grow flex items-center mt-6 sm:mt-2">
+                    <NuxtLink
+                      :to="{
+                        path: 'eventview',
+                        query: { event: event.id },
+                      }"
+                      class="border-2 border-black px-4 py-2"
+                      >View Event</NuxtLink
+                    >
+                  </div>
+                </div>
+              </div>
+            </section>
           </div>
         </section>
 
@@ -487,126 +546,7 @@
           </section>
         </section>
 
-        <!-- <div v-if="events" class="container mx-auto">
-          fsdafsdafsdafdsafsadfsdfadsf
-          <section v-if="events.length > 0" class="container mx-auto">
-            <div
-              v-for="(event, index) in events"
-              :key="event.title + index"
-              class="shadow-md w-full min-h-64 my-12 mx-auto flex flex-col sm:flex-row transition-all duration-200 hover:scale-105"
-            >
-              <div v-if="event.eventPoster" class="w-full sm:w-1/2 h-64">
-                <img
-                  class="h-full w-full object-cover"
-                  :src="event.eventPoster.url"
-                  alt=""
-                />
-              </div>
-              <div class="p-6">
-                <p class="chedder text-xl text-center inline-block sm:block">
-                  {{ moment(String(event.date)).format('MMM') }}
-                </p>
-                <p class="chedder text-xl text-center inline-block sm:block">
-                  {{ moment(String(event.date)).format('Do') }}
-                </p>
-              </div>
-              <div class="flex flex-col flex-grow p-6">
-                <div>
-                  <p v-if="event.title" class="chedder text-2xl">
-                    {{ event.title }}
-                  </p>
-                  <p v-if="event.headlinerOne" class="text-xl font-black pb-2">
-                    Featuring {{ event.headlinerOne }}
-                  </p>
-                  <p
-                    v-if="event.streetAddress && event.streetName"
-                    class="text-xl"
-                  >
-                    The Vic, {{ event.streetAddress }} {{ event.streetName }} /
-                    {{ moment(String(event.date)).format('LT') }} -
-                    {{ moment(event.timeEnds, 'h').format('LT') }}
-                  </p>
-                  <p v-if="event.city && event.state" class="text-xl">
-                    {{ event.city }}, {{ event.state }}
-                  </p>
-                </div>
-                <div class="flex-grow flex items-center mt-6 sm:mt-2">
-                  <NuxtLink
-                    :to="{
-                      path: 'eventview',
-                      query: { event: event.id },
-                    }"
-                    class="border-2 border-black px-4 py-2"
-                    >View Event</NuxtLink
-                  >
-                </div>
-              </div>
-            </div>
-          </section>
-          <section v-else class="container mx-auto">
-            <h3>No Showz Added</h3>
-          </section>
-        </div> -->
-        <!-- <div v-if="band.events" class="mb-6">
-          <div v-if="band.events.length > 0">
-            <section class="mx-auto">
-              <div
-                v-for="(event, index) in band.events"
-                :key="event.title + index"
-                class="w-full h-full mx-auto flex flex-col ms:h-64 sm:mx-auto sm:flex-row transition-all duration-200 hover:scale-105"
-              >
-                <NuxtLink
-                  :to="{ path: 'eventview', query: { event: event.id } }"
-                >
-                  <div v-if="event.eventPoster" class="w-full h-44 sm:h-64">
-                    <img
-                      class="h-full w-full"
-                      :src="event.eventPoster.url"
-                      alt=""
-                    />
-                  </div>
-                </NuxtLink>
-
-                <div class="flex flex-col flex-grow py-4 px-6 sm:p-6 bg-black">
-                  <NuxtLink
-                    :to="{ path: 'eventview', query: { event: event.id } }"
-                  >
-                    <div class="text-white">
-                      <p v-if="event.title" class="chedder text-xl">
-                        {{ event.title }}
-                        {{ moment(String(event.date)).format('MMM') }}
-                        {{ moment(String(event.date)).format('Do') }}
-                      </p>
-                      <p>
-                        {{ moment(String(event.date)).format('LT') }} -
-                        {{ moment(event.timeEnds, 'h').format('LT') }}
-                      </p>
-                      <p
-                        v-if="event.headlinerOne"
-                        class="text-lg font-black pb-2"
-                      >
-                        Featuring {{ event.headlinerOne }}
-                      </p>
-                      <p
-                        v-if="event.streetAddress && event.streetName"
-                        class="text-lg"
-                      >
-                        The Vic, {{ event.streetAddress }}
-                        {{ event.streetName }}
-                      </p>
-                      <p v-if="event.city && event.state" class="text-lg">
-                        {{ event.city }}, {{ event.state }}
-                      </p>
-                    </div>
-                  </NuxtLink>
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-        <div v-else class="my-6"><h3>No Upcoming Showz</h3></div> -->
-
-        <section v-if="events" class="container mx-auto">
+        <!-- <section v-if="events" class="container mx-auto">
           <div
             v-for="(event, index) in events"
             :key="event.title + index"
@@ -636,15 +576,16 @@
                   Featuring {{ event.headlinerOne }}
                 </p>
                 <p v-if="event.streetAddress" class="text-xl">
-                  <span v-if="event.venueName"> {{ event.venueName }}</span>
-                  {{ event.streetAddress }} /
+                  <span v-if="event.venueName"> {{ event.venueName }} </span>
+                  <br />
+                  {{ event.streetAddress }}
+                  <br />
+                  <span v-if="event.city && event.state" class="text-xl">
+                    {{ event.city }}, {{ event.state }}
+                  </span>
+                  <br />
                   {{ moment(String(event.date)).format('MMMM Do YYYY') }}
-                  {{ moment(event.timeStarts, 'h').format('LT') }}
-                  <!-- {{ moment(String(event.date)).format('LT') }} -
-                {{ moment(event.timeEnds, 'h').format('LT') }} -->
-                </p>
-                <p v-if="event.city && event.state" class="text-xl">
-                  {{ event.city }}, {{ event.state }}
+                  @{{ moment(event.timeStarts, 'h').format('LT') }}
                 </p>
               </div>
               <div class="flex-grow flex items-center">
@@ -699,7 +640,7 @@
               </div>
             </div>
           </div>
-        </section>
+        </section> -->
 
         <!-- <section v-if="band.oldShows" class="container mx-auto">
           <h2>Historic Shows</h2>

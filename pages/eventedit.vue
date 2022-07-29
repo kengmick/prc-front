@@ -15,9 +15,25 @@
                 errors-class="sm:w-4/5 m-auto"
               />
               <FormulateInput
+                name="headlinerOne"
+                label="Headlining Band"
+                wrapper-class="m-auto sm:w-4/5 "
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
                 name="date"
                 type="date"
                 label="Date of event"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
+                name="timeStarts"
+                type="time"
+                step="0.000"
+                label="Time Event Begins"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
@@ -78,9 +94,9 @@
           </div>
 
           <section class="px-4 mt-10 sm:m-20">
-            <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+            <!-- <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
               List Bands Playing
-            </h2>
+            </h2> -->
             <!-- <FormulateInput
               type="group"
               name="bandsPlaying"
@@ -100,14 +116,21 @@
                 />
               </div>
             </FormulateInput> -->
+            <div v-if="event.eventPoster">
+              <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+                Current Event Poster
+              </h2>
+              <img :src="event.eventPoster.url" alt="" />
+            </div>
+
             <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
-              Add Event Poster
+              Edit Event Poster
             </h2>
             <div class="flex w-full justify-center">
               <FormulateInput
                 type="image"
                 name="eventPoster"
-                label="Add Event Poster"
+                label="Upload new event poster"
                 help="Select a png, jpg or gif to upload."
                 validation="mime:image/jpeg,image/png,image/gif"
                 input-class="w-full sm:w-96 "
@@ -194,6 +217,9 @@ export default {
     async submitForm() {
       // uploading bandProfileImg
       this.loading = true
+      if (this.formValues.timeStarts) {
+        this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
+      }
       if (this.eventPosterFile) {
         try {
           const formData = new FormData()

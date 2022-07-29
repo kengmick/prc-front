@@ -201,7 +201,10 @@
               </div>
             </FormulateInput>
 
-            <div v-if="acc === 2" class="flex w-full justify-center">
+            <div
+              v-if="acc === 2"
+              class="flex flex-col w-full justify-center items-center"
+            >
               <h2 class="text-center mb-10 mt-4">Add Profile Image</h2>
               <FormulateInput
                 type="image"

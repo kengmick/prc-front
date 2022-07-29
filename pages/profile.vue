@@ -306,13 +306,10 @@
                 <p v-if="event.headlinerOne" class="text-xl font-black pb-2">
                   Featuring {{ event.headlinerOne }}
                 </p>
-                <p
-                  v-if="event.streetAddress && event.streetName"
-                  class="text-xl"
-                >
-                  The Vic, {{ event.streetAddress }} {{ event.streetName }} /
-                  {{ moment(String(event.date)).format('LT') }} -
-                  {{ moment(event.timeEnds, 'h').format('LT') }}
+                <p v-if="event.streetAddress" class="text-xl">
+                  The Vic, {{ event.streetAddress }} /
+                  {{ moment(String(event.date)).format('MMMM Do YYYY') }}
+                  @{{ moment(event.timeStarts, 'h').format('LT') }}
                 </p>
                 <p v-if="event.city && event.state" class="text-xl">
                   {{ event.city }}, {{ event.state }}
@@ -389,10 +386,10 @@
             </div>
             <div class="p-6">
               <p class="chedder text-xl text-center inline-block sm:block">
-                {{ moment(String(event.dateState)).format('MMM:dd') }}
+                {{ moment(String(event.dateStart)).format('MMM') }}
               </p>
               <p class="chedder text-xl text-center inline-block sm:block">
-                {{ moment(String(event.dateEnd)).format('MMM:dd') }}
+                {{ moment(String(event.dateEnd)).format('Do') }}
               </p>
             </div>
             <div class="flex flex-col flex-grow p-6">

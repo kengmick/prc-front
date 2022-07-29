@@ -38,6 +38,8 @@
       <!-- description -->
       <section>
         <h1 v-if="event" class="my-6">{{ event.title }}</h1>
+        <h3 v-if="event.headlinerOne" class="text-3xl mt-4">Headliner</h3>
+        <p>{{ event.headlinerOne }}</p>
         <h3 class="text-3xl mt-4">Date</h3>
         <p class="mt-4">
           {{ moment(String(event.date)).format('MMMM Do YYYY') }} @{{

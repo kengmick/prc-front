@@ -15,6 +15,13 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+              <FormulateInput
+                name="headlinerOne"
+                label="Headlining Band"
+                wrapper-class="m-auto sm:w-4/5 "
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
 
               <FormulateInput
                 v-if="userBands"
@@ -22,10 +29,11 @@
                 type="select"
                 name="bandName"
                 label="Add show to your band Optional?"
-                :options="userBands"
+                :options="{ ...userBands, clear: 'clear form' }"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                @change="clear($event.target.value)"
               />
               <!-- <FormulateInput
                 v-if="userDistros"
@@ -44,10 +52,11 @@
                 type="select"
                 name="tourName"
                 label="Add Show to your tour Optional?"
-                :options="userTours"
+                :options="{ ...userTours, clear: 'clear form' }"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                @change="clearTour($event.target.value)"
               />
               <!-- <FormulateInput
                 v-if="userVenues"
@@ -73,6 +82,7 @@
                 type="time"
                 step="0.000"
                 label="Time Event Begins"
+                placeholder="5555 wolf ave"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
@@ -133,9 +143,9 @@
           </div>
 
           <section class="px-4 mt-10 sm:m-20">
-            <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+            <!-- <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
               List Bands Playing
-            </h2>
+            </h2> -->
             <!-- list of bands playing optional  <FormulateInput
               type="group"
               name="bandsPlaying"
@@ -255,6 +265,7 @@ export default {
       })
       // This is user band for the full
       this.userBands = o
+      console.log(this.userBands)
     } catch (error) {
       this.userBands = null
       console.log(error)
@@ -316,6 +327,16 @@ export default {
     log(val) {
       const d = (val += ':00.000')
       console.log(d)
+    },
+    clear(val) {
+      if (val === 'clear') {
+        this.formValues.bandName = null
+      }
+    },
+    clearTour(val) {
+      if (val === 'clear') {
+        this.formValues.tourName = null
+      }
     },
     async submitForm() {
       // uploading bandProfileImg
