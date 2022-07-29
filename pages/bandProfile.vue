@@ -1031,7 +1031,16 @@ export default {
       //   return ['id', e.id]
       // })
 
-      this.events = this.band.events
+      const events = this.band.events
+      // this means that the events are upcoming
+      const upcomingEvents = events.filter((e) => {
+        console.log(moment(e.date).toISOString())
+        return moment(e.date).toISOString() >= moment().toISOString()
+      })
+
+      this.events = upcomingEvents.sort((a, b) => {
+        return moment.utc(a.date).diff(moment.utc(b.date))
+      })
     } catch (error) {
       console.log(error, 'there was an error ')
     }
@@ -1072,11 +1081,19 @@ export default {
         const updatedEvents = await this.$strapi.update('bands', this.band.id, {
           events: [...this.band.events, event],
         })
-        this.events = updatedEvents.events
+        const upcomingEvents = updatedEvents.events.filter((e) => {
+          return moment(e.date).toISOString() >= moment().toISOString()
+        })
+
+        this.events = upcomingEvents.sort((a, b) => {
+          return moment.utc(a.date).diff(moment.utc(b.date))
+        })
         this.loading = false
+        this.eventForm = false
       } catch (error) {
         console.log(error, 'there was an error ')
         this.loading = false
+        this.eventForm = false
         this.errorMessage = 'Sorry, something went wrong ... please try again '
       }
       // after creation take user to band admin
