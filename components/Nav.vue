@@ -61,11 +61,12 @@
         <div>
           <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
         </div>
-        <div>
+        <!-- distro label -->
+        <!-- <div>
           <NuxtLink class="chedder text-2xl" to="/distros"
             >Distro/Labels</NuxtLink
           >
-        </div>
+        </div> -->
         <div>
           <NuxtLink class="chedder text-2xl" to="/events">Showz</NuxtLink>
         </div>

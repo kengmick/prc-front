@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-- getting rid of firstName, lastName, -->
+    <!-- currently defaults to free account -->
     <h1 class="text-center">
       Create <span class="main_red_text">Free </span>Membership
     </h1>
@@ -29,7 +30,7 @@
                 type="image"
                 name="profileImg"
                 label="Select an profile image to upload"
-                validation="mime:image/jpeg,image/png,image/gif"
+                validation="mime:image/jpeg,image/png,image/gif,image/webp"
                 input-class="w-full  "
                 wrapper-class="m-auto sm:w-4/5 "
                 element-class="w-full"
@@ -97,8 +98,8 @@ export default {
           email: this.formValues.email,
           username: this.formValues.username,
           password: this.formValues.password,
-          // profileImg: this.formValues.profileImg || null,
-          acc: 2,
+          profileImg: this.formValues.profileImg || null,
+          acc: 1,
         })
         if (user) {
           this.loading = false

@@ -54,8 +54,11 @@
         >
       </div>
       <!-- photo section -->
-      <div class="md:container mx-auto w-full sm:w-full md:w-1/2">
-        <h2 v-if="band.photos">Band Photos</h2>
+      <div
+        v-if="band.photos.length !== 0"
+        class="md:container mx-auto w-full sm:w-full md:w-1/2"
+      >
+        <h2 v-if="band.photos !== []">Band Photos</h2>
       </div>
       <section
         v-if="band.photos"
@@ -87,7 +90,10 @@
       <section v-else class="sm:container sm:mx-auto w-full md:w-1/2 mt-6">
         <p>there are no announcements at this time</p>
       </section>
-      <section v-if="user === userPermission" class="container mx-auto">
+      <section
+        v-if="user === userPermission"
+        class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0"
+      >
         <div class="flex-grow flex items-center my-12 w-full cursor-pointer">
           <div
             class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
@@ -160,7 +166,7 @@
         </div>
 
         <div
-          v-if="band.members"
+          v-if="band.members.length > 0"
           class="flex flex-col sm:flex-row items-center mb-4"
         >
           <!-- col one of details  -->
@@ -211,18 +217,18 @@
           </div>
         </div>
         <div flex flex-col sm:flex-row items-center mb-4>
-          <div
-            v-if="band.contact && !band.altContacts"
-            class="w-full sm:w-3/4 flex"
-          >
+          <div v-if="band.contact" class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
-              <h2 class="text-3xl chedder main_red_text pb-2">Contacts</h2>
+              <h2 class="text-3xl chedder main_red_text pb-2">Band Contact</h2>
               <p>{{ band.contact }}</p>
             </div>
           </div>
-          <div v-if="band.altContacts" class="w-full sm:w-3/4 flex">
+          <div
+            v-if="band.altContacts && !band.contact"
+            class="w-full sm:w-3/4 flex"
+          >
             <div class="w-full mb-6">
-              <h2 class="text-3xl chedder main_red_text pb-2">Band Contact</h2>
+              <h2 class="text-3xl chedder main_red_text pb-2">Band Contacts</h2>
               <p
                 v-for="(contact, index) in band.altContacts"
                 :key="contact.contact + index"
@@ -237,7 +243,8 @@
               <p>{{ band.dateStarted }}</p>
             </div>
           </div>
-          <div class="w-full sm:w-3/4 flex">
+          <!-- add logic for links for account 2 -->
+          <div v-if="band.links.length >= 1" class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
               <h2 class="text-3xl chedder main_red_text pb-2">Links</h2>
 
@@ -249,6 +256,22 @@
                   :href="`https://${link.link}`"
                   target="_blank"
                   >{{ link.link }}
+                </a>
+              </div>
+              <h3 v-else>No Links Added ...</h3>
+            </div>
+          </div>
+          <!-- add logic for link account 1   -->
+          <div class="w-full sm:w-3/4 flex">
+            <div class="w-full mb-6">
+              <h2 class="text-3xl chedder main_red_text pb-2">Link</h2>
+
+              <div v-if="band.linkOne">
+                <a
+                  class="underline-offset-2 underline block"
+                  :href="`${band.linkOne}`"
+                  target="_blank"
+                  >{{ band.linkOne }}
                 </a>
               </div>
               <h3 v-else>No Links Added ...</h3>
@@ -654,7 +677,12 @@
         </section> -->
         <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
         <section id="releases">
-          <h2 class="text-3xl chedder main_red_text chedder pb-2">Releases</h2>
+          <h2
+            v-if="band.releases.length > 0"
+            class="text-3xl chedder main_red_text chedder pb-2"
+          >
+            Releases
+          </h2>
           <div v-if="band.releases">
             <section v-if="band.releases.length > 0" class="mb-6">
               <div class="flex flex-col sm:grid-cols-3 sm:grid">
@@ -827,7 +855,7 @@
         </h2>
         <!-- songs -->
 
-        <div v-if="band.singles">
+        <div v-if="band.singles.lenth > 0">
           <section v-if="band.singles.length > 0">
             <div class="overflow-x-auto">
               <table class="w-full">
@@ -860,7 +888,10 @@
         <div v-else class="my-4"><h3>No Songs Uploaded</h3></div>
       </section>
       <!-- posts  -->
-      <section id="posts" class="container mx-auto">
+      <section
+        id="posts"
+        class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0"
+      >
         <h2>Posts</h2>
         <section class="mt-10 sm:mb-10">
           <!-- profileImg.url username, image -->

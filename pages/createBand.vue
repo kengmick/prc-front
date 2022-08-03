@@ -157,9 +157,8 @@
               </FormulateInput>
             </div>
             <!-- end of links and contacts repeatable  -->
-            <h2 v-if="acc === 2" class="my-4">Add Band Members</h2>
+            <h2 class="my-4">Add Band Members</h2>
             <FormulateInput
-              v-if="acc === 2"
               type="group"
               name="members"
               :repeatable="true"
@@ -193,7 +192,7 @@
                   name="image"
                   label="Add image of member"
                   help="Select a png, jpg or gif to upload."
-                  validation="mime:image/jpeg,image/png,image/gif"
+                  validation="mime:image/jpeg,image/png,image/gif,image/webp"
                   input-class="w-full sm:w-96 "
                   wrapper-class="w-full sm:w-96 "
                   element-class="w-full sm:w-96 "
@@ -201,17 +200,14 @@
               </div>
             </FormulateInput>
 
-            <div
-              v-if="acc === 2"
-              class="flex flex-col w-full justify-center items-center"
-            >
+            <div class="flex flex-col w-full justify-center items-center">
               <h2 class="text-center mb-10 mt-4">Add Profile Image</h2>
               <FormulateInput
                 type="image"
                 name="bandProfileImg"
                 label="Select an image to upload"
                 help="Select a png, jpg or gif to upload."
-                validation="mime:image/jpeg,image/png,image/gif"
+                validation="mime:image/jpeg,image/png,image/gif,image/webp"
                 input-class="w-full sm:w-96 "
                 wrapper-class="w-full sm:w-96 "
                 element-class="w-full sm:w-96 "
@@ -219,16 +215,14 @@
               />
             </div>
             <!-- logo -->
-            <h2 v-if="acc === 2" class="text-center mb-10 mt-4">
-              Add Your band Logo
-            </h2>
-            <div v-if="acc === 2" class="flex w-full justify-center">
+            <h2 class="text-center mb-10 mt-4">Add Your band Logo</h2>
+            <div class="flex w-full justify-center">
               <FormulateInput
                 type="image"
                 name="logo"
                 label="Select an logo to upload"
                 help="Select a png, jpg or gif to upload."
-                validation="mime:image/jpeg,image/png,image/gif"
+                validation="mime:image/jpeg,image/png,image/gif,image/webp"
                 input-class="w-full sm:w-96 "
                 wrapper-class="w-full sm:w-96 "
                 element-class="w-full sm:w-96 "
@@ -296,7 +290,7 @@
                   name="pic"
                   label="add photos"
                   help="Select a png, jpg or gif to upload."
-                  validation="mime:image/jpeg,image/png,image/gif"
+                  validation="mime:image/jpeg,image/png,image/gif,image/webp"
                   input-class="w-full sm:w-96 "
                   wrapper-class="w-full sm:w-96 "
                   element-class="w-full sm:w-96 "
@@ -399,7 +393,7 @@ export default {
       this.loading = true
       // uploading bandProfileImg
       const members = []
-      if (this.formValues.members && this.acc === 2) {
+      if (this.formValues.members) {
         for (let index = 0; index < this.formValues.members.length; index++) {
           const formData = new FormData()
           formData.append(
@@ -473,8 +467,13 @@ export default {
             const newLink = l.link.replace(/^https?:\/\//, '')
             return { link: newLink }
           })
-          console.log(links)
           this.formValues.links = links
+        }
+        if (this.formValues.linkOne) {
+          this.formValues.linkOne = this.formValues.linkOne.replace(
+            /^https?:\/\//,
+            ''
+          )
         }
         if (this.formValues.genre) {
           this.formValues.genreAlt = 'other'
@@ -484,6 +483,7 @@ export default {
         console.log('creating the band now ... ')
         const band = await this.$strapi.create('bands', {
           ...this.formValues,
+          acc: this.acc,
           users_permissions_user: this.$strapi.user.id,
         })
         this.band = band
