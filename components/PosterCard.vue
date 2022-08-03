@@ -4,8 +4,8 @@
     <div
       class="w-full sm:w-[432px] h-auto pb-[16px] border-4 border-main-red"
       :style="[
-        band.logo
-          ? { background: `url(${band.logo.url})` }
+        band.bandProfileImg
+          ? { background: `url(${band.bandProfileImg.url})` }
           : { background: 'url(/punk-background.png)' },
       ]"
     >
@@ -26,9 +26,10 @@
       <!-- innder container for card info -->
       <section class="p-[16px]">
         <!-- basic info component -->
-        <section class="flex gap-[16px]">
+        <section class="flex flex-col md:flex-row gap-[16px]">
+          <!-- contact and location  -->
           <div
-            class="w-[238px] h-[160px] border-4 p-[16px] border-black bg-white flex flex-col justify-center"
+            class="w-full h-full md:w-[238px] md:h-[160px] border-4 p-[16px] border-black bg-white flex flex-col justify-center"
           >
             <p v-if="band.genre" class="card_basic_info_text chedder">
               Punk/{{ band.genre }}
@@ -49,7 +50,7 @@
           </div>
           <!-- secondary info box -->
           <div
-            class="w-[144px] h-[160px] border-4 p-[16px] border-black bg-white flex flex-col justify-center"
+            class="w-full h-full md:w-[144px] md:h-[160px] border-4 p-[16px] border-black bg-white flex flex-col justify-center"
           >
             <NuxtLink
               :to="{
@@ -113,14 +114,17 @@
         </section>
         <!-- end of basic info component -->
         <!-- Logo Box and Add Box -->
-        <section class="flex gap-[16px] mt-[16px]">
+        <section class="flex flex-col md:flex-row gap-[16px] mt-[16px]">
           <!-- logo -->
 
-          <div v-if="band.logo" class="h-[240px] w-[240px]">
+          <div
+            v-if="band.bandProfileImg"
+            class="h-full w-full md:h-[240px] md:w-[240px]"
+          >
             <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
               <img
                 class="object-cover w-full h-full border-4 border-black hover:scale-110 transition-all duration-100"
-                :src="band.logo.url"
+                :src="band.bandProfileImg.url"
                 alt=""
               />
             </NuxtLink>
@@ -135,7 +139,9 @@
             </NuxtLink>
           </div>
           <!-- addvertisement box -->
-          <div class="h-[240px] w-[144px] border-4 border-main-red bg-white">
+          <div
+            class="h-full w-full md:h-[240px] md:w-[144px] border-4 border-main-red bg-white"
+          >
             <!-- create action to take user to create add page ... think  -->
             <p class="underline chedder card_basic_info_text text-center">
               Create Add
@@ -232,7 +238,7 @@
         <!-- This is the end of content container thing   -->
       </section>
       <!-- action buttons  -->
-      <section class="flex justify-around px-[16px] pt-[8px]">
+      <section class="hidden justify-around px-[16px] pt-[8px]">
         <Button text="Become Fanatic" @click.native="fav(band.id)" />
         <Button text="$ 1 Add" />
         <Button text="$ 3 Classified" />

@@ -74,6 +74,9 @@
           <NuxtLink class="chedder text-2xl" to="/tours">Tours</NuxtLink>
         </div>
         <div>
+          <NuxtLink class="chedder text-2xl" to="/podcast">Podcast</NuxtLink>
+        </div>
+        <div>
           <NuxtLink class="chedder text-2xl" to="/Classifieds"
             >Classifieds</NuxtLink
           >

@@ -61,16 +61,6 @@
             </div>
             <div class="w-full px-4 sm:w-1/2">
               <!-- Tier 2 contact list  -->
-              <div v-if="acc < 2">
-                <FormulateInput
-                  name="linkOne"
-                  label="Add a Link"
-                  placeholder="https://somelink.com"
-                  wrapper-class="sm:w-4/5 m-auto"
-                  element-class="w-full"
-                  errors-class="sm:w-4/5 m-auto"
-                />
-              </div>
 
               <FormulateInput
                 v-if="acc < 2"
@@ -157,8 +147,9 @@
               </FormulateInput>
             </div>
             <!-- end of links and contacts repeatable  -->
-            <h2 class="my-4">Add Band Members</h2>
+            <h2 v-if="acc === 2" class="my-4">Add Band Members</h2>
             <FormulateInput
+              v-if="acc === 2"
               type="group"
               name="members"
               :repeatable="true"
@@ -214,8 +205,8 @@
                 @change="profileImage = $event.target.files[0]"
               />
             </div>
-            <!-- logo -->
-            <h2 class="text-center mb-10 mt-4">Add Your band Logo</h2>
+            <!-- logo can go here if needed-->
+            <!-- <h2 class="text-center mb-10 mt-4">Add Your band Logo</h2>
             <div class="flex w-full justify-center">
               <FormulateInput
                 type="image"
@@ -228,7 +219,7 @@
                 element-class="w-full sm:w-96 "
                 @change="logoImage = $event.target.files[0]"
               />
-            </div>
+            </div> -->
             <!-- <div v-if="image">
               <img :src="image[0].url" alt="fdsfadsf" />
             </div> -->
@@ -379,7 +370,6 @@ export default {
       if (this.formValues.links) {
         const links = this.formValues.links.map((l) => {
           const newLink = l.replace(/^https?:\/\//, '')
-          console.log(newLink, 'newLink')
           return { link: newLink }
         })
         console.log(links)
@@ -468,6 +458,16 @@ export default {
             return { link: newLink }
           })
           this.formValues.links = links
+        }
+        if (this.formValues.contact) {
+          const isContactLink = this.formValues.contact.search('.com')
+          if (isContactLink) {
+            const newContact = this.formValues.contact.replace(
+              /^https?:\/\//,
+              ''
+            )
+            this.formValues.contact = newContact
+          }
         }
         if (this.formValues.linkOne) {
           this.formValues.linkOne = this.formValues.linkOne.replace(

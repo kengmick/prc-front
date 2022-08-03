@@ -163,10 +163,16 @@
               <p>{{ band.recordLabel }}</p>
             </div>
           </div>
+          <div v-if="band.dateStarted" class="w-full sm:w-3/4 flex">
+            <div class="w-full mb-6">
+              <h2 class="text-3xl chedder main_red_text pb-2">Date Started</h2>
+              <p>{{ band.dateStarted }}</p>
+            </div>
+          </div>
         </div>
 
         <div
-          v-if="band.members.length > 0"
+          v-if="band.members.length > 0 && band.acc === 2"
           class="flex flex-col sm:flex-row items-center mb-4"
         >
           <!-- col one of details  -->
@@ -216,11 +222,19 @@
             </div>
           </div>
         </div>
-        <div flex flex-col sm:flex-row items-center mb-4>
+        <div class="flex flex-col sm:flex-row items-center mb-4">
           <div v-if="band.contact" class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
               <h2 class="text-3xl chedder main_red_text pb-2">Band Contact</h2>
-              <p>{{ band.contact }}</p>
+              <div v-if="band.contact.search('.com') > 1">
+                <a
+                  class="underline-offset-2 underline block"
+                  :href="`https://${band.contact}`"
+                  target="_blank"
+                  >{{ band.contact }}
+                </a>
+              </div>
+              <p v-else>{{ band.contact }}</p>
             </div>
           </div>
           <div
@@ -235,12 +249,6 @@
               >
                 {{ contact.contact }}
               </p>
-            </div>
-          </div>
-          <div v-if="band.dateStarted" class="w-full sm:w-3/4 flex">
-            <div class="w-full mb-6">
-              <h2 class="text-3xl chedder main_red_text pb-2">Date Started</h2>
-              <p>{{ band.dateStarted }}</p>
             </div>
           </div>
           <!-- add logic for links for account 2 -->
@@ -261,28 +269,12 @@
               <h3 v-else>No Links Added ...</h3>
             </div>
           </div>
-          <!-- add logic for link account 1   -->
-          <div class="w-full sm:w-3/4 flex">
-            <div class="w-full mb-6">
-              <h2 class="text-3xl chedder main_red_text pb-2">Link</h2>
-
-              <div v-if="band.linkOne">
-                <a
-                  class="underline-offset-2 underline block"
-                  :href="`${band.linkOne}`"
-                  target="_blank"
-                  >{{ band.linkOne }}
-                </a>
-              </div>
-              <h3 v-else>No Links Added ...</h3>
-            </div>
-          </div>
         </div>
       </section>
       <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
       <!-- edit component -->
 
-      <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto mt-6">
+      <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto">
         <h2 id="showz" class="text-3xl main_red_text pb-6">Showz</h2>
         <p v-if="events.length === 0">No Showz Coming up</p>
         <section v-if="user === userPermission" class="container mx-auto">
@@ -778,7 +770,7 @@
           </h2>
         </div>
         <!-- merch goes here  -->
-        <div v-if="band.merch">
+        <div v-if="band.merch && band.acc === 2">
           <section v-if="band.merch.length > 0">
             <div class="flex flex-col gap-4 sm:grid-cols-3 sm:grid sm:gap-4">
               <div
@@ -850,12 +842,16 @@
             </div>
           </section>
         </div>
-        <h2 id="songs" class="text-3xl chedder main_red_text chedder pb-2 mt-6">
+        <h2
+          v-if="band.acc === 2"
+          id="songs"
+          class="text-3xl chedder main_red_text chedder pb-2 mt-6"
+        >
           Songs
         </h2>
         <!-- songs -->
 
-        <div v-if="band.singles.lenth > 0">
+        <div v-if="band.singles.lenth > 0 && band.acc === 2">
           <section v-if="band.singles.length > 0">
             <div class="overflow-x-auto">
               <table class="w-full">
@@ -885,10 +881,10 @@
             </div>
           </section>
         </div>
-        <div v-else class="my-4"><h3>No Songs Uploaded</h3></div>
       </section>
       <!-- posts  -->
       <section
+        v-if="band.acc === 2"
         id="posts"
         class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0"
       >

@@ -32,7 +32,7 @@
                 errors-class="sm:w-4/5 m-auto"
               />
 
-              <FormulateInput
+              <!-- <FormulateInput
                 v-if="acc === 1"
                 name="contact"
                 type="text"
@@ -40,7 +40,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-              />
+              /> -->
             </div>
             <div class="w-full px-4 sm:w-1/2">
               <!-- <FormulateInput
@@ -86,7 +86,7 @@
               />
             </div>
           </div>
-          <section v-if="acc === 2" class="px-4 mt-10 sm:m-20">
+          <section class="px-4 mt-10 sm:m-20">
             <h2>Add Logo</h2>
             <div>
               <FormulateInput
@@ -94,7 +94,7 @@
                 name="logo"
                 label="Select an logo to upload"
                 help="Select a png, jpg or gif to upload."
-                validation="mime:image/jpeg,image/png,image/gif"
+                validation="mime:image/jpeg,image/png,image/gif,image/webp"
                 input-class="w-full sm:w-96 "
                 wrapper-class="w-full sm:w-96 "
                 element-class="w-full sm:w-96 "
@@ -132,7 +132,7 @@
                   name="pic"
                   label="add photos"
                   help="Select a png, jpg or gif to upload."
-                  validation="mime:image/jpeg,image/png,image/gif"
+                  validation="mime:image/jpeg,image/png,image/gif,image/webp"
                   input-class="w-full sm:w-96 "
                   wrapper-class="w-full sm:w-96 "
                   element-class="w-full sm:w-96 "
@@ -140,7 +140,7 @@
               </div>
             </FormulateInput>
             <h2 class="my-4">Add Contacts</h2>
-            <div v-if="acc === 2">
+            <div>
               <FormulateInput
                 type="group"
                 name="altContacts"

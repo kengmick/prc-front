@@ -58,6 +58,7 @@ export default {
         this.$router.push('/profile')
         this.loading = false
       } catch (error) {
+        this.loading = false
         this.formValues = {}
         this.errorMessage = 'sorry ... please try loging in again '
       }

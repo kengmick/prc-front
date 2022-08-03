@@ -19,6 +19,7 @@
                 errors-class="sm:w-4/5 m-auto"
               />
               <FormulateInput
+                type="password"
                 name="password"
                 label="Create a password"
                 validation="required"
@@ -106,7 +107,7 @@ export default {
           this.$router.push({ path: 'profile', query: { user: user.id } })
         }
       } catch (error) {
-        this.errorMessage = error
+        this.errorMessage = 'Sorry ... something went wrong '
       }
     },
   },
