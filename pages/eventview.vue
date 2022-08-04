@@ -1,6 +1,7 @@
 <template>
   <div class="container mx-auto my-6">
     <section v-if="event" class="container mx-auto mt-6">
+      <pre>{{ event }}</pre>
       <div v-if="event.eventPoster">
         <div
           class="h-[500px] back"
