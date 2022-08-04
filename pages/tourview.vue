@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="tour" class="container mx-auto">
-      <pre>{{ tour }}</pre>
+      <!-- <pre>{{ tour }}</pre> -->
       <h1 class="hidden sm:block main_red_text text-center my-6">
         {{ tour.title }}
       </h1>
@@ -510,13 +510,17 @@ export default {
       })
       this.user = this.$strapi.user.id
       const id = [...this.tour.events]
+      this.events = tour.events
+      console.log(id, ' this is the id used to get tour events ')
       const ids = await id.map((e) => {
         return ['id', e.id]
       })
-      // this is finding events created by the user ... this is wrong
-      const events = await this.$strapi.find('events', ids)
-      this.events = events
-      console.log(events, 'events')
+      console.log(ids, 'this is all the ids of the events ')
+      // I need to find events that are tied to a tour
+      // const events = await this.$strapi.find('events')
+      // console.log('this is all events 520', events)
+      // this.events = events
+      // console.log(events, 'events')
       this.posts = posts
     } catch (error) {
       console.log(error)
