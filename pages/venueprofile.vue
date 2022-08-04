@@ -52,7 +52,6 @@
         class="sm:container sm:mx-auto w-full md:w-1/2 mt-6"
       >
         <Announcement
-          v-if="venue.announcements.length > 0"
           profileType="venue"
           :profileName="venue.name"
           :profileId="venue.id"

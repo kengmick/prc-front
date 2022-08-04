@@ -151,7 +151,7 @@ export default {
                 query: {
                   profileId: venue.id,
                   title: announ.title,
-                  profileType: 'venues',
+                  profileType: 'venue',
                   profileName: venue.name,
                 },
               })

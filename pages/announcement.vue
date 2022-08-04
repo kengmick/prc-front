@@ -42,7 +42,7 @@ export default {
       this.announcement = announcement[0]
       console.log(announcement, 'for band ')
     }
-    if (this.$route.query.profileType === 'venues') {
+    if (this.$route.query.profileType === 'venue') {
       console.log('finding venue ann')
       const venue = await this.$strapi.find('venues', {
         id: this.$route.query.profileId,
