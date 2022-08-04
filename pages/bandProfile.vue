@@ -91,7 +91,7 @@
         <p>there are no announcements at this time</p>
       </section>
       <section
-        v-if="user === userPermission"
+        v-if="permission"
         class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0"
       >
         <div class="flex-grow flex items-center my-12 w-full cursor-pointer">
@@ -277,7 +277,7 @@
       <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto">
         <h2 id="showz" class="text-3xl main_red_text pb-6">Showz</h2>
         <p v-if="events.length === 0">No Showz Coming up</p>
-        <section v-if="user === userPermission" class="container mx-auto">
+        <section v-if="permission" class="container mx-auto">
           <div class="flex-grow flex items-center my-12 w-full cursor-pointer">
             <div
               class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
@@ -1042,17 +1042,15 @@ export default {
       finalPostImage: '',
       loading: false,
       errorMessage: null,
+      permission: false,
     }
   },
   async mounted() {
     // get bands
-
+    // check if user is logged in and owns the band
     try {
       const band = await this.$strapi.findOne('bands', this.$route.query.band)
       this.band = band
-      this.user = this.$strapi.user.id
-      // not sure what this is doinig
-      this.userPermission = band.users_permissions_user.id
       // const id = [...this.band.events]
       // const ids = await id.map((e) => {
       //   return ['id', e.id]
@@ -1070,6 +1068,18 @@ export default {
       })
     } catch (error) {
       console.log(error, 'there was an error ')
+    }
+    try {
+      this.user = this.$strapi.user.id
+      if (this.user) {
+        // compare userid to userpermission in front
+        if (this.user === this.band.users_permissions_user.id) {
+          console.log('do something herer')
+          this.permission = true
+        }
+      }
+    } catch (error) {
+      this.user = null
     }
     // get events
 

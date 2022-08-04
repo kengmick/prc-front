@@ -397,11 +397,10 @@ export default {
           this.formValues.tourName !== 'null'
         ) {
           console.log('this is the band and tour  conditional ')
-          this.formValues.tourName = null
           const b = this.bands.filter((band) => {
             return band.bandName === this.formValues.bandName
           })
-
+          this.formValues.bandName = b[0]
           const event = await this.$strapi.create('events', {
             ...this.formValues,
             users_permissions_user: this.$strapi.user.id,

@@ -434,6 +434,26 @@
       </section>
     </section>
     <section
+      v-if="loading"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <Spinner />
+    </section>
+    <section
+      v-if="errorMessage"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <div>
+        <h2>{{ errorMessage }}</h2>
+        <h3
+          class="text-center text-2xl cursor-pointer"
+          @click="errorMessage = null"
+        >
+          Close X
+        </h3>
+      </div>
+    </section>
+    <section
       v-if="popup"
       class="h-screen w-screen bg-black bg-opacity-10 fixed top-0 flex items-center justify-center"
     >
@@ -485,6 +505,8 @@ export default {
       message: 'type something here to share',
       postImage: '',
       finalPostImage: '',
+      loading: false,
+      errorMessage: null,
     }
   },
   async mounted() {
@@ -503,6 +525,7 @@ export default {
     //   console.log(error)
     // }
     try {
+      this.loading = true
       const tour = await this.$strapi.findOne('tours', this.$route.query.tour)
       this.tour = tour
       const posts = await this.$strapi.find('posts', {
@@ -522,7 +545,9 @@ export default {
       // this.events = events
       // console.log(events, 'events')
       this.posts = posts
+      this.loading = false
     } catch (error) {
+      this.loading = false
       console.log(error)
     }
   },
