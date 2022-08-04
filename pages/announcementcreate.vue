@@ -68,7 +68,21 @@ export default {
 
   methods: {
     async createBandAnn() {
-      const b = await this.$strapi.findOne('bands', 28)
+      let b
+      let v
+      if (this.$route.query.type === 'band') {
+        b = await this.$strapi.findOne('bands', this.$route.query.bandId)
+        console.log(b)
+      }
+      if (this.$route.query.type === 'venue') {
+        console.log(
+          'trying to find the venues good! line:79',
+          this.$route.query.venueId
+        )
+        v = await this.$strapi.findOne('venues', this.$route.query.venueId)
+        console.log(v, 'trying to find the venue')
+      }
+
       if (this.annImageFile) {
         try {
           this.loading = true
@@ -86,30 +100,71 @@ export default {
           text: this.formValues.text,
           image: this.annImageFinal,
         }
-        b.announcements.push(announ)
-      }
-      const announ = {
-        title: this.formValues.title,
-        text: this.formValues.text,
-      }
-      b.announcements.push(announ)
-      const band = await this.$strapi.update('bands', 28, {
-        announcements: [...b.announcements],
-      })
-      // if title route to title
-
-      if (band) {
-        console.log('this is the band ')
-        this.$router.push({
-          path: 'announcement',
-          query: {
-            profileId: band.id,
-            title: announ.title,
-            profileType: 'bands',
-            profileName: band.bandName,
-          },
-        })
-        this.loading = false
+        if (this.$route.query.type === 'band') {
+          console.log('this is the band announcement')
+          b.announcements.push(announ)
+          try {
+            const band = await this.$strapi.update(
+              'bands',
+              this.$route.query.bandId,
+              {
+                announcements: [...b.announcements],
+              }
+            )
+            if (band) {
+              console.log('this is the band ')
+              this.$router.push({
+                path: 'announcement',
+                query: {
+                  profileId: band.id,
+                  title: announ.title,
+                  profileType: 'bands',
+                  profileName: band.bandName,
+                },
+              })
+              this.loading = false
+            }
+          } catch (error) {
+            console.log(
+              error,
+              'there is an error in create the band announcement '
+            )
+            this.loading = false
+          }
+        }
+        if (this.$route.query.type === 'venue') {
+          console.log('this is the venue announcement')
+          v.announcements.push(announ)
+          try {
+            const venue = await this.$strapi.update(
+              'venues',
+              this.$route.query.venueId,
+              {
+                announcements: [...v.announcements],
+              }
+            )
+            console.log(venue)
+            if (venue) {
+              console.log('this is the venue ')
+              this.$router.push({
+                path: 'announcement',
+                query: {
+                  profileId: venue.id,
+                  title: announ.title,
+                  profileType: 'venues',
+                  profileName: venue.name,
+                },
+              })
+              this.loading = false
+            }
+          } catch (error) {
+            console.log(
+              error,
+              'there is an error in create the venue announcement '
+            )
+            this.loading = false
+          }
+        }
       }
     },
   },

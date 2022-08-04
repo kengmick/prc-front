@@ -44,6 +44,48 @@
           </div></NuxtLink
         >
       </div>
+      <div class="sm:container sm:mx-auto w-full md:w-1/2 mt-6">
+        <h2>Announcements</h2>
+      </div>
+      <section
+        v-if="venue.announcements"
+        class="sm:container sm:mx-auto w-full md:w-1/2 mt-6"
+      >
+        <Announcement
+          v-if="venue.announcements.length > 0"
+          profileType="venue"
+          :profileName="venue.name"
+          :profileId="venue.id"
+          :announcements="venue.announcements"
+        />
+      </section>
+      <section class="sm:container sm:mx-auto w-full md:w-1/2 mt-6">
+        <div class="flex-grow flex items-center my-12 w-full cursor-pointer">
+          <div
+            class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
+            @click="addAnnouncements"
+          >
+            <div class="flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="red"
+                class="bi bi-plus-circle"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                />
+                <path
+                  d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                />
+              </svg>
+              <p class="pl-2 text-lg font-bold">Create Announcement</p>
+            </div>
+          </div>
+        </div>
+      </section>
       <!-- gallery  -->
       <!-- media Gallery -->
       <section v-if="venue.photos" class="container mx-auto">
@@ -610,6 +652,12 @@ export default {
     moment,
     popupToggle() {
       this.popup = !this.popup
+    },
+    addAnnouncements(val) {
+      this.$router.push({
+        path: 'announcementcreate',
+        query: { user: this.user, venueId: this.venue.id, type: 'venue' },
+      })
     },
     async addEvents(val) {
       if (this.eventPosterFile) {

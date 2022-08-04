@@ -26,19 +26,38 @@ export default {
   async mounted() {
     this.profileType = this.$route.query.profileType
     this.profileName = this.$route.query.profileName
-    const band = await this.$strapi.find(this.profileType, {
-      id: this.$route.query.profileId,
-    })
 
-    const announcement = band[0].announcements.filter((a) => {
-      if (this.$route.query.title) {
-        return a.title === this.$route.query.title
-      } else {
-        return a.id === parseInt(this.$route.query.announcementId)
-      }
-    })
-    this.announcement = announcement[0]
-    console.log(announcement)
+    if (this.$route.query.profileType === 'bands') {
+      console.log('this is the band annoucement')
+      const band = await this.$strapi.find(this.profileType, {
+        id: this.$route.query.profileId,
+      })
+      const announcement = band[0].announcements.filter((a) => {
+        if (this.$route.query.title) {
+          return a.title === this.$route.query.title
+        } else {
+          return a.id === parseInt(this.$route.query.announcementId)
+        }
+      })
+      this.announcement = announcement[0]
+      console.log(announcement, 'for band ')
+    }
+    if (this.$route.query.profileType === 'venues') {
+      console.log('finding venue ann')
+      const venue = await this.$strapi.find('venues', {
+        id: this.$route.query.profileId,
+      })
+      console.log(venue)
+      const announcement = venue[0].announcements.filter((a) => {
+        if (this.$route.query.title) {
+          return a.title === this.$route.query.title
+        } else {
+          return a.id === parseInt(this.$route.query.announcementId)
+        }
+      })
+      this.announcement = announcement[0]
+      console.log(announcement)
+    }
   },
 }
 </script>

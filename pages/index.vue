@@ -7,7 +7,7 @@
       <h2 class="text-center my-10 text-5xl">Featured Bands</h2>
       <div
         v-if="bands !== []"
-        class="flex flex-col w-[80%] mx-auto xl:flex-row xl:w-auto justify-center gap-14"
+        class="flex flex-col items-center justify-center mx-auto xl:flex-row flex-wrap xl:w-auto gap-14"
       >
         <!-- <BandCard
           v-for="(band, index) in bands.slice(0, 3)"

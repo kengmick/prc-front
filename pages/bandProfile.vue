@@ -1134,7 +1134,7 @@ export default {
     addAnnouncements(val) {
       this.$router.push({
         path: 'announcementcreate',
-        query: { user: this.user, bandId: this.band.id },
+        query: { user: this.user, bandId: this.band.id, type: 'band' },
       })
     },
     addEventForm: function () {
