@@ -1,6 +1,7 @@
 <template>
   <div>
     <div v-if="tour" class="container mx-auto">
+      <pre>{{ tour }}</pre>
       <h1 class="hidden sm:block main_red_text text-center my-6">
         {{ tour.title }}
       </h1>
@@ -512,6 +513,7 @@ export default {
       const ids = await id.map((e) => {
         return ['id', e.id]
       })
+      // this is finding events created by the user ... this is wrong
       const events = await this.$strapi.find('events', ids)
       this.events = events
       console.log(events, 'events')

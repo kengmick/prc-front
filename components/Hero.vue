@@ -7,7 +7,7 @@
           <img class="image-height" src="~/static/live_background.png" alt="" />
           <div class="live-image-bottom-bar flex items-center pr-4">
             <p class="chedder text-white pl-5 bottom-bar-text">
-              24/7 Live Stream
+              24/7 Video Stream
             </p>
             <div class="share">
               <img class="share_btn" src="~/static/share.svg" alt="" />

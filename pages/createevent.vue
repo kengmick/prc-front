@@ -341,6 +341,9 @@ export default {
     async submitForm() {
       // uploading bandProfileImg
       this.loading = true
+      if (this.formValues.timeStarts) {
+        this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
+      }
       try {
         const formData = new FormData()
         await formData.append('files', this.eventPosterFile)
@@ -348,21 +351,19 @@ export default {
         this.eventPosterFinal = eventPosterFinal
         this.formValues.eventPoster = eventPosterFinal
       } catch (error) {
-        console.log(error)
+        console.log(error, '351: error in uploading event poster ')
         this.loading = false
         this.errorMessage =
           'Could not upload the event poster ... please try again '
       }
       try {
         // if user picks band find band
-        if (this.formValues.bandName) {
+        if (this.formValues.bandName !== 'null') {
+          console.log('this is the bandName conditional ')
           const b = this.bands.filter((band) => {
             return band.bandName === this.formValues.bandName
           })
 
-          if (this.formValues.timeStarts) {
-            this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
-          }
           const event = await this.$strapi.create('events', {
             ...this.formValues,
             users_permissions_user: this.$strapi.user.id,
@@ -373,7 +374,7 @@ export default {
             events: [...b[0].events, event],
           })
         }
-
+        this.formValues.bandName = null
         const event = await this.$strapi.create('events', {
           ...this.formValues,
           users_permissions_user: this.$strapi.user.id,
@@ -381,7 +382,8 @@ export default {
         this.event = event
         this.loading = false
       } catch (error) {
-        console.log(error, 'there was an error ')
+        console.log('form vals', this.formValues)
+        console.log(error, 'there was an error in creating an event  ')
         this.loading = false
         this.errorMessage = 'Sorry, something went wrong ... please try again '
       }

@@ -13,6 +13,7 @@
             errors-class="sm:w-4/5 m-auto"
           />
           <FormulateInput
+            type="password"
             name="password"
             label="Enter Your password"
             validation="required"

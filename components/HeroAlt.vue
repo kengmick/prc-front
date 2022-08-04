@@ -12,7 +12,7 @@
         ></NuxtLink>
         <div class="container__info container__author"></div>
         <div class="container__info container__location">
-          <h1 class="text-white chedder">24/7 Live Stream</h1>
+          <h1 class="text-white chedder">24/7 Video Stream</h1>
         </div>
       </div>
     </div>

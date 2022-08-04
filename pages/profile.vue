@@ -501,7 +501,7 @@
     <!-- add release button  -->
 
     <!-- show releases if has relases  -->
-    <section class="container mx-auto">
+    <!-- <section class="container mx-auto">
       <h2
         class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
       >
@@ -533,7 +533,7 @@
           </NuxtLink>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section v-if="releases" class="container mx-auto">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
@@ -562,7 +562,7 @@
     </section>
 
     <!-- distros -->
-    <div class="container mx-auto my-6">
+    <!-- <div class="container mx-auto my-6">
       <h2
         class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
       >
@@ -592,7 +592,7 @@
           </div>
         </NuxtLink>
       </div>
-    </div>
+    </div> -->
 
     <section v-if="distros" class="container mx-auto">
       <div>

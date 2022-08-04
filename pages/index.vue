@@ -25,14 +25,19 @@
     <!-- <Price /> -->
     <section>
       <h2 class="text-center my-10 text-5xl">All bands</h2>
-      <PosterCard
-        class="mb-10"
-        v-for="(band, index) in bands"
-        :key="band.bandName + index"
-        :band="band"
-        :isFeatured="true"
-        :isHome="true"
-      />
+      <!-- container for poster cards -->
+      <div
+        class="flex flex-col justify-center items-center md:flex-row md:flex-wrap md:gap-6"
+      >
+        <PosterCard
+          class="mb-10"
+          v-for="(band, index) in bands"
+          :key="band.bandName + index"
+          :band="band"
+          :isFeatured="true"
+          :isHome="true"
+        />
+      </div>
       <!-- <SliderContainer v-if="bands !== []">
         <PosterCard
           v-for="(band, index) in bands"
