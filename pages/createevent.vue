@@ -250,6 +250,8 @@ export default {
       tours: [],
       distros: [],
       loading: false,
+      tour: null,
+      tourEvent: null,
     }
   },
   async mounted() {
@@ -333,9 +335,19 @@ export default {
         this.formValues.bandName = null
       }
     },
-    clearTour(val) {
+    async clearTour(val) {
       if (val === 'clear') {
         this.formValues.tourName = null
+      } else {
+        try {
+          console.log(val)
+          const t = await this.$strapi.find('tours', { title: val })
+          // sets the tour in data objects
+          this.tour = t[0]
+          console.log(t)
+        } catch (error) {
+          console.log(error)
+        }
       }
     },
     async submitForm() {
@@ -357,8 +369,11 @@ export default {
           'Could not upload the event poster ... please try again '
       }
       try {
-        // if user picks band find band
-        if (this.formValues.bandName !== 'null') {
+        // if user picks band find band but not a tour
+        if (
+          this.formValues.bandName !== 'null' &&
+          this.formValues.tourName === 'null'
+        ) {
           console.log('this is the bandName conditional ')
           const b = this.bands.filter((band) => {
             return band.bandName === this.formValues.bandName
@@ -374,6 +389,23 @@ export default {
             events: [...b[0].events, event],
           })
         }
+        // if user picks a tour but not a band
+        if (
+          this.formValues.bandName === 'null' &&
+          this.formValues.tourName !== 'null'
+        ) {
+          this.formValues.bandName = null
+          const event = await this.$strapi.create('events', {
+            ...this.formValues,
+            users_permissions_user: this.$strapi.user.id,
+          })
+          this.event = event
+          // put band id and update the band
+          await this.$strapi.update('tours', this.tour.id, {
+            events: [...this.tour.events, event],
+          })
+        }
+        // if user does not pick a band or a tour
         this.formValues.bandName = null
         const event = await this.$strapi.create('events', {
           ...this.formValues,
