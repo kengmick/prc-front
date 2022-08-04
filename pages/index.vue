@@ -3,20 +3,13 @@
     <div class="hidden xl:block"><HeroAlt /></div>
     <div class="block xl:hidden"><Hero /></div>
 
-    <section>
+    <!-- Featured bands -->
+    <!-- <section>
       <h2 class="text-center my-10 text-5xl">Featured Bands</h2>
       <div
         v-if="bands !== []"
         class="flex flex-col items-center justify-center mx-auto xl:flex-row flex-wrap xl:w-auto gap-14"
       >
-        <!-- <BandCard
-          v-for="(band, index) in bands.slice(0, 3)"
-          :key="band.bandName + index"
-          :band="band"
-          :isFeatured="true"
-          style="min-width: 25vw"
-        /> -->
-
         <PosterCard
           v-for="(band, index) in bands.slice(0, 3)"
           :key="band.bandName + index"
@@ -27,32 +20,39 @@
           @dblclick="console.log('hello')"
         />
       </div>
-    </section>
+    </section> -->
     <!-- this describes the pricing model  -->
     <!-- <Price /> -->
-    <!-- <section>
+    <section>
       <h2 class="text-center my-10 text-5xl">All bands</h2>
-      <SliderContainer v-if="bands !== []">
+      <PosterCard
+        class="mb-10"
+        v-for="(band, index) in bands"
+        :key="band.bandName + index"
+        :band="band"
+        :isFeatured="true"
+        :isHome="true"
+      />
+      <!-- <SliderContainer v-if="bands !== []">
         <PosterCard
           v-for="(band, index) in bands"
           :key="band.bandName + index"
           :band="band"
           :isFeatured="true"
-          style="min-width: 25vw"
         />
-      </SliderContainer>
-    </section> -->
+      </SliderContainer> -->
+    </section>
 
-    <section class="my-10">
+    <!-- <section class="my-10">
       <h2 class="chedder text-center text-5xl">Featured Event</h2>
       <FeaturedEvent v-if="event" :event="event" />
-    </section>
+    </section> -->
     <section class="my-10">
       <Cta />
     </section>
-    <section class="my-10">
+    <!-- <section class="my-10">
       <Gallery />
-    </section>
+    </section> -->
     <section>
       <NewsLetterCta />
     </section>

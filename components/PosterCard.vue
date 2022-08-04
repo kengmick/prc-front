@@ -10,7 +10,7 @@
       ]"
     >
       <!-- header of card -->
-      <div class="h-[58px] w-full bg-black flex items-center justify-center">
+      <div class="h-full w-full bg-black flex items-center justify-center">
         <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
           <p
             v-if="band.bandName"
@@ -266,6 +266,12 @@ export default {
       type: Object,
       default() {
         return {}
+      },
+    },
+    isHome: {
+      type: Boolean,
+      default() {
+        return false
       },
     },
   },
