@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
-    <div class="hidden xl:block"><HeroAlt /></div>
-    <div class="block xl:hidden"><Hero /></div>
+    <!-- <div class="hidden xl:block"><HeroAlt /></div>
+    <div class="block xl:hidden"><Hero /></div> -->
 
     <!-- Featured bands -->
     <!-- <section>
