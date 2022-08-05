@@ -37,7 +37,7 @@
       </div>
     </div>
     <!-- desktop nav -->
-    <div class="hidden lg:flex px-10 py-2 main_red_background text-white">
+    <div class="hidden md:flex px-10 py-2 main_red_background text-white">
       <div>
         <NuxtLink to="/">
           <img class="logo" src="~/static/logo-prc.svg" alt="" />
