@@ -1,6 +1,8 @@
 <template>
   <section>
-    <h1 class="main_page_padding_left_right">Live Stream</h1>
+    <h1 class="main_page_padding_left_right text-2xl text-center pt-6">
+      24/7 Video Stream
+    </h1>
     <div class="flex justify-center mb-10">
       <iframe
         width="1280"

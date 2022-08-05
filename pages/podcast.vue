@@ -3,8 +3,8 @@
     <h1 class="text-center my-12">Podcasts</h1>
     <section class="container mx-auto flex flex-col items-center gap-14 mb-12">
       <iframe
-        width="1280"
-        height="720"
+        width="400"
+        height="225"
         src="https://www.youtube.com/embed/oWk1nfCYA08?list=PL77Cbf0PuapXtyAl3jo0C2TQVkc2UeT_7"
         title="PRC Podcast #5- K.B. Elliott July 29, 2022"
         frameborder="0"

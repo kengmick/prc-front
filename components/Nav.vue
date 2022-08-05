@@ -59,6 +59,9 @@
           <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>
         </div>
         <div>
+          <NuxtLink class="chedder text-2xl" to="/events">Showz</NuxtLink>
+        </div>
+        <div>
           <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
         </div>
         <!-- distro label -->
@@ -67,9 +70,7 @@
             >Distro/Labels</NuxtLink
           >
         </div> -->
-        <div>
-          <NuxtLink class="chedder text-2xl" to="/events">Showz</NuxtLink>
-        </div>
+
         <div>
           <NuxtLink class="chedder text-2xl" to="/tours">Tours</NuxtLink>
         </div>
@@ -80,6 +81,9 @@
           <NuxtLink class="chedder text-2xl" to="/Classifieds"
             >Classifieds</NuxtLink
           >
+        </div>
+        <div>
+          <NuxtLink class="chedder text-2xl" to="/contact">Contact</NuxtLink>
         </div>
         <!-- <div>
           <NuxtLink class="chedder text-2xl" to="/Merch">Merch</NuxtLink>
@@ -139,15 +143,16 @@
         <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>
       </div>
       <div @click="toggleMenu">
+        <NuxtLink class="chedder text-2xl" to="/events">Showz</NuxtLink>
+      </div>
+
+      <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
       </div>
       <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/distros"
           >Distros/Labels</NuxtLink
         >
-      </div>
-      <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/events">Showz</NuxtLink>
       </div>
 
       <div @click="toggleMenu">
@@ -161,6 +166,9 @@
       <!-- <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/merch">Merch</NuxtLink>
       </div> -->
+      <div>
+        <NuxtLink class="chedder text-2xl" to="/podcast">Podcast</NuxtLink>
+      </div>
       <div v-if="$strapi.user" @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/profile">profile</NuxtLink>
       </div>

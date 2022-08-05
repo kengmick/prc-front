@@ -136,7 +136,7 @@ body {
 }
 
 .an .container__info {
-  transform: translate3d(-40%, 0px, 0px);
+  transform: translate3d(-44%, 0px, 0px);
   opacity: 1;
 }
 

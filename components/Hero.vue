@@ -19,7 +19,7 @@
         </div>
       </NuxtLink>
     </div>
-    <div class="message-container flex flex-col">
+    <!-- <div class="message-container flex flex-col">
       <h1 class="title pb-10">{{ title }}</h1>
       <p class="message">{{ message }}</p>
       <p class="hidden lg:block pt-4 message">
@@ -52,7 +52,7 @@
           >View Profile</NuxtLink
         >
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

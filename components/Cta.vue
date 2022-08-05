@@ -24,8 +24,7 @@
     </div> -->
     <div class="w-full sm:w-1/2 py-10 px-5 lg:px-[10em] md:px-10 bg-white">
       <div class="text-center mb-10">
-        <h1 class="font-bold text-3xl text-gray-900 chedder">REGISTER</h1>
-        <p>Enter your information to register</p>
+        <h1 class="font-bold text-3xl text-gray-900 chedder">Sign Up</h1>
       </div>
       <div>
         <div class="flex -mx-3">
@@ -91,7 +90,7 @@
               class="block w-full max-w-xs mx-auto main_red_background hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
               @click="submitForm"
             >
-              REGISTER NOW
+              Sign Up Now
             </button>
           </div>
         </div>
@@ -99,11 +98,11 @@
     </div>
     <!-- grid of pictures -->
     <div class="hidden sm:grid grid-cols-3 gap-2 w-1/2 bg-white">
-      <img class="h-full object-cover" src="~/static/pit.jpg" alt="" />
-      <img class="h-full object-cover" src="~/static/pit.jpg" alt="" />
-      <img class="h-full object-cover" src="~/static/pit.jpg" alt="" />
-      <img class="h-full object-cover" src="~/static/pit.jpg" alt="" />
-      <img class="h-full object-cover" src="~/static/pit.jpg" alt="" />
+      <img class="h-full object-cover" src="~/static/image_a.jpeg" alt="" />
+      <img class="h-full object-cover" src="~/static/image_b.jpeg" alt="" />
+      <img class="h-full object-cover" src="~/static/image_c.jpeg" alt="" />
+      <img class="h-full object-cover" src="~/static/image_e.jpeg" alt="" />
+      <img class="h-full object-cover" src="~/static/imagef.jpeg" alt="" />
       <img class="h-full object-cover" src="~/static/pit.jpg" alt="" />
     </div>
 
@@ -129,7 +128,7 @@ export default {
           email: this.email,
           username: this.username,
           password: this.password,
-          acc: 2,
+          acc: 1,
         })
         if (user) {
           this.$router.push({ path: 'profile', query: { user: user.id } })

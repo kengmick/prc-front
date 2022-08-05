@@ -24,7 +24,7 @@
     <!-- this describes the pricing model  -->
     <!-- <Price /> -->
     <section>
-      <h2 class="text-center my-10 text-5xl">All bands</h2>
+      <h2 class="text-center my-10 text-5xl">Featured Bands</h2>
       <!-- container for poster cards -->
       <div
         class="flex flex-col justify-center items-center md:flex-row md:flex-wrap md:gap-6"

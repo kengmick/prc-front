@@ -1,7 +1,7 @@
 <template>
   <div class="h-auto lg:h-[373px] w-full grayBlack py-10">
     <p class="text-xl text-white text-center">
-      Sign Up For Prc <span class="main_red_text">hotsheets</span> (newsletter):
+      Sign Up For PRC <span class="main_red_text">Newsletter</span>
     </p>
     <div class="flex flex-col lg:flex-row justify-center mt-14">
       <input

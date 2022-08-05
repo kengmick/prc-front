@@ -38,7 +38,8 @@
               >Account Email</span
             >{{ user.email }}
           </p>
-          <hr />
+          <!-- this is the upgrade button -->
+          <!-- <hr />
           <div class="hidden md:block my-6 w-full">
             <div class="w-full">
               <div
@@ -63,7 +64,7 @@
                 <h3 class="text-3xl pl-2 text-center">Upgrade Account</h3>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="hidden md:block my-6 w-full">
             <div class="w-full">
               <div
@@ -170,7 +171,7 @@
               name="profileImg"
               label="Select an image to upload"
               help="Select a png, jpg or gif to upload."
-              validation="mime:image/jpeg,image/png,image/gif"
+              validation="mime:image/jpeg,image/png,image/gif,image/webp"
               input-class="w-full sm:w-96 "
               wrapper-class="w-full sm:w-96 "
               element-class="w-full sm:w-96 "
@@ -557,9 +558,10 @@
         </div>
       </div>
     </section>
-    <section class="container mx-auto">
+    <!-- This is where releases go  -->
+    <!-- <section class="container mx-auto">
       <p>No Releases</p>
-    </section>
+    </section> -->
 
     <!-- distros -->
     <!-- <div class="container mx-auto my-6">
