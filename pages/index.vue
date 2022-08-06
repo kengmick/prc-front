@@ -23,7 +23,7 @@
     </section> -->
     <!-- this describes the pricing model  -->
     <!-- <Price /> -->
-    <section>
+    <section v-if="bands.length > 0">
       <h2 class="text-center my-10 text-5xl">Featured Bands</h2>
       <!-- container for poster cards -->
       <div
