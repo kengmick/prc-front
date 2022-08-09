@@ -23,8 +23,6 @@
             wrapper-class="flex justify-center mt-6"
           />
         </FormulateForm>
-        <br />
-        <pre>{{ liveStream }}</pre>
       </section>
     </section>
     <section

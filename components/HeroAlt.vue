@@ -5,7 +5,7 @@
         <iframe
           width="1280"
           height="720"
-          src="https://www.youtube.com/embed/jqsFw354asc"
+          :src="`https://www.youtube.com/embed/${video}`"
           title="Punk Rock Compound July 31st"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -28,9 +28,18 @@ export default {
       videoId: null,
       ani: false,
       show: false,
+      video: 'jqsFw354asc',
     }
   },
-  mounted() {
+  async mounted() {
+    try {
+      const stream = await this.$strapi.find('live-stream')
+      if (stream) {
+        this.video = stream
+      }
+    } catch (error) {
+      console.log(error)
+    }
     setTimeout(() => {
       this.ani = true
       this.show = true
