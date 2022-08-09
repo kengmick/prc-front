@@ -1,21 +1,18 @@
 <template>
   <div class="hidden xl:block">
-    <div
-      class="h-[80vh] sm:h-[86vh] w-screen bg-black flex justify-center items-center"
-    >
-      <div class="container__image" :class="{ an: ani }">
-        <NuxtLink to="livestream"
-          ><div
-            class="absolute top-[63%] left-[40%] arrow-right transition-all ease-linear duration-800"
-            :class="{ 'opacity-0': !show }"
-          ></div
-        ></NuxtLink>
-        <div class="container__info container__author"></div>
-        <div class="container__info container__location">
-          <h1 class="text-white chedder">24/7 Video Stream</h1>
-        </div>
+    <section class="bg-black h-[90vh] flex justify-center items-center">
+      <div>
+        <iframe
+          width="1280"
+          height="720"
+          src="https://www.youtube.com/embed/jqsFw354asc"
+          title="Punk Rock Compound July 31st"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 

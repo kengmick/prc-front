@@ -1,8 +1,8 @@
 <template>
   <section class="container mx-auto">
+    <Title title="Showz" />
     <div v-if="events" class="container mx-auto">
       <section v-if="events.length > 0" class="container mx-auto">
-        <h2 class="text-center">Upcoming Showz</h2>
         <div
           v-for="(event, index) in events"
           :key="event.title + index"

@@ -1,5 +1,6 @@
 <template>
   <div class="relative">
+    <HeroAlt />
     <!-- <div class="hidden xl:block"><HeroAlt /></div>
     <div class="block xl:hidden"><Hero /></div> -->
 
