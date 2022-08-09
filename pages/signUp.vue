@@ -95,6 +95,9 @@ export default {
         this.formValues.profileImg = image
       }
       try {
+        if (this.formValues.username === 'superman') {
+          return 'error'
+        }
         const user = await this.$strapi.register({
           email: this.formValues.email,
           username: this.formValues.username,
