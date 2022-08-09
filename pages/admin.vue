@@ -25,10 +25,7 @@ export default {
   },
   mounted() {
     if (this.$strapi.user) {
-      if (
-        this.$strapi.user.username === 'superman' &&
-        this.$strapi.user.id === 60
-      ) {
+      if (this.$strapi.user.username === 'superman') {
         this.superman = true
       } else {
         this.$router.push('/')
