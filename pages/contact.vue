@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h1 class="text-main-red text-2xl text-center">Contact</h1>
+    <Title title="Contact" />
+    <section class="flex justify-center items-center">
+      <p class="text-2xl my-10">contact@punkrockcompound.com</p>
+    </section>
   </div>
 </template>
 
