@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-center text-5xl main_red_text mt-10">{{ title }}</h1>
+    <h1 class="text-center text-5xl main_red_text my-10">{{ title }}</h1>
   </div>
 </template>
 

@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h1 class="text-center text-5xl main_red_text mt-10">All Venues</h1>
-
+    <Title title="Venues" />
     <section
       v-if="venues"
       class="mx-6flex flex-col gap-10 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-10 xl:grid-cols-5"

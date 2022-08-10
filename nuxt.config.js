@@ -76,8 +76,8 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
   strapi: {
-    url: process.env.BACKEND_URL || 'http://localhost:1337/',
-    // url: 'http://localhost:1337/',
+    // url: process.env.BACKEND_URL || 'http://localhost:1337/',
+    url: 'http://localhost:1337/',
     entities: ['bands'],
   },
 }
