@@ -23,6 +23,7 @@
             wrapper-class="flex justify-center mt-6"
           />
         </FormulateForm>
+        <p v-if="updated">Your video has been updated</p>
       </section>
     </section>
     <section
@@ -57,6 +58,7 @@ export default {
       loading: false,
       errorMessage: '',
       liveStream: 'default',
+      updated: false,
     }
   },
   async mounted() {
@@ -78,6 +80,9 @@ export default {
           streamLink: this.formValues.live,
         })
         this.liveStream = liveStream.streamLink
+        if (liveStream) {
+          this.updated = true
+        }
         this.loading = false
       } catch (error) {
         this.loading = false
