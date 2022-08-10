@@ -33,10 +33,8 @@ export default {
   },
   async mounted() {
     try {
-      const stream = await this.$strapi.find('live-stream')
-      if (stream) {
-        this.video = stream
-      }
+      const link = await this.$strapi.find('live-stream')
+      this.video = link.streamLink
     } catch (error) {
       console.log(error)
     }
