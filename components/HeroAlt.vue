@@ -29,7 +29,7 @@ export default {
       videoId: null,
       ani: false,
       show: false,
-      video: 'jqsFw354asc',
+      video: 'pt5xPDnF-Bk',
     }
   },
   async mounted() {
@@ -39,10 +39,17 @@ export default {
     } catch (error) {
       console.log(error)
     }
-    setTimeout(() => {
-      this.ani = true
-      this.show = true
-    }, 11)
+    // setTimeout(() => {
+    //   this.ani = true
+    //   this.show = true
+    // }, 11)
+
+    const myInterval = setInterval(() => {
+      if (document.getElementsByClassName('ytp-error').length > 0) {
+        this.video = 'jqsFw354asc'
+        clearInterval(myInterval)
+      }
+    }, 1000)
   },
 
   methods: {

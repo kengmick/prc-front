@@ -166,7 +166,7 @@
       <!-- <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/merch">Merch</NuxtLink>
       </div> -->
-      <div>
+      <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/podcast">Podcast</NuxtLink>
       </div>
       <div v-if="$strapi.user" @click="toggleMenu">
