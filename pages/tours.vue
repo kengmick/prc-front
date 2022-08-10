@@ -1,6 +1,6 @@
 <template>
   <div v-if="tours">
-    <h1 class="text-5xl text-center main_red_text">Tours</h1>
+    <Title title="Tours" />
     <section class="container mx-auto">
       <div
         v-for="(tour, index) in tours"

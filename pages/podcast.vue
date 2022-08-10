@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="text-center my-12">Podcasts</h1>
+    <Title title="Podcast" />
     <section class="container mx-auto flex flex-col items-center gap-14 mb-12">
       <iframe
         width="1280"

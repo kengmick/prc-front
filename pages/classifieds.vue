@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="chedder main_red_text text-center mb-6">Classified Page</h1>
+    <Title title="Classified" />
     <section
       v-if="classifieds"
       class="container mx-auto px-4 flex flex-col items-start"
