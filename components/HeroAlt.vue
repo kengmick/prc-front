@@ -1,8 +1,9 @@
 <template>
-  <div class="hidden xl:block">
-    <section class="bg-black h-[90vh] flex justify-center items-center">
+  <div>
+    <section class="bg-black h-full flex justify-center items-center">
       <div>
         <iframe
+          class="video"
           width="1280"
           height="720"
           :src="`https://www.youtube.com/embed/${video}`"
@@ -181,5 +182,11 @@ body {
 .link:hover {
   background-color: #06c0a8;
   color: #ffffff;
+}
+
+/* video css  */
+.video {
+  aspect-ratio: 16 / 9;
+  width: 100%;
 }
 </style>

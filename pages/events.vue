@@ -110,6 +110,7 @@
         </section>
       </div>
     </section>
+    <section v-if="errorMessage">{{ errorMessage }}</section>
   </section>
   <!-- <div v-if="events">
     <h1 class="text-5xl text-center main_red_text my-6">Showz</h1>
@@ -171,24 +172,30 @@ export default {
     return {
       events: '',
       oldEvents: '',
+      errorMessage: '',
     }
   },
   async mounted() {
-    const events = await this.$strapi.find('events')
+    try {
+      const events = await this.$strapi.find('events')
+      const upcomingEvents = events.filter((e) => {
+        console.log(moment(e.date).toISOString())
+        return moment(e.date).toISOString() >= moment().toISOString()
+      })
+      const oldShows = events.filter((e) => {
+        return moment(e.date).toISOString() < moment().toISOString()
+      })
+      this.oldEvents = oldShows.sort((a, b) => {
+        return moment.utc(a.date).diff(moment.utc(b.date))
+      })
+      this.events = upcomingEvents.sort((a, b) => {
+        return moment.utc(a.date).diff(moment.utc(b.date))
+      })
+    } catch (error) {
+      console.log(error)
+      this.errorMessage = 'Sorry there are no events'
+    }
     // this means that the events are upcoming
-    const upcomingEvents = events.filter((e) => {
-      console.log(moment(e.date).toISOString())
-      return moment(e.date).toISOString() >= moment().toISOString()
-    })
-    const oldShows = events.filter((e) => {
-      return moment(e.date).toISOString() < moment().toISOString()
-    })
-    this.oldEvents = oldShows.sort((a, b) => {
-      return moment.utc(a.date).diff(moment.utc(b.date))
-    })
-    this.events = upcomingEvents.sort((a, b) => {
-      return moment.utc(a.date).diff(moment.utc(b.date))
-    })
   },
 
   methods: {
