@@ -5,7 +5,7 @@
         <!-- image here  -->
         <div class="w-full h-[40vh] z-0">
           <img
-            class="object-cover h-[40vh] w-full z-0"
+            class="object-contain h-[40vh] w-full z-0"
             :src="band.bandProfileImg.url"
             alt=""
           />
