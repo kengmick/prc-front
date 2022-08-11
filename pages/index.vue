@@ -69,7 +69,7 @@ export default {
   async fetch() {
     try {
       const link = await this.$strapi.find('live-stream')
-      console.log(this.link.streamLink)
+      console.log(link.streamLink, 'from the db')
       this.liveUrl = link.streamLink
     } catch (error) {
       this.loading = false
@@ -78,6 +78,7 @@ export default {
       this.liveStream = await this.$http.$get(
         `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${this.liveUrl}&key=AIzaSyAWavt-2FzH79KfI0zaqMYltq-pVAusE1Q`
       )
+      console.log(this.liveStream)
       if (this.liveStream.items) {
         if (this.liveStream.items.length > 0) {
           this.loading = false
