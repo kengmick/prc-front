@@ -44,7 +44,7 @@
         class="flex items-center gap-10 w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4"
       >
         <nuxtLink
-          v-if="$strapi.user !== null && userPermission === $strapi.user.id"
+          v-if="$strapi.user"
           :to="{
             path: '/bandadmin',
             query: { band: band.id },

@@ -69,6 +69,7 @@ export default {
   async fetch() {
     try {
       const link = await this.$strapi.find('live-stream')
+      console.log(this.link.streamLink)
       this.liveUrl = link.streamLink
     } catch (error) {
       this.loading = false
