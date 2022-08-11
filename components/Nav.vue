@@ -140,6 +140,9 @@
       :class="isOpen ? 'translate-x-0' : ' opacity-0'"
     >
       <div @click="toggleMenu">
+        <NuxtLink class="chedder text-2xl" to="/">Home</NuxtLink>
+      </div>
+      <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>
       </div>
       <div @click="toggleMenu">

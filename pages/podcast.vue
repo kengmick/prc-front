@@ -7,7 +7,7 @@
     >
       <div v-for="video in items.items" :key="video.snippet.resourceId.videoId">
         <div class="video-container relative">
-          <div class="h-48 w-screen relative"></div>
+          <div class="h-48 w-screen"></div>
           <iframe
             width="1280"
             height="720"

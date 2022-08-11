@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="video-container">
+    <div v-if="!loading" class="video-container">
       <iframe
         id="yt-video-iframe"
         class="video"
         width="1200"
         height="500"
-        :src="`https://www.youtube.com/embed/jqsFw354asc`"
+        :src="`https://www.youtube.com/embed/${this.video}`"
         title="Punk Rock Compound July 31st"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -60,7 +60,35 @@ export default {
     return {
       bands: [],
       event: null,
-      video: 'jqsFw354asc',
+      video: '',
+      liveStream: null,
+      liveUrl: '',
+      loading: true,
+    }
+  },
+  async fetch() {
+    try {
+      const link = await this.$strapi.find('live-stream')
+      this.liveUrl = link.streamLink
+    } catch (error) {
+      this.loading = false
+    }
+    try {
+      this.liveStream = await this.$http.$get(
+        `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${this.liveUrl}&key=AIzaSyAWavt-2FzH79KfI0zaqMYltq-pVAusE1Q`
+      )
+      if (this.liveStream.items) {
+        if (this.liveStream.items.length > 0) {
+          this.loading = false
+          this.video = this.liveStream.items[0].id
+        } else {
+          this.video = 'jqsFw354asc'
+          this.loading = false
+          console.log(this.video, ' final video ')
+        }
+      }
+    } catch (error) {
+      this.loading = false
     }
   },
   async mounted() {
@@ -69,13 +97,6 @@ export default {
       this.event = await this.$strapi.find('featured-event')
     } catch (error) {
       return error
-    }
-    try {
-      const link = await this.$strapi.find('live-stream')
-      this.video = link.streamLink
-      console.log(this.video, 'video')
-    } catch (error) {
-      console.log(error)
     }
   },
   methods: {
