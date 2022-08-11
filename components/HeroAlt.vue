@@ -1,18 +1,17 @@
 <template>
   <div>
-    <section class="bg-black h-full flex justify-center items-center">
-      <div class="w-screen h-auto">
-        <iframe
-          class="video"
-          width="1280"
-          height="720"
-          :src="`https://www.youtube.com/embed/${video}`"
-          title="Punk Rock Compound July 31st"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        ></iframe>
-      </div>
+    <section class="bg-black flex justify-center items-center">
+      <iframe
+        id="yt-video-iframe"
+        class="video"
+        width="300"
+        height="500"
+        :src="`https://www.youtube.com/embed/jqsFw354asc`"
+        title="Punk Rock Compound July 31st"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
     </section>
   </div>
 </template>
@@ -29,27 +28,17 @@ export default {
       videoId: null,
       ani: false,
       show: false,
-      video: 'pt5xPDnF-Bk',
+      video: 'jqsFw354asc',
     }
   },
   async mounted() {
     try {
       const link = await this.$strapi.find('live-stream')
       this.video = link.streamLink
+      console.log(this.video, 'video')
     } catch (error) {
       console.log(error)
     }
-    // setTimeout(() => {
-    //   this.ani = true
-    //   this.show = true
-    // }, 11)
-
-    const myInterval = setInterval(() => {
-      if (document.getElementsByClassName('ytp-error').length > 0) {
-        this.video = 'jqsFw354asc'
-        clearInterval(myInterval)
-      }
-    }, 1000)
   },
 
   methods: {
@@ -192,8 +181,10 @@ body {
 }
 
 /* video css  */
-.video {
-  aspect-ratio: 16 / 9;
+
+.video-container {
+  position: relative;
   width: 100%;
+  padding-bottom: 56.25%;
 }
 </style>

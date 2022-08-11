@@ -1,29 +1,18 @@
 <template>
-  <div class="relative">
-    <HeroAlt />
-    <!-- <div class="hidden xl:block"><HeroAlt /></div>
-    <div class="block xl:hidden"><Hero /></div> -->
-
-    <!-- Featured bands -->
-    <!-- <section>
-      <h2 class="text-center my-10 text-5xl">Featured Bands</h2>
-      <div
-        v-if="bands !== []"
-        class="flex flex-col items-center justify-center mx-auto xl:flex-row flex-wrap xl:w-auto gap-14"
-      >
-        <PosterCard
-          v-for="(band, index) in bands.slice(0, 3)"
-          :key="band.bandName + index"
-          :band="band"
-          :isFeatured="true"
-          style="min-width: 25vw"
-          class="hover:scale-110 transition-all duration-100"
-          @dblclick="console.log('hello')"
-        />
-      </div>
-    </section> -->
-    <!-- this describes the pricing model  -->
-    <!-- <Price /> -->
+  <div>
+    <div class="video-container">
+      <iframe
+        id="yt-video-iframe"
+        class="video"
+        width="1200"
+        height="500"
+        :src="`https://www.youtube.com/embed/jqsFw354asc`"
+        title="Punk Rock Compound July 31st"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
     <section v-if="bands.length > 0">
       <h2 class="text-center my-10 text-5xl">Featured Bands</h2>
       <!-- container for poster cards -->
@@ -71,6 +60,7 @@ export default {
     return {
       bands: [],
       event: null,
+      video: 'jqsFw354asc',
     }
   },
   async mounted() {
@@ -80,6 +70,13 @@ export default {
     } catch (error) {
       return error
     }
+    try {
+      const link = await this.$strapi.find('live-stream')
+      this.video = link.streamLink
+      console.log(this.video, 'video')
+    } catch (error) {
+      console.log(error)
+    }
   },
   methods: {
     log() {
@@ -88,3 +85,23 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px;
+  height: 0;
+  overflow: hidden;
+}
+
+.video-container iframe,
+.video-container object,
+.video-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>
