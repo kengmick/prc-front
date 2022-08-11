@@ -11,8 +11,8 @@
           />
         </div>
       </div>
-      <div v-else>
-        <h1 class="text-2xl sm:text-4xl text-center">
+      <div>
+        <h1 class="text-2xl sm:text-4xl text-center mt-6">
           {{ band.bandName }}
         </h1>
       </div>

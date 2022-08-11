@@ -1,13 +1,12 @@
 <template>
   <div>
     <section class="bg-black h-full flex justify-center items-center">
-      <div>
+      <div class="w-screen h-auto">
         <iframe
           class="video"
-          width="100%"
+          width="1280"
           height="720"
           :src="`https://www.youtube.com/embed/${video}`"
-          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"
           title="Punk Rock Compound July 31st"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

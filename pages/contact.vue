@@ -2,7 +2,9 @@
   <div>
     <Title title="Contact" />
     <section class="flex justify-center items-center">
-      <p class="text-2xl my-10">contact@punkrockcompound.com</p>
+      <p class="text-2xl my-10 text-main-red chedder">
+        contact@punkrockcompound.com
+      </p>
     </section>
   </div>
 </template>
