@@ -3,7 +3,7 @@
     <div v-if="band">
       <div v-if="band.bandProfileImg">
         <!-- image here  -->
-        <div class="w-full h-[40vh] z-0">
+        <div class="w-full h-[40vh] z-0 mt-6">
           <img
             class="object-contain h-[40vh] w-full z-0"
             :src="band.bandProfileImg.url"
