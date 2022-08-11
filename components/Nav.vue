@@ -149,11 +149,11 @@
       <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
       </div>
-      <div @click="toggleMenu">
+      <!-- <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/distros"
           >Distros/Labels</NuxtLink
         >
-      </div>
+      </div> -->
 
       <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/tours">Tours</NuxtLink>
