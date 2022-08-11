@@ -3,10 +3,10 @@
     <Title title="Podcast" />
     <section
       v-if="items"
-      class="container mx-auto flex flex-col items-center gap-14 mb-12"
+      class="flex flex-row flex-wrap items-center justify-center gap-14 mb-12"
     >
       <div v-for="video in items.items" :key="video.snippet.resourceId.videoId">
-        <div class="video-container relative">
+        <div class="video-container">
           <div class="h-48 w-screen"></div>
           <iframe
             width="1280"
@@ -45,6 +45,7 @@ export default {
   padding-bottom: 56.25%;
   padding-top: 30px;
   height: 0;
+  max-width: 500px;
   overflow: hidden;
 }
 .video-container iframe,
