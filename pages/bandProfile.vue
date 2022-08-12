@@ -429,103 +429,7 @@
           </div>
         </div>
       </section>
-      <!-- add button -->
-      <!-- <section class="container w-full px-4 sm:px-0 mx-auto">
-        <div>
-          <FormulateInput
-            v-model="video1"
-            type="text"
-            label="Edit Youtube video Id"
-            :value="band.video1"
-          />
-          <div
-            @click="updateVideo(video1, 'video1')"
-            class="bg-black p-[.8em] text-center text-white mb-2"
-          >
-            Update This Video
-          </div>
-          <div
-            @click="deleteVideo(video1, 'video1')"
-            class="bg-main-red p-[.8em] text-center text-white"
-          >
-            Delete This Video
-          </div>
-        </div>
-        <div>
-          <FormulateInput
-            v-model="video2"
-            type="text"
-            label="Edit Youtube video Id"
-            :value="band.video2"
-          />
-          <div
-            @click="updateVideo(video2, 'video1')"
-            class="bg-black p-[.8em] text-center text-white mb-2"
-          >
-            Update This Video
-          </div>
-          <div
-            @click="deleteVideo(video2, 'video1')"
-            class="bg-main-red p-[.8em] text-center text-white"
-          >
-            Delete This Video
-          </div>
-        </div>
-        <div>
-          <FormulateInput
-            v-model="video3"
-            type="text"
-            label="Edit Youtube video Id"
-            :value="band.video1"
-          />
-          <div
-            @click="updateVideo(video3, 'video1')"
-            class="bg-black p-[.8em] text-center text-white mb-2"
-          >
-            Update This Video
-          </div>
-          <div
-            @click="deleteVideo(video3, 'video1')"
-            class="bg-main-red p-[.8em] text-center text-white"
-          >
-            Delete This Video
-          </div>
-        </div>
-      </section>
-      <div v-if="videos">
-        <section
-          v-if="permission && videos.length < 3"
-          class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0"
-        >
-          <div
-            class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
-          >
-            <div
-              class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
-              @click="addVideo"
-            >
-              <div class="flex items-center justify-center text-white">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  fill="red"
-                  class="bi bi-plus-circle"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-                  />
-                  <path
-                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
-                  />
-                </svg>
-                <p class="pl-2 text-lg font-bold">Add</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div> -->
+
       <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto">
         <h2 class="chedder text-black">Showz</h2>
         <p v-if="events.length === 0" class="mb-6">No Showz Coming up</p>
@@ -931,7 +835,7 @@
           </div>
           <div v-if="band.releases">
             <section v-if="band.releases.length > 0" class="mb-6">
-              <div class="flex flex-col sm:grid-cols-3 sm:grid">
+              <div class="flex flex-col gap-4 sm:grid-cols-3 sm:grid">
                 <div
                   v-for="(r, index) in band.releases"
                   :key="r + index"
@@ -945,7 +849,11 @@
                       <h3 class="text-white">{{ r.title }}</h3>
                     </div>
                     <div v-if="r.image">
-                      <img class="w-full" :src="r.image.url" alt="" />
+                      <img
+                        class="w-full h-[281.66px] object-contain bg-black"
+                        :src="r.image.url"
+                        alt=""
+                      />
                     </div>
                     <div class="p-2 bg-black text-white">
                       <div v-if="r.date">
@@ -1034,20 +942,20 @@
                   wrapper-class="sm:w-4/5 m-auto"
                   element-class="w-full"
                   errors-class="sm:w-4/5 m-auto"
-                  @change="profileImg = $event.target.value"
+                  @change="annImageFile = $event.target.files[0]"
                 />
               </div>
             </div>
             <div>
-              <FormulateInput
-                type="submit"
-                label="Next"
-                wrapper-class="w-full mt-10 px-4 sm:mx-10"
-                grouping-class="bg-black"
-                element-class="w-full"
-              />
+              <!-- submitReleaseForm -->
               <div
-                class="bg-black text-white flex justify-center items-center p-[.8em]"
+                class="bg-black text-white flex justify-center items-center p-[.8em] mt-2"
+                @click="submitReleaseForm"
+              >
+                Create
+              </div>
+              <div
+                class="bg-black text-white flex justify-center items-center p-[.8em] mt-2"
                 @click="addReleaseForm"
               >
                 Close
@@ -1391,6 +1299,11 @@ export default {
       video2: null,
       video3: null,
       addRelease: false,
+      releaseImg: null,
+      releaseImgFinal: '',
+      annImageFile: '',
+      annImageFinal: '',
+      releaseFormValues: {},
     }
   },
   async mounted() {
@@ -1451,6 +1364,41 @@ export default {
     moment,
     addReleaseForm() {
       this.addRelease = !this.addRelease
+    },
+    async submitReleaseForm() {
+      this.loading = true
+      if (this.annImageFile) {
+        try {
+          const formData = new FormData()
+          await formData.append('files', this.annImageFile)
+          const [annImageFinal] = await this.$strapi.create('upload', formData)
+          this.annImageFinal = annImageFinal
+          this.releaseFormValues.image = annImageFinal
+        } catch (error) {
+          console.log(error)
+          this.loading = false
+          this.errorMessage =
+            'Could not upload the release Image ... please try again '
+        }
+        try {
+          console.log('trying to create ')
+          const releasesUpdated = this.band.releases
+          console.log(this.releaseFormValues)
+          releasesUpdated.push(this.releaseFormValues)
+          const band = await this.$strapi.update('bands', this.band.id, {
+            releases: releasesUpdated,
+          })
+          this.band = band
+          console.log('set the band', band)
+          this.loading = false
+        } catch (error) {
+          console.log(error)
+          this.errorMessage = 'Sorry could not create the release'
+          this.loading = false
+        }
+      }
+
+      this.loading = false
     },
     addVideo() {
       console.log('add video function ')

@@ -60,6 +60,7 @@
                 errors-class="sm:w-4/5 m-auto"
                 @change="profileImg = $event.target.value"
               />
+              <pre>{{ profileImg }}</pre>
             </div>
           </div>
           <div>
@@ -115,7 +116,6 @@ export default {
           const formData = new FormData()
           await formData.append('files', this.profileImg)
           const [image] = await this.$strapi.create('upload', formData)
-          this.image = image
           this.profileImg = image
           this.formValues.profileImg = image
         } catch (error) {
