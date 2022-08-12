@@ -35,7 +35,7 @@
         <p>{{ announcement.text }}</p>
       </div>
     </div>
-    <div>
+    <div class="bg-black flex justify-center items-center p-[.8em]">
       <NuxtLink
         :to="{
           path: 'announcement',
@@ -47,7 +47,7 @@
           },
         }"
       >
-        <Button text="View Announcement" />
+        <p class="text-white">View Announcements</p>
       </NuxtLink>
     </div>
   </div>

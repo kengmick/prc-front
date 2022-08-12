@@ -2,11 +2,14 @@
 
 ### working on
 
-use the youtube api to detect if live stream is on if not put a different video
+make sure band videos work ... we only offer three
 
-- add a way to change what band is tied to the event in the event edit form on band profile page
-- Order shows by date
-- shows need indication of what band it belongs too if user chooses a any type of profile
+build form
+add title to form
+move title outside the section
+
+change black to #343740
+change white to #fafafb
 
 ### Working on
 

@@ -37,7 +37,7 @@
       </section>
       <!-- details section -->
       <div
-        class="flex items-center gap-10 w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4"
+        class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black"
       >
         <nuxtLink
           v-if="permission"
@@ -45,8 +45,8 @@
             path: '/bandadmin',
             query: { band: band.id },
           }"
-          class="btn_custom text-lg font-medium"
-          >EDIT</nuxtLink
+          class="text-lg font-medium text-white"
+          >Edit Band</nuxtLink
         >
       </div>
       <!-- photo section -->
@@ -278,13 +278,16 @@
           </div>
         </div>
       </section>
-      <section class="container w-full px-4 sm:px-0 mx-auto">
-        <h2 class="chedder">Videos</h2>
+      <section class="container mx-auto xl:w-1/2">
+        <h2>Videos</h2>
+      </section>
+      <section class="container w-full px-4 sm:px-0 mx-auto xl:w-1/2">
         <section
-          class="flex flex-col gap-6 lg:flex-row flex-wrap lg:items-center justify-around lg:gap-2 my-6"
+          class="flex flex-col gap-6 lg:flex-row flex-wrap lg:items-center lg:gap-2 my-6"
         >
-          <div v-if="band.video1">
+          <div class="mx-auto sm:mx-0">
             <iframe
+              v-if="band.video1"
               width="275"
               height="154"
               :src="`https://www.youtube.com/embed/${band.video1}`"
@@ -292,9 +295,34 @@
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
             ></iframe>
+            <div
+              v-if="editVideo && !band.video1"
+              class="w-[275px] h-[154px]"
+            ></div>
+            <div v-if="editVideo">
+              <FormulateInput
+                v-model="video1"
+                type="text"
+                label="Edit Youtube video Id"
+                :value="band.video1"
+              />
+              <div
+                @click="updateVideo(video1, 'video1')"
+                class="bg-black p-[.8em] text-center text-white mb-2"
+              >
+                Update This Video
+              </div>
+              <div
+                @click="deleteVideo(video1, 'video1')"
+                class="bg-main-red p-[.8em] text-center text-white"
+              >
+                Delete This Video
+              </div>
+            </div>
           </div>
-          <div v-if="band.video2">
+          <div class="mx-auto sm:mx-0">
             <iframe
+              v-if="band.video2"
               width="275"
               height="154"
               :src="`https://www.youtube.com/embed/${band.video2}`"
@@ -302,9 +330,34 @@
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
             ></iframe>
+            <div
+              v-if="editVideo && !band.video2"
+              class="w-[275px] h-[154px]"
+            ></div>
+            <div v-if="editVideo">
+              <FormulateInput
+                v-model="video2"
+                type="text"
+                label="Edit Youtube video Id"
+                :value="band.video2"
+              />
+              <div
+                @click="updateVideo(video2, 'video2')"
+                class="bg-black p-[.8em] text-center text-white mb-2"
+              >
+                Update This Video
+              </div>
+              <div
+                @click="deleteVideo(video2, 'video2')"
+                class="bg-main-red p-[.8em] text-center text-white"
+              >
+                Delete This Video
+              </div>
+            </div>
           </div>
-          <div v-if="band.video3">
+          <div class="mx-auto sm:mx-0">
             <iframe
+              v-if="band.video3"
               width="275"
               height="154"
               :src="`https://www.youtube.com/embed/${band.video3}`"
@@ -312,9 +365,34 @@
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
             ></iframe>
+            <div
+              v-if="editVideo && !band.video3"
+              class="w-[275px] h-[154px]"
+            ></div>
+            <div v-if="editVideo">
+              <FormulateInput
+                v-model="video3"
+                type="text"
+                label="Edit Youtube video Id"
+                :value="band.video3"
+              />
+              <div
+                @click="updateVideo(video3, 'video3')"
+                class="bg-black p-[.8em] text-center text-white mb-2"
+              >
+                Update This Video
+              </div>
+              <div
+                @click="deleteVideo(video3, 'video3')"
+                class="bg-main-red p-[.8em] text-center text-white"
+              >
+                Delete This Video
+              </div>
+            </div>
           </div>
         </section>
       </section>
+      <!-- edit button  -->
       <section
         v-if="permission"
         class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0"
@@ -324,10 +402,11 @@
         >
           <div
             class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
-            @click="addOrEditVideos"
+            @click="editAddVideo"
           >
             <div class="flex items-center justify-center text-white">
               <svg
+                v-if="!editVideo"
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height="20"
@@ -342,11 +421,111 @@
                   d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
                 />
               </svg>
-              <p class="pl-2 text-lg font-bold">Edit/Add Videos</p>
+              <p v-if="!editVideo" class="pl-2 text-lg font-bold">
+                Edit/Add youtube videos
+              </p>
+              <p v-else>Close</p>
             </div>
           </div>
         </div>
       </section>
+      <!-- add button -->
+      <!-- <section class="container w-full px-4 sm:px-0 mx-auto">
+        <div>
+          <FormulateInput
+            v-model="video1"
+            type="text"
+            label="Edit Youtube video Id"
+            :value="band.video1"
+          />
+          <div
+            @click="updateVideo(video1, 'video1')"
+            class="bg-black p-[.8em] text-center text-white mb-2"
+          >
+            Update This Video
+          </div>
+          <div
+            @click="deleteVideo(video1, 'video1')"
+            class="bg-main-red p-[.8em] text-center text-white"
+          >
+            Delete This Video
+          </div>
+        </div>
+        <div>
+          <FormulateInput
+            v-model="video2"
+            type="text"
+            label="Edit Youtube video Id"
+            :value="band.video2"
+          />
+          <div
+            @click="updateVideo(video2, 'video1')"
+            class="bg-black p-[.8em] text-center text-white mb-2"
+          >
+            Update This Video
+          </div>
+          <div
+            @click="deleteVideo(video2, 'video1')"
+            class="bg-main-red p-[.8em] text-center text-white"
+          >
+            Delete This Video
+          </div>
+        </div>
+        <div>
+          <FormulateInput
+            v-model="video3"
+            type="text"
+            label="Edit Youtube video Id"
+            :value="band.video1"
+          />
+          <div
+            @click="updateVideo(video3, 'video1')"
+            class="bg-black p-[.8em] text-center text-white mb-2"
+          >
+            Update This Video
+          </div>
+          <div
+            @click="deleteVideo(video3, 'video1')"
+            class="bg-main-red p-[.8em] text-center text-white"
+          >
+            Delete This Video
+          </div>
+        </div>
+      </section>
+      <div v-if="videos">
+        <section
+          v-if="permission && videos.length < 3"
+          class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0"
+        >
+          <div
+            class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
+          >
+            <div
+              class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
+              @click="addVideo"
+            >
+              <div class="flex items-center justify-center text-white">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="red"
+                  class="bi bi-plus-circle"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                  />
+                  <path
+                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                  />
+                </svg>
+                <p class="pl-2 text-lg font-bold">Add</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div> -->
       <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto">
         <h2 class="chedder text-black">Showz</h2>
         <p v-if="events.length === 0" class="mb-6">No Showz Coming up</p>
@@ -623,13 +802,13 @@
                   </div>
                 </section>
                 <div>
-                  <FormulateInput
-                    type="submit"
-                    label="Next"
-                    wrapper-class="w-full mt-10 px-4 sm:mx-10"
-                    grouping-class="bg-black"
-                    element-class="w-full"
-                  />
+                  <div class="customBtn text-white" @click="submitForm">
+                    Next
+                  </div>
+                  <br />
+                  <div class="customBtn text-white" @click="closeEventForm">
+                    Close
+                  </div>
                 </div>
               </FormulateForm>
             </div>
@@ -766,7 +945,7 @@
                       <h3 class="text-white">{{ r.title }}</h3>
                     </div>
                     <div v-if="r.image">
-                      <img :src="r.image.url" alt="" />
+                      <img class="w-full" :src="r.image.url" alt="" />
                     </div>
                     <div class="p-2 bg-black text-white">
                       <div v-if="r.date">
@@ -784,6 +963,97 @@
             </section>
           </div>
           <h3 v-else>No Releases</h3>
+          <!-- add releases here -->
+        </section>
+        <section v-if="permission" class="container mx-auto mb-6">
+          <div
+            class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
+          >
+            <div
+              class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm text-white"
+              @click="addReleaseForm"
+            >
+              <div class="flex items-center justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="red"
+                  class="bi bi-plus-circle"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                  />
+                  <path
+                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                  />
+                </svg>
+                <p class="pl-2 text-lg font-bold">Add</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section v-if="addRelease">
+          <FormulateForm
+            v-model="releaseFormValues"
+            @submit="submitReleaseForm"
+          >
+            <div class="flex flex-col justify-center">
+              <div class="w-full px-4">
+                <FormulateInput
+                  type="text"
+                  name="title"
+                  label="Release Tile "
+                  placeholder="Title"
+                  wrapper-class="m-auto sm:w-4/5 "
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 m-auto"
+                />
+                <FormulateInput
+                  name="date"
+                  type="date"
+                  label="Date Released"
+                  wrapper-class="sm:w-4/5 m-auto"
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 m-auto"
+                />
+
+                <FormulateInput
+                  name="link"
+                  label="link"
+                  wrapper-class="sm:w-4/5 m-auto"
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 m-auto"
+                />
+                <FormulateInput
+                  name="image"
+                  type="image"
+                  label="Add Image"
+                  wrapper-class="sm:w-4/5 m-auto"
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 m-auto"
+                  @change="profileImg = $event.target.value"
+                />
+              </div>
+            </div>
+            <div>
+              <FormulateInput
+                type="submit"
+                label="Next"
+                wrapper-class="w-full mt-10 px-4 sm:mx-10"
+                grouping-class="bg-black"
+                element-class="w-full"
+              />
+              <div
+                class="bg-black text-white flex justify-center items-center p-[.8em]"
+                @click="addReleaseForm"
+              >
+                Close
+              </div>
+            </div>
+          </FormulateForm>
         </section>
         <section v-if="band.album === 'hello'">
           <h2 class="text-3xl main_red_text mb-4">Albums</h2>
@@ -1116,6 +1386,11 @@ export default {
       loading: false,
       errorMessage: null,
       permission: false,
+      editVideo: false,
+      video1: null,
+      video2: null,
+      video3: null,
+      addRelease: false,
     }
   },
   async mounted() {
@@ -1128,7 +1403,18 @@ export default {
       // const ids = await id.map((e) => {
       //   return ['id', e.id]
       // })
-
+      if (this.band.video1) {
+        this.video1 = band.video1
+        this.videos.push(this.band.video1)
+      }
+      if (this.band.video2) {
+        this.video2 = band.video2
+        this.videos.push(this.band.video2)
+      }
+      if (this.band.video3) {
+        this.video3 = band.video3
+        this.videos.push(this.band.video3)
+      }
       const events = this.band.events
       // this means that the events are upcoming
       const upcomingEvents = events.filter((e) => {
@@ -1163,8 +1449,42 @@ export default {
   },
   methods: {
     moment,
-    addOrEditVideos() {
-      console.log('create or add videos')
+    addReleaseForm() {
+      this.addRelease = !this.addRelease
+    },
+    addVideo() {
+      console.log('add video function ')
+    },
+    async updateVideo(video, videoId) {
+      console.log(video, videoId)
+
+      try {
+        const band = await this.$strapi.update('bands', this.band.id, {
+          [videoId]: video,
+        })
+        console.log(band.video1, 'updated band video')
+        this.band = band
+      } catch (error) {
+        console.log('there was an error updating the videos')
+      }
+    },
+    async deleteVideo(video, videoId) {
+      console.log(videoId, 'id of video')
+      try {
+        const band = await this.$strapi.update('bands', this.band.id, {
+          [videoId]: null,
+        })
+        this.band = band
+      } catch (error) {
+        console.log('there was an error deleting the video')
+      }
+    },
+    closeEventForm() {
+      console.log('this is the close event form')
+      this.eventForm = false
+    },
+    editAddVideo() {
+      this.editVideo = !this.editVideo
     },
     // add events
     async submitForm() {
@@ -1399,5 +1719,23 @@ textarea:focus-visible {
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+.customBtn {
+  border-radius: 0.3em;
+  box-sizing: border-box;
+  font-size: 0.9em;
+  padding: 0.75em;
+  line-height: 1.2em;
+  margin: 0;
+  color: #fff;
+  min-width: 0;
+  font-weight: 700;
+  cursor: pointer;
+  width: 100%;
+  background: black;
+  display: flex;
+  align-content: center;
+  justify-content: center;
 }
 </style>
