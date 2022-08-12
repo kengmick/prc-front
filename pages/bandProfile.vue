@@ -58,7 +58,7 @@
       </div>
       <section
         v-if="band.photos"
-        class="flex flex-col sm:grid sm:grid-cols-3 sm:container sm:mx-auto w-full md:w-1/2 sm:gap-4"
+        class="flex flex-col gap-4 sm:grid sm:grid-cols-3 sm:container sm:mx-auto w-full md:w-1/2 sm:gap-4"
       >
         <div v-for="(pic, index) in band.photos" :key="pic + index">
           <img
@@ -278,15 +278,79 @@
           </div>
         </div>
       </section>
-      <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto">
+      <section class="container w-full px-4 sm:px-0 mx-auto">
         <h2 class="chedder">Videos</h2>
-        <div v-if="band.videos"></div>
-        <div velse>No Videos Uploaded</div>
+        <section
+          class="flex flex-col gap-6 lg:flex-row flex-wrap lg:items-center justify-around lg:gap-2 my-6"
+        >
+          <div v-if="band.video1">
+            <iframe
+              width="275"
+              height="154"
+              :src="`https://www.youtube.com/embed/${band.video1}`"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div v-if="band.video2">
+            <iframe
+              width="275"
+              height="154"
+              :src="`https://www.youtube.com/embed/${band.video2}`"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <div v-if="band.video3">
+            <iframe
+              width="275"
+              height="154"
+              :src="`https://www.youtube.com/embed/${band.video3}`"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </section>
+      </section>
+      <section
+        v-if="permission"
+        class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0"
+      >
+        <div
+          class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
+        >
+          <div
+            class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
+            @click="addOrEditVideos"
+          >
+            <div class="flex items-center justify-center text-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="red"
+                class="bi bi-plus-circle"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                />
+                <path
+                  d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                />
+              </svg>
+              <p class="pl-2 text-lg font-bold">Edit/Add Videos</p>
+            </div>
+          </div>
+        </div>
       </section>
       <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto">
         <h2 class="chedder text-black">Showz</h2>
-        <p v-if="events.length === 0">No Showz Coming up</p>
-        <section v-if="permission" class="container mx-auto">
+        <p v-if="events.length === 0" class="mb-6">No Showz Coming up</p>
+        <section v-if="permission" class="container mx-auto mb-6">
           <div
             class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
           >
@@ -680,12 +744,12 @@
         </section> -->
         <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
         <section id="releases">
-          <h2
+          <div
             v-if="band.releases.length > 0"
             class="text-3xl chedder main_red_text chedder pb-2"
           >
-            Releases
-          </h2>
+            <h2 class="chedder text-black mb-6">Releases</h2>
+          </div>
           <div v-if="band.releases">
             <section v-if="band.releases.length > 0" class="mb-6">
               <div class="flex flex-col sm:grid-cols-3 sm:grid">
@@ -773,12 +837,9 @@
           </div>
         </section>
         <div v-if="band.merch" class="mb-6">
-          <h2
-            v-if="band.merch.length > 0"
-            class="text-3xl chedder main_red_text my-4 chedder"
-          >
-            Merch
-          </h2>
+          <div v-if="band.merch.length > 0" class="">
+            <h2 class="chedder text-black">Merch</h2>
+          </div>
         </div>
         <!-- merch goes here  -->
         <div v-if="band.merch && band.acc === 2">
@@ -1102,6 +1163,9 @@ export default {
   },
   methods: {
     moment,
+    addOrEditVideos() {
+      console.log('create or add videos')
+    },
     // add events
     async submitForm() {
       // uploading bandProfileImg
@@ -1316,5 +1380,24 @@ textarea:focus-visible {
 
 .post_input {
   outline: none;
+}
+
+/* video */
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px;
+  height: 0;
+  max-width: 250px;
+  overflow: hidden;
+}
+.video-container iframe,
+.video-container object,
+.video-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>

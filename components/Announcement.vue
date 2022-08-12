@@ -25,11 +25,11 @@
         <img
           :src="announcement.image.url"
           alt=""
-          class="h-[144px] min-w-[186px]"
+          class="h-[144px] max-w-[186px]"
         />
       </div>
       <div v-else>
-        <img src="~/static/punk-background.png" alt="" />
+        <img class="max-w-[186px]" src="~/static/punk-background.png" alt="" />
       </div>
       <div class="flex items-center">
         <p>{{ announcement.text }}</p>
