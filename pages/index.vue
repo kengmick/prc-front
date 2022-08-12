@@ -112,9 +112,9 @@ export default {
 <style scoped>
 .video-container {
   position: relative;
-  padding-bottom: 56.25%;
+  padding-bottom: 66vh;
   padding-top: 30px;
-  height: 0;
+  max-height: 66vh;
   overflow: hidden;
 }
 
