@@ -16,35 +16,31 @@
           {{ band.bandName }}
         </h1>
       </div>
-      <section v-if="band.bio" class="mx-auto w-full z-50">
-        <div
-          :class="load ? '-mt-24' : 'mt-0'"
-          class="px-6 w-11/12 sm:w-3/4 xl:w-3/4 bg-black lg:px-16 py-10 mx-auto transition-all duration-500 z-50 translate-y-[-100px]"
-        >
-          <h2
-            class="text-white text-2xl sm:text-4xl text-center sm:text-left mb-14"
+      <section class="container mx-auto">
+        <section v-if="band.bio" class="mx-auto w-full z-50">
+          <div
+            class="px-6 mt-6 w-11/12 sm:w-3/4 xl:w-3/4 bg-black lg:px-16 py-10 mx-auto"
           >
-            {{ band.bandName }}
-          </h2>
-          <h2
-            class="text-white text-2xl sm:text-4xl text-center sm:text-left mb-14"
-          >
-            History/Bio/Message
-          </h2>
-          <div class="pb-24">
-            <p class="text-white text-base sm:text-xl">{{ band.bio }}</p>
-          </div>
-          <!-- <div v-if="band.logo" class="m-4 max-w-[200px]">
+            <h2
+              class="text-white text-2xl sm:text-4xl text-center sm:text-left mb-14"
+            >
+              History/Bio/Message
+            </h2>
+            <div class="pb-24">
+              <p class="text-white text-base sm:text-xl">{{ band.bio }}</p>
+            </div>
+            <!-- <div v-if="band.logo" class="m-4 max-w-[200px]">
             <img :src="band.logo.url" alt="" />
           </div> -->
-        </div>
+          </div>
+        </section>
       </section>
       <!-- details section -->
       <div
         class="flex items-center gap-10 w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4"
       >
         <nuxtLink
-          v-if="$strapi.user"
+          v-if="permission"
           :to="{
             path: '/bandadmin',
             query: { band: band.id },
@@ -94,12 +90,14 @@
         v-if="permission"
         class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0"
       >
-        <div class="flex-grow flex items-center my-12 w-full cursor-pointer">
+        <div
+          class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
+        >
           <div
             class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
             @click="addAnnouncements"
           >
-            <div class="flex items-center justify-center">
+            <div class="flex items-center justify-center text-white">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -123,7 +121,7 @@
 
       <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
         <!-- logo here -->
-
+        <h2 class="chedder text-black mb-6">Band Details</h2>
         <div class="flex flex-col sm:flex-row items-center mb-4">
           <!-- col one of details  -->
           <div class="w-full mb-6 sm:w-3/4 flex">
@@ -155,6 +153,12 @@
         </div>
         <div class="flex flex-col sm:flex-row items-center mb-4">
           <!-- col one of details  -->
+          <div v-if="band.bandEmail" class="w-full sm:w-3/4 flex">
+            <div class="w-full mb-6">
+              <h2 class="text-3xl chedder main_red_text pb-2">Band Email</h2>
+              <p>{{ band.bandEmail }}</p>
+            </div>
+          </div>
 
           <!-- col two of details  -->
           <div v-if="band.recordLabel" class="w-full sm:w-3/4 flex">
@@ -171,59 +175,11 @@
           </div>
         </div>
 
-        <div
-          v-if="band.members.length > 0 && band.acc === 2"
-          class="flex flex-col sm:flex-row items-center mb-4"
-        >
-          <!-- col one of details  -->
-          <!-- col two of details  -->
-          <div class="w-full flex">
-            <div class="w-full mb-6">
-              <div>
-                <h2 class="text-3xl chedder main_red_text mb-6 pb-2">
-                  Members
-                </h2>
-              </div>
-
-              <div class="block">
-                <div
-                  v-for="(member, index) in band.members"
-                  :key="index + member.id"
-                  class="mr-4"
-                >
-                  <div v-if="member.image" class="w-full mb-6">
-                    <div class="w-full flex flex-col sm:flex-row">
-                      <img
-                        class="object-cover pb-6 h-[120px] min-w-[100px] max-w-[100px] sm:w-[200px] sm:h-[150px] sm:max-w-[200px] pr-2"
-                        :src="member.image.url"
-                        alt=""
-                      />
-                      <div class="flex-grow flex flex-col w-full">
-                        <div>
-                          <p class="text-xl font-bold">{{ member.name }}</p>
-                          <div v-if="member.dateStart" class="text-gray-500">
-                            started
-                            {{
-                              moment(String(member.dateStart)).format(
-                                'MMMM Do YYYY'
-                              )
-                            }}
-                          </div>
-                        </div>
-                        <div v-if="member.instrument" class="pt-2">
-                          <p>Playing {{ member.instrument }}</p>
-                        </div>
-                      </div>
-                    </div>
-                    <hr />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="flex flex-col sm:flex-row items-center mb-4">
-          <div v-if="band.contact" class="w-full sm:w-3/4 flex">
+          <div
+            v-if="!band.altContacts && band.contact"
+            class="w-full sm:w-3/4 flex"
+          >
             <div class="w-full mb-6">
               <h2 class="text-3xl chedder main_red_text pb-2">Band Contact</h2>
               <div v-if="band.contact.search('.com') > 1">
@@ -237,10 +193,7 @@
               <p v-else>{{ band.contact }}</p>
             </div>
           </div>
-          <div
-            v-if="band.altContacts && !band.contact"
-            class="w-full sm:w-3/4 flex"
-          >
+          <div v-if="band.altContacts" class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
               <h2 class="text-3xl chedder main_red_text pb-2">Band Contacts</h2>
               <p
@@ -273,14 +226,67 @@
       </section>
       <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
       <!-- edit component -->
-
+      <!-- members -->
       <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto">
-        <h2 id="showz" class="text-3xl main_red_text pb-6">Showz</h2>
+        <div
+          v-if="band.members"
+          class="flex flex-col sm:flex-row items-center mb-4"
+        >
+          <!-- col one of details  -->
+          <!-- col two of details  -->
+          <div class="w-full flex">
+            <div class="w-full mb-6">
+              <div>
+                <h2 class="chedder mb-6 pb-2">Members</h2>
+              </div>
+
+              <div class="block">
+                <div
+                  v-for="(member, index) in band.members"
+                  :key="index + member.id"
+                  class="mr-4"
+                >
+                  <div v-if="member.image" class="w-full mb-6">
+                    <div class="w-full flex flex-col sm:flex-row">
+                      <img
+                        class="object-cover pb-6 h-[120px] min-w-[100px] max-w-[100px] sm:w-[200px] sm:h-[150px] sm:max-w-[200px] pr-2"
+                        :src="member.image.url"
+                        alt=""
+                      />
+                      <div class="flex-grow flex flex-col w-full md:pl-6">
+                        <div>
+                          <p class="text-xl font-bold">{{ member.name }}</p>
+                          <div v-if="member.dateStart" class="text-gray-500">
+                            started
+                            {{
+                              moment(String(member.dateStart)).format(
+                                'MMMM Do YYYY'
+                              )
+                            }}
+                          </div>
+                        </div>
+                        <div v-if="member.instrument" class="pt-2">
+                          <p>Playing {{ member.instrument }}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <hr class="mt-6" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto">
+        <h2 class="chedder text-black">Showz</h2>
         <p v-if="events.length === 0">No Showz Coming up</p>
         <section v-if="permission" class="container mx-auto">
-          <div class="flex-grow flex items-center my-12 w-full cursor-pointer">
+          <div
+            class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
+          >
             <div
-              class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
+              class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm text-white"
               @click="addEventForm"
             >
               <div class="flex items-center justify-center">

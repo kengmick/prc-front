@@ -186,21 +186,6 @@
                   errors-class="sm:w-4/5 m-auto"
                 />
               </FormulateInput>
-              <h2 v-if="acc === 2">Add Profile Image</h2>
-              <div v-if="acc === 2" class="flex w-full justify-center">
-                <h2 class="text-center mb-10 mt-4">Add Profile Image</h2>
-                <FormulateInput
-                  type="image"
-                  name="bandProfileImg"
-                  label="Select an image to upload"
-                  help="Select a png, jpg or gif to upload."
-                  validation="mime:image/jpeg,image/png,image/gif"
-                  input-class="w-full sm:w-96 "
-                  wrapper-class="w-full sm:w-96 "
-                  element-class="w-full sm:w-96 "
-                  @change="profileImage = $event.target.files[0]"
-                />
-              </div>
               <h2 v-if="acc === 2">Add Photos</h2>
               <FormulateInput
                 v-if="acc === 2"
