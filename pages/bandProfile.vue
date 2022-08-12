@@ -161,12 +161,6 @@
           </div>
 
           <!-- col two of details  -->
-          <div v-if="band.recordLabel" class="w-full sm:w-3/4 flex">
-            <div class="w-full mb-6">
-              <h2 class="text-3xl chedder main_red_text pb-2">Record Label</h2>
-              <p>{{ band.recordLabel }}</p>
-            </div>
-          </div>
           <div v-if="band.dateStarted" class="w-full sm:w-3/4 flex">
             <div class="w-full mb-6">
               <h2 class="text-3xl chedder main_red_text pb-2">Date Started</h2>
@@ -223,6 +217,12 @@
             </div>
           </div>
         </div>
+        <div v-if="band.recordLabel" class="w-full sm:w-3/4 flex">
+          <div class="w-full mb-6">
+            <h2 class="text-3xl chedder main_red_text pb-2">Record Label</h2>
+            <p>{{ band.recordLabel }}</p>
+          </div>
+        </div>
       </section>
       <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
       <!-- edit component -->
@@ -277,6 +277,11 @@
             </div>
           </div>
         </div>
+      </section>
+      <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto">
+        <h2 class="chedder">Videos</h2>
+        <div v-if="band.videos"></div>
+        <div velse>No Videos Uploaded</div>
       </section>
       <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto">
         <h2 class="chedder text-black">Showz</h2>
@@ -888,6 +893,7 @@
           </section>
         </div>
       </section>
+
       <!-- posts  -->
       <section
         v-if="band.acc === 2"
