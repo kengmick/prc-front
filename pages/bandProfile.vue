@@ -12,7 +12,7 @@
         </div>
       </div>
       <div>
-        <h1 class="text-2xl sm:text-4xl text-center mt-6">
+        <h1 class="sm:text-4xl text-center mt-6">
           {{ band.bandName }}
         </h1>
       </div>
@@ -54,7 +54,9 @@
         v-if="band.photos.length !== 0"
         class="md:container mx-auto w-full sm:w-full md:w-1/2"
       >
-        <h2 v-if="band.photos !== []">Band Photos</h2>
+        <h2 v-if="band.photos !== []" class="text-center sm:text-left">
+          Band Photos
+        </h2>
       </div>
       <section
         v-if="band.photos"
@@ -62,7 +64,7 @@
       >
         <div v-for="(pic, index) in band.photos" :key="pic + index">
           <img
-            class="h-[400px] w-screen object-cover"
+            class="h-[250px] p-[1em] sm:h-[400px] sm:p-0 w-screen object-cover"
             :src="pic.pic.url"
             alt=""
           />
@@ -70,7 +72,7 @@
       </section>
       <!-- The announcements component -->
       <div class="sm:container sm:mx-auto w-full md:w-1/2 mt-6">
-        <h2>Announcements</h2>
+        <h2 class="text-center sm:text-left">Announcements</h2>
       </div>
       <section
         v-if="band.announcements.length > 0"
@@ -121,7 +123,9 @@
 
       <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
         <!-- logo here -->
-        <h2 class="chedder text-black mb-6">Band Details</h2>
+        <h2 class="text-center sm:text-left chedder text-black mb-6">
+          Band Details
+        </h2>
         <div class="flex flex-col sm:flex-row items-center mb-4">
           <!-- col one of details  -->
           <div class="w-full mb-6 sm:w-3/4 flex">
@@ -237,7 +241,7 @@
           <div class="w-full flex">
             <div class="w-full mb-6">
               <div>
-                <h2 class="chedder mb-6 pb-2">Members</h2>
+                <h2 class="text-3xl chedder main_red_text pb-2">Members</h2>
               </div>
 
               <div class="block">
@@ -279,7 +283,7 @@
         </div>
       </section>
       <section class="container mx-auto xl:w-1/2">
-        <h2>Videos</h2>
+        <h2 class="text-center sm:text-left">Videos</h2>
       </section>
       <section class="container w-full px-4 sm:px-0 mx-auto xl:w-1/2">
         <section
@@ -431,8 +435,10 @@
       </section>
 
       <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto">
-        <h2 class="chedder text-black">Showz</h2>
-        <p v-if="events.length === 0" class="mb-6">No Showz Coming up</p>
+        <h2 class="text-center sm:text-left chedder text-black">Showz</h2>
+        <p v-if="events.length === 0" class="text-center sm:text-left mb-6">
+          No Showz Coming up
+        </p>
         <section v-if="permission" class="container mx-auto mb-6">
           <div
             class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
@@ -827,7 +833,9 @@
         </section> -->
         <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
         <section id="releases">
-          <h2 class="chedder text-black mb-6">Releases</h2>
+          <h2 class="text-center sm:text-left chedder text-black mb-6">
+            Releases
+          </h2>
           <div
             v-if="band.releases.length > 0"
             class="text-3xl chedder main_red_text chedder pb-2"
@@ -1207,7 +1215,7 @@
           id="songs"
           class="text-3xl chedder main_red_text chedder pb-2 mt-6"
         >
-          Songs
+          <!-- Songs -->
         </h2>
         <!-- songs -->
 
@@ -1244,14 +1252,13 @@
       </section>
 
       <!-- posts  -->
-      <section
+      <!-- <section
         v-if="band.acc === 2"
         id="posts"
         class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0"
       >
         <h2>Posts</h2>
         <section class="mt-10 sm:mb-10">
-          <!-- profileImg.url username, image -->
           <div v-for="(post, index) in posts" :key="index">
             <div
               v-if="post.users_permissions_user"
@@ -1284,7 +1291,6 @@
               </div>
             </div>
           </div>
-          <!-- add post bod  -->
           <div class="w-full mx-auto">
             <p class="text-red-500">{{ postError }}</p>
             <div class="w-full flex justify-center items-center sm:px-0">
@@ -1319,9 +1325,8 @@
             </div>
           </div>
         </section>
-      </section>
+      </section> -->
     </div>
-    <!-- pop up upload image to post  ======= -->
     <section
       v-if="popup"
       class="h-screen w-screen bg-black bg-opacity-10 fixed top-0 flex items-center justify-center"
