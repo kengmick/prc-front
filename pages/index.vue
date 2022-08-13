@@ -4,8 +4,6 @@
       <iframe
         id="yt-video-iframe"
         class="video"
-        width="1200"
-        height="500"
         :src="`https://www.youtube.com/embed/${this.video}`"
         title="Punk Rock Compound July 31st"
         frameborder="0"
@@ -110,12 +108,23 @@ export default {
 </script>
 
 <style scoped>
-.video-container {
-  position: relative;
-  padding-bottom: 66vh;
-  padding-top: 30px;
-  max-height: 66vh;
-  overflow: hidden;
+@media only screen and (max-width: 375px) {
+  .video-container {
+    position: relative;
+    padding-bottom: 30vh;
+    padding-top: 30px;
+    max-height: 30vh;
+    overflow: hidden;
+  }
+}
+@media only screen and (min-width: 376px) {
+  .video-container {
+    position: relative;
+    padding-bottom: 66vh;
+    padding-top: 30px;
+    max-height: 66vh;
+    overflow: hidden;
+  }
 }
 
 .video-container iframe,

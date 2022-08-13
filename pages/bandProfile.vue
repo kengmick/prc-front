@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="band">
+    <div v-if="band" class="px-2">
       <div v-if="band.bandProfileImg">
         <!-- image here  -->
         <div class="w-full h-[40vh] z-0 mt-6">
