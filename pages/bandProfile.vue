@@ -827,52 +827,162 @@
         </section> -->
         <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
         <section id="releases">
+          <h2 class="chedder text-black mb-6">Releases</h2>
           <div
             v-if="band.releases.length > 0"
             class="text-3xl chedder main_red_text chedder pb-2"
-          >
-            <h2 class="chedder text-black mb-6">Releases</h2>
-          </div>
+          ></div>
           <div v-if="band.releases">
-            <section v-if="band.releases.length > 0" class="mb-6">
+            <section
+              v-if="band.releases.length > 0 && !editRelease"
+              class="mb-6"
+            >
               <div class="flex flex-col gap-4 sm:grid-cols-3 sm:grid">
                 <div
                   v-for="(r, index) in band.releases"
                   :key="r + index"
                   class="max-w-[350px] hover:scale-110 duration-200 transition-all ease-linear"
                 >
-                  <a :href="r.link" target="_blank">
-                    <div
-                      v-if="r.title"
-                      class="py-4 px-2 border-2 border-black bg-black"
-                    >
-                      <h3 class="text-white">{{ r.title }}</h3>
+                  <div
+                    v-if="r.title"
+                    class="py-4 px-2 border-2 border-black bg-black"
+                  >
+                    <h3 class="text-white">{{ r.title }}</h3>
+                  </div>
+                  <div v-if="r.image">
+                    <img
+                      class="w-full h-[281.66px] object-contain bg-black"
+                      :src="r.image.url"
+                      alt=""
+                    />
+                  </div>
+                  <div class="p-2 bg-black text-white">
+                    <div v-if="r.date">
+                      <h3>{{ r.date }}</h3>
                     </div>
-                    <div v-if="r.image">
-                      <img
-                        class="w-full h-[281.66px] object-contain bg-black"
-                        :src="r.image.url"
-                        alt=""
-                      />
-                    </div>
-                    <div class="p-2 bg-black text-white">
-                      <div v-if="r.date">
-                        <h3>{{ r.date }}</h3>
+                    <div v-if="r.link" class="flex">
+                      <h3 class="flex-grow underline">
+                        <a :href="r.link" target="_blank"
+                          >{{ r.link }} {{ r.id }}</a
+                        >
+                      </h3>
+                      <div @click="editReleaseFunction(r.id)" class="w-[40px]">
+                        <svg
+                          width="20"
+                          height="21"
+                          viewBox="0 0 20 21"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M0 16.2835V20.5679H4.16609L16.4533 7.93181L12.2872 3.64743L0 16.2835ZM19.675 4.61856C20.1083 4.17298 20.1083 3.45321 19.675 3.00763L17.0754 0.334181C16.6421 -0.111394 15.9422 -0.111394 15.509 0.334181L13.4759 2.42496L17.642 6.70934L19.675 4.61856Z"
+                            fill="white"
+                          />
+                        </svg>
                       </div>
-                      <div v-if="r.link">
-                        <h3>
-                          <a :href="r.link" target="_blank">{{ r.link }}</a>
-                        </h3>
+                      <div @click="deleteRelease(r.id)">
+                        <p>Delete</p>
                       </div>
                     </div>
-                  </a>
+                  </div>
                 </div>
               </div>
             </section>
           </div>
           <h3 v-else>No Releases</h3>
+          <!-- edit release -->
+          <section v-if="editRelease">
+            <!-- add release to be edited here -->
+            <div
+              v-if="re"
+              class="max-w-[350px] hover:scale-110 duration-200 transition-all ease-linear mx-auto mb-6"
+            >
+              <div class="py-4 px-2 border-2 border-black bg-black">
+                <h3 class="text-white">{{ re.title }}</h3>
+              </div>
+
+              <img
+                class="w-full h-[281.66px] object-contain bg-black"
+                :src="re.image.url"
+                alt=""
+              />
+
+              <div class="p-2 bg-black text-white">
+                <h3>{{ re.date }}</h3>
+                <div class="flex">
+                  <h3 class="flex-grow underline">
+                    <a :href="re.link" target="_blank"
+                      >{{ re.link }} {{ re.id }}</a
+                    >
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <FormulateForm
+              v-model="editReleaseFormValues"
+              @submit="submitEditReleaseForm"
+            >
+              <div class="flex flex-col justify-center">
+                <div class="w-full px-4">
+                  <FormulateInput
+                    type="text"
+                    name="title"
+                    :value="re.title"
+                    label="Release Tile "
+                    wrapper-class="m-auto sm:w-4/5 "
+                    element-class="w-full"
+                    errors-class="sm:w-4/5 m-auto"
+                  />
+                  <FormulateInput
+                    name="date"
+                    type="date"
+                    :value="re.date"
+                    label="Date Released"
+                    wrapper-class="sm:w-4/5 m-auto"
+                    element-class="w-full"
+                    errors-class="sm:w-4/5 m-auto"
+                  />
+
+                  <FormulateInput
+                    name="link"
+                    label="link"
+                    :value="re.link"
+                    wrapper-class="sm:w-4/5 m-auto"
+                    element-class="w-full"
+                    errors-class="sm:w-4/5 m-auto"
+                  />
+                  <FormulateInput
+                    name="image"
+                    type="image"
+                    label="Change Image"
+                    :value="re.image"
+                    wrapper-class="sm:w-4/5 m-auto"
+                    element-class="w-full"
+                    errors-class="sm:w-4/5 m-auto"
+                    @change="annImageFile = $event.target.files[0]"
+                  />
+                </div>
+              </div>
+              <div>
+                <!-- submitReleaseForm -->
+                <div
+                  class="bg-black text-white flex justify-center items-center p-[.8em] mt-2"
+                  @click="submitEditReleaseForm"
+                >
+                  Update
+                </div>
+                <div
+                  class="bg-black text-white flex justify-center items-center p-[.8em] mt-2"
+                  @click="closeEditRelease"
+                >
+                  Close
+                </div>
+              </div>
+            </FormulateForm>
+          </section>
           <!-- add releases here -->
         </section>
+        <!-- add button  -->
         <section v-if="permission" class="container mx-auto mb-6">
           <div
             class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
@@ -902,7 +1012,7 @@
             </div>
           </div>
         </section>
-
+        <!-- add release form  -->
         <section v-if="addRelease">
           <FormulateForm
             v-model="releaseFormValues"
@@ -1304,6 +1414,10 @@ export default {
       annImageFile: '',
       annImageFinal: '',
       releaseFormValues: {},
+      editRelease: false,
+      // test rel
+      editReleaseFormValues: {},
+      re: '',
     }
   },
   async mounted() {
@@ -1362,6 +1476,90 @@ export default {
   },
   methods: {
     moment,
+    closeEditRelease() {
+      this.editRelease = false
+    },
+    async deleteRelease(rId) {
+      try {
+        const releasesUpdated = this.band.releases.filter((r) => {
+          return r.id !== rId
+        })
+        const band = await this.$strapi.update('bands', this.band.id, {
+          releases: releasesUpdated,
+        })
+        this.band = band
+        this.loading = false
+        this.editRelease = false
+      } catch (error) {
+        this.errorMessage = 'Sorry could not delete the release'
+        this.loading = false
+      }
+    },
+
+    editReleaseFunction(rId) {
+      this.editRelease = true
+      // get the release and log it
+      const re = this.band.releases.filter((rel) => {
+        return rel.id === rId
+      })
+      this.re = re[0]
+    },
+    async submitEditReleaseForm() {
+      this.loading = true
+      if (this.annImageFile) {
+        try {
+          const formData = new FormData()
+          await formData.append('files', this.annImageFile)
+          const [annImageFinal] = await this.$strapi.create('upload', formData)
+          this.annImageFinal = annImageFinal
+          this.editReleaseFormValues.image = annImageFinal
+        } catch (error) {
+          console.log(error)
+          this.loading = false
+          this.errorMessage =
+            'Could not update the release Image ... please try again '
+        }
+        try {
+          console.log('trying to update ')
+          const releasesUpdated = this.band.releases.filter((r) => {
+            console.log(r.id, this.re.id, 'the id of re to be filtered out ')
+            return r.id !== this.re.id
+          })
+          console.log(this.editReleaseFormValues)
+          releasesUpdated.push(this.editReleaseFormValues)
+          console.log(releasesUpdated)
+          const band = await this.$strapi.update('bands', this.band.id, {
+            releases: releasesUpdated,
+          })
+          this.band = band
+          console.log('set the band', band)
+          this.loading = false
+          this.editRelease = false
+        } catch (error) {
+          console.log(error)
+          this.errorMessage = 'Sorry could not create the release'
+          this.loading = false
+        }
+      } else {
+        try {
+          const releasesUpdated = this.band.releases.filter((r) => {
+            return r.id !== this.re.id
+          })
+          const band = await this.$strapi.update('bands', this.band.id, {
+            releases: releasesUpdated,
+          })
+          this.band = band
+          this.loading = false
+          this.editRelease = false
+        } catch (error) {
+          console.log(error)
+          this.errorMessage = 'Sorry could not create the release'
+          this.loading = false
+        }
+      }
+
+      this.loading = false
+    },
     addReleaseForm() {
       this.addRelease = !this.addRelease
     },
