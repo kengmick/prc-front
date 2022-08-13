@@ -282,6 +282,64 @@
           </div>
         </div>
       </section>
+      <!-- Songs  -->
+      <section class="container mx-auto xl:w-1/2">
+        <h2 class="text-center sm:text-left">Songs</h2>
+      </section>
+
+      <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
+        <TrackForm :show="trackForm" />
+        <div
+          class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
+        >
+          <div
+            @click="toggleTrackForm"
+            class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
+          >
+            <div
+              v-if="!trackForm"
+              class="flex items-center justify-center text-white"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="red"
+                class="bi bi-plus-circle"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                />
+                <path
+                  d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                />
+              </svg>
+              <p class="pl-2 text-lg font-bold">Add Tracks</p>
+            </div>
+            <div
+              v-if="trackForm"
+              class="flex items-center justify-center text-white"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 56 56"
+                fill="red"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M56 5.64L50.36 0L28 22.36L5.64 0L0 5.64L22.36 28L0 50.36L5.64 56L28 33.64L50.36 56L56 50.36L33.64 28L56 5.64Z"
+                  fill="white"
+                />
+              </svg>
+              <p class="pl-2 text-lg font-bold">Close</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- end of songs  -->
+      <!-- This is were videos live  -->
       <section class="container mx-auto xl:w-1/2">
         <h2 class="text-center sm:text-left">Videos</h2>
       </section>
@@ -1423,6 +1481,7 @@ export default {
       // test rel
       editReleaseFormValues: {},
       re: '',
+      trackForm: false,
     }
   },
   async mounted() {
@@ -1481,6 +1540,9 @@ export default {
   },
   methods: {
     moment,
+    toggleTrackForm() {
+      this.trackForm = !this.trackForm
+    },
     closeEditRelease() {
       this.editRelease = false
     },
