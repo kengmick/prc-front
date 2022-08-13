@@ -71,14 +71,15 @@ export default {
       this.liveUrl = link.streamLink
     } catch (error) {
       this.loading = false
+      console.log(error)
     }
     try {
       this.liveStream = await this.$http.$get(
         `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${this.liveUrl}&key=AIzaSyAWavt-2FzH79KfI0zaqMYltq-pVAusE1Q`
       )
-      console.log(this.liveStream)
       if (this.liveStream.items) {
-        if (this.liveStream.items.length > 0) {
+        if (this.liveStream.items[0].snippet.liveBroadcastContent !== 'none') {
+          console.log(this.liveStream.items)
           this.loading = false
           this.video = this.liveStream.items[0].id
         } else {

@@ -288,7 +288,7 @@
       </section>
 
       <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
-        <TrackForm :show="trackForm" />
+        <TrackForm :show="trackForm" @someEvent="updateSongList(data)" />
         <div
           class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
         >
@@ -1540,6 +1540,13 @@ export default {
   },
   methods: {
     moment,
+    // called on updatedSongList emit from trackForm
+    updateSongList(data) {
+      console.log(
+        '========================================================',
+        data
+      )
+    },
     toggleTrackForm() {
       this.trackForm = !this.trackForm
     },
