@@ -37,10 +37,10 @@
       </section>
       <!-- details section -->
       <div
+        v-if="permission"
         class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black"
       >
         <nuxtLink
-          v-if="permission"
           :to="{
             path: '/bandadmin',
             query: { band: band.id },

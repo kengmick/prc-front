@@ -26,8 +26,11 @@ const audio = document.querySelector('audio')
 const durationContainer = document.getElementById('duration')
 
 const calculateTime = (secs) => {
+  // calculates the minutes
   const minutes = Math.floor(secs / 60)
+  // this calculates the remaining seconds using the modulus operator
   const seconds = Math.floor(secs % 60)
+  // add a 0 if seconds are less than 10 seconds example 3 = :03
   const returnedSeconds = seconds < 10 ? `0${seconds}` : `${seconds}`
   return `${minutes}:${returnedSeconds}`
 }
