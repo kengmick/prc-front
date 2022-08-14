@@ -96,7 +96,7 @@ export default {
           tracks: updatedTracks,
         })
         this.loading = false
-        this.$emit('submitSongForm', updatedBand)
+        this.$emit('submitSongForm', updatedBand, 'good')
       } catch (error) {
         console.log(error)
         this.errorMessage = 'Sorry could not create the track'

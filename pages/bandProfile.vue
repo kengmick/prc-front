@@ -1545,8 +1545,13 @@ export default {
   methods: {
     moment,
     // called on updatedSongList emit from trackForm
-    updateSongList(data) {
-      console.log('updated band tracks', data)
+    updateSongList(data, status) {
+      if (status === 'good') {
+        this.band = data
+        console.log(data)
+        this.trackForm = false
+      }
+      this.trackForm = false
     },
     toggleTrackForm() {
       this.trackForm = !this.trackForm
