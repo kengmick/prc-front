@@ -288,7 +288,11 @@
       </section>
 
       <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
-        <TrackForm :show="trackForm" @someEvent="updateSongList(data)" />
+        <TrackForm
+          :band="band"
+          :show="trackForm"
+          @submitSongForm="updateSongList"
+        />
         <div
           class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
         >
@@ -1542,10 +1546,7 @@ export default {
     moment,
     // called on updatedSongList emit from trackForm
     updateSongList(data) {
-      console.log(
-        '========================================================',
-        data
-      )
+      console.log('updated band tracks', data)
     },
     toggleTrackForm() {
       this.trackForm = !this.trackForm

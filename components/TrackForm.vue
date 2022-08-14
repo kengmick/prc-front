@@ -1,14 +1,52 @@
 <template>
   <div v-if="show">
-    <FormulateForm v-model="formValues">
+    <FormulateForm v-if="!loading" v-model="formValues">
       <FormulateInput
         name="title"
         label="Title of song "
         validation="required"
+        wrapper-class="m-auto sm:w-4/5 "
+        element-class="w-full"
+        errors-class="sm:w-4/5 m-auto"
       />
-
-      <button @click="submit">Submit</button>
+      <FormulateInput
+        name="file"
+        type="file"
+        label="upload audio file"
+        validation="required"
+        wrapper-class="sm:w-4/5 m-auto"
+        element-class="w-full"
+        errors-class="sm:w-4/5 m-auto"
+        @change="audioFile = $event.target.files[0]"
+      />
+      <div
+        v-if="!loading"
+        class="w-full bg-black p-[.9em] flex justify-center items-center text-white text-lg"
+        @click="submitSongForm"
+      >
+        Submit
+      </div>
     </FormulateForm>
+    <section
+      v-if="loading"
+      class="h-full w-full right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <Spinner />
+    </section>
+    <section
+      v-if="errorMessage"
+      class="h-full w-full right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <div>
+        <h2>{{ errorMessage }}</h2>
+        <h3
+          class="text-center text-2xl cursor-pointer"
+          @click="errorMessage = null"
+        >
+          Close X
+        </h3>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -21,16 +59,50 @@ export default {
         return false
       },
     },
+    band: {
+      type: Object,
+      default: null,
+    },
   },
   data() {
     return {
       formValues: {},
+      errorMessage: '',
+      audioFile: '',
+      audioFileFinal: '',
+      loading: false,
     }
   },
   methods: {
-    submit() {
-      // write form logic here
-      this.$emit('submit', this.formValues)
+    async submitSongForm() {
+      this.loading = true
+      try {
+        const formData = new FormData()
+        await formData.append('files', this.audioFile)
+        const [audioFileFinal] = await this.$strapi.create('upload', formData)
+        this.audioFileFinal = audioFileFinal
+        this.formValues.track = audioFileFinal
+      } catch (error) {
+        this.loading = false
+        this.errorMessage = 'Could not upload audio file ... please try again '
+        this.$emit('submitSongForm', this.errorMessage)
+      }
+      //   updating the tracks on the band
+      try {
+        console.log('trying to create ')
+        const updatedTracks = this.band.tracks
+        updatedTracks.push(this.formValues)
+        const updatedBand = await this.$strapi.update('bands', this.band.id, {
+          tracks: updatedTracks,
+        })
+        this.loading = false
+        this.$emit('submitSongForm', updatedBand)
+      } catch (error) {
+        console.log(error)
+        this.errorMessage = 'Sorry could not create the track'
+        this.$emit('submitSongForm', this.errorMessage)
+        this.loading = false
+      }
     },
   },
 }
