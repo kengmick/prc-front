@@ -1315,7 +1315,7 @@
       </section>
 
       <!-- posts  -->
-      <!-- <section
+      <section
         v-if="band.acc === 2"
         id="posts"
         class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0"
@@ -1388,7 +1388,7 @@
             </div>
           </div>
         </section>
-      </section> -->
+      </section>
     </div>
     <section
       v-if="popup"
