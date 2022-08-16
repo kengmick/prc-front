@@ -288,13 +288,14 @@
       </section>
 
       <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
+        <TrackList class="mb-12" :tracks="band.tracks" />
         <TrackForm
           :band="band"
           :show="trackForm"
           @submitSongForm="updateSongList"
         />
         <div
-          class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
+          class="flex-grow flex items-center my-4 w-full cursor-pointer bg-black"
         >
           <div
             @click="toggleTrackForm"

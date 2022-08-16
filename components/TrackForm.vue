@@ -1,6 +1,10 @@
 <template>
   <div v-if="show">
-    <FormulateForm v-if="!loading" v-model="formValues">
+    <FormulateForm
+      v-if="!loading"
+      v-model="formValues"
+      @submit="submitSongForm"
+    >
       <FormulateInput
         name="title"
         label="Title of song "
@@ -10,10 +14,9 @@
         errors-class="sm:w-4/5 m-auto"
       />
       <FormulateInput
-        name="file"
+        name="track"
         type="file"
         label="upload audio file"
-        validation="required"
         wrapper-class="sm:w-4/5 m-auto"
         element-class="w-full"
         errors-class="sm:w-4/5 m-auto"
@@ -21,7 +24,7 @@
       />
       <div
         v-if="!loading"
-        class="w-full bg-black p-[.9em] flex justify-center items-center text-white text-lg"
+        class="w-full bg-black p-[.9em] flex justify-center items-center text-white text-lg mt-12"
         @click="submitSongForm"
       >
         Submit
@@ -76,32 +79,25 @@ export default {
   methods: {
     async submitSongForm() {
       this.loading = true
+      console.log(this.formValues)
       try {
         const formData = new FormData()
         await formData.append('files', this.audioFile)
         const [audioFileFinal] = await this.$strapi.create('upload', formData)
         this.audioFileFinal = audioFileFinal
         this.formValues.track = audioFileFinal
-      } catch (error) {
-        this.loading = false
-        this.errorMessage = 'Could not upload audio file ... please try again '
-        this.$emit('submitSongForm', this.errorMessage)
-      }
-      //   updating the tracks on the band
-      try {
-        console.log('trying to create ')
+        console.log(this.formValues, 'in the set hook ')
         const updatedTracks = this.band.tracks
         updatedTracks.push(this.formValues)
+        console.log('update tracts ', updatedTracks)
         const updatedBand = await this.$strapi.update('bands', this.band.id, {
           tracks: updatedTracks,
         })
         this.loading = false
         this.$emit('submitSongForm', updatedBand, 'good')
       } catch (error) {
-        console.log(error)
-        this.errorMessage = 'Sorry could not create the track'
-        this.$emit('submitSongForm', this.errorMessage)
         this.loading = false
+        this.errorMessage = 'Could not upload audio file ... please try again '
       }
     },
   },
