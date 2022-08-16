@@ -1,7 +1,10 @@
 <template>
   <!-- get gallery working  -->
   <div>
-    <section v-if="venue" class="container mx-auto mt-6 px-2 sm:px-0">
+    <section
+      v-if="venue"
+      class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0"
+    >
       <div
         v-if="venue.logo"
         class="flex flex-col sm:flex-row items-center mb-4"
@@ -47,13 +50,10 @@
           </div></NuxtLink
         >
       </div>
-      <div class="sm:container sm:mx-auto w-full md:w-1/2 mt-6">
+      <div>
         <h2>Announcements</h2>
       </div>
-      <section
-        v-if="venue.announcements"
-        class="sm:container sm:mx-auto w-full md:w-1/2 mt-6"
-      >
+      <section v-if="venue.announcements">
         <Announcement
           v-if="venue.announcements.length > 0"
           profileType="venue"
@@ -62,7 +62,7 @@
           :announcements="venue.announcements"
         />
       </section>
-      <section class="sm:container sm:mx-auto w-full md:w-1/2 mt-6">
+      <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
         <div
           v-if="permission"
           class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
@@ -96,44 +96,38 @@
       </section>
       <!-- gallery  -->
       <!-- media Gallery -->
-      <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
-        <section v-if="venue.photos" class="container mx-auto">
-          <h3 class="my-6 text-3xl">Pictures</h3>
-          <section
-            v-if="venue.photos.length > 0"
-            class="mx-2 flex flex-col gap-6 lg:grid lg:grid-cols-3 lg:gap-10"
-          >
-            <div
-              v-for="(img, index) in venue.photos"
-              :key="img.pic.url + index"
-            >
-              <img
-                class="h-[350px] object-cover w-full"
-                :src="img.pic.url"
-                alt=""
-              />
-            </div>
-          </section>
-        </section>
-      </section>
-      <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
-        <h2 class="mt-4 text-3xl">History/Bio/Message</h2>
-        <div
-          v-if="venue.description && venue.description.split('\n')"
-          class="mt-6"
+      <section v-if="venue.photos">
+        <h3 class="my-6 text-3xl">Pictures</h3>
+        <section
+          v-if="venue.photos.length > 0"
+          class="mx-2 flex flex-col gap-6 lg:grid lg:grid-cols-3 lg:gap-10"
         >
-          <p
-            v-for="(description, index) in venue.description.split('\n')"
-            :key="description + index"
-            class="mt-4 ext-lg px-2 md:text-2xl"
-          >
-            {{ description }}
-          </p>
-        </div>
-        <p v-else class="text-lg px-2 md:text-2xl">{{ venue.description }}</p>
+          <div v-for="(img, index) in venue.photos" :key="img.pic.url + index">
+            <img
+              class="h-[350px] object-cover w-full"
+              :src="img.pic.url"
+              alt=""
+            />
+          </div>
+        </section>
       </section>
     </section>
     <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
+      <!-- bio -->
+      <h2 class="mt-4 text-3xl">History/Bio/Message</h2>
+      <div
+        v-if="venue.description && venue.description.split('\n')"
+        class="mt-6"
+      >
+        <p
+          v-for="(description, index) in venue.description.split('\n')"
+          :key="description + index"
+          class="mt-4 ext-lg px-2 md:text-2xl"
+        >
+          {{ description }}
+        </p>
+      </div>
+      <p v-else class="text-lg px-2 md:text-2xl">{{ venue.description }}</p>
       <!-- date started , genre(if applicable ) location streetNumber zip streetName contact -->
       <h3 class="text-3xl my-4">Location</h3>
       <p v-if="venue.streetAddress && venue.city && venue.state">

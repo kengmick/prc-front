@@ -100,10 +100,10 @@
               />
             </div>
             <h2 class="my-4">Edit Photos</h2>
-            <pre>{{ venue.photos }}</pre>
+            <!-- <pre>{{ venue.photos }}</pre> -->
             <section
               v-if="venue.photos"
-              class="flex flex-col sm:flex-row justfity-center items-center"
+              class="flex flex-col sm:flex-row justify-around items-center"
             >
               <div v-for="photo in venue.photos" :key="photo.url">
                 <img :src="photo.pic.formats.thumbnail.url" alt="" />
