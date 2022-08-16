@@ -310,7 +310,7 @@ export default {
       // old shows array
       // making post band to strapi
       try {
-        const venue = await this.$strapi.create('venues', {
+        const venue = await this.$strapi.update('venues', this.venue.id, {
           ...this.formValues,
           users_permissions_user: this.$strapi.user.id,
         })
