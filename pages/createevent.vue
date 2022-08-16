@@ -28,13 +28,14 @@
                 value="null"
                 type="select"
                 name="bandName"
-                label="Add show to your band Optional?"
+                label="Add show to a band you created Optional?"
                 :options="{ ...userBands, clear: 'clear form' }"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
                 @change="clear($event.target.value)"
               />
+
               <!-- <FormulateInput
                 v-if="userDistros"
                 value="null"
@@ -58,7 +59,7 @@
                 errors-class="sm:w-4/5 m-auto"
                 @change="clearTour($event.target.value)"
               />
-              <!-- <FormulateInput
+              <FormulateInput
                 v-if="userVenues"
                 value="null"
                 type="select"
@@ -68,7 +69,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-              /> -->
+              />
               <FormulateInput
                 name="date"
                 type="date"

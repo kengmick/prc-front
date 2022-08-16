@@ -51,13 +51,13 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
-              <FormulateInput
+              <!-- <FormulateInput
                 name="bandEmail"
                 label="Band email?"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-              />
+              /> -->
             </div>
             <div class="w-full px-4 sm:w-1/2">
               <!-- Tier 2 contact list  -->

@@ -31,29 +31,8 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
-
-              <!-- <FormulateInput
-                v-if="acc === 1"
-                name="contact"
-                type="text"
-                label="contact"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              /> -->
             </div>
             <div class="w-full px-4 sm:w-1/2">
-              <!-- <FormulateInput
-                v-if="
-                  !formValues.country || formValues.country === 'United States'
-                "
-                name="streetName"
-                type="text"
-                label="Street Name"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              /> -->
               <FormulateInput
                 name="city"
                 label="City"
@@ -258,20 +237,24 @@ export default {
       this.loading = true
       const pictures = []
       if (this.formValues.photos) {
-        console.log('this is the photos condition')
-        for (let index = 0; index < this.formValues.photos.length; index++) {
-          const formData = new FormData()
-          formData.append(
-            'files',
-            this.formValues.photos[index].pic.files[0].file
-          )
-          const [image] = await this.$strapi.create('upload', formData)
+        try {
+          console.log('this is the photos condition')
+          for (let index = 0; index < this.formValues.photos.length; index++) {
+            const formData = new FormData()
+            formData.append(
+              'files',
+              this.formValues.photos[index].pic.files[0].file
+            )
+            const [image] = await this.$strapi.create('upload', formData)
 
-          pictures.push({ pic: image })
-          console.log('adding pictures ', pictures)
+            pictures.push({ pic: image })
+            console.log('adding pictures ', pictures)
+          }
+          this.pictures = pictures
+          this.formValues.photos = pictures
+        } catch (error) {
+          console.log(error, 'there was an error ')
         }
-        this.pictures = pictures
-        this.formValues.photos = pictures
       }
       if (this.logoImgFile) {
         console.log('logo image file ')
@@ -284,6 +267,7 @@ export default {
           this.formValues.logo = logoImageFinal
         } catch (error) {
           console.log(error)
+          this.loading = false
         }
       }
 
@@ -297,10 +281,10 @@ export default {
           this.formValues.venueImg = venueImgFinal
         } catch (error) {
           console.log(error)
+          this.loading = false
         }
       }
-      // old shows array
-      // making post band to strapi
+
       try {
         console.log('creating the venue')
         const venue = await this.$strapi.create('venues', {

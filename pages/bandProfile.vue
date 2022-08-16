@@ -175,7 +175,7 @@
 
         <div class="flex flex-col sm:flex-row items-center mb-4">
           <div
-            v-if="!band.altContacts && band.contact"
+            v-if="band.altContacts.length === 0 && band.contact"
             class="w-full sm:w-3/4 flex"
           >
             <div class="w-full mb-6">
@@ -191,7 +191,10 @@
               <p v-else>{{ band.contact }}</p>
             </div>
           </div>
-          <div v-if="band.altContacts" class="w-full sm:w-3/4 flex">
+          <div
+            v-if="band.altContacts.length !== 0"
+            class="w-full sm:w-3/4 flex"
+          >
             <div class="w-full mb-6">
               <h2 class="text-3xl chedder main_red_text pb-2">Band Contacts</h2>
               <p
