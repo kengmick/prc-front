@@ -1,6 +1,5 @@
 <template>
   <div class="w-full">
-    <pre>{{ tracks }}</pre>
     <section class="flex">
       <h2 class="w-[33.3333%] text-3xl">Track</h2>
       <h2 class="w-[33.3333%] text-center text-3xl">Title</h2>

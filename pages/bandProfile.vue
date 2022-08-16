@@ -75,7 +75,7 @@
         <h2 class="text-center sm:text-left">Announcements</h2>
       </div>
       <section
-        v-if="band.announcements.length > 0"
+        v-if="band.announcements.length > 0 && $strapi.user.acc === 2"
         class="sm:container sm:mx-auto w-full md:w-1/2 mt-6"
       >
         <Announcement
@@ -93,6 +93,7 @@
         class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0"
       >
         <div
+          v-if="$strapi.user.acc === 2"
           class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
         >
           <div
@@ -291,7 +292,12 @@
       </section>
 
       <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
-        <TrackList class="mb-12" :tracks="band.tracks" />
+        <TrackList
+          v-if="band.tracks.length > 0"
+          class="mb-12"
+          :tracks="band.tracks"
+        />
+        <p>No songs uploaded</p>
         <TrackForm
           :band="band"
           :show="trackForm"
@@ -301,6 +307,7 @@
           class="flex-grow flex items-center my-4 w-full cursor-pointer bg-black"
         >
           <div
+            v-if="permissions && $strapi.user.acc === 2"
             @click="toggleTrackForm"
             class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
           >
@@ -464,7 +471,7 @@
       </section>
       <!-- edit button  -->
       <section
-        v-if="permission"
+        v-if="permission && $strapi.user.acc === 2"
         class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0"
       >
         <div
@@ -1057,7 +1064,10 @@
           <!-- add releases here -->
         </section>
         <!-- add button  -->
-        <section v-if="permission" class="container mx-auto mb-6">
+        <section
+          v-if="permission && $strapi.user.acc === 2"
+          class="container mx-auto mb-6"
+        >
           <div
             class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
           >
