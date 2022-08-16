@@ -70,14 +70,14 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
-              <!-- <FormulateInput
+              <FormulateInput
                 name="country"
                 label="Country other than USA?"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
                 @change="formValues.country = $event.target.value"
-              /> -->
+              />
               <FormulateInput
                 name="city"
                 label="City that the band is from?"

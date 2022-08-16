@@ -19,14 +19,17 @@
           alt=""
         />
       </div>
-      <div class="flex-grow flex items-center my-12 w-full md:w-[450px]">
+
+      <div
+        v-if="permission"
+        class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black"
+      >
         <NuxtLink
-          v-if="user"
           :to="{
             path: 'venueedit',
             query: { venue: venue.id },
           }"
-          class="border-2 border-black px-6 py-4 ml-2 w-full"
+          class="border-2 border-black px-6 ml-2 w-full"
           ><div class="flex items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +43,7 @@
                 d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"
               />
             </svg>
-            <p class="pl-2">Edit Venue</p>
+            <p class="pl-2 text-white font-bold">Edit Venue</p>
           </div></NuxtLink
         >
       </div>
@@ -60,9 +63,12 @@
         />
       </section>
       <section class="sm:container sm:mx-auto w-full md:w-1/2 mt-6">
-        <div class="flex-grow flex items-center my-12 w-full cursor-pointer">
+        <div
+          v-if="permission"
+          class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
+        >
           <div
-            class="border-2 border-black px-6 py-4 ml-2 w-full shadow-sm"
+            class="border-2 border-black px-6 p-[.8em] ml-2 w-full shadow-sm"
             @click="addAnnouncements"
           >
             <div class="flex items-center justify-center">
@@ -81,45 +87,53 @@
                   d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
                 />
               </svg>
-              <p class="pl-2 text-lg font-bold">Create Announcement</p>
+              <p class="pl-2 text-lg font-bold text-white">
+                Create Announcement
+              </p>
             </div>
           </div>
         </div>
       </section>
       <!-- gallery  -->
       <!-- media Gallery -->
-      <section v-if="venue.photos" class="container mx-auto">
-        <h3 class="my-6 text-3xl">Pictures</h3>
-        <section
-          v-if="venue.photos.length > 0"
-          class="mx-2 flex flex-col gap-6 lg:grid lg:grid-cols-3 lg:gap-10"
-        >
-          <div v-for="(img, index) in venue.photos" :key="img.pic.url + index">
-            <img
-              class="h-[350px] object-cover w-full"
-              :src="img.pic.url"
-              alt=""
-            />
-          </div>
+      <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
+        <section v-if="venue.photos" class="container mx-auto">
+          <h3 class="my-6 text-3xl">Pictures</h3>
+          <section
+            v-if="venue.photos.length > 0"
+            class="mx-2 flex flex-col gap-6 lg:grid lg:grid-cols-3 lg:gap-10"
+          >
+            <div
+              v-for="(img, index) in venue.photos"
+              :key="img.pic.url + index"
+            >
+              <img
+                class="h-[350px] object-cover w-full"
+                :src="img.pic.url"
+                alt=""
+              />
+            </div>
+          </section>
         </section>
       </section>
-
-      <h2 class="mt-4 text-3xl">History/Bio/Message</h2>
-      <div
-        v-if="venue.description && venue.description.split('\n')"
-        class="mt-6"
-      >
-        <p
-          v-for="(description, index) in venue.description.split('\n')"
-          :key="description + index"
-          class="mt-4 ext-lg px-2 md:text-2xl"
+      <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
+        <h2 class="mt-4 text-3xl">History/Bio/Message</h2>
+        <div
+          v-if="venue.description && venue.description.split('\n')"
+          class="mt-6"
         >
-          {{ description }}
-        </p>
-      </div>
-      <p v-else class="text-lg px-2 md:text-2xl">{{ venue.description }}</p>
+          <p
+            v-for="(description, index) in venue.description.split('\n')"
+            :key="description + index"
+            class="mt-4 ext-lg px-2 md:text-2xl"
+          >
+            {{ description }}
+          </p>
+        </div>
+        <p v-else class="text-lg px-2 md:text-2xl">{{ venue.description }}</p>
+      </section>
     </section>
-    <section class="container mx-auto px-2 sm:px-0">
+    <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
       <!-- date started , genre(if applicable ) location streetNumber zip streetName contact -->
       <h3 class="text-3xl my-4">Location</h3>
       <p v-if="venue.streetAddress && venue.city && venue.state">
@@ -136,7 +150,7 @@
         </p>
       </div> -->
       <div v-if="venue.dateOpened" class="mt-4">
-        <h3 class="text-3xl mb-4">Date Started</h3>
+        <h3 class="text-3xl mb-4">Date Opened</h3>
         <p class="text-xl">
           {{ venue.dateOpened }}
         </p>
@@ -152,14 +166,14 @@
         <!-- add show button -->
         <div v-if="user">
           <div
-            class="inline-flex items-center border-2 border-black px-4 py-2 cursor-pointer"
+            class="inline-flex items-center border-2 border-black px-4 py-2 cursor-pointer p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black"
             @click="addEventForm"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="25"
               height="25"
-              fill="currentColor"
+              fill="red"
               class="bi bi-plus-circle"
               viewBox="0 0 16 16"
             >
@@ -170,7 +184,9 @@
                 d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
               />
             </svg>
-            <h3 class="text-2xl sm:text-3xl pl-2">Add Show To Venue</h3>
+            <p class="text-2xl sm:text-xl font-bold pl-2 text-white">
+              Add Show To Venue
+            </p>
           </div>
         </div>
         <section v-if="eventForm" class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
@@ -491,7 +507,7 @@
     </section>
 
     <!-- comment box -->
-    <section class="container mx-auto">
+    <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
       <h2>Posts</h2>
       <section class="my-10">
         <!-- profileImg.url username, image -->
@@ -618,6 +634,7 @@ export default {
       postImage: '',
       finalPostImage: '',
       loading: false,
+      permission: false,
     }
   },
 
@@ -630,6 +647,7 @@ export default {
       this.venue = venue
       if (this.$strapi.user.id === venue.users_permissions_user.id) {
         this.user = this.$strapi.user.id
+        this.permission = true
       }
 
       this.events = venue.events

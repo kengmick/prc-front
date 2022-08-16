@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
-    <h1 class="main_red_text text-center">Create Your Venue Profile</h1>
+    <h1 class="main_red_text text-center">Edit Your Venue Profile</h1>
     <section class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
       <div class="w-full mt-6 mb-6">
         <FormulateForm v-model="formValues" @submit="submitForm">
@@ -31,7 +31,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
-              <FormulateInput
+              <!-- <FormulateInput
                 v-if="acc === 1"
                 name="contact"
                 type="text"
@@ -39,7 +39,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-              />
+              /> -->
             </div>
             <div class="w-full px-4 sm:w-1/2">
               <FormulateInput
@@ -69,7 +69,7 @@
               />
             </div>
           </div>
-          <section v-if="acc === 2" class="px-4 mt-10 sm:m-20">
+          <section class="px-4 mt-10 sm:m-20">
             <h2>Add Logo</h2>
             <div>
               <FormulateInput
@@ -99,8 +99,29 @@
                 @change="venueImgFile = $event.target.files[0]"
               />
             </div>
-            <h2 class="my-4">Add Photos</h2>
-            <FormulateInput
+            <h2 class="my-4">Edit Photos</h2>
+            <pre>{{ venue.photos }}</pre>
+            <section
+              v-if="venue.photos"
+              class="flex flex-col sm:flex-row justfity-center items-center"
+            >
+              <div v-for="photo in venue.photos" :key="photo.url">
+                <img :src="photo.pic.formats.thumbnail.url" alt="" />
+                <div
+                  class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-6 mb-2 bg-black text-white"
+                >
+                  Edit
+                </div>
+                <div
+                  class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mb-2 bg-black text-white"
+                >
+                  Delete
+                </div>
+              </div>
+            </section>
+            <!-- <pre>{{ venue.photos }}</pre> -->
+
+            <!-- <FormulateInput
               type="group"
               name="photos"
               :repeatable="true"
@@ -121,7 +142,7 @@
                   element-class="w-full sm:w-96 "
                 />
               </div>
-            </FormulateInput>
+            </FormulateInput> -->
             <h2 class="my-4">Add Contacts</h2>
             <div v-if="acc === 2">
               <FormulateInput

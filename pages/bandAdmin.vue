@@ -4,7 +4,6 @@
     <section v-if="band" class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
       <div class="w-full mt-6 mb-6">
         <FormulateForm v-model="formValues" @submit="submitForm">
-          <pre>{{ formValues.genreAlt }} {{ formValues.genre }} fdsfsd</pre>
           <div class="flex-col flex">
             <div class="w-full px-4">
               <FormulateInput

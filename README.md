@@ -2,6 +2,8 @@
 
 ### working on
 
+dude container class container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0
+button flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black
 make sure band videos work ... we only offer three
 
 build form
