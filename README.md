@@ -1,5 +1,7 @@
 # note
 
+https://www.youtube.com/watch?v=TkcSKWx9m04
+
 ### working on
 
 dude container class container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0

@@ -103,19 +103,22 @@
             <!-- <pre>{{ venue.photos }}</pre> -->
             <section
               v-if="venue.photos"
-              class="flex flex-col sm:flex-row justify-around items-center"
+              class="flex flex-col gap-6 items-center lg:grid lg:grid-cols-3 lg:gap-6"
             >
-              <div v-for="photo in venue.photos" :key="photo.url">
-                <img :src="photo.pic.formats.thumbnail.url" alt="" />
-                <div
-                  class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-6 mb-2 bg-black text-white"
-                >
-                  Edit
-                </div>
-                <div
-                  class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mb-2 bg-black text-white"
-                >
-                  Delete
+              <div
+                v-for="photo in venue.photos"
+                :key="photo.url"
+                class="max-w-[260px] h-auto"
+              >
+                <img class="w-[260px] h-[260px]" :src="photo.pic.url" alt="" />
+                <div class="px-4 flex items-center bg-black text-white h-16">
+                  <p
+                    class="pr-6 font-bold cursor-pointer"
+                    @click="editPicToggle(photo.id, photo.pic.url)"
+                  >
+                    Edit
+                  </p>
+                  <p class="font-bold cursor-pointer">Delete</p>
                 </div>
               </div>
             </section>
@@ -228,6 +231,41 @@
         </h3>
       </div>
     </section>
+    <!-- edit form here -->
+    <section
+      style="z-index: 99999999"
+      v-if="editPic"
+      class="fixed top-0 left-0 w-screen h-screen bg-black/50 flex justify-center items-center"
+    >
+      <section class="w-11/12 min-h-[66vh] bg-white py-12">
+        <h2 class="text-center">Edit Photo</h2>
+        <img :src="photoEdited" alt="" class="max-w-full mx-auto" />
+
+        <div class="mx-auto w-11/12">
+          <FormulateInput
+            v-if="!loadingPic"
+            type="image"
+            name="pic"
+            label="Edit image"
+            help="Select a png, jpg or gif to upload."
+            validation="mime:image/jpeg,image/png,image/gif,image/webp"
+            input-class="w-full sm:w-96 "
+            wrapper-class="w-full sm:w-96 "
+            element-class="w-full sm:w-96 "
+            @change="pic = $event.target.files[0]"
+          />
+          <div v-else class="flex justify-center items-center w-full">
+            <Spinner />
+          </div>
+        </div>
+        <div
+          @click="editPhoto(picId)"
+          class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black text-white"
+        >
+          Update
+        </div>
+      </section>
+    </section>
   </div>
 </template>
 
@@ -248,6 +286,13 @@ export default {
       changeProfile: false,
       acc: 1,
       loading: false,
+      editPic: false,
+      photoEdited: '',
+      photoEditedId: '',
+      pic: '',
+      image: '',
+      picId: null,
+      loadingPic: false,
     }
   },
   async mounted() {
@@ -270,6 +315,46 @@ export default {
     }
   },
   methods: {
+    editPicToggle(picId, picUrl) {
+      console.log(picUrl, 'this is the picture id ')
+      this.editPic = !this.editPic
+      this.photoEdited = picUrl
+      this.photoEditedId = picId
+      this.picId = picId
+    },
+    async editPhoto(picId) {
+      try {
+        this.loadingPic = true
+        const formData = new FormData()
+        await formData.append('files', this.pic)
+        const [image] = await this.$strapi.create('upload', formData)
+        this.image = image
+      } catch (error) {
+        this.loadingPic = false
+        console.log(error)
+        this.errorMessage =
+          'Sorry we could not edit your image ... please try again '
+      }
+      try {
+        this.loadingPic = true
+        // get all photos and filter one out and then add the new photo and then update the db
+        const filt = this.venue.photos.filter((p) => {
+          return p.id !== picId
+        })
+        filt.unshift({ pic: this.image })
+        const venue = await this.$strapi.update('venues', this.venue.id, {
+          photos: filt,
+        })
+        this.venue = venue
+        this.editPic = false
+      } catch (error) {
+        this.loadingPic = false
+        console.log(error)
+        this.errorMessage =
+          'Sorry, we could not edit the picute ... please try again'
+      }
+      this.loadingPic = false
+    },
     async submitForm() {
       this.loading = true
       // const pictures = []
@@ -338,8 +423,8 @@ export default {
         this.venue = venue
         this.loading = false
       } catch (error) {
-        this.errorMessage = 'Sorry ... please try again'
         this.loading = false
+        this.errorMessage = 'Sorry ... please try again'
         console.log('there was a problem in creating the venue ')
       }
       // after creation take user to band admin
