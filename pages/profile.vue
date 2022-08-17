@@ -235,7 +235,7 @@
       <div
         class="grid grid-cols-1 sm:grid sm:grid-cols-2 md:grid-cols-3 gap-10 items-center justify-center"
       >
-        <BandCard
+        <ProfileBandCard
           v-for="(band, index) in bands"
           :key="band.bandName + index"
           :band="band"
