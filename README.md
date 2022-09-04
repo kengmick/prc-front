@@ -1,5 +1,6 @@
 # note
 
+ability to add photos to venues and edit/ remove
 https://www.youtube.com/watch?v=TkcSKWx9m04
 
 ### working on

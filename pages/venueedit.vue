@@ -241,21 +241,21 @@
         <h2 class="text-center">Edit Photo</h2>
         <img :src="photoEdited" alt="" class="max-w-full mx-auto" />
 
-        <div class="mx-auto w-11/12">
-          <FormulateInput
-            v-if="!loadingPic"
-            type="image"
-            name="pic"
-            label="Edit image"
-            help="Select a png, jpg or gif to upload."
-            validation="mime:image/jpeg,image/png,image/gif,image/webp"
-            input-class="w-full sm:w-96 "
-            wrapper-class="w-full sm:w-96 "
-            element-class="w-full sm:w-96 "
-            @change="pic = $event.target.files[0]"
-          />
-          <div v-else class="flex justify-center items-center w-full">
-            <Spinner />
+        <div class="flex justify-center w-ful">
+          <div class="w-auto">
+            <FormulateInput
+              v-if="!loadingPic"
+              type="image"
+              name="pic"
+              label="Edit image"
+              help="Select a png, jpg or gif to upload."
+              validation="mime:image/jpeg,image/png,image/gif,image/webp"
+              input-class=""
+              @change="pic = $event.target.files[0]"
+            />
+            <div v-else class="flex justify-center items-center w-full">
+              <Spinner />
+            </div>
           </div>
         </div>
         <div
@@ -263,6 +263,12 @@
           class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black text-white"
         >
           Update
+        </div>
+        <div
+          @click="cancelEdit"
+          class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black text-white"
+        >
+          Cancel
         </div>
       </section>
     </section>
@@ -321,6 +327,9 @@ export default {
       this.photoEdited = picUrl
       this.photoEditedId = picId
       this.picId = picId
+    },
+    cancelEdit() {
+      this.editPic = false
     },
     async editPhoto(picId) {
       try {

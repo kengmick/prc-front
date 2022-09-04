@@ -32,6 +32,9 @@
           >View Venue</NuxtLink
         >
       </div>
+      <div class="main_red_text chedder px-4 py-2 border-2 border-black">
+        Delete
+      </div>
     </NuxtLink>
   </div>
 </template>

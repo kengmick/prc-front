@@ -46,9 +46,9 @@
     <!-- <section class="my-10">
       <Gallery />
     </section> -->
-    <section>
+    <!-- <section>
       <NewsLetterCta />
-    </section>
+    </section> -->
   </div>
 </template>
 
@@ -75,7 +75,7 @@ export default {
     }
     try {
       this.liveStream = await this.$http.$get(
-        `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${this.liveUrl}&key=AIzaSyAWavt-2FzH79KfI0zaqMYltq-pVAusE1Q`
+        `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${this.liveUrl}&key=${process.env.YOUTUBE_KEY}`
       )
       if (this.liveStream.items) {
         if (this.liveStream.items[0].snippet.liveBroadcastContent !== 'none') {

@@ -7,6 +7,7 @@
         <FormulateForm v-model="formValues" @submit="submitForm">
           <div class="flex-col sm:flex sm:flex-row">
             <div class="w-full px-4 sm:w-1/2">
+              <h3 class="m-auto sm:w-4/5">Band Details</h3>
               <FormulateInput
                 name="bandName"
                 label="What is the band name"
@@ -51,6 +52,13 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+              <FormulateInput
+                name="recordLabel"
+                label="Record label?"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
               <!-- <FormulateInput
                 name="bandEmail"
                 label="Band email?"
@@ -70,6 +78,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+              <h3 class="sm:w-4/5 m-auto">Location</h3>
               <FormulateInput
                 name="country"
                 label="Country other than USA?"
@@ -91,14 +100,6 @@
                 "
                 name="state"
                 label="Home state?"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              />
-
-              <FormulateInput
-                name="recordLabel"
-                label="Record label?"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
@@ -223,10 +224,10 @@
             <!-- <div v-if="image">
               <img :src="image[0].url" alt="fdsfadsf" />
             </div> -->
-            <h2 v-if="acc === 2" class="text-center mb-10 mt-4">
+            <!-- <h2 v-if="acc === 2" class="text-center mb-10 mt-4">
               Add Previous Shows Played (optional)
-            </h2>
-            <FormulateInput
+            </h2> -->
+            <!-- <FormulateInput
               v-if="acc === 2"
               type="group"
               name="oldShows"
@@ -263,7 +264,7 @@
                   element-class="w-full"
                 />
               </div>
-            </FormulateInput>
+            </FormulateInput> -->
             <h2 v-if="acc === 2">Add Photos</h2>
             <FormulateInput
               v-if="acc === 2"

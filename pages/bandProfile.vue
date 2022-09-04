@@ -60,7 +60,7 @@
       </div>
       <section
         v-if="band.photos"
-        class="flex flex-col gap-4 sm:grid sm:grid-cols-3 sm:container sm:mx-auto w-full md:w-1/2 sm:gap-4"
+        class="flex flex-col gap-4 sm:grid sm:grid-cols-2 sm:container sm:mx-auto w-full md:w-1/2 sm:gap-4"
       >
         <div v-for="(pic, index) in band.photos" :key="pic + index">
           <img

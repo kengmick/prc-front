@@ -239,6 +239,7 @@
           v-for="(band, index) in bands"
           :key="band.bandName + index"
           :band="band"
+          @removedBand="updateData"
         />
       </div>
     </section>
@@ -325,6 +326,12 @@
                   class="border-2 border-black px-4 py-2"
                   >View Event</NuxtLink
                 >
+                <div
+                  class="border-2 border-black ml-4 px-4 py-2"
+                  @click="removeData('events', event.id)"
+                >
+                  Delete
+                </div>
               </div>
             </div>
           </div>
@@ -753,6 +760,22 @@ export default {
   },
   methods: {
     moment,
+    async removeData(data, dataId) {
+      console.log('remove data ', data, dataId)
+      await this.$strapi.delete([data], dataId)
+      const e = await this.$strapi.find([data])
+      this[data] = e
+    },
+    async updateData(data) {
+      try {
+        const d = await this.$strapi.find([data], {
+          users_permissions_user: this.$strapi.user.id,
+        })
+        this[data] = d
+      } catch (error) {
+        this.error = 'sorry ... something went wrong distros'
+      }
+    },
     cancelUpdate: function () {
       this.updateForm = false
     },
