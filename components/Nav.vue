@@ -74,9 +74,9 @@
         <div>
           <NuxtLink class="chedder text-2xl" to="/tours">Tours</NuxtLink>
         </div>
-        <div>
+        <!-- <div>
           <NuxtLink class="chedder text-2xl" to="/podcast">Podcast</NuxtLink>
-        </div>
+        </div> -->
         <div>
           <NuxtLink class="chedder text-2xl" to="/Classifieds"
             >Classifieds</NuxtLink
@@ -169,9 +169,9 @@
       <!-- <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/merch">Merch</NuxtLink>
       </div> -->
-      <div @click="toggleMenu">
+      <!-- <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/podcast">Podcast</NuxtLink>
-      </div>
+      </div> -->
       <div v-if="$strapi.user" @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/profile">profile</NuxtLink>
       </div>
