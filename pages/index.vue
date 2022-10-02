@@ -69,28 +69,30 @@ export default {
       const link = await this.$strapi.find('live-stream')
       console.log(link.streamLink, 'from the db')
       this.liveUrl = link.streamLink
+      this.video = 'zLZ2IT4ly9A'
+      this.loading = false
     } catch (error) {
       this.loading = false
       console.log(error)
     }
-    try {
-      this.liveStream = await this.$http.$get(
-        `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${this.liveUrl}&key=${process.env.YOUTUBE_KEY}`
-      )
-      if (this.liveStream.items) {
-        if (this.liveStream.items[0].snippet.liveBroadcastContent !== 'none') {
-          console.log(this.liveStream.items)
-          this.loading = false
-          this.video = this.liveStream.items[0].id
-        } else {
-          this.video = 'jqsFw354asc'
-          this.loading = false
-          console.log(this.video, ' final video ')
-        }
-      }
-    } catch (error) {
-      this.loading = false
-    }
+    //   try {
+    //     this.liveStream = await this.$http.$get(
+    //       `https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${this.liveUrl}&key=${process.env.YOUTUBE_KEY}`
+    //     )
+    //     if (this.liveStream.items) {
+    //       if (this.liveStream.items[0].snippet.liveBroadcastContent !== 'none') {
+    //         console.log(this.liveStream.items, 'youtube api call')
+    //         this.loading = false
+    //         this.video = this.liveStream.items[0].id
+    //       } else {
+    //         this.video = 'LymYPAMnbMI'
+    //         this.loading = false
+    //         console.log(this.video, ' final video ')
+    //       }
+    //     }
+    //   } catch (error) {
+    //     this.loading = false
+    //   }
   },
   async mounted() {
     try {
