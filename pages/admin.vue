@@ -2,7 +2,9 @@
   <div>
     <section v-if="superman">
       <h1 class="text-center text-main-red">Admin</h1>
-
+      <section class="flex justify-center mt-8">
+        <h3 class="text-2xl">current video {{ liveStream }}</h3>
+      </section>
       <section class="flex justify-center items-center w-full my-10">
         <FormulateForm v-model="formValues" @submit="submit">
           <FormulateInput
@@ -23,6 +25,7 @@
             wrapper-class="flex justify-center mt-6"
           />
         </FormulateForm>
+
         <p v-if="updated">Your video has been updated</p>
       </section>
     </section>

@@ -56,8 +56,13 @@ export default {
           identifier: this.formValues.identifier,
           password: this.formValues.password,
         })
-        this.$router.push('/profile')
-        this.loading = false
+        if (this.formValues.identifier === 'superman') {
+          this.$router.push('/admin')
+          this.loading = false
+        } else {
+          this.$router.push('/profile')
+          this.loading = false
+        }
       } catch (error) {
         this.loading = false
         this.formValues = {}

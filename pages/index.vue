@@ -69,7 +69,7 @@ export default {
       const link = await this.$strapi.find('live-stream')
       console.log(link.streamLink, 'from the db')
       this.liveUrl = link.streamLink
-      this.video = 'zLZ2IT4ly9A'
+      this.video = link.streamLink || 'zLZ2IT4ly9A'
       this.loading = false
     } catch (error) {
       this.loading = false
