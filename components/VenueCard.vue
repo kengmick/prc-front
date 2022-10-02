@@ -2,10 +2,10 @@
   <div
     class="rounded-md shadow-md transition-all duration-200 hover:scale-105 h-[500px]"
   >
+    <div class="h-1/6">
+      <p class="chedder text-2xl main_red_text p-6">{{ venue.name }}</p>
+    </div>
     <NuxtLink :to="{ path: 'venueprofile', query: { venue: venue.id } }">
-      <div class="h-1/6">
-        <p class="chedder text-2xl main_red_text p-6">{{ venue.name }}</p>
-      </div>
       <div v-if="venue.venueImg" class="w-full h-3/6">
         <img
           class="h-full w-full object-cover"
@@ -13,29 +13,34 @@
           alt=""
         />
       </div>
+
       <div
         v-else
         class="w-full h-3/6 flex justify-center items-center bg-black"
       >
         <img src="~static/imageIcon.svg" alt="" />
       </div>
-      <div v-if="venue.description" class="h-1/6 pl-6 flex items-center">
-        <p>{{ venue.description.split(' ').slice(0, 10).join(' ') }} ...</p>
-      </div>
-      <div v-else class="h-1/6 pl-6 flex items-center">
-        <p>{{ venue.description }}</p>
-      </div>
-      <div class="h-1/6 pl-6 flex items-center">
-        <NuxtLink
-          class="main_red_text chedder px-4 py-2 border-2 border-black"
-          :to="{ path: 'venueprofile', query: { venue: venue.id } }"
-          >View Venue</NuxtLink
-        >
-      </div>
-      <div class="main_red_text chedder px-4 py-2 border-2 border-black">
+    </NuxtLink>
+    <div v-if="venue.description" class="h-1/6 pl-6 flex items-center">
+      <p>{{ venue.description.split(' ').slice(0, 10).join(' ') }} ...</p>
+    </div>
+    <div v-else class="h-1/6 pl-6 flex items-center">
+      <p>{{ venue.description }}</p>
+    </div>
+    <div class="h-1/6 pl-6 flex items-center">
+      <NuxtLink
+        class="chedder px-4 py-2 border-2 border-black"
+        :to="{ path: 'venueprofile', query: { venue: venue.id } }"
+        >View Venue</NuxtLink
+      >
+      <!-- emits event to parent with dataType and id  -->
+      <div
+        class="chedder border-2 border-black ml-4 px-4 py-2"
+        @click="removeVenue('venues', venue.id)"
+      >
         Delete
       </div>
-    </NuxtLink>
+    </div>
   </div>
 </template>
 
@@ -53,6 +58,16 @@ export default {
       default() {
         return false
       },
+    },
+  },
+  data() {
+    return {
+      popUp: false,
+    }
+  },
+  methods: {
+    removeVenue() {
+      this.$emit('removeVenue', 'venues', this.venue.id)
     },
   },
 }

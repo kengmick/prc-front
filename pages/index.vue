@@ -40,6 +40,11 @@
       <h2 class="chedder text-center text-5xl">Featured Event</h2>
       <FeaturedEvent v-if="event" :event="event" />
     </section> -->
+    <section class="my-10 container mx-auto">
+      <div class="w-11/12 sm:w-1/2 mx-auto" @click="route">
+        <Button text="View All Bands" />
+      </div>
+    </section>
     <section class="my-10">
       <Cta />
     </section>
@@ -72,6 +77,7 @@ export default {
       this.video = link.streamLink || 'zLZ2IT4ly9A'
       this.loading = false
     } catch (error) {
+      this.video = 'zLZ2IT4ly9A'
       this.loading = false
       console.log(error)
     }
@@ -96,7 +102,8 @@ export default {
   },
   async mounted() {
     try {
-      this.bands = await this.$strapi.find('bands')
+      const allBands = await this.$strapi.find('bands')
+      this.bands = allBands.slice(0, 3)
       this.event = await this.$strapi.find('featured-event')
     } catch (error) {
       return error
@@ -105,6 +112,10 @@ export default {
   methods: {
     log() {
       console.log('this is the event emited ')
+    },
+    route() {
+      console.log('route method')
+      this.$router.push('/bands')
     },
   },
 }

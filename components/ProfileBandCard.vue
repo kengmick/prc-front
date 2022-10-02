@@ -52,7 +52,7 @@
         <!-- band image  -->
         <div v-if="band.bandProfileImg" class="w-auto mx-auto">
           <img
-            class="w-full h-full mx-auto sm:w-11/12 sm:h-[30%] md:max-h-[300px] md:w-auto"
+            class="w-auto h-[40vh] mx-auto sm:w-11/12 sm:h-[30%] md:max-h-[300px] md:w-auto"
             :src="band.bandProfileImg.url"
             alt=""
           />

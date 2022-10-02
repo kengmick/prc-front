@@ -328,7 +328,7 @@
                 >
                 <div
                   class="border-2 border-black ml-4 px-4 py-2"
-                  @click="removeData('events', event.id)"
+                  @click="openPopUp('events', event.id)"
                 >
                   Delete
                 </div>
@@ -415,6 +415,12 @@
                   class="border-2 border-black px-4 py-2"
                   >View Tour</NuxtLink
                 >
+                <div
+                  class="border-2 border-black ml-4 px-4 py-2"
+                  @click="openPopUp('tours', event.id)"
+                >
+                  Delete
+                </div>
               </div>
             </div>
           </div>
@@ -466,6 +472,7 @@
           v-for="(venue, index) in venues"
           :key="venue.title + index"
           :venue="venue"
+          @removeVenue="openPopUp"
         />
         <div />
       </div>
@@ -505,7 +512,60 @@
       </div>
     </div>
     <!-- Show Classified -->
-
+    <section class="container mx-auto my-6">
+      <section
+        v-if="classifieds"
+        class="container mx-auto px-4 flex flex-col items-start"
+      >
+        <div
+          v-for="article in classifieds"
+          :key="article.title"
+          class="my-6 flex flex-col sm:block sm:text-left"
+        >
+          <nuxtLink
+            :to="{ path: 'classifiedview', query: { article: article.id } }"
+            class="chedder text-2xl underline underline-offset-2 text-blue-700 hover:text-red-700"
+          >
+            <span class="block py-6 sm:inline sm:py-0 text-black pr-6">{{
+              moment(String(article.created_at)).format('MMM Do YY')
+            }}</span>
+            <p>{{ article.title }}</p>
+            <span
+              v-if="article.city || article.state"
+              class="block py-6 sm:inline sm:py-0 sm:pl-6 text-black"
+              >({{ article.city }}, {{ article.state }})</span
+            >
+          </nuxtLink>
+          <span
+            class="mt-4 text-center border-2 border-black w-[100px] sm:ml-4 sm:px-4 py-2 sm:mt-0"
+            @click="openPopUp('classifieds', article.id)"
+          >
+            Delete
+          </span>
+        </div>
+      </section>
+      <!-- <div
+        class="flex items-center"
+        v-for="classified in classifieds"
+        :key="classified.title"
+      >
+        <h3 class="pr-8">{{ classified.title }}</h3>
+        <NuxtLink
+          :to="{
+            path: 'classifieds',
+            query: { classifieds: classified.id },
+          }"
+          class="border-2 border-black px-4 py-2"
+          >View Tour</NuxtLink
+        >
+        <div
+          class="border-2 border-black ml-4 px-4 py-2"
+          @click="openPopUp('classifieds', classified.id)"
+        >
+          Delete
+        </div>
+      </div> -->
+    </section>
     <!-- add release button  -->
 
     <!-- show releases if has relases  -->
@@ -542,8 +602,8 @@
         </div>
       </div>
     </section> -->
-
-    <section v-if="releases" class="container mx-auto">
+    <!-- releases section  -->
+    <!-- <section v-if="releases" class="container mx-auto">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
         <div
           v-for="r in releases"
@@ -557,14 +617,14 @@
             <div v-else class="flex items-center justify-center bg-black">
               <img class="h-20 w-20" src="~/static/imageIcon.svg" alt="" />
             </div>
-            <!-- card content -->
+           
             <div>
               <p class="chedder text-2xl">{{ r.title }}</p>
             </div>
           </NuxtLink>
         </div>
       </div>
-    </section>
+    </section> -->
     <!-- This is where releases go  -->
     <!-- <section class="container mx-auto">
       <p>No Releases</p>
@@ -603,7 +663,7 @@
       </div>
     </div> -->
 
-    <section v-if="distros" class="container mx-auto">
+    <!-- <section v-if="distros" class="container mx-auto">
       <div>
         <div v-for="d in distros" :key="d.name">
           <div v-if="d.distroImage">
@@ -614,7 +674,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
     <section
       v-if="loading"
       class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
@@ -634,6 +694,40 @@
           Close X
         </h3>
       </div>
+    </section>
+    <section
+      v-if="popUp"
+      style="z-index: 99999999"
+      class="fixed top-0 left-0 w-screen h-screen bg-black/50 flex justify-center items-center"
+    >
+      <section
+        class="w-11/12 min-h-[50vh] bg-white py-12 sm:w-2/5 md:min-h-[40vh] lg:w-1/3 xl:1/4 shadow-md"
+      >
+        <!-- band image  -->
+        <!-- <div v-if="band.bandProfileImg" class="w-auto mx-auto">
+          <img
+            class="w-full h-full mx-auto sm:w-11/12 sm:h-[30%] md:max-h-[300px] md:w-auto"
+            :src="band.bandProfileImg.url"
+            alt=""
+          />
+          <h2 class="text-center text-4xl mt-4">{{ band.bandName }}</h2>
+        </div> -->
+        <!-- title -->
+        <div class="w-auto mx-auto">
+          <h2 class="text-lg md:text-2xl text-center">{{ popUpTitle }}</h2>
+        </div>
+        <div
+          class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black"
+          @click="removeData(dataType, dataId)"
+        >
+          <p class="text-white">Remove Permanently</p>
+        </div>
+        <div
+          class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black"
+        >
+          <p class="text-white" @click="closePopup">Cancel</p>
+        </div>
+      </section>
     </section>
   </div>
 </template>
@@ -664,6 +758,10 @@ export default {
       user: {},
       loading: false,
       errorMessage: '',
+      popUp: false,
+      popUpTitle: '',
+      dataType: '',
+      dataId: '',
     }
   },
   async mounted() {
@@ -744,9 +842,11 @@ export default {
       this.error = 'sorry ... something went wrong venues'
     }
     try {
-      this.classifieds = await this.$strapi.find('classifieds', {
+      const classifieds = await this.$strapi.find('classifieds', {
         users_permissions_user: this.$strapi.user.id,
       })
+      this.classifieds = classifieds
+      console.log(classifieds)
     } catch (error) {
       this.error = 'sorry ... something went wrong classified'
     }
@@ -760,11 +860,34 @@ export default {
   },
   methods: {
     moment,
+
+    async openPopUp(dataType, dataId) {
+      // get the data image and title
+      this.dataType = dataType
+      this.dataId = dataId
+      const d = await this.$strapi.findOne([dataType], dataId)
+      if (
+        dataType === 'events' ||
+        dataType === 'tours' ||
+        dataType === 'classifieds'
+      ) {
+        this.popUpTitle = d.title
+      }
+      if (dataType === 'venues') {
+        this.popUpTitle = d.name
+      }
+      console.log(d, dataType, 'this is the data ')
+      this.popUp = true
+    },
+    closePopup() {
+      this.popUp = false
+    },
     async removeData(data, dataId) {
       console.log('remove data ', data, dataId)
       await this.$strapi.delete([data], dataId)
       const e = await this.$strapi.find([data])
       this[data] = e
+      this.popUp = false
     },
     async updateData(data) {
       try {

@@ -71,11 +71,14 @@
         </div>
       </section>
       <!-- The announcements component -->
-      <div class="sm:container sm:mx-auto w-full md:w-1/2 mt-6">
+      <div
+        v-if="band.announcements.length > 0"
+        class="sm:container sm:mx-auto w-full md:w-1/2 mt-6"
+      >
         <h2 class="text-center sm:text-left">Announcements</h2>
       </div>
       <section
-        v-if="band.announcements.length > 0 && $strapi.user.acc === 2"
+        v-if="band.announcements.length > 0"
         class="sm:container sm:mx-auto w-full md:w-1/2 mt-6"
       >
         <Announcement
@@ -85,9 +88,9 @@
           :announcements="band.announcements"
         />
       </section>
-      <section v-else class="sm:container sm:mx-auto w-full md:w-1/2 mt-6">
+      <!-- <section v-else class="sm:container sm:mx-auto w-full md:w-1/2 mt-6">
         <p>there are no announcements at this time</p>
-      </section>
+      </section> -->
       <section
         v-if="permission"
         class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0"
@@ -124,9 +127,9 @@
 
       <section class="container w-full px-4 xl:w-1/2 mx-auto mt-6 sm:px-0">
         <!-- logo here -->
-        <h2 class="text-center sm:text-left chedder text-black mb-6">
+        <!-- <h2 class="text-center sm:text-left chedder text-black mb-6">
           Band Details
-        </h2>
+        </h2> -->
         <div class="flex flex-col sm:flex-row items-center mb-4">
           <!-- col one of details  -->
           <div class="w-full mb-6 sm:w-3/4 flex">
@@ -287,7 +290,7 @@
         </div>
       </section>
       <!-- Songs  -->
-      <section class="container mx-auto xl:w-1/2">
+      <section v-if="band.tracks.length > 0" class="container mx-auto xl:w-1/2">
         <h2 class="text-center sm:text-left">Songs</h2>
       </section>
 
@@ -297,7 +300,7 @@
           class="mb-12"
           :tracks="band.tracks"
         />
-        <p>No songs uploaded</p>
+
         <TrackForm
           :band="band"
           :show="trackForm"
@@ -355,7 +358,10 @@
       </section>
       <!-- end of songs  -->
       <!-- This is were videos live  -->
-      <section class="container mx-auto xl:w-1/2">
+      <section
+        v-if="band.video1 || band.video2 || band.video3"
+        class="container mx-auto xl:w-1/2"
+      >
         <h2 class="text-center sm:text-left">Videos</h2>
       </section>
       <section class="container w-full px-4 sm:px-0 mx-auto xl:w-1/2">
@@ -508,10 +514,12 @@
       </section>
 
       <section class="container w-full px-4 sm:px-0 xl:w-1/2 mx-auto">
-        <h2 class="text-center sm:text-left chedder text-black">Showz</h2>
-        <p v-if="events.length === 0" class="text-center sm:text-left mb-6">
-          No Showz Coming up
-        </p>
+        <h2
+          v-if="events.length > 0"
+          class="text-center sm:text-left chedder text-black"
+        >
+          Showz
+        </h2>
         <section v-if="permission" class="container mx-auto mb-6">
           <div
             class="flex-grow flex items-center my-12 w-full cursor-pointer bg-black"
@@ -905,14 +913,10 @@
           </div>
         </section> -->
         <!-- shows, releases(historic information): photos, title, reacord label, date released, album, song(playable ) | merch  -->
-        <section id="releases">
+        <section v-if="band.releases.length > 0" id="releases">
           <h2 class="text-center sm:text-left chedder text-black mb-6">
             Releases
           </h2>
-          <div
-            v-if="band.releases.length > 0"
-            class="text-3xl chedder main_red_text chedder pb-2"
-          ></div>
           <div v-if="band.releases">
             <section
               v-if="band.releases.length > 0 && !editRelease"
@@ -970,7 +974,6 @@
               </div>
             </section>
           </div>
-          <h3 v-else>No Releases</h3>
           <!-- edit release -->
           <section v-if="editRelease">
             <!-- add release to be edited here -->
