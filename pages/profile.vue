@@ -885,7 +885,9 @@ export default {
     async removeData(data, dataId) {
       console.log('remove data ', data, dataId)
       await this.$strapi.delete([data], dataId)
-      const e = await this.$strapi.find([data])
+      const e = await this.$strapi.find([data], {
+        users_permissions_user: this.$strapi.user.id,
+      })
       this[data] = e
       this.popUp = false
     },
