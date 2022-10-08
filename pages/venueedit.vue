@@ -118,7 +118,7 @@
                   >
                     Edit
                   </p>
-                  <p class="font-bold cursor-pointer">Delete</p>
+                  <DeletePhoto @click="logTest" />
                 </div>
               </div>
             </section>
@@ -259,7 +259,7 @@
           </div>
         </div>
         <div
-          @click="editPhoto(picId)"
+          @click="deletePhotoPopup"
           class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black text-white"
         >
           Update
@@ -276,7 +276,9 @@
 </template>
 
 <script>
+import DeletePhoto from '~/components/DeletePhoto.vue'
 export default {
+  components: { DeletePhoto },
   data() {
     return {
       formValues: {},
@@ -299,6 +301,7 @@ export default {
       image: '',
       picId: null,
       loadingPic: false,
+      removePhotoPopup: false,
     }
   },
   async mounted() {
@@ -321,12 +324,21 @@ export default {
     }
   },
   methods: {
+    deletePhotoPopup() {
+      this.removePhotoPopup = true
+    },
+    cancelDeletePhoto() {
+      this.removePhotoPopup = false
+    },
     editPicToggle(picId, picUrl) {
       console.log(picUrl, 'this is the picture id ')
       this.editPic = !this.editPic
       this.photoEdited = picUrl
       this.photoEditedId = picId
       this.picId = picId
+    },
+    logTest() {
+      console.log('this is the delete componet ....')
     },
     cancelEdit() {
       this.editPic = false

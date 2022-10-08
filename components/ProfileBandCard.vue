@@ -8,9 +8,14 @@
         <div
           class="flex items-center bg-black absolute bottom-0 w-full px-4 py-8"
         >
-          <h2 class="text-2xl text-white flex-grow">
-            {{ band.bandName }}
-          </h2>
+          <NuxtLink
+            class="flex-grow"
+            :to="{ path: '/bandprofile', query: { band: band.id } }"
+          >
+            <h2 class="text-2xl text-white">
+              {{ band.bandName }}
+            </h2>
+          </NuxtLink>
 
           <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
             <h2 class="text-2xl text-white">View Profile</h2>
@@ -58,14 +63,17 @@
           />
           <h2 class="text-center text-4xl mt-4">{{ band.bandName }}</h2>
         </div>
+        <div v-else class="w-auto mx-auto">
+          <h2 class="text-center text-4xl mt-4">{{ band.bandName }}</h2>
+        </div>
         <div
           @click="removeBandFuction(band.id)"
-          class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black"
+          class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black cursor-pointer"
         >
           <p class="text-white">Remove Permanently</p>
         </div>
         <div
-          class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black"
+          class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black cursor-pointer"
         >
           <p @click="cancelRemoveBand" class="text-white">Cancel</p>
         </div>

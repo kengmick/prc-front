@@ -327,7 +327,7 @@
                   >View Event</NuxtLink
                 >
                 <div
-                  class="border-2 border-black ml-4 px-4 py-2"
+                  class="border-2 border-black ml-4 px-4 py-2 cursor-pointer"
                   @click="openPopUp('events', event.id)"
                 >
                   Delete
@@ -416,7 +416,7 @@
                   >View Tour</NuxtLink
                 >
                 <div
-                  class="border-2 border-black ml-4 px-4 py-2"
+                  class="border-2 border-black ml-4 px-4 py-2 cursor-pointer"
                   @click="openPopUp('tours', event.id)"
                 >
                   Delete
@@ -537,7 +537,7 @@
             >
           </nuxtLink>
           <span
-            class="mt-4 text-center border-2 border-black w-[100px] sm:ml-4 sm:px-4 py-2 sm:mt-0"
+            class="mt-4 text-center border-2 border-black w-[100px] sm:ml-4 sm:px-4 py-2 sm:mt-0 cursor-pointer"
             @click="openPopUp('classifieds', article.id)"
           >
             Delete
@@ -717,13 +717,13 @@
           <h2 class="text-lg md:text-2xl text-center">{{ popUpTitle }}</h2>
         </div>
         <div
-          class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black"
+          class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black cursor-pointer"
           @click="removeData(dataType, dataId)"
         >
           <p class="text-white">Remove Permanently</p>
         </div>
         <div
-          class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black"
+          class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black cursor-pointer"
         >
           <p class="text-white" @click="closePopup">Cancel</p>
         </div>
