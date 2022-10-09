@@ -1,7 +1,8 @@
 <template>
+  <!-- add error message on emit function -->
   <!-- component to delete photos on any profile page with photos  -->
-  <div @click="deletePhoto">
-    <p>delete component</p>
+  <div @click="removePhotoFunction">
+    <p>delete Photo</p>
   </div>
 </template>
 
@@ -13,11 +14,23 @@ export default {
       default: () => {
         return null
       },
-      dataType: {
-        type: String,
-        defalut: () => {
-          return ''
-        },
+    },
+    name: {
+      type: String,
+      default: () => {
+        return ''
+      },
+    },
+    dataType: {
+      type: String,
+      default: () => {
+        return ''
+      },
+    },
+    data: {
+      type: Object,
+      default: () => {
+        return {}
       },
     },
   },
@@ -26,11 +39,25 @@ export default {
     removePhoto() {
       this.popUp = true
     },
+
     // take a data type for the db and the photo Id to be removed
-    async removePhotoFuction(photoId, dataType) {
-      await this.$strapi.delete(dataType, photoId)
-      this.$emit('removedBand', 'bands')
-      this.popUp = false
+    async removePhotoFunction() {
+      try {
+        // get all photos and filter one out and return a new array of photos
+        const filt = this.data[this.name].filter((p) => {
+          console.log(p.id, 'this needs to be removed', this.photoId)
+          return p.id !== this.photoId
+        })
+        console.log(filt)
+        const venue = await this.$strapi.update('venues', this.data.id, {
+          photos: filt,
+        })
+        const v = venue
+        this.$emit('removePhoto', v)
+        console.log(v, 'this is the updated venue')
+      } catch (error) {
+        console.log(error)
+      }
     },
   },
 }

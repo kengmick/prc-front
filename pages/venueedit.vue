@@ -118,7 +118,14 @@
                   >
                     Edit
                   </p>
-                  <DeletePhoto @click="logTest" />
+                  <DeletePhoto
+                    class="cursor-pointer"
+                    :data="venue"
+                    dataType="venues"
+                    name="photos"
+                    :photoId="photo.id"
+                    @removePhoto="deletedPhoto"
+                  />
                 </div>
               </div>
             </section>
@@ -324,6 +331,13 @@ export default {
     }
   },
   methods: {
+    deletedPhoto(ven) {
+      try {
+        this.venue = ven
+      } catch (error) {
+        console.log(error)
+      }
+    },
     deletePhotoPopup() {
       this.removePhotoPopup = true
     },
