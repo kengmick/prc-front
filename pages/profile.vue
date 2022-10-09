@@ -199,6 +199,42 @@
     <!-- <Price /> -->
     <!-- Add Bands  -->
     <h2 class="text-center chedder main_red_text">Create Your Content</h2>
+    <div class="mx-auto container">
+      <h2
+        class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
+      >
+        Your Internal Messages
+      </h2>
+      <div v-if="chats">
+        <!-- chat html  -->
+        <!-- chat card container -->
+        <div v-for="(chat, index) in chats" :key="index" class="flex">
+          <NuxtLink :to="{ path: '/chats', query: { chat: chat.id } }">
+            <div>
+              <!-- image -->
+              <div v-if="chat.bandProfile.bandProfileImg" class="pr-8">
+                <img
+                  :src="chat.bandProfile.bandProfileImg.formats.thumbnail.url"
+                  alt=""
+                />
+              </div>
+            </div>
+          </NuxtLink>
+          <!-- text container -->
+          <div>
+            <p class="pb-6">
+              Messages with {{ chat.bandProfile.bandName }} from ...
+              <span v-for="from in chat.users_permissions_users" :key="from">
+                <span v-if="from.id !== $strapi.user.id"
+                  >{{ from.username }}
+                </span></span
+              >
+            </p>
+            <p>Number of messages {{ chat.messages.length }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="container mx-auto">
       <h2
         class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
@@ -762,9 +798,20 @@ export default {
       popUpTitle: '',
       dataType: '',
       dataId: '',
+      chats: [],
     }
   },
   async mounted() {
+    // Chats
+    try {
+      const chats = await this.$strapi.find('chats', {
+        users_permissions_users: this.$strapi.user.id,
+      })
+      console.log('chats =========', chats)
+      this.chats = chats
+    } catch (error) {
+      console.log('error is user', error)
+    }
     try {
       const user = await this.$strapi.findOne('users', this.$strapi.user.id)
       console.log(user)

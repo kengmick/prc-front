@@ -25,31 +25,51 @@
         </div>
         <!-- end header of card -->
         <!-- innder container for card info -->
+        <!-- basic info component -->
         <section class="p-[16px]">
-          <!-- basic info component -->
           <section class="flex flex-col md:flex-row gap-[16px]">
             <!-- contact and location  -->
-            <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
-              <div
-                class="w-full h-full md:w-[238px] md:h-[160px] border-4 p-[16px] border-black bg-white flex flex-col justify-center"
+
+            <div
+              class="w-full h-full md:w-[238px] md:h-[160px] border-4 p-[16px] border-black bg-white flex flex-col justify-center"
+            >
+              <NuxtLink
+                :to="{ path: '/bandprofile', query: { band: band.id } }"
               >
                 <p v-if="band.genre" class="card_basic_info_text chedder">
                   {{ band.genre }}
                 </p>
-                <p v-if="band.gereAlt" class="card_basic_info_text chedder">
-                  {{ band.genreAlt }}
+              </NuxtLink>
+              <NuxtLink
+                :to="{ path: '/bandprofile', query: { band: band.id } }"
+              >
+                <p v-if="band.genreAlt" class="card_basic_info_text chedder">
+                  Punk/{{ band.genreAlt }}
                 </p>
+              </NuxtLink>
+              <NuxtLink
+                :to="{ path: '/bandprofile', query: { band: band.id } }"
+              >
                 <p
                   v-if="band.city && band.state"
                   class="card_basic_info_text chedder"
                 >
                   {{ band.city }}, {{ band.state }}
                 </p>
+              </NuxtLink>
+              <NuxtLink
+                :to="{ path: '/bandprofile', query: { band: band.id } }"
+              >
                 <p v-if="band.dateStarted" class="card_basic_info_text chedder">
                   {{ band.dateStarted }}
                 </p>
-              </div>
-            </NuxtLink>
+              </NuxtLink>
+              <NuxtLink
+                :to="{ path: '/bandprofile', query: { band: band.id } }"
+              >
+                <p class="card_basic_info_text chedder">Internal Messaging</p>
+              </NuxtLink>
+            </div>
             <!-- secondary info box -->
             <div
               class="w-full h-full md:w-[144px] md:h-[200px] border-4 p-[16px] border-black bg-white flex flex-col justify-center"
@@ -381,7 +401,7 @@ export default {
   background: red;
 }
 .card_basic_info_text {
-  font-size: 27px;
+  font-size: 24px;
 }
 
 .modal {
