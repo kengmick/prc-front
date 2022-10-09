@@ -1,8 +1,10 @@
 <template>
   <div>
-    <h1>Internal Messages</h1>
     <section class="mx-auto container">
-      <p>This is where the internal messages will be displayed</p>
+      <Title title="Internal Messages" />
+      <p class="text-center">
+        This is where the internal messages will be displayed
+      </p>
     </section>
   </div>
 </template>

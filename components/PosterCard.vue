@@ -64,10 +64,10 @@
                   {{ band.dateStarted }}
                 </p>
               </NuxtLink>
-              <NuxtLink
-                :to="{ path: '/bandprofile', query: { band: band.id } }"
-              >
-                <p class="card_basic_info_text chedder">Internal Messaging</p>
+              <NuxtLink :to="{ path: '/chats', query: { band: band.id } }">
+                <p class="card_basic_info_text chedder text-blue-500 underline">
+                  Internal Messaging
+                </p>
               </NuxtLink>
             </div>
             <!-- secondary info box -->
@@ -401,7 +401,7 @@ export default {
   background: red;
 }
 .card_basic_info_text {
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .modal {
