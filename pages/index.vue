@@ -17,7 +17,7 @@
       <div
         class="flex flex-col justify-center items-center md:flex-row md:flex-wrap md:gap-6"
       >
-        <!-- <PosterCard
+        <PosterCard
           class="mb-10"
           v-for="(band, index) in bands"
           :key="band.bandName + index"
@@ -26,7 +26,7 @@
           :isFeatured="true"
           :isHome="true"
           @startChat="startChatNow(band.users_permissions_user)"
-        /> -->
+        />
       </div>
       <!-- <SliderContainer v-if="bands !== []">
         <PosterCard

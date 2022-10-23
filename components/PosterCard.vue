@@ -75,13 +75,15 @@
                 }"
               > -->
             <!-- needs to emit with user object   -->
-            <p
-              v-if="user.id !== $strapi.user.id"
-              class="card_basic_info_text chedder text-blue-500 underline"
-              @click="startChat(user)"
+            <span v-if="$strapi.user && user.id">
+              <p
+                v-if="user.id !== $strapi.user.id"
+                class="card_basic_info_text chedder text-blue-500 underline"
+                @click="startChat(user)"
+              >
+                Internal Messaging
+              </p></span
             >
-              Internal Messaging
-            </p>
             <!-- </NuxtLink> -->
           </div>
           <!-- secondary info box -->
