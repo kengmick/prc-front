@@ -223,7 +223,7 @@
               :key="chat.id"
               class="mb-8 border-b-[1px]"
               :chatWithName="chat.chatWith.username"
-              :chatWithImg="chat.chatWith.profileImg.formats.thumbnail.url"
+              :chatWithImg="chat.chatWith.profileImg.url"
               @click.native="renderChatComp(chat)"
             />
           </div>

@@ -77,7 +77,7 @@ export default {
   build: {},
   strapi: {
     url: process.env.BACKEND_URL,
-    // url: 'http://localhost:1337/',
+    // url: 'http://localhost:1337',
     entities: ['bands'],
   },
   io: {
@@ -87,6 +87,7 @@ export default {
         // At least one entry is required
         name: 'chat',
         url: 'https://punkrockcompound-backend-lb57o.ondigitalocean.app',
+        // url: 'http://localhost:1337',
         default: true,
       },
     ],

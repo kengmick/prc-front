@@ -16,11 +16,10 @@
         @click="startChat(user)"
       >
         <span v-if="user.profileImg">
-          image here
-          <!-- <img
+          <img
             class="rounded-full h-[55px] w-[55px] mr-4"
-            :src="user.profileImg.formats.thumbnail.url"
-          /> -->
+            :src="user.profileImg.url"
+          />
         </span>
         <div class="w-full">
           <p class="chedder">{{ user.username }}</p>

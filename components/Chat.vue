@@ -11,8 +11,9 @@
       </div>
       <div class="flex-grow px-4 flex items-center">
         <img
+          v-if="chatInfo.chatWith.profileImg"
           class="w-[50px] h-[50px] rounded-full mr-4"
-          :src="chatInfo.chatWith.profileImg.formats.thumbnail.url"
+          :src="chatInfo.chatWith.profileImg.url"
         />
         <div class="flex-grow">
           <p class="chedder">{{ chatInfo.chatWith.username }}</p>
@@ -20,7 +21,10 @@
       </div>
       <div></div>
     </div>
-    <section v-if="!errorMessage && chat" class="pt-[90px] pb-[90px] px-4">
+    <section
+      v-if="!errorMessage && chat && chatInfo"
+      class="pt-[90px] pb-[90px] px-4"
+    >
       <!-- display the messages  -->
       <!-- <pre>{{ chat.messages }}</pre> -->
       <Message
@@ -28,12 +32,13 @@
         :key="message.text"
         :message="message.text"
         :messageData="message"
-        :fromAvatar="chatInfo.chatWith.profileImg.formats.thumbnail.url"
+        :fromAvatar="chatInfo.chatWith.profileImg.url"
         :username="chatInfo.chatWith.username"
       />
 
       <div id="view" ref="view"></div>
     </section>
+
     <section v-else class="pt-[90px] pb-[90px]"></section>
     <div
       class="fixed bottom-0 h-[80px] w-full border-t-[1px] px-4 flex items-center"
@@ -92,11 +97,11 @@ export default {
     this.socket = this.$nuxtSocket({
       name: 'chat',
     })
-    console.log(this.socket)
-    this.soc = this.socket
+
     this.socket.emit('join', { room: this.chatInfo.id })
 
     this.socket.on('joinedRoom', (data) => {
+      console.log(this.socket)
       this.joined = 'you joined '
       console.log(data, 'you joined a room')
     })
