@@ -71,7 +71,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/strapi'],
+  modules: ['@nuxtjs/strapi', 'nuxt-socket-io'],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
@@ -79,5 +79,16 @@ export default {
     // url: process.env.BACKEND_URL,
     url: 'http://localhost:1337/',
     entities: ['bands'],
+  },
+  io: {
+    // module options
+    sockets: [
+      {
+        // At least one entry is required
+        name: 'chat',
+        url: 'http://localhost:1337',
+        default: true,
+      },
+    ],
   },
 }
