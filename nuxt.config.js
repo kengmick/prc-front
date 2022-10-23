@@ -86,7 +86,7 @@ export default {
       {
         // At least one entry is required
         name: 'chat',
-        url: 'http://localhost:1337',
+        url: 'https://punkrockcompound-backend-lb57o.ondigitalocean.app/',
         default: true,
       },
     ],
