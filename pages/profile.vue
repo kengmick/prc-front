@@ -945,7 +945,24 @@ export default {
       const user = await this.$strapi.findOne('users', this.$strapi.user.id)
       this.user = user
     } catch (error) {
-      console.log('error is user')
+      console.log('error is user', error)
+    }
+    try {
+      const chats = await this.$strapi.find('chats', {
+        users_permissions_users: this.$strapi.user.id,
+      })
+      // maps the user that messages are with to the chat
+      const mappedChats = chats.map((c) => {
+        c.users_permissions_users.forEach((u) => {
+          if (u.id !== this.$strapi.user.id) {
+            this.chatWith = u
+          }
+        })
+        return { ...c, chatWith: this.chatWith }
+      })
+      this.chats = mappedChats
+    } catch (error) {
+      console.log('error is user', error)
     }
   },
   methods: {
