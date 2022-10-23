@@ -7,7 +7,7 @@
           v-if="user"
           class="mx-auto flex flex-col md:flex-row justify-center md:justify-start md:my-12"
         >
-          <div>
+          <div v-if="user.profileImg">
             <div v-if="user.profileImg">
               <img
                 :src="user.profileImg.url"
@@ -938,6 +938,14 @@ export default {
       })
     } catch (error) {
       this.error = 'sorry ... something went wrong'
+    }
+  },
+  async mounted() {
+    try {
+      const user = await this.$strapi.findOne('users', this.$strapi.user.id)
+      this.user = user
+    } catch (error) {
+      console.log('error is user')
     }
   },
   methods: {
