@@ -86,7 +86,7 @@ export default {
       {
         // At least one entry is required
         name: 'chat',
-        url: 'https://punkrockcompound-backend-lb57o.ondigitalocean.app/',
+        url: 'https://punkrockcompound-backend-lb57o.ondigitalocean.app',
         default: true,
       },
     ],

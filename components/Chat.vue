@@ -31,6 +31,7 @@
         :fromAvatar="chatInfo.chatWith.profileImg.formats.thumbnail.url"
         :username="chatInfo.chatWith.username"
       />
+
       <div id="view" ref="view"></div>
     </section>
     <section v-else class="pt-[90px] pb-[90px]"></section>
@@ -75,6 +76,8 @@ export default {
       errorMessage: false,
       messageToSend: '',
       msg: '',
+      soc: {},
+      joined: '',
     }
   },
   async fetch() {
@@ -89,29 +92,32 @@ export default {
     this.socket = this.$nuxtSocket({
       name: 'chat',
     })
+    console.log(this.socket)
+    this.soc = this.socket
     this.socket.emit('join', { room: this.chatInfo.id })
 
     this.socket.on('joinedRoom', (data) => {
+      this.joined = 'you joined '
       console.log(data, 'you joined a room')
     })
 
     this.socket.on('messageSent', (data) => {
       this.chat = data.c
-      this.sc()
+      // this.sc()
     })
-    this.sc()
+    // this.sc()
   },
 
   methods: {
     close() {
       this.$emit('closeChat')
     },
-    sc() {
-      setTimeout(() => {
-        const el = document.getElementById('view')
-        el.scrollIntoView({ behavior: 'smooth' })
-      }, 100)
-    },
+    // sc() {
+    //   setTimeout(() => {
+    //     const el = document.getElementById('view')
+    //     el.scrollIntoView({ behavior: 'smooth' })
+    //   }, 100)
+    // },
     async sendMessage() {
       try {
         await this.$strapi.create('messages', {
@@ -122,8 +128,8 @@ export default {
         this.messageToSend = ''
 
         const c = await this.$strapi.findOne('chats', this.chatInfo.id)
-        const el = document.getElementById('view')
-        el.scrollIntoView()
+        // const el = document.getElementById('view')
+        // el.scrollIntoView()
 
         return new Promise((resolve) => {
           this.socket.emit('sendMessage', { c }, (resp) => {
@@ -131,7 +137,7 @@ export default {
 
             resolve()
           })
-          el.scrollIntoView()
+          // el.scrollIntoView()
         })
       } catch (error) {
         this.errorMessage = 'Sorry we could not find the chat session'
