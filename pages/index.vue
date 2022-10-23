@@ -100,7 +100,7 @@ export default {
       this.bands = allBands.slice(0, 3)
       this.event = await this.$strapi.find('featured-event')
     } catch (error) {
-      return error
+      console.log(error, 'this is all bands ')
     }
     //   try {
     //     this.liveStream = await this.$http.$get(
