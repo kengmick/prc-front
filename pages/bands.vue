@@ -5,7 +5,15 @@
       <ais-search-box id="a" />
       <ais-state-results>
         <template v-slot="{ state: { query } }">
-          <ais-hits v-if="query.length > 0"> Show some data </ais-hits>
+          <ais-hits v-if="query.length > 0">
+            <template v-slot="{ items }">
+              <ul>
+                <li v-for="item in items" :key="item.objectID">
+                  <h1>{{ item.bandName }}</h1>
+                </li>
+              </ul>
+            </template>
+          </ais-hits>
           <div class="hidden" v-else></div>
         </template>
       </ais-state-results>
@@ -58,7 +66,10 @@ export default {
   },
   data() {
     return {
-      searchClient: instantMeiliSearch('http://143.110.230.105/'),
+      searchClient: instantMeiliSearch(
+        'http://143.110.230.105/',
+        'OTRmM2M3MGE3NGJlN2FlMGIxYWMwN2E2'
+      ),
       bands: [],
       errorMessage: '',
       chatComp: false,
