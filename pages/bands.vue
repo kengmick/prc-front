@@ -67,8 +67,8 @@ export default {
   data() {
     return {
       searchClient: instantMeiliSearch(
-        'http://143.110.230.105',
-        {code: 'OTRmM2M3MGE3NGJlN2FlMGIxYWMwN2E2'}
+        '143.110.230.105',
+        'OTRmM2M3MGE3NGJlN2FlMGIxYWMwN2E2'
       ),
       bands: [],
       errorMessage: '',
