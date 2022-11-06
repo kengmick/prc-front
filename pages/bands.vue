@@ -1,6 +1,15 @@
 <template>
   <div>
     <Title title="All Bands" />
+    <ais-instant-search :search-client="searchClient" index-name="bands">
+      <ais-search-box id="a" />
+      <ais-state-results>
+        <template v-slot="{ state: { query } }">
+          <ais-hits v-if="query.length > 0"> Show some data </ais-hits>
+          <div class="hidden" v-else></div>
+        </template>
+      </ais-state-results>
+    </ais-instant-search>
     <section
       v-if="bands"
       class="mx-6 flex flex-col gap-10 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-10 xl:grid-cols-4"
@@ -33,9 +42,23 @@
 </template>
 
 <script>
+import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
+import {
+  AisInstantSearch,
+  AisSearchBox,
+  AisHits,
+  AisStateResults,
+} from 'vue-instantsearch'
 export default {
+  components: {
+    AisInstantSearch,
+    AisSearchBox,
+    AisHits,
+    AisStateResults,
+  },
   data() {
     return {
+      searchClient: instantMeiliSearch('http://143.110.230.105/'),
       bands: [],
       errorMessage: '',
       chatComp: false,
@@ -45,6 +68,8 @@ export default {
     }
   },
   async mounted() {
+    const e = document.getElementById('a')
+    console.log(e, 'there whould ')
     try {
       const bands = await this.$strapi.find('bands')
       this.bands = bands
@@ -63,8 +88,8 @@ export default {
         this.chatComp = false
       }
     },
-    log() {
-      console.log('this is the event emited ')
+    log(val) {
+      console.log('this is the event emited ', val)
     },
     async startChatNow(val) {
       console.log('this is the start chat ')
@@ -139,3 +164,5 @@ export default {
   },
 }
 </script>
+
+// ais-SearchBox-input

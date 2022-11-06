@@ -15,12 +15,15 @@
   },
   "dependencies": {
     "@braid/vue-formulate": "^2.5.3",
+    "@meilisearch/instant-meilisearch": "^0.9.0",
     "@nuxtjs/strapi": "^0.3.6",
+    "algoliasearch": "^4.14.2",
     "core-js": "^3.19.3",
     "moment": "^2.29.3",
     "nuxt": "^2.15.8",
     "nuxt-socket-io": "^2.0.3",
     "vue": "^2.6.14",
+    "vue-instantsearch": "^4.6.0",
     "vue-server-renderer": "^2.6.14",
     "vue-template-compiler": "^2.6.14",
     "webpack": "^4.46.0"
