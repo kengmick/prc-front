@@ -1,26 +1,12 @@
 <template>
-  <div>
+  <div class="container md:container mx-auto">
     <Title title="All Bands" />
-    <ais-instant-search :search-client="searchClient" index-name="bands">
-      <ais-search-box id="a" />
-      <ais-state-results>
-        <template v-slot="{ state: { query } }">
-          <ais-hits v-if="query.length > 0">
-            <template v-slot="{ items }">
-              <ul>
-                <li v-for="item in items" :key="item.objectID">
-                  <h1>{{ item.bandName }}</h1>
-                </li>
-              </ul>
-            </template>
-          </ais-hits>
-          <div class="hidden" v-else></div>
-        </template>
-      </ais-state-results>
-    </ais-instant-search>
+    <section class="px-4">
+      <Search index="bands" />
+    </section>
     <section
       v-if="bands"
-      class="mx-6 flex flex-col gap-10 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-10 xl:grid-cols-4"
+      class="m-6 flex flex-col md:flex-wrap md:flex-row md:justify-center"
     >
       <!-- <BandCard
         v-for="(band, index) in bands"
@@ -50,26 +36,9 @@
 </template>
 
 <script>
-import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
-import {
-  AisInstantSearch,
-  AisSearchBox,
-  AisHits,
-  AisStateResults,
-} from 'vue-instantsearch'
 export default {
-  components: {
-    AisInstantSearch,
-    AisSearchBox,
-    AisHits,
-    AisStateResults,
-  },
   data() {
     return {
-      searchClient: instantMeiliSearch(
-        'https://prcsearch.net',
-        'OTRmM2M3MGE3NGJlN2FlMGIxYWMwN2E2'
-      ),
       bands: [],
       errorMessage: '',
       chatComp: false,
@@ -176,4 +145,16 @@ export default {
 }
 </script>
 
-// ais-SearchBox-input
+<style>
+.ais-SearchBox-input {
+  height: 50px;
+  padding: 1em 3em 1em 1em;
+}
+.ais-SearchBox-submitIcon {
+  height: 18px;
+  width: 18px;
+  margin-left: 1em;
+  margin-right: 1em;
+  margin-bottom: -3px;
+}
+</style>

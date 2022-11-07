@@ -117,6 +117,13 @@
       </div>
       <!-- mobile menu icon  -->
       <div class="flex flex-grow w-full justify-end">
+        <NuxtLink to="/search">
+          <img
+            :class="{ scroll: hasScrolled, hidden: isOpen }"
+            class="menu fixed z-50 transition-all duration-200 ease-linear top-[110px] right-[60px] h-[30px] w-[30px]"
+            :src="`/search.svg`"
+          />
+        </NuxtLink>
         <img
           :class="{ open: isOpen, scroll: hasScrolled }"
           class="menu fixed z-50 transition-all duration-200 ease-linear top-[110px] h-[30px] w-[30px]"

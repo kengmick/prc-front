@@ -1,6 +1,9 @@
 <template>
   <div>
     <Title title="Classified" />
+    <section class="px-4">
+      <Search index="classified" />
+    </section>
     <section
       v-if="classifieds"
       class="container mx-auto px-4 flex flex-col items-start"

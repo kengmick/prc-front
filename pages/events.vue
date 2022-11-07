@@ -1,6 +1,9 @@
 <template>
   <section class="container mx-auto">
     <Title title="Showz" />
+    <section class="px-4">
+      <Search index="events" />
+    </section>
     <div v-if="events" class="container mx-auto">
       <section v-if="events.length > 0" class="container mx-auto">
         <div
