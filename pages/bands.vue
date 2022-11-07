@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       searchClient: instantMeiliSearch(
-        '143.110.230.105',
+        'https://prcsearch.net',
         'OTRmM2M3MGE3NGJlN2FlMGIxYWMwN2E2'
       ),
       bands: [],
