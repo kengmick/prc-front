@@ -58,18 +58,19 @@
         <div>
           <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>
         </div>
-        <div>
-          <NuxtLink class="chedder text-2xl" to="/events">Showz</NuxtLink>
-        </div>
+
         <div>
           <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
         </div>
         <!-- distro label -->
-        <!-- <div>
+        <div>
           <NuxtLink class="chedder text-2xl" to="/distros"
             >Distro/Labels</NuxtLink
           >
-        </div> -->
+        </div>
+        <div>
+          <NuxtLink class="chedder text-2xl" to="/events">Showz</NuxtLink>
+        </div>
 
         <div>
           <NuxtLink class="chedder text-2xl" to="/tours">Tours</NuxtLink>
@@ -82,22 +83,22 @@
             >Classifieds</NuxtLink
           >
         </div>
-        <div>
+        <!-- <div>
           <NuxtLink class="chedder text-2xl" to="/contact">Contact</NuxtLink>
-        </div>
+        </div> -->
         <!-- <div>
           <NuxtLink class="chedder text-2xl" to="/Merch">Merch</NuxtLink>
         </div> -->
 
         <div v-if="$strapi.user">
-          <div>
+          <!-- <div>
             <NuxtLink class="chedder text-2xl" to="/profile">profile</NuxtLink>
-          </div>
+          </div> -->
         </div>
         <div v-if="$strapi.user">
-          <div @click="logout">
+          <!-- <div @click="logout">
             <NuxtLink class="chedder text-2xl" to="/">Logout</NuxtLink>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -153,21 +154,20 @@
         <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>
       </div>
       <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/events">Showz</NuxtLink>
-      </div>
-
-      <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
-      </div>
-      <!-- <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/distros"
           >Distros/Labels</NuxtLink
         >
-      </div> -->
-
+      </div>
+      <div @click="toggleMenu">
+        <NuxtLink class="chedder text-2xl" to="/events">Showz</NuxtLink>
+      </div>
+      <div @click="toggleMenu">
+        <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
+      </div>
       <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/tours">Tours</NuxtLink>
       </div>
+
       <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/classifieds"
           >Classifieds</NuxtLink

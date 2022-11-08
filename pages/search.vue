@@ -1,5 +1,5 @@
 <template>
-  <div class="md:container container mx-auto">
+  <div class="md:container container mx-auto my-6">
     <Search index="bands" />
   </div>
 </template>
