@@ -83,9 +83,9 @@
             >Classifieds</NuxtLink
           >
         </div>
-        <!-- <div>
-          <NuxtLink class="chedder text-2xl" to="/contact">Contact</NuxtLink>
-        </div> -->
+        <div>
+          <NuxtLink class="chedder text-2xl" to="/podcast">Podcast</NuxtLink>
+        </div>
         <!-- <div>
           <NuxtLink class="chedder text-2xl" to="/Merch">Merch</NuxtLink>
         </div> -->

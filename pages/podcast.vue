@@ -1,7 +1,10 @@
 <template>
   <div>
     <Title title="Podcast" />
-    <section
+    <section>
+      <h1 class="text-center">Comming soon !</h1>
+    </section>
+    <!-- <section
       v-if="items"
       class="flex flex-row flex-wrap items-center justify-center gap-14 mb-12"
     >
@@ -18,7 +21,7 @@
           ></iframe>
         </div>
       </div>
-    </section>
+    </section> -->
   </div>
 </template>
 <script src="https://apis.google.com/js/api.js"></script>
