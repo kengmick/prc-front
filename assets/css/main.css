@@ -20,6 +20,15 @@ html {
   background: #f5f5f5
 }
 
+/* letting spacing for nav  */
+.lt_space {
+  letter-spacing: .7px;
+}
+
+.nav_font_size {
+  font-size: 30px;
+}
+
 
 /* .container {
   @apply max-w-7xl flex flex-col mx-auto pt-10 px-4 md:px-8 lg:px-10;
@@ -141,6 +150,7 @@ button {
 
 h1, h2 {
   font-size: 48px;
+  letter-spacing: .7px;
 }
 .btn {
   -webkit-appearance: none;
@@ -187,7 +197,8 @@ h1,h2,h3,h4,h5,h6{
 }
 
 .chedder {
-  font-family: "chedder"
+  font-family: "chedder";
+  letter-spacing: .7px;
 }
 
 .chedder {

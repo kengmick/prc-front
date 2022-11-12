@@ -23,20 +23,28 @@
       </div>
       <div class="flex_row flex_align_center flex_end_row">
         <!-- add the instagram icon please -->
-        <a href="https://www.facebook.com/PunkRockCompoundChi">
+        <!-- <a href="https://www.facebook.com/PunkRockCompoundChi">
           <img class="icon-height" src="~/static/facebook-white-icon.svg" />
-        </a>
-        <a
+        </a> -->
+        <!-- <a
           href="https://www.youtube.com/channel/UCi7RTyhkRtjTu_8Z_v-9UbQ/videos"
         >
           <img
             class="icon-height icon_margin_left"
             src="~/static/youtube-white-icon.svg"
           />
-        </a>
+        </a> -->
       </div>
     </div>
     <!-- desktop nav -->
+    <!-- .lt_space {
+  letter-spacing: .7px;
+}
+
+.nav_font_size {
+  font-size: 30px;
+} -->
+
     <div class="hidden md:flex px-10 py-2 main_red_background text-white">
       <div>
         <NuxtLink to="/">
@@ -44,10 +52,16 @@
         </NuxtLink>
         <div class="flex justify-between">
           <div v-if="!$strapi.user">
-            <NuxtLink class="chedder text-2xl" to="/signup">signup</NuxtLink>
+            <NuxtLink
+              class="chedder text-2xl lt_space nav_font_size"
+              to="/signup"
+              >signup</NuxtLink
+            >
           </div>
           <div v-if="!$strapi.user">
-            <NuxtLink class="chedder text-2xl" to="/loginuser"
+            <NuxtLink
+              class="chedder text-2xl lt_space nav_font_size"
+              to="/loginuser"
               >Sign In</NuxtLink
             >
           </div>
@@ -56,35 +70,51 @@
       <!-- singin signup -->
       <div class="flex justify-around place-items-center w-full">
         <div>
-          <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>
+          <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/bands"
+            >Bands</NuxtLink
+          >
         </div>
 
         <div>
-          <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
+          <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/venues"
+            >Venues</NuxtLink
+          >
         </div>
         <!-- distro label -->
         <div>
-          <NuxtLink class="chedder text-2xl" to="/distros"
+          <NuxtLink
+            class="chedder text-2xl lt_space nav_font_size"
+            to="/distros"
             >Distro/Labels</NuxtLink
           >
         </div>
         <div>
-          <NuxtLink class="chedder text-2xl" to="/events">Showz</NuxtLink>
+          <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/events"
+            >Showz</NuxtLink
+          >
         </div>
 
         <div>
-          <NuxtLink class="chedder text-2xl" to="/tours">Tours</NuxtLink>
+          <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/tours"
+            >Tours</NuxtLink
+          >
         </div>
         <!-- <div>
           <NuxtLink class="chedder text-2xl" to="/podcast">Podcast</NuxtLink>
         </div> -->
         <div>
-          <NuxtLink class="chedder text-2xl" to="/Classifieds"
+          <NuxtLink
+            class="chedder text-2xl lt_space nav_font_size"
+            to="/Classifieds"
             >Classifieds</NuxtLink
           >
         </div>
         <div>
-          <NuxtLink class="chedder text-2xl" to="/podcast">Podcast</NuxtLink>
+          <NuxtLink
+            class="chedder text-2xl lt_space nav_font_size"
+            to="/podcast"
+            >Podcasts</NuxtLink
+          >
         </div>
         <!-- <div>
           <NuxtLink class="chedder text-2xl" to="/Merch">Merch</NuxtLink>
@@ -148,28 +178,40 @@
       :class="isOpen ? 'translate-x-0' : ' opacity-0'"
     >
       <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/">Home</NuxtLink>
+        <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/"
+          >Home</NuxtLink
+        >
       </div>
       <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/bands">Bands</NuxtLink>
+        <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/bands"
+          >Bands</NuxtLink
+        >
       </div>
       <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/distros"
+        <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/distros"
           >Distros/Labels</NuxtLink
         >
       </div>
       <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/events">Showz</NuxtLink>
+        <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/events"
+          >Showz</NuxtLink
+        >
       </div>
       <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/venues">Venues</NuxtLink>
+        <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/venues"
+          >Venues</NuxtLink
+        >
       </div>
       <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/tours">Tours</NuxtLink>
+        <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/tours"
+          >Tours</NuxtLink
+        >
       </div>
 
       <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/classifieds"
+        <NuxtLink
+          class="chedder text-2xl lt_space nav_font_size"
+          to="/classifieds"
           >Classifieds</NuxtLink
         >
       </div>
@@ -180,17 +222,26 @@
         <NuxtLink class="chedder text-2xl" to="/podcast">Podcast</NuxtLink>
       </div> -->
       <div v-if="$strapi.user" @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/profile">profile</NuxtLink>
+        <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/profile"
+          >profile</NuxtLink
+        >
       </div>
 
       <div v-if="$strapi.user" @click="logoutMobile">
-        <NuxtLink class="chedder text-2xl" to="/">Logout</NuxtLink>
+        <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/"
+          >Logout</NuxtLink
+        >
       </div>
       <div v-if="!$strapi.user" @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/signup">signup</NuxtLink>
+        <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/signup"
+          >signup</NuxtLink
+        >
       </div>
       <div v-if="!$strapi.user" @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl" to="/loginuser" @click="toggleMenu"
+        <NuxtLink
+          class="chedder text-2xl lt_space nav_font_size"
+          to="/loginuser"
+          @click="toggleMenu"
           >Sign In</NuxtLink
         >
       </div>

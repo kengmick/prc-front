@@ -4,10 +4,10 @@
       <iframe
         id="yt-video-iframe"
         class="video"
-        :src="`https://www.youtube.com/embed/${this.video}`"
+        :src="`https://www.youtube.com/embed/${this.video}?modestbranding=1`"
         title="Punk Rock Compound July 31st"
         frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
         allowfullscreen
       ></iframe>
     </div>
@@ -42,14 +42,15 @@
       <h2 class="chedder text-center text-5xl">Featured Event</h2>
       <FeaturedEvent v-if="event" :event="event" />
     </section> -->
-    <section class="my-10 container mx-auto">
+    <!-- <section class="my-10 container mx-auto">
       <div class="w-11/12 sm:w-1/2 mx-auto" @click="route">
         <Button text="View All Bands" />
       </div>
-    </section>
-    <section class="my-10">
+      <a href="mailto:punkrockcompound@gmail.com">Send mail</a>
+    </section> -->
+    <!-- <section class="my-10">
       <Cta />
-    </section>
+    </section> -->
     <!-- <section class="my-10">
       <Gallery />
     </section> -->
@@ -229,6 +230,9 @@ export default {
     max-height: 30vh;
     overflow: hidden;
   }
+}
+.ytp-impression-link {
+  display: none;
 }
 @media only screen and (min-width: 376px) {
   .video-container {
