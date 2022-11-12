@@ -101,7 +101,6 @@
               />
               <!-- make select here -->
               <FormulateInput
-                v-model="value"
                 name="city"
                 label="City that the band is from?"
                 :options="cs[formValues.state] || ''"
