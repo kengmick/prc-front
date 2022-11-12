@@ -12,10 +12,9 @@
       ></iframe>
     </div>
     <section v-if="bands.length > 0">
-      <h2 class="text-center my-10 text-5xl">Featured Bands</h2>
       <!-- container for poster cards -->
       <div
-        class="flex flex-col justify-center items-center md:flex-row md:flex-wrap md:gap-6"
+        class="flex mt-6 flex-col justify-center items-center md:flex-row md:flex-wrap md:gap-6"
       >
         <PosterCard
           class="mb-10"
