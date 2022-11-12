@@ -21,7 +21,7 @@
         >
           <p
             v-if="band.bandName"
-            class="chedder text-center card_header_size text-white m-0"
+            class="chedder text-center card_header_size text-white m-0 lt_space"
             style="text-decoration: underline"
           >
             <!-- add band.bandName -->
