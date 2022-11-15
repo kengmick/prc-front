@@ -22,6 +22,7 @@
                   hardCore: 'HardCore',
                   streetSkate: 'Street/Skate',
                   oi: 'Oi!',
+                  crust: 'Crust',
                   skaSurf: 'Ska/Surf',
                   melodicPop: 'Melodic/Pop',
                   anarchoPeace: 'Anarcho/Peace',
