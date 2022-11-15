@@ -122,7 +122,11 @@
 
         <div v-if="$strapi.user">
           <div>
-            <NuxtLink class="chedder text-2xl" to="/profile">Profile</NuxtLink>
+            <NuxtLink
+              class="chedder text-2xl lt_space nav_font_size"
+              to="/profile"
+              >Profile</NuxtLink
+            >
           </div>
         </div>
         <div v-if="$strapi.user">
