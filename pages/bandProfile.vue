@@ -153,7 +153,7 @@
               <div v-if="band.city && band.state">
                 <p>{{ band.city }}, {{ band.state }}</p>
               </div>
-              <div v-if="band.country && band.city">
+              <div v-if="band.country !== 'United States' && band.city">
                 <p>{{ band.country }}, {{ band.city }}</p>
               </div>
             </div>
