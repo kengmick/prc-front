@@ -121,9 +121,9 @@
         </div> -->
 
         <div v-if="$strapi.user">
-          <!-- <div>
-            <NuxtLink class="chedder text-2xl" to="/profile">profile</NuxtLink>
-          </div> -->
+          <div>
+            <NuxtLink class="chedder text-2xl" to="/profile">Profile</NuxtLink>
+          </div>
         </div>
         <div v-if="$strapi.user">
           <!-- <div @click="logout">
