@@ -59,10 +59,10 @@
                 {{ band.city }}, {{ band.state }}
               </p>
               <p
-                v-if="band.country && band.city"
+                v-if="band.country !== 'United States' && band.city"
                 class="card_basic_info_text chedder"
               >
-                {{ band.city }}, {{ band.state }}
+                {{ band.country }}, {{ band.city }}
               </p>
             </NuxtLink>
             <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
