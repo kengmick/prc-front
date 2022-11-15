@@ -23,8 +23,6 @@
                   streetSkate: 'Street/Skate',
                   oi: 'Oi!',
                   skaSurf: 'Ska/Surf',
-                  thrash: 'thrash',
-                  crust: 'crust',
                   melodicPop: 'Melodic/Pop',
                   anarchoPeace: 'Anarcho/Peace',
                   other: 'Other',
