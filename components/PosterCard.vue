@@ -51,7 +51,15 @@
             </NuxtLink>
             <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
               <p
-                v-if="band.city && band.state"
+                v-if="
+                  band.city && band.state && band.country !== 'United States'
+                "
+                class="card_basic_info_text chedder"
+              >
+                {{ band.city }}, {{ band.state }}
+              </p>
+              <p
+                v-if="band.country && band.city"
                 class="card_basic_info_text chedder"
               >
                 {{ band.city }}, {{ band.state }}
