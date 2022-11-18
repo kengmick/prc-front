@@ -125,7 +125,7 @@
             <NuxtLink
               class="chedder text-2xl lt_space nav_font_size"
               to="/profile"
-              >Profile</NuxtLink
+              >User Page</NuxtLink
             >
           </div>
         </div>
@@ -227,7 +227,7 @@
       </div> -->
       <div v-if="$strapi.user" @click="toggleMenu">
         <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/profile"
-          >profile</NuxtLink
+          >User Page</NuxtLink
         >
       </div>
 
@@ -238,7 +238,7 @@
       </div>
       <div v-if="!$strapi.user" @click="toggleMenu">
         <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/signup"
-          >signup</NuxtLink
+          >Signup</NuxtLink
         >
       </div>
       <div v-if="!$strapi.user" @click="toggleMenu">
