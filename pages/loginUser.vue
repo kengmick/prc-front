@@ -12,15 +12,20 @@
             element-class="w-full"
             errors-class="sm:w-4/5 m-auto"
           />
-          <FormulateInput
-            type="password"
-            name="password"
-            label="Enter Your password"
-            validation="required"
-            wrapper-class="m-auto sm:w-4/5 "
-            element-class="w-full"
-            errors-class="sm:w-4/5 m-auto"
-          />
+          <div class="relative">
+            <FormulateInput
+              :type="hideOrShow"
+              name="password"
+              label="Enter Your password"
+              validation="required"
+              wrapper-class="m-auto sm:w-4/5 "
+              element-class="w-full flex-grow"
+              errors-class="sm:w-4/5 m-auto"
+            />
+            <div class="passwordIcon" @click="togglePassword">
+              <img src="view.svg" alt="" />
+            </div>
+          </div>
         </div>
         <FormulateInput
           type="submit"
@@ -46,9 +51,18 @@ export default {
       loading: false,
       formValues: {},
       errorMessage: '',
+      hideOrShow: 'password',
     }
   },
   methods: {
+    togglePassword() {
+      if (this.hideOrShow === 'password') {
+        console.log('this is the conditional')
+        this.hideOrShow = 'text'
+      } else {
+        this.hideOrShow = 'password'
+      }
+    },
     async login() {
       this.loading = true
       try {
@@ -72,3 +86,11 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.passwordIcon {
+  position: absolute;
+  top: 35px;
+  right: 50px;
+}
+</style>
