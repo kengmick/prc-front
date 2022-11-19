@@ -7,57 +7,19 @@
     <section
       class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
     >
-      <h2 class="chedder text-[36px] text-white leading-none">Fun Band</h2>
+      <h2 class="chedder text-[36px] text-white leading-none">Full Card</h2>
     </section>
     <!-- info box  -->
-    <section class="w-full flex justify-between px-[8px] [bg-blue-500 mb-[8px]">
-      <div
-        class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
-      >
-        <p class="text-[12px] chedder">Punk/Ska</p>
-        <p class="text-[12px] chedder">Jan 1 2020</p>
-      </div>
-      <div
-        class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
-      >
-        <p class="text-[12px] chedder">Chicago, IL</p>
-        <p class="text-[12px] chedder">Internal Message</p>
-      </div>
-    </section>
-
-    <!-- logo and card  -->
-    <section class="w-full flex justify-between px-[4px] mb-[8px]">
-      <div class="w-[141px] h-[186px] shadow-xl">
-        <img class="h-full object-cover" src="punk-background.png" alt="" />
-      </div>
-      <div class="w-[141px] h-[186px] bg-[#27ED5E] shadow-xl"></div>
-    </section>
-
-    <!-- announcment box  -->
-    <section
-      class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
-    >
-      <h2 class="text-[18px]">Title of Announcement</h2>
-      <p class="text-[12px]">This is the body of the text ...</p>
-    </section>
-
-    <!-- buttons  -->
-    <section class="flex justify-around mt-[8px]">
-      <div
-        class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder"
-      >
-        Save
-      </div>
-      <div
-        class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder"
-      >
-        Copy
-      </div>
-      <div
-        class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder"
-      >
-        QR
-      </div>
+    <section class="w-full flex">
+      <section class="w-[202px] h-[230px] flex flex-col">
+        <!-- info box -->
+        <div class="w-[116px] h-[102px] bg-[#27ED5E] ml-[4px]"></div>
+        <div class="w-[202px] h-[120px] mt-[8px] flex justify-around">
+          <div class="w-[90px] h-[120px] bg-lime-700">one</div>
+          <div class="w-[90px] h-[120px] bg-yellow-400">two</div>
+        </div>
+      </section>
+      <section class="w-[94px] h-[230px] bg-[#27ED5E] mr-[4px]"></section>
     </section>
   </div>
 </template>
