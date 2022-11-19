@@ -13,13 +13,58 @@
     <section class="w-full flex">
       <section class="w-[202px] h-[230px] flex flex-col">
         <!-- info box -->
-        <div class="w-[116px] h-[102px] bg-[#27ED5E] ml-[4px]"></div>
+        <div
+          class="w-[116px] h-[102px] bg-[#27ED5E] ml-[4px] flex flex-col items-center justify-center"
+        >
+          <p class="chedder text-[16px]">Punk/Genre</p>
+          <p class="chedder text-[16px]">Chicago, IL</p>
+          <p class="chedder text-[16px]">Jan 1 2020</p>
+          <p class="chedder text-[16px]">Internal Message</p>
+        </div>
         <div class="w-[202px] h-[120px] mt-[8px] flex justify-around">
-          <div class="w-[90px] h-[120px] bg-lime-700">one</div>
-          <div class="w-[90px] h-[120px] bg-yellow-400">two</div>
+          <!-- logo -->
+          <div class="w-[90px] h-[120px]">
+            <img class="h-full object-cover" src="punk-background.png" alt="" />
+          </div>
+          <div class="w-[90px] h-[120px] bg-[#27ED5E]"></div>
         </div>
       </section>
-      <section class="w-[94px] h-[230px] bg-[#27ED5E] mr-[4px]"></section>
+      <section
+        class="w-[94px] h-[230px] bg-[#27ED5E] mr-[4px] flex flex-col justify-center items-center"
+      >
+        <p class="chedder text-[16px]">Showz</p>
+        <p class="chedder text-[16px]">Releases</p>
+        <p class="chedder text-[16px]">Songs</p>
+        <p class="chedder text-[16px]">Videos</p>
+        <p class="chedder text-[16px]">Bio</p>
+        <p class="chedder text-[16px]">Members</p>
+        <p class="chedder text-[16px]">Links</p>
+        <p class="chedder text-[16px]">Chat Rooms</p>
+      </section>
+    </section>
+    <section
+      class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px] mt-[8px]"
+    >
+      <h2 class="text-[18px]">Title of Announcement</h2>
+      <p class="text-[12px]">This is the body of the text ...</p>
+    </section>
+    <!-- buttons  -->
+    <section class="flex justify-around mt-[8px]">
+      <div
+        class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder"
+      >
+        Save
+      </div>
+      <div
+        class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder"
+      >
+        Copy
+      </div>
+      <div
+        class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder"
+      >
+        QR
+      </div>
     </section>
   </div>
 </template>
