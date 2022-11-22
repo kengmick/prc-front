@@ -26,7 +26,7 @@
           <div class="w-[90px] h-[120px] shadow-2xl">
             <img class="h-full object-cover" src="punk-background.png" alt="" />
           </div>
-          <!-- featured card  -->
+          <!-- first featured card  -->
           <div class="w-[90px] h-[120px] bg-[#27ED5E] shadow-2xl">
             <div
               class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] scaleDown"
@@ -37,155 +37,139 @@
                 class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
               >
                 <h2 class="chedder text-[36px] text-white leading-none">
-                  Full Card
+                  Poster Band
                 </h2>
               </section>
               <!-- info box  -->
-              <section class="w-full flex">
-                <section class="w-[202px] h-[230px] flex flex-col">
-                  <!-- info box -->
-                  <div
-                    class="w-[116px] h-[102px] bg-[#27ED5E] ml-[4px] flex flex-col items-center justify-center shadow-2xl"
-                  >
-                    <p class="chedder text-[16px]">Punk/Genre</p>
-                    <p class="chedder text-[16px]">Chicago, IL</p>
-                    <p class="chedder text-[16px]">Jan 1 2020</p>
-                    <p class="chedder text-[16px]">Internal Message</p>
-                  </div>
-                  <div class="w-[202px] h-[120px] mt-[8px] flex justify-around">
-                    <!-- logo -->
-                    <div class="w-[90px] h-[120px] shadow-2xl">
-                      <img
-                        class="h-full object-cover"
-                        src="punk-background.png"
-                        alt=""
-                      />
-                    </div>
-                    <!-- featured card  -->
-                    <div class="w-[90px] h-[120px] bg-[#27ED5E] shadow-2xl">
-                      <div
-                        class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] scaleDown"
-                        :style="{
-                          backgroundImage: `url(/punk-background.png)`,
-                        }"
-                      >
-                        <!-- header -->
-                        <section
-                          class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
-                        >
-                          <h2
-                            class="chedder text-[36px] text-white leading-none"
-                          >
-                            Full Card
-                          </h2>
-                        </section>
-                        <!-- info box  -->
-                        <section class="w-full flex">
-                          <section class="w-[202px] h-[230px] flex flex-col">
-                            <!-- info box -->
-                            <div
-                              class="w-[116px] h-[102px] bg-[#27ED5E] ml-[4px] flex flex-col items-center justify-center shadow-2xl"
-                            >
-                              <p class="chedder text-[16px]">Punk/Genre</p>
-                              <p class="chedder text-[16px]">Chicago, IL</p>
-                              <p class="chedder text-[16px]">Jan 1 2020</p>
-                              <p class="chedder text-[16px]">
-                                Internal Message
-                              </p>
-                            </div>
-                            <div
-                              class="w-[202px] h-[120px] mt-[8px] flex justify-around"
-                            >
-                              <!-- logo -->
-                              <div class="w-[90px] h-[120px] shadow-2xl">
-                                <img
-                                  class="h-full object-cover"
-                                  src="punk-background.png"
-                                  alt=""
-                                />
-                              </div>
-                              <!-- third featured card  -->
-                              <div class="w-[90px] h-[120px] shadow-2xl"></div>
-                            </div>
-                          </section>
-                          <section
-                            class="w-[94px] h-[230px] bg-[#27ED5E] mr-[4px] flex flex-col justify-between items-center pt-[3px] shadow-2xl"
-                          >
-                            <p class="chedder text-[16px]">Showz</p>
-                            <p class="chedder text-[16px]">Releases</p>
-                            <p class="chedder text-[16px]">Songs</p>
-                            <p class="chedder text-[16px]">Videos</p>
-                            <p class="chedder text-[16px]">Bio</p>
-                            <p class="chedder text-[16px]">Members</p>
-                            <p class="chedder text-[16px]">Pictures</p>
-                            <p class="chedder text-[16px]">Links</p>
-                            <p class="chedder text-[16px]">Chat Rooms</p>
-                          </section>
-                        </section>
-                        <section
-                          class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px] mt-[8px]"
-                        >
-                          <h2 class="text-[18px]">Title of Announcement</h2>
-                          <p class="text-[12px]">
-                            This is the body of the text ...
-                          </p>
-                        </section>
-                        <!-- buttons  -->
-                        <section class="flex justify-around mt-[8px]">
-                          <div
-                            class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder shadow-2xl"
-                          >
-                            Save
-                          </div>
-                          <div
-                            class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder shadow-2xl"
-                          >
-                            Copy
-                          </div>
-                          <div
-                            class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder shadow-2xl"
-                          >
-                            QR
-                          </div>
-                        </section>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-                <section
-                  class="w-[94px] h-[230px] bg-[#27ED5E] mr-[4px] flex flex-col justify-between items-center pt-[3px] shadow-2xl"
-                >
-                  <p class="chedder text-[16px]">Showz</p>
-                  <p class="chedder text-[16px]">Releases</p>
-                  <p class="chedder text-[16px]">Songs</p>
-                  <p class="chedder text-[16px]">Videos</p>
-                  <p class="chedder text-[16px]">Bio</p>
-                  <p class="chedder text-[16px]">Members</p>
-                  <p class="chedder text-[16px]">Pictures</p>
-                  <p class="chedder text-[16px]">Links</p>
-                  <p class="chedder text-[16px]">Chat Rooms</p>
-                </section>
-              </section>
               <section
-                class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px] mt-[8px]"
+                class="w-full flex justify-between px-[8px] [bg-blue-500 mb-[8px]"
+              >
+                <div
+                  class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
+                >
+                  <p class="text-[12px] chedder">Punk/Ska</p>
+                  <p class="text-[12px] chedder">Jan 1 2020</p>
+                </div>
+                <div
+                  class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
+                >
+                  <p class="text-[12px] chedder">Chicago, IL</p>
+                  <p class="text-[12px] chedder">Internal Message</p>
+                </div>
+              </section>
+
+              <!-- logo and card  -->
+              <section class="w-full flex justify-between px-[4px] mb-[8px]">
+                <div class="w-[141px] h-[186px] shadow-xl">
+                  <img
+                    class="h-full object-cover"
+                    src="punk-background.png"
+                    alt=""
+                  />
+                </div>
+                <!-- second featured Card  -->
+                <div class="w-[141px] h-[186px] bg-[#27ED5E] shadow-xl">
+                  <div
+                    class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] scaleDownThree"
+                    :style="{ backgroundImage: `url(/punk-background.png)` }"
+                  >
+                    <!-- header -->
+                    <section
+                      class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
+                    >
+                      <h2 class="chedder text-[36px] text-white leading-none">
+                        Poster Band
+                      </h2>
+                    </section>
+                    <!-- info box  -->
+                    <section
+                      class="w-full flex justify-between px-[8px] [bg-blue-500 mb-[8px]"
+                    >
+                      <div
+                        class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
+                      >
+                        <p class="text-[12px] chedder">Punk/Ska</p>
+                        <p class="text-[12px] chedder">Jan 1 2020</p>
+                      </div>
+                      <div
+                        class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
+                      >
+                        <p class="text-[12px] chedder">Chicago, IL</p>
+                        <p class="text-[12px] chedder">Internal Message</p>
+                      </div>
+                    </section>
+
+                    <!-- logo and card  -->
+                    <section
+                      class="w-full flex justify-between px-[4px] mb-[8px]"
+                    >
+                      <div class="w-[141px] h-[186px] shadow-xl">
+                        <img
+                          class="h-full object-cover"
+                          src="punk-background.png"
+                          alt=""
+                        />
+                      </div>
+                      <!-- no card thrid item   -->
+                      <div
+                        class="w-[141px] h-[186px] bg-[#27ED5E] shadow-xl"
+                      ></div>
+                    </section>
+
+                    <!-- announcment box  -->
+                    <section
+                      class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
+                    >
+                      <h2 class="text-[18px]">Title of Announcement</h2>
+                      <p class="text-[12px]">
+                        This is the body of the text ...
+                      </p>
+                    </section>
+
+                    <!-- buttons  -->
+                    <section class="flex justify-around mt-[8px]">
+                      <div
+                        class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder"
+                      >
+                        Save
+                      </div>
+                      <div
+                        class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder"
+                      >
+                        Copy
+                      </div>
+                      <div
+                        class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder"
+                      >
+                        QR
+                      </div>
+                    </section>
+                  </div>
+                </div>
+              </section>
+
+              <!-- announcment box  -->
+              <section
+                class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
               >
                 <h2 class="text-[18px]">Title of Announcement</h2>
                 <p class="text-[12px]">This is the body of the text ...</p>
               </section>
+
               <!-- buttons  -->
               <section class="flex justify-around mt-[8px]">
                 <div
-                  class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder shadow-2xl"
+                  class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder"
                 >
                   Save
                 </div>
                 <div
-                  class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder shadow-2xl"
+                  class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder"
                 >
                   Copy
                 </div>
                 <div
-                  class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder shadow-2xl"
+                  class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder"
                 >
                   QR
                 </div>
@@ -204,6 +188,7 @@
         <p class="chedder text-[16px]">Bio</p>
         <p class="chedder text-[16px]">Members</p>
         <p class="chedder text-[16px]">Pictures</p>
+        <p class="chedder text-[16px]">Merch</p>
         <p class="chedder text-[16px]">Links</p>
         <p class="chedder text-[16px]">Chat Rooms</p>
       </section>
@@ -366,5 +351,11 @@ export default {
   transform: scale(30%);
   margin-left: -105px;
   margin-top: -140px;
+}
+
+.scaleDownThree {
+  transform: scale(47.4%);
+  margin-left: -80px;
+  margin-top: -105px;
 }
 </style>
