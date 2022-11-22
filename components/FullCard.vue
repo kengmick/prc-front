@@ -7,7 +7,9 @@
     <section
       class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
     >
-      <h2 class="chedder text-[36px] text-white leading-none">Full Card</h2>
+      <h2 class="chedder text-[36px] text-white leading-none">
+        {{ band.bandName }}
+      </h2>
     </section>
     <!-- info box  -->
     <section class="w-full flex">
@@ -16,10 +18,19 @@
         <div
           class="w-[116px] h-[102px] bg-[#27ED5E] ml-[4px] flex flex-col items-center justify-center shadow-2xl"
         >
-          <p class="chedder text-[16px]">Punk/Genre</p>
-          <p class="chedder text-[16px]">Chicago, IL</p>
-          <p class="chedder text-[16px]">Jan 1 2020</p>
-          <p class="chedder text-[16px]">Internal Message</p>
+          <p class="chedder text-[16px]">Punk/{{ band.genre }}</p>
+          <p class="chedder text-[16px]">{{ band.city }}, {{ band.state }}</p>
+          <p class="chedder text-[16px]">{{ band.dateStarted }}</p>
+          <!-- maybe show interal chat featured if the user is not logged in and then prompt user to log in on click event -->
+          <span v-if="$strapi.user">
+            <p
+              v-if="band.users_permissions_user.id !== $strapi.user.id"
+              class="text-[12px] chedder text-blue-500 underline"
+              @click="startChat(user)"
+            >
+              Internal Message
+            </p>
+          </span>
         </div>
         <div class="w-[202px] h-[120px] mt-[8px] flex justify-around">
           <!-- logo -->
@@ -35,23 +46,112 @@
       <section
         class="w-[94px] h-[230px] bg-[#27ED5E] mr-[4px] flex flex-col justify-between items-center pt-[3px] shadow-2xl"
       >
-        <p class="chedder text-[16px]">Showz</p>
-        <p class="chedder text-[16px]">Releases</p>
-        <p class="chedder text-[16px]">Songs</p>
-        <p class="chedder text-[16px]">Videos</p>
-        <p class="chedder text-[16px]">Bio</p>
-        <p class="chedder text-[16px]">Members</p>
-        <p class="chedder text-[16px]">Pictures</p>
-        <p class="chedder text-[16px]">Merch</p>
-        <p class="chedder text-[16px]">Links</p>
-        <p class="chedder text-[16px]">Chat Rooms</p>
+        <NuxtLink
+          class="chedder text-[15px]"
+          :to="{
+            path: '/bandprofile',
+            hash: '#showz',
+            query: { band: band.id },
+          }"
+          >Showz</NuxtLink
+        >
+        <NuxtLink
+          class="chedder text-[15px]"
+          :to="{
+            path: '/bandprofile',
+            hash: '#releases',
+            query: { band: band.id },
+          }"
+          >Releases</NuxtLink
+        >
+        <NuxtLink
+          class="chedder text-[15px]"
+          :to="{
+            path: '/bandprofile',
+            hash: '#songs',
+            query: { band: band.id },
+          }"
+          >Songs</NuxtLink
+        >
+        <NuxtLink
+          class="chedder text-[15px]"
+          :to="{
+            path: '/bandprofile',
+            hash: '#videos',
+            query: { band: band.id },
+          }"
+          >Videos</NuxtLink
+        >
+        <NuxtLink
+          class="chedder text-[15px]"
+          :to="{
+            path: '/bandprofile',
+            hash: '#bio',
+            query: { band: band.id },
+          }"
+          >Bio</NuxtLink
+        >
+        <NuxtLink
+          class="chedder text-[15px]"
+          :to="{
+            path: '/bandprofile',
+            hash: '#members',
+            query: { band: band.id },
+          }"
+          >Members</NuxtLink
+        >
+        <NuxtLink
+          class="chedder text-[15px]"
+          :to="{
+            path: '/bandprofile',
+            hash: '#pictures',
+            query: { band: band.id },
+          }"
+          >Pictures</NuxtLink
+        >
+        <NuxtLink
+          class="chedder text-[15px]"
+          :to="{
+            path: '/bandprofile',
+            hash: '#merch',
+            query: { band: band.id },
+          }"
+          >Merch</NuxtLink
+        >
+        <NuxtLink
+          class="chedder text-[15px]"
+          :to="{
+            path: '/bandprofile',
+            hash: '#links',
+            query: { band: band.id },
+          }"
+          >Links</NuxtLink
+        >
+        <NuxtLink
+          class="chedder text-[15px]"
+          :to="{
+            path: '/bandprofile',
+            hash: '#chatroom',
+            query: { band: band.id },
+          }"
+          >Chat Room</NuxtLink
+        >
       </section>
     </section>
+
     <section
+      v-if="!announcement"
       class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px] mt-[8px]"
     >
-      <h2 class="text-[18px]">Title of Announcement</h2>
+      <h2 class="text-[18px]">Announcement</h2>
       <p class="text-[12px]">This is the body of the text ...</p>
+    </section>
+    <section
+      v-if="announcement"
+      class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px] mt-[8px]"
+    >
+      <h2 class="text-[18px]">{{ announcement.title }}</h2>
+      <p class="text-[12px]">{{ announcement.text }}</p>
     </section>
     <!-- buttons  -->
     <section class="flex justify-around mt-[8px]">
