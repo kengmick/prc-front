@@ -19,7 +19,6 @@
         :band="band"
         :user="band.users_permissions_user"
         :isFeatured="true"
-        style="min-width: 25vw"
         @startChat="startChatNow(band.users_permissions_user)"
       />
     </section>

@@ -1,9 +1,11 @@
 <template>
   <div
     class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px]"
-    :style="{ backgroundImage: `url(/punk-background.png)` }"
+    :style="{ backgroundImage: `url(${band.bandProfileImg.url})` }"
   >
     <NuxtLink
+      v-if="!addingCard"
+      class=""
       :to="{
         path: '/bandprofile',
         query: {
@@ -19,9 +21,25 @@
           <span v-if="band.bandName">{{ band.bandName }}</span>
         </h2>
       </section>
-      <!-- info box  -->
-      <section
-        class="w-full flex justify-between px-[8px] [bg-blue-500 mb-[8px]"
+    </NuxtLink>
+    <section
+      v-else
+      class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
+    >
+      <h2 class="chedder text-[36px] text-white leading-none">
+        <span v-if="band.bandName">{{ band.bandName }}</span>
+      </h2>
+    </section>
+    <!-- info box  -->
+    <section class="w-full flex justify-between px-[8px] [bg-blue-500 mb-[8px]">
+      <NuxtLink
+        v-if="!addingCard"
+        :to="{
+          path: '/bandprofile',
+          query: {
+            band: band.id,
+          },
+        }"
       >
         <div
           class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
@@ -31,49 +49,127 @@
           </p>
           <p class="text-[12px] chedder">{{ band.dateStarted }}</p>
         </div>
-        <div
-          class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
+      </NuxtLink>
+      <div
+        v-else
+        class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
+      >
+        <p class="text-[12px] chedder">
+          Punk/<span v-if="band.genre">{{ band.genre }}</span>
+        </p>
+        <p class="text-[12px] chedder">{{ band.dateStarted }}</p>
+      </div>
+      <div
+        class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
+      >
+        <NuxtLink
+          v-if="addingCard"
+          :to="{
+            path: '/bandprofile',
+            query: {
+              band: band.id,
+            },
+          }"
         >
           <p class="text-[12px] chedder">{{ band.city }}, {{ band.state }}</p>
-          <span v-if="$strapi.user">
-            <p
-              v-if="band.users_permissions_user.id !== $strapi.user.id"
-              class="text-[12px] chedder text-blue-500 underline"
-              @click="startChat(user)"
-            >
-              Internal Message
-            </p>
-          </span>
-        </div>
-      </section>
+        </NuxtLink>
+        <p v-else class="text-[12px] chedder">
+          {{ band.city }}, {{ band.state }}
+        </p>
+        <span v-if="$strapi.user && !addingCard">
+          <!-- add this  v-if="band.users_permissions_user.id !== $strapi.user.id" -->
+          <p
+            class="text-[12px] chedder text-blue-500 underline"
+            @click="startChat(user)"
+          >
+            Internal Message
+          </p>
+        </span>
+        <span v-else>
+          <p class="text-[12px] chedder text-blue-500 underline">
+            Internal Message
+          </p>
+        </span>
+      </div>
+    </section>
 
-      <!-- logo and card  -->
-      <section class="w-full flex justify-between px-[4px] mb-[8px]">
+    <!-- logo and card  -->
+    <section class="w-full flex justify-between px-[4px] mb-[8px]">
+      <NuxtLink
+        v-if="!addingCard"
+        :to="{
+          path: '/bandprofile',
+          query: {
+            band: band.id,
+          },
+        }"
+      >
         <div class="w-[141px] h-[186px] shadow-xl">
-          <img class="h-full object-cover" src="punk-background.png" alt="" />
+          <img
+            class="h-full object-cover"
+            :src="`${band.bandProfileImg.url}`"
+            alt=""
+          />
         </div>
-        <!-- first featured Card  -->
-        <div class="w-[141px] h-[186px] bg-[#27ED5E] shadow-xl">
-          <BasicFeaturedCard />
-        </div>
-      </section>
+      </NuxtLink>
+      <div v-else class="w-[141px] h-[186px] shadow-xl">
+        <img
+          class="h-full object-cover"
+          :src="`${band.bandProfileImg.url}`"
+          alt=""
+        />
+      </div>
+      <!-- first featured Card  -->
+      <div class="w-[141px] h-[186px] bg-[#27ED5E] shadow-xl cursor-pointer">
+        <span v-if="band.hasFeaturedCard && !addingCard">
+          <BasicFeaturedCard
+            :cardData="band.cardData"
+            v-if="band.cardType === 'band'"
+          />
+        </span>
 
-      <!-- announcment box  -->
-      <section
-        v-if="!announcement"
-        class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
-      >
-        <h2 class="text-[18px]">Announcement</h2>
-        <p class="text-[12px]">This is the body of the text ...</p>
-      </section>
-      <section
-        v-if="announcement"
-        class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
-      >
-        <h2 class="text-[18px]">{{ announcement.title }}</h2>
-        <p class="text-[12px]">{{ announcement.text }}</p>
-      </section>
-    </NuxtLink>
+        <div
+          v-if="!band.hasFeaturedCard && $strapi.user && !addingCard"
+          class="flex justify-center items-center h-full w-full"
+        >
+          <NuxtLink
+            v-if="band.users_permissions_user.id === $strapi.user.id"
+            class="h-full w-full flex justify-center items-center"
+            :to="{
+              path: '/addCardPage',
+              query: {
+                band: band.id,
+              },
+            }"
+          >
+            <p class="chedder text-center">+ Add Featured Card</p>
+          </NuxtLink>
+          <p
+            v-else
+            class="chedder text-center cursor-pointer"
+            @click="addCardToData"
+          >
+            Featured Card Go Here
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- announcment box  -->
+    <section
+      v-if="!announcement"
+      class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
+    >
+      <h2 class="text-[18px]">Announcement</h2>
+      <p class="text-[12px]">This is the body of the text ...</p>
+    </section>
+    <section
+      v-if="announcement"
+      class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
+    >
+      <h2 class="text-[18px]">{{ announcement.title }}</h2>
+      <p class="text-[12px]">{{ announcement.text }}</p>
+    </section>
 
     <!-- buttons  -->
     <section class="flex justify-around mt-[8px]">
@@ -93,6 +189,17 @@
         QR
       </div>
     </section>
+    <section
+      v-if="addingCard"
+      class="flex justify-center items-center relative top-[10px]"
+    >
+      <div
+        class="w-11/12 bg-black text-white flex justify-center items-center text-[14px] chedder mt-[4px] py-4 mb-6 cursor-pointer"
+        @click="addCardToData"
+      >
+        Add This Card !!!
+      </div>
+    </section>
   </div>
 </template>
 
@@ -105,6 +212,12 @@ export default {
       type: Object,
       default() {
         return {}
+      },
+    },
+    addingCard: {
+      type: Boolean,
+      default() {
+        return false
       },
     },
     user: {
@@ -129,6 +242,7 @@ export default {
       updated: null,
       index: 0,
       chatComp: false,
+      addFeatured: false,
     }
   },
   computed: {
@@ -139,8 +253,34 @@ export default {
       return this.band.announcements || ''
     },
   },
-
+  mounted() {
+    console.log(this.band)
+  },
   methods: {
+    async addCardToData() {
+      try {
+        const updated = await this.$strapi.update(
+          'bands',
+          this.$route.query.band,
+          {
+            hasFeaturedCard: true,
+            cardType: 'band',
+            cardData: JSON.stringify(this.band),
+          }
+        )
+        console.log('this profile has been updated', updated)
+        if (updated) {
+          const stringId = this.band.id.split('').indexOf('-')
+          const bandIdToPage = stringId + 1
+          this.$router.push({
+            path: '/bandprofile',
+            query: { band: this.band.id.substring(bandIdToPage) },
+          })
+        }
+      } catch (error) {
+        console.log(error, 'three was an error when trying to make the update')
+      }
+    },
     startChat(user) {
       console.log('user from the poster card ', user, ' the id ', user.id)
       this.$emit('startChat', user)

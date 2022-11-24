@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!loading" class="video-container">
+    <!-- <div v-if="!loading" class="video-container">
       <iframe
         id="yt-video-iframe"
         class="video"
@@ -10,7 +10,7 @@
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
         allowfullscreen
       ></iframe>
-    </div>
+    </div> -->
     <section v-if="bands.length > 0">
       <!-- container for poster cards -->
       <div
@@ -84,17 +84,17 @@ export default {
     }
   },
   async fetch() {
-    try {
-      const link = await this.$strapi.find('live-stream')
-      console.log(link.streamLink, 'from the db')
-      this.liveUrl = link.streamLink
-      this.video = link.streamLink || 'zLZ2IT4ly9A'
-      this.loading = false
-    } catch (error) {
-      this.video = 'zLZ2IT4ly9A'
-      this.loading = false
-      console.log(error)
-    }
+    // try {
+    //   const link = await this.$strapi.find('live-stream')
+    //   console.log(link.streamLink, 'from the db')
+    //   this.liveUrl = link.streamLink
+    //   this.video = link.streamLink || 'zLZ2IT4ly9A'
+    //   this.loading = false
+    // } catch (error) {
+    //   this.video = 'zLZ2IT4ly9A'
+    //   this.loading = false
+    //   console.log(error)
+    // }
     try {
       const allBands = await this.$strapi.find('bands')
       this.bands = allBands.slice(0, 3)

@@ -1,5 +1,6 @@
 <template>
   <div v-if="band">
+    <!-- <pre>{{ JSON.stringify(band) }}</pre> -->
     <div class="container flex justify-center items-center mt-6 mx-auto">
       <FullCard
         class="mb-10"

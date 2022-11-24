@@ -1,34 +1,42 @@
 <template>
   <div
     class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] scaleDown"
-    :style="{ backgroundImage: `url(/punk-background.png)` }"
+    :style="{ backgroundImage: `url(${cardData.bandProfileImg.url})` }"
   >
     <!-- header -->
     <section
       class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
     >
-      <h2 class="chedder text-[36px] text-white leading-none">Poster Band</h2>
+      <h2 class="chedder text-[36px] text-white leading-none">
+        {{ cardData.bandName }}
+      </h2>
     </section>
     <!-- info box  -->
     <section class="w-full flex justify-between px-[8px] [bg-blue-500 mb-[8px]">
       <div
         class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
       >
-        <p class="text-[12px] chedder">Punk/Ska</p>
-        <p class="text-[12px] chedder">Jan 1 2020</p>
+        <p class="text-[12px] chedder">Punk/{{ cardData.genre }}</p>
+        <p class="text-[12px] chedder">{{ cardData.dateStarted }}</p>
       </div>
       <div
         class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
       >
-        <p class="text-[12px] chedder">Chicago, IL</p>
-        <p class="text-[12px] chedder">Internal Message</p>
+        <p class="text-[12px] chedder">
+          {{ cardData.city }}, {{ cardData.state }}
+        </p>
+        <!-- <p class="text-[12px] chedder">Internal Message</p> -->
       </div>
     </section>
 
     <!-- logo and card  -->
     <section class="w-full flex justify-between px-[4px] mb-[8px]">
       <div class="w-[141px] h-[186px] shadow-xl">
-        <img class="h-full object-cover" src="punk-background.png" alt="" />
+        <img
+          class="h-full object-cover"
+          :src="`${cardData.bandProfileImg.url}`"
+          alt=""
+        />
       </div>
       <!-- second featured Card  -->
       <div class="w-[141px] h-[186px] bg-[#27ED5E] shadow-xl">
@@ -135,7 +143,16 @@
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    cardData: {
+      type: Object,
+      default: () => {
+        return {}
+      },
+    },
+  },
+}
 </script>
 <style scoped>
 .scaleDown {
