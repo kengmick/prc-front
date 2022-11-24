@@ -40,6 +40,7 @@
       </div>
       <!-- second featured Card  -->
       <div class="w-[141px] h-[186px] bg-[#27ED5E] shadow-xl">
+        <!-- add a featured card here -->
         <div
           class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] scaleDownTwo"
           :style="{ backgroundImage: `url(/punk-background.png)` }"

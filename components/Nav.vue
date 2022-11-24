@@ -65,6 +65,20 @@
               >Sign In</NuxtLink
             >
           </div>
+          <div v-if="$strapi.user">
+            <div>
+              <NuxtLink
+                class="chedder text-2xl lt_space nav_font_size"
+                to="/profile"
+                >User Page</NuxtLink
+              >
+            </div>
+          </div>
+          <div v-if="$strapi.user">
+            <div @click="logout">
+              <p class="chedder text-2xl lt_space nav_font_size">Logout</p>
+            </div>
+          </div>
         </div>
       </div>
       <!-- singin signup -->
@@ -119,16 +133,12 @@
         <!-- <div>
           <NuxtLink class="chedder text-2xl" to="/Merch">Merch</NuxtLink>
         </div> -->
-
-        <div v-if="$strapi.user">
-          <div>
-            <NuxtLink
-              class="chedder text-2xl lt_space nav_font_size"
-              to="/profile"
-              >User Page</NuxtLink
-            >
-          </div>
+        <div>
+          <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/videos"
+            >Videos</NuxtLink
+          >
         </div>
+
         <div v-if="$strapi.user">
           <!-- <div @click="logout">
             <NuxtLink class="chedder text-2xl" to="/">Logout</NuxtLink>

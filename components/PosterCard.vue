@@ -174,19 +174,37 @@
     <!-- buttons  -->
     <section class="flex justify-around mt-[8px]">
       <div
-        class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder"
+        class="w-[66px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"
       >
-        Save
+        <span class="flex items-center justify-between w-full px-2"
+          ><img class="h-[12px] w-[12px]" src="/share.svg" alt="" />Share</span
+        >
       </div>
       <div
-        class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder"
+        class="w-[66px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"
       >
-        Copy
+        <span class="flex items-center justify-between w-full px-2"
+          ><img
+            class="h-[12px] w-[12px]"
+            src="/heart.svg"
+            alt=""
+          />Favorite</span
+        >
       </div>
       <div
-        class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder"
+        class="w-[66px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"
       >
-        QR
+        <span class="flex items-center justify-between w-full px-2"
+          ><img class="h-[12px] w-[12px]" src="/add.svg" alt="" />Feature</span
+        >
+      </div>
+
+      <div
+        class="w-[70px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"
+      >
+        <span class="flex items-center justify-between w-full px-2"
+          ><img class="h-[12px] w-[12px]" src="/qr1.svg" alt="" />QR Code</span
+        >
       </div>
     </section>
     <section
