@@ -55,7 +55,7 @@
       </section>
     </section>
   </div>
-  <div v-else>...</div>
+  <div v-else></div>
 </template>
 <script>
 import moment from 'moment'

@@ -1,16 +1,5 @@
 <template>
   <div>
-    <!-- <div v-if="!loading" class="video-container">
-      <iframe
-        id="yt-video-iframe"
-        class="video"
-        :src="`https://www.youtube.com/embed/${this.video}?modestbranding=1`"
-        title="Punk Rock Compound July 31st"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
-        allowfullscreen
-      ></iframe>
-    </div> -->
     <section v-if="bands.length > 0">
       <!-- container for poster cards -->
       <div
@@ -27,35 +16,8 @@
           @startChat="startChatNow(band.users_permissions_user)"
         />
       </div>
-      <!-- <SliderContainer v-if="bands !== []">
-        <PosterCard
-          v-for="(band, index) in bands"
-          :key="band.bandName + index"
-          :band="band"
-          :isFeatured="true"
-        />
-      </SliderContainer> -->
     </section>
 
-    <!-- <section class="my-10">
-      <h2 class="chedder text-center text-5xl">Featured Event</h2>
-      <FeaturedEvent v-if="event" :event="event" />
-    </section> -->
-    <!-- <section class="my-10 container mx-auto">
-      <div class="w-11/12 sm:w-1/2 mx-auto" @click="route">
-        <Button text="View All Bands" />
-      </div>
-      <a href="mailto:punkrockcompound@gmail.com">Send mail</a>
-    </section> -->
-    <!-- <section class="my-10">
-      <Cta />
-    </section> -->
-    <!-- <section class="my-10">
-      <Gallery />
-    </section> -->
-    <!-- <section>
-      <NewsLetterCta />
-    </section> -->
     <section v-if="chat">
       <Chat
         :chatInfo="chat"
@@ -92,15 +54,7 @@ export default {
       console.log(error, 'this is all bands ')
     }
   },
-  // async mounted() {
-  //   try {
-  //     const allBands = await this.$strapi.find('bands')
-  //     this.bands = allBands.slice(0, 3)
-  //     this.event = await this.$strapi.find('featured-event')
-  //   } catch (error) {
-  //     return error
-  //   }
-  // },
+
   methods: {
     async renderChatComp(chat) {
       this.chatComp = false
@@ -190,37 +144,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-@media only screen and (max-width: 375px) {
-  .video-container {
-    position: relative;
-    padding-bottom: 30vh;
-    padding-top: 30px;
-    max-height: 30vh;
-    overflow: hidden;
-  }
-}
-.ytp-impression-link {
-  display: none;
-}
-@media only screen and (min-width: 376px) {
-  .video-container {
-    position: relative;
-    padding-bottom: 66vh;
-    padding-top: 30px;
-    max-height: 66vh;
-    overflow: hidden;
-  }
-}
-
-.video-container iframe,
-.video-container object,
-.video-container embed {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-</style>
