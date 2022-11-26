@@ -8,7 +8,11 @@
       <!-- mail icon with contact info -->
       <div class="flex_row flex_align_center">
         <div class="icon_margin_right mobile_display mail-icon-display">
-          <img class="icon-height" src="~/static/mail-icon-white.svg" />
+          <nuxt-image
+            src="~/static/mail-icon-white.svg"
+            width="12"
+            height="12"
+          />
         </div>
         <div>
           <a
@@ -35,9 +39,8 @@
       <div>
         <NuxtLink to="/">
           <nuxt-img
-            format="webp"
             class="logo"
-            src="~/static/logo-prc.svg"
+            src="/logo-prc.svg"
             alt=""
             width="164"
             height="72"
@@ -156,17 +159,22 @@
       <!-- mobile menu icon  -->
       <div class="flex flex-grow w-full justify-end">
         <NuxtLink to="/search">
-          <img
+          <nuxt-img
             :class="{ scroll: hasScrolled, hidden: isOpen }"
-            class="menu fixed z-50 transition-all duration-200 ease-linear top-[110px] right-[60px] h-[30px] w-[30px]"
+            class="menu fixed z-50 transition-all duration-200 ease-linear top-[110px] right-[60px]"
             :src="`/search.svg`"
+            alt="search icon"
+            width="30"
+            height="30"
           />
         </NuxtLink>
-        <img
+        <nuxt-image
           :class="{ open: isOpen, scroll: hasScrolled }"
-          class="menu fixed z-50 transition-all duration-200 ease-linear top-[110px] h-[30px] w-[30px]"
+          class="menu fixed z-50 transition-all duration-200 ease-linear top-[110px]"
           :src="`/${menuIcon}`"
-          alt=""
+          alt="menu icon"
+          width="30"
+          height="30"
           @click="toggleMenu"
         />
       </div>

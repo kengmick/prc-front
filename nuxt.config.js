@@ -72,7 +72,13 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/strapi', 'nuxt-socket-io', '@nuxt/image', 'nuxt-compress'],
+  modules: [
+    '@nuxtjs/strapi',
+    'nuxt-socket-io',
+    '@nuxt/image',
+    'nuxt-compress',
+    '@nuxtjs/pwa',
+  ],
   // compression nuxt-compress
   // 'nuxt-compress': {
   //   gzip: {
@@ -84,6 +90,14 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   image: {
     domains: ['https://punkrockcompund.s3.amazonaws.com'],
+  },
+  'nuxt-compress': {
+    gzip: {
+      threshold: 8192,
+    },
+    brotli: {
+      threshold: 8192,
+    },
   },
   build: {},
   strapi: {

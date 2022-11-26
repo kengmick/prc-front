@@ -5,7 +5,8 @@
       <div
         class="flex mt-6 flex-col justify-center items-center md:flex-row md:flex-wrap md:gap-6"
       >
-        <PosterCard
+        <h1>Hello</h1>
+        <!-- <PosterCard
           class="mb-10"
           v-for="(band, index) in bands"
           :key="band.bandName + index"
@@ -14,7 +15,7 @@
           :isFeatured="true"
           :isHome="true"
           @startChat="startChatNow(band.users_permissions_user)"
-        />
+        /> -->
       </div>
     </section>
 
