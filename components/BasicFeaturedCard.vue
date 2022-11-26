@@ -41,6 +41,7 @@
       <div class="w-[141px] h-[186px] shadow-xl">
         <nuxt-img
           class="h-full object-cover"
+          format="webp"
           :src="`${cardData.bandProfileImg.url}`"
           alt=""
           width="141"
@@ -51,9 +52,15 @@
       <div class="w-[141px] h-[186px] bg-[#27ED5E] shadow-xl">
         <!-- add a featured card here -->
         <div
-          class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] scaleDownTwo"
-          :style="{ backgroundImage: `url(/punk-background.png)` }"
+          class="relative w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] scaleDownTwo"
         >
+          <nuxt-img
+            class="absolute top-0 negetive-index object-fill"
+            format="webp"
+            :src="cardData.bandProfileImg.url"
+            width="300"
+            height="400"
+          />
           <!-- header -->
           <section
             class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
