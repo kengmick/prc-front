@@ -8,11 +8,7 @@
       <!-- mail icon with contact info -->
       <div class="flex_row flex_align_center">
         <div class="icon_margin_right mobile_display mail-icon-display">
-          <nuxt-image
-            src="~/static/mail-icon-white.svg"
-            width="12"
-            height="12"
-          />
+          <nuxt-image src="/mail-icon-white.svg" width="12" height="12" />
         </div>
         <div>
           <a
@@ -148,11 +144,13 @@
 
       <div class="w-full">
         <NuxtLink to="/">
-          <img
+          <nuxt-img
             class="logo"
-            src="~/static/logo-prc.svg"
+            src="logo-prc.svg"
             alt=""
             @click="mobileTopNav"
+            width="164"
+            height="72"
           />
         </NuxtLink>
       </div>
