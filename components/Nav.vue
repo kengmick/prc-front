@@ -21,20 +21,6 @@
           </a>
         </div>
       </div>
-      <div class="flex_row flex_align_center flex_end_row">
-        <!-- add the instagram icon please -->
-        <!-- <a href="https://www.facebook.com/PunkRockCompoundChi">
-          <img class="icon-height" src="~/static/facebook-white-icon.svg" />
-        </a> -->
-        <!-- <a
-          href="https://www.youtube.com/channel/UCi7RTyhkRtjTu_8Z_v-9UbQ/videos"
-        >
-          <img
-            class="icon-height icon_margin_left"
-            src="~/static/youtube-white-icon.svg"
-          />
-        </a> -->
-      </div>
     </div>
     <!-- desktop nav -->
     <!-- .lt_space {
@@ -48,7 +34,14 @@
     <div class="hidden md:flex px-10 py-2 main_red_background text-white">
       <div>
         <NuxtLink to="/">
-          <img class="logo" src="~/static/logo-prc.svg" alt="" />
+          <nuxt-img
+            format="webp"
+            class="logo"
+            src="~/static/logo-prc.svg"
+            alt=""
+            width="164"
+            height="72"
+          />
         </NuxtLink>
         <div class="flex justify-between">
           <div v-if="!$strapi.user">

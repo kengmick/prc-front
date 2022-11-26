@@ -95,6 +95,8 @@
                 class="h-full object-cover"
                 src="punk-background.png"
                 alt=""
+                width="141"
+                height="186"
               />
             </div>
             <!-- third featured Card  -->
