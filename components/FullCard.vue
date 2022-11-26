@@ -6,10 +6,10 @@
     <nuxt-img
       class="absolute top-0 negetive-index object-fill"
       format="webp"
+      preload
       :src="band.bandProfileImg.url"
       width="300"
       height="400"
-      preload
     />
     <!-- header -->
     <section
