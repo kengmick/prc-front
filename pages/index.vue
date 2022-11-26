@@ -5,7 +5,6 @@
       <div
         class="flex mt-6 flex-col justify-center items-center md:flex-row md:flex-wrap md:gap-6"
       >
-        <h1>Hello</h1>
         <PosterCard
           class="mb-10"
           v-for="(band, index) in bands"
