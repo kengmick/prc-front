@@ -1,8 +1,15 @@
 <template>
+  <!-- :style="{ backgroundImage: `url(${band.bandProfileImg.url})` }" for background style tag  -->
   <div
-    class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px]"
-    :style="{ backgroundImage: `url(${band.bandProfileImg.url})` }"
+    class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] relative overscroll-none"
   >
+    <nuxt-img
+      class="absolute top-0 negetive-index object-fill"
+      format="webp"
+      :src="band.bandProfileImg.url"
+      width="600"
+      height="600"
+    />
     <NuxtLink
       v-if="!addingCard"
       class=""
@@ -104,23 +111,29 @@
           },
         }"
       >
-        <div class="w-[141px] h-[186px] shadow-xl">
-          <img
+        <div class="w-[141px] h-[186px]">
+          <nuxt-img
             class="h-full object-cover"
+            format="webp"
             :src="`${band.bandProfileImg.url}`"
             alt=""
+            width="141"
+            height="186"
           />
         </div>
       </NuxtLink>
-      <div v-else class="w-[141px] h-[186px] shadow-xl">
-        <img
+      <div v-else class="w-[141px] h-[186px]">
+        <nuxt-img
+          format="webp"
           class="h-full object-cover"
           :src="`${band.bandProfileImg.url}`"
           alt=""
+          width="141"
+          height="186"
         />
       </div>
       <!-- first featured Card  -->
-      <div class="w-[141px] h-[186px] bg-[#27ED5E] shadow-xl cursor-pointer">
+      <div class="w-[141px] h-[186px] bg-[#27ED5E] cursor-pointer">
         <span v-if="band.hasFeaturedCard && !addingCard">
           <BasicFeaturedCard
             :cardData="band.cardData"
@@ -360,6 +373,12 @@ export default {
 .card_header_size {
   font-size: 56px;
 }
+
+.negetive-index {
+  z-index: -999;
+  filter: blur(4px);
+}
+
 .error {
   position: fixed;
   top: 0;

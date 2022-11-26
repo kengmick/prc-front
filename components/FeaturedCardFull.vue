@@ -1,8 +1,16 @@
 <template>
   <div
-    class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] scaleDown"
-    :style="{ backgroundImage: `url(/punk-background.png)` }"
+    v-if="cardData"
+    class="relative w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] scaleDown"
   >
+    <nuxt-img
+      class="absolute top-0 negetive-index blur-xl object-fill"
+      format="webp"
+      :src="cardData.bandProfileImg.url"
+      width="300"
+      height="400"
+      preload
+    />
     <!-- header -->
     <section
       class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
@@ -27,15 +35,31 @@
 
     <!-- logo and card  -->
     <section class="w-full flex justify-between px-[4px] mb-[8px]">
-      <div class="w-[141px] h-[186px] shadow-xl">
-        <img class="h-full object-cover" src="punk-background.png" alt="" />
+      <div class="relative w-[141px] h-[186px] shadow-xl">
+        <nuxt-img
+          class="absolute top-0 negetive-index object-cover"
+          format="webp"
+          :src="cardData.bandProfileImg.url"
+          alt=""
+          width="141"
+          height="186"
+          preload
+        />
       </div>
       <!-- second featured Card  -->
       <div class="w-[141px] h-[186px] bg-[#27ED5E] shadow-xl">
         <div
           class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] scaleDownThree"
-          :style="{ backgroundImage: `url(/punk-background.png)` }"
         >
+          <nuxt-img
+            format="webp"
+            class="absolute top-0 negetive-index object-cover"
+            :src="cardData.bandProfileImg.url"
+            alt=""
+            width="300"
+            height="400"
+            preload
+          />
           <!-- header -->
           <section
             class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
@@ -65,10 +89,14 @@
           <!-- logo and card  -->
           <section class="w-full flex justify-between px-[4px] mb-[8px]">
             <div class="w-[141px] h-[186px] shadow-xl">
-              <img
+              <nuxt-img
+                format="webp"
                 class="h-full object-cover"
-                src="punk-background.png"
+                :src="cardData.bandProfileImg.url"
                 alt=""
+                width="141"
+                height="186"
+                preload
               />
             </div>
             <!-- no card thrid item   -->
@@ -135,7 +163,16 @@
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    cardData: {
+      type: Object,
+      default: () => {
+        return {}
+      },
+    },
+  },
+}
 </script>
 
 <style scoped>
@@ -149,5 +186,12 @@ export default {}
   transform: scale(47.4%);
   margin-left: -80px;
   margin-top: -105px;
+}
+.negetive-index {
+  z-index: -999;
+}
+
+.blur {
+  filter: blur(4px);
 }
 </style>

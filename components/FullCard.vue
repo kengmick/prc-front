@@ -1,8 +1,16 @@
 <template>
+  <!--  :style="{ backgroundImage: `url(/punk-background.png)` }"  -->
   <div
-    class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px]"
-    :style="{ backgroundImage: `url(/punk-background.png)` }"
+    class="relative w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px]"
   >
+    <nuxt-img
+      class="absolute top-0 negetive-index object-fill"
+      format="webp"
+      :src="band.bandProfileImg.url"
+      width="300"
+      height="400"
+      preload
+    />
     <!-- header -->
     <section
       class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
@@ -35,11 +43,17 @@
         <div class="w-[202px] h-[120px] mt-[8px] flex justify-around">
           <!-- logo -->
           <div class="w-[90px] h-[120px] shadow-2xl">
-            <img class="h-full object-cover" src="punk-background.png" alt="" />
+            <nuxt-img
+              class="h-full object-cover"
+              :src="band.bandProfileImg.url"
+              alt=""
+              width="90"
+              height="120"
+            />
           </div>
           <!-- first featured card  -->
           <div class="w-[90px] h-[120px] bg-[#27ED5E] shadow-2xl">
-            <FeaturedCardFull />
+            <FeaturedCardFull :cardData="band" />
           </div>
         </div>
       </section>
@@ -311,5 +325,9 @@ export default {
   transform: scale(47.4%);
   margin-left: -80px;
   margin-top: -105px;
+}
+.negetive-index {
+  z-index: -999;
+  filter: blur(4px);
 }
 </style>

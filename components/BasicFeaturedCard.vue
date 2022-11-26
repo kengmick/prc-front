@@ -1,8 +1,15 @@
 <template>
+  <!--  :style="{ backgroundImage: `url(${cardData.bandProfileImg.url})` }" -->
   <div
-    class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] scaleDown"
-    :style="{ backgroundImage: `url(${cardData.bandProfileImg.url})` }"
+    class="relative w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] scaleDown"
   >
+    <nuxt-img
+      class="absolute top-0 negetive-index object-fill"
+      format="webp"
+      :src="cardData.bandProfileImg.url"
+      width="300"
+      height="400"
+    />
     <!-- header -->
     <section
       class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
@@ -32,10 +39,12 @@
     <!-- logo and card  -->
     <section class="w-full flex justify-between px-[4px] mb-[8px]">
       <div class="w-[141px] h-[186px] shadow-xl">
-        <img
+        <nuxt-img
           class="h-full object-cover"
           :src="`${cardData.bandProfileImg.url}`"
           alt=""
+          width="141"
+          height="186"
         />
       </div>
       <!-- second featured Card  -->
@@ -74,7 +83,8 @@
           <!-- logo and card  -->
           <section class="w-full flex justify-between px-[4px] mb-[8px]">
             <div class="w-[141px] h-[186px] shadow-xl">
-              <img
+              <nuxt-img
+                format="webp"
                 class="h-full object-cover"
                 src="punk-background.png"
                 alt=""
@@ -166,5 +176,9 @@ export default {
   transform: scale(47.4%);
   margin-left: -80px;
   margin-top: -105px;
+}
+.negetive-index {
+  z-index: -999;
+  filter: blur(4px);
 }
 </style>

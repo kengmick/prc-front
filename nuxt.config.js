@@ -61,6 +61,7 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    'nuxt-compress',
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/stylelint
@@ -68,12 +69,23 @@ export default {
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
     '@braid/vue-formulate/nuxt',
+    '@nuxt/image',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/strapi', 'nuxt-socket-io'],
-
+  modules: ['@nuxtjs/strapi', 'nuxt-socket-io', '@nuxt/image'],
+  // compression nuxt-compress
+  // 'nuxt-compress': {
+  //   gzip: {
+  //     threshold: 8192,
+  //   },
+  //   brotli: {
+  //     threshold: 8192,
+  //   },
   // Build Configuration: https://go.nuxtjs.dev/config-build
+  image: {
+    domains: ['https://punkrockcompund.s3.amazonaws.com'],
+  },
   build: {},
   strapi: {
     url: process.env.BACKEND_URL,
