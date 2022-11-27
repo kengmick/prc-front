@@ -335,7 +335,7 @@ export default {
   width: 20px;
 }
 .logo {
-  height: 82px;
+  height: 50px;
 }
 .contact-text {
   font-size: inherit;

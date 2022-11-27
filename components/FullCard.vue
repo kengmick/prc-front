@@ -52,9 +52,20 @@
             />
           </div>
           <!-- first featured card  -->
-          <div class="w-[90px] h-[120px] bg-[#27ED5E] shadow-2xl">
-            <FeaturedCardFull :cardData="band" />
+          <div
+            v-if="band.cardData"
+            class="w-[90px] h-[120px] bg-[#27ED5E] shadow-2xl"
+          >
+            <NuxtLink
+              :to="{
+                path: '/bandprofile',
+                query: { band: band.cardData.id },
+              }"
+            >
+              <FeaturedCardFull :cardData="band" />
+            </NuxtLink>
           </div>
+          <div v-else class="h-[120px] w-[90px] bg-[#27ed5f25]"></div>
         </div>
       </section>
       <section

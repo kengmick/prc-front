@@ -133,20 +133,27 @@
         />
       </div>
       <!-- first featured Card  -->
-      <div class="w-[141px] h-[186px] bg-[#27ED5E] cursor-pointer">
+      <div class="w-[141px] h-[186px] bg-[#27ed5f25] cursor-pointer">
         <span v-if="band.hasFeaturedCard && !addingCard">
-          <BasicFeaturedCard
-            :cardData="band.cardData"
-            v-if="band.cardType === 'band'"
-          />
+          <NuxtLink
+            :to="{
+              path: '/bandprofile',
+              query: { band: band.cardData.id.replace(/\D/g, '') },
+            }"
+          >
+            <BasicFeaturedCard
+              :cardData="band.cardData"
+              v-if="band.cardType === 'band'"
+            />
+          </NuxtLink>
         </span>
 
         <div
-          v-if="!band.hasFeaturedCard && $strapi.user && !addingCard"
-          class="flex justify-center items-center h-full w-full"
+          v-if="!band.hasFeaturedCard && !addingCard"
+          class="flex justify-center items-center h-full w-full border-2"
         >
+          <!--   v-if="band.users_permissions_user.id === $strapi.user.id" -->
           <NuxtLink
-            v-if="band.users_permissions_user.id === $strapi.user.id"
             class="h-full w-full flex justify-center items-center"
             :to="{
               path: '/addCardPage',
@@ -155,15 +162,11 @@
               },
             }"
           >
-            <p class="chedder text-center">+ Add Featured Card</p>
+            <div>
+              <p class="chedder text-center">+ Add</p>
+              <p class="chedder text-center">Featured Card</p>
+            </div>
           </NuxtLink>
-          <p
-            v-else
-            class="chedder text-center cursor-pointer"
-            @click="addCardToData"
-          >
-            Featured Card Go Here
-          </p>
         </div>
       </div>
     </section>
