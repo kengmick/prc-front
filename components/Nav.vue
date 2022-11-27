@@ -313,6 +313,13 @@ export default {
     logoutMobile() {
       this.isOpen = !this.isOpen
       const bodyElement = document.querySelectorAll('body')[0]
+      if (this.isOpen) {
+        bodyElement.style = 'overflow:hidden;'
+        this.menuIcon = 'close.svg'
+      } else {
+        bodyElement.style = ''
+        this.menuIcon = 'menu.svg'
+      }
       this.$strapi.logout()
       if (this.isOpen) {
         bodyElement.style = 'overflow:hidden;'
