@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="w-full h-96 flex items-center justify-center bg-[#19332d]">
-      <h1>PunkRock Compompund</h1>
+      <h1 class="text-white">PunkRock Compompund</h1>
     </section>
     <section v-if="bands.length > 0">
       <!-- container for poster cards -->

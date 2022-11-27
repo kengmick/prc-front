@@ -154,6 +154,7 @@
         >
           <!--   v-if="band.users_permissions_user.id === $strapi.user.id" -->
           <NuxtLink
+            v-if="$strapi.user"
             class="h-full w-full flex justify-center items-center"
             :to="{
               path: '/addCardPage',
@@ -167,6 +168,14 @@
               <p class="chedder text-center">Featured Card</p>
             </div>
           </NuxtLink>
+          <div
+            v-else
+            class="h-full w-full flex justify-center items-center"
+            @click="showModal = true"
+          >
+            <p class="chedder text-center">+ Add</p>
+            <p class="chedder text-center">Featured Card</p>
+          </div>
         </div>
       </div>
     </section>
@@ -234,6 +243,7 @@
         Add This Card !!!
       </div>
     </section>
+    <Modal class="z-50" v-if="showModal" @close="showModal = false" />
   </div>
 </template>
 
@@ -277,6 +287,7 @@ export default {
       index: 0,
       chatComp: false,
       addFeatured: false,
+      showModal: false,
     }
   },
   computed: {
@@ -287,11 +298,14 @@ export default {
       return this.band.announcements || ''
     },
   },
-  mounted() {
-    console.log(this.band)
-  },
+
   methods: {
     async addCardToData() {
+      if (this.$strapi.user) {
+        this.showModal = false
+      } else {
+        return (this.showModal = true)
+      }
       try {
         const updated = await this.$strapi.update(
           'bands',

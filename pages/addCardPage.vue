@@ -1,11 +1,25 @@
 <template>
-  <div>
+  <div v-if="$strapi.user">
     <section v-if="band">
       <section class="my-4">
         <h2 class="text-2xl text-center my-6">Pick a card to feature</h2>
         <SearchFeatured index="bands" />
       </section>
     </section>
+    <section v-else>
+      <section class="my-4">
+        <h2 class="text-2xl text-center my-6">
+          Add this card to one of your profiles
+        </h2>
+        <SearchFeatured index="bands" />
+      </section>
+    </section>
+  </div>
+  <div v-else>
+    <h2>Please sign in</h2>
+    <div class="bg-black text-white px-4 py-2 flex justify-center items-center">
+      Sign in
+    </div>
   </div>
 </template>
 
@@ -18,8 +32,10 @@ export default {
   },
   async mounted() {
     try {
-      const band = await this.$strapi.findOne('bands', this.$route.query.band)
-      this.band = band
+      if (this.$route.query.band) {
+        const band = await this.$strapi.findOne('bands', this.$route.query.band)
+        this.band = band
+      }
     } catch (error) {
       console.log(error)
     }

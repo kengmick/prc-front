@@ -66,16 +66,22 @@ export default {
     async login() {
       this.loading = true
       try {
-        await this.$strapi.login({
+        const user = await this.$strapi.login({
           identifier: this.formValues.identifier,
           password: this.formValues.password,
         })
         if (this.formValues.identifier === 'superman') {
           this.$router.push('/admin')
           this.loading = false
-        } else {
-          this.$router.push('/profile')
+        }
+        console.log(user)
+        this.loading = false
+        if (this.$route.query.addCard === 'true') {
+          console.log('do something here')
+          this.$router.push('addcardpage')
           this.loading = false
+        } else {
+          this.$router.push('profile')
         }
       } catch (error) {
         this.loading = false

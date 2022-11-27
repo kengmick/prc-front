@@ -8,7 +8,7 @@
       <!-- mail icon with contact info -->
       <div class="flex_row flex_align_center">
         <div class="icon_margin_right mobile_display mail-icon-display">
-          <nuxt-image src="/mail-icon-white.svg" width="12" height="12" />
+          <nuxt-img src="/mail-icon-white.svg" width="12" height="12" />
         </div>
         <div>
           <a
@@ -35,6 +35,7 @@
       <div>
         <NuxtLink to="/">
           <nuxt-img
+            format="webp"
             class="logo"
             src="/logo-prc.svg"
             alt=""
@@ -166,7 +167,7 @@
             height="30"
           />
         </NuxtLink>
-        <nuxt-image
+        <nuxt-img
           :class="{ open: isOpen, scroll: hasScrolled }"
           class="menu fixed z-50 transition-all duration-200 ease-linear top-[110px]"
           :src="`/${menuIcon}`"
