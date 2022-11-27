@@ -1,26 +1,57 @@
 <template>
   <div v-if="$strapi.user">
-    <section v-if="band">
-      <section class="my-4">
-        <h2 class="text-2xl text-center my-6">Pick a card to feature</h2>
-        <SearchFeatured index="bands" />
+    <div v-if="band">
+      <section v-if="band.users_permissions_user.id !== $strapi.user.id">
+        <section class="my-4">
+          <!-- when not equal to the user id ... does not belong to user -->
+          <h2 class="text-2xl text-center my-6">Feature this card</h2>
+          <div class="container-sm mx-auto flex justify-center items-center">
+            <PosterCard
+              class="mb-10"
+              :band="band"
+              :user="band.users_permissions_user"
+              :isFeatured="true"
+              :isHome="true"
+              :isAddCardPage="false"
+              @startChat="startChatNow(band.users_permissions_user)"
+            />
+          </div>
+          <p class="text-xl text-center my-6 chedder">
+            Pick one of your profiles to add this card too
+          </p>
+
+          <!-- <SearchFeatured index="bands" filter="yourBands" /> -->
+          <SearchFeatured index="bands" />
+        </section>
       </section>
-    </section>
-    <section v-else>
-      <section class="my-4">
-        <h2 class="text-2xl text-center my-6">
-          Add this card to one of your profiles
-        </h2>
-        <SearchFeatured index="bands" />
+      <section v-if="band.users_permissions_user.id === $strapi.user.id">
+        <section class="my-4">
+          <h2 class="text-xl text-center my-6 chedder">
+            Add Card to owned band {{ $strapi.user.id }}/
+            {{ band.users_permissions_user.id }}
+          </h2>
+          <div class="container-sm mx-auto flex justify-center items-center">
+            <PosterCard
+              class="mb-10"
+              :band="band"
+              :user="band.users_permissions_user"
+              :isFeatured="true"
+              :isHome="true"
+              :isAddCardPage="false"
+              @startChat="startChatNow(band.users_permissions_user)"
+            />
+          </div>
+          <SearchFeatured index="bands" />
+        </section>
       </section>
-    </section>
+    </div>
   </div>
-  <div v-else>
+  <!-- <div v-else>
     <h2>Please sign in</h2>
     <div class="bg-black text-white px-4 py-2 flex justify-center items-center">
       Sign in
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>

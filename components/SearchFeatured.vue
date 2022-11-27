@@ -1,12 +1,13 @@
 <template>
   <div>
     <ais-instant-search :search-client="searchClient" :index-name="index">
+      Search box here
       <section class="flex justify-center items-center mb-6">
-        <ais-search-box id="a" />
+        <ais-search-box />
       </section>
       <ais-state-results>
         <template v-slot="{ state: { query } }">
-          <ais-hits v-if="query.length > 0">
+          <ais-hits v-if="query.length >= 0 || query === null">
             <template v-slot="{ items }">
               <section
                 class="container mx-auto flex gap-4 justify-center items-center mb-10"
@@ -17,7 +18,7 @@
               </section>
             </template>
           </ais-hits>
-          <div class="hidden" v-else></div>
+          <div class="hidden" v-else>Not here</div>
         </template>
       </ais-state-results>
     </ais-instant-search>
@@ -46,8 +47,13 @@ export default {
         return 'bands'
       },
     },
+    filter: {
+      type: String,
+      default: () => {
+        return ''
+      },
+    },
   },
-
   data() {
     return {
       searchClient: instantMeiliSearch(

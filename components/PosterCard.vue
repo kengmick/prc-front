@@ -238,7 +238,7 @@
     >
       <div
         class="w-11/12 bg-black text-white flex justify-center items-center text-[14px] chedder mt-[4px] py-4 mb-6 cursor-pointer"
-        @click="addCardToData"
+        @click="addCardToData(userBandToAddToo)"
       >
         Add This Card !!!
       </div>
@@ -270,7 +270,12 @@ export default {
         return {}
       },
     },
-
+    userBandToAddToo: {
+      type: String || Number,
+      default() {
+        return ''
+      },
+    },
     isHome: {
       type: Boolean,
       default() {
@@ -300,23 +305,26 @@ export default {
   },
 
   methods: {
-    async addCardToData() {
+    async addCardToData(userBandToAddToo) {
+      // Check if user is logged in
       if (this.$strapi.user) {
         this.showModal = false
       } else {
         return (this.showModal = true)
       }
+
       try {
+        // updating a band that the user picked to add too with the current bandid from the card
+        console.log('this is the band id that will be added ', this.band.id)
         const updated = await this.$strapi.update(
           'bands',
-          this.$route.query.band,
+          this.userBandToAddToo,
           {
             hasFeaturedCard: true,
             cardType: 'band',
             cardData: JSON.stringify(this.band),
           }
         )
-        console.log('this profile has been updated', updated)
         if (updated) {
           const stringId = this.band.id.split('').indexOf('-')
           const bandIdToPage = stringId + 1

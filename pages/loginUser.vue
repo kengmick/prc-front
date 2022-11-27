@@ -78,7 +78,11 @@ export default {
         this.loading = false
         if (this.$route.query.addCard === 'true') {
           console.log('do something here')
-          this.$router.push('addcardpage')
+
+          this.$router.push({
+            path: 'addcardpage',
+            query: { band: this.$route.query.routeData.query.band },
+          })
           this.loading = false
         } else {
           this.$router.push('profile')

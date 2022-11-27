@@ -1,5 +1,6 @@
 <template>
   <div class="md:container container mx-auto my-6">
+    This is the search main function
     <Search index="bands" />
   </div>
 </template>
