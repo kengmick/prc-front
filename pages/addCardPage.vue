@@ -13,15 +13,17 @@
               :isFeatured="true"
               :isHome="true"
               :isAddCardPage="false"
+              :disableAll="true"
               @startChat="startChatNow(band.users_permissions_user)"
             />
           </div>
           <p class="text-xl text-center my-6 chedder">
             Pick one of your profiles to add this card too
           </p>
+          <!-- list all cards  -->
 
-          <!-- <SearchFeatured index="bands" filter="yourBands" /> -->
-          <SearchFeatured index="bands" />
+          <SearchFeatured index="bands" filter="yourBands" :cardToAdd="band" />
+          <!-- <SearchFeatured index="bands" /> -->
         </section>
       </section>
       <section v-if="band.users_permissions_user.id === $strapi.user.id">
@@ -41,7 +43,7 @@
               @startChat="startChatNow(band.users_permissions_user)"
             />
           </div>
-          <SearchFeatured index="bands" />
+          <!-- <SearchFeatured index="bands" /> -->
         </section>
       </section>
     </div>

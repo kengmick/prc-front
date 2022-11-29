@@ -1,22 +1,22 @@
 <template>
   <div>
-    <div class="max-w-md mx-auto rounded-lg overflow-hidden md:max-w-xl">
-      <ais-instant-search :search-client="searchClient" index-name="bands">
-        <ais-search-box placeholder="Search a band" :autofocus="true" />
-        <ais-hits>
-          <template v-slot:item="{ item }">
-            <h2>{{ item.name }}</h2>
-          </template>
-        </ais-hits>
-      </ais-instant-search>
-    </div>
+    <ais-instant-search :search-client="searchClient" :index-name="index">
+      <section class="flex justify-center items-center">
+        <ais-search-box id="a" />
+      </section>
+      <ais-hits>
+        <!-- <template v-slot="{ items }">
+          <div>
+            <pre>{{ items[0] }}</pre>
+          </div>
+        </template> -->
+      </ais-hits>
+    </ais-instant-search>
   </div>
 </template>
 
 <script>
-import algoliasearch from 'algoliasearch/lite'
-import 'instantsearch.css/themes/satellite-min.css'
-
+import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 import { AisInstantSearch, AisSearchBox, AisHits } from 'vue-instantsearch'
 export default {
   components: {
@@ -34,9 +34,9 @@ export default {
   },
   data() {
     return {
-      searchClient: algoliasearch(
-        'O7P41KSHS3',
-        'e44faf2814832ff0f62e87e737da6963'
+      searchClient: instantMeiliSearch(
+        'https://prcsearch.net',
+        'OTRmM2M3MGE3NGJlN2FlMGIxYWMwN2E2'
       ),
     }
   },

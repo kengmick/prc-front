@@ -1,17 +1,17 @@
 <template>
-  <!-- :style="{ backgroundImage: `url(${band.bandProfileImg.url})` }" for background style tag  -->
+  <!-- :style="{ backgroundImage: `url(${band.bandProfileImg.url})` }" for background style tag replace regex replace(/\D/g, '')  -->
   <div
     class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] relative overscroll-none"
   >
     <nuxt-img
       class="absolute top-0 negetive-index object-fill"
       format="webp"
-      :src="band.bandProfileImg.url"
+      :src="`band.bandProfileImg.url`"
       width="600"
       height="600"
     />
     <NuxtLink
-      v-if="!addingCard"
+      v-if="!addingCard && !disableAll"
       class=""
       :to="{
         path: '/bandprofile',
@@ -40,7 +40,7 @@
     <!-- info box  -->
     <section class="w-full flex justify-between px-[8px] [bg-blue-500 mb-[8px]">
       <NuxtLink
-        v-if="!addingCard"
+        v-if="!addingCard && !disableAll"
         :to="{
           path: '/bandprofile',
           query: {
@@ -70,7 +70,7 @@
         class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
       >
         <NuxtLink
-          v-if="addingCard"
+          v-if="addingCard && !disableAll"
           :to="{
             path: '/bandprofile',
             query: {
@@ -103,7 +103,7 @@
     <!-- logo and card  -->
     <section class="w-full flex justify-between px-[4px] mb-[8px]">
       <NuxtLink
-        v-if="!addingCard"
+        v-if="!addingCard && !addThisCard && !disableAll"
         :to="{
           path: '/bandprofile',
           query: {
@@ -134,11 +134,12 @@
       </div>
       <!-- first featured Card  -->
       <div class="w-[141px] h-[186px] bg-[#27ed5f25] cursor-pointer">
-        <span v-if="band.hasFeaturedCard && !addingCard">
+        <span v-if="band.hasFeaturedCard && !addingCard && !disableAll">
           <NuxtLink
+            v-if="!disableAll"
             :to="{
               path: '/bandprofile',
-              query: { band: band.cardData.id.replace(/\D/g, '') },
+              query: { band: band.cardData.id },
             }"
           >
             <BasicFeaturedCard
@@ -154,7 +155,7 @@
         >
           <!--   v-if="band.users_permissions_user.id === $strapi.user.id" -->
           <NuxtLink
-            v-if="$strapi.user"
+            v-if="$strapi.user && !addThisCard && !disableAll"
             class="h-full w-full flex justify-center items-center"
             :to="{
               path: '/addCardPage',
@@ -164,17 +165,17 @@
             }"
           >
             <div>
-              <p class="chedder text-center">+ Add</p>
-              <p class="chedder text-center">Featured Card</p>
+              <p class="chedder text-center">
+                <span v-if="addThisCard" class="block">Add this</span>Featured
+                Card
+              </p>
             </div>
           </NuxtLink>
-          <div
-            v-else
-            class="h-full w-full flex justify-center items-center"
-            @click="showModal = true"
-          >
-            <p class="chedder text-center">+ Add</p>
-            <p class="chedder text-center">Featured Card</p>
+          <div v-else class="h-full w-full flex justify-center items-center">
+            <p class="chedder text-center">
+              <span v-if="addThisCard" class="block">Add this</span>Featured
+              Card
+            </p>
           </div>
         </div>
       </div>
@@ -219,7 +220,15 @@
       <div
         class="w-[66px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"
       >
-        <span class="flex items-center justify-between w-full px-2"
+        <span
+          v-if="!disableAll"
+          class="flex items-center justify-between w-full px-2 cursor-pointer"
+          @click="!addThisCard ? (showModal = true) : addCardToData(band.id)"
+          ><img class="h-[12px] w-[12px]" src="/add.svg" alt="" />Feature</span
+        >
+        <span
+          v-else
+          class="flex items-center justify-between w-full px-2 cursor-pointer"
           ><img class="h-[12px] w-[12px]" src="/add.svg" alt="" />Feature</span
         >
       </div>
@@ -282,6 +291,30 @@ export default {
         return false
       },
     },
+    addThisCard: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    addToYourCard: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    cardToAdd: {
+      type: Object,
+      default() {
+        return {}
+      },
+    },
+    disableAll: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
   },
 
   data() {
@@ -315,24 +348,42 @@ export default {
 
       try {
         // updating a band that the user picked to add too with the current bandid from the card
-        console.log('this is the band id that will be added ', this.band.id)
-        const updated = await this.$strapi.update(
-          'bands',
-          this.userBandToAddToo,
-          {
+        await console.log(userBandToAddToo, 'ad some featured card to band ')
+        // console.log('this is the band id that will be added ', this.band.id)
+        // if you selected a card to add to one of your cards
+        if (this.addToYourCard && userBandToAddToo) {
+          console.log(userBandToAddToo, 'the card to add', this.cardToAdd.id)
+          const updated = await this.$strapi.update('bands', userBandToAddToo, {
             hasFeaturedCard: true,
             cardType: 'band',
-            cardData: JSON.stringify(this.band),
-          }
-        )
-        if (updated) {
-          const stringId = this.band.id.split('').indexOf('-')
-          const bandIdToPage = stringId + 1
-          this.$router.push({
-            path: '/bandprofile',
-            query: { band: this.band.id.substring(bandIdToPage) },
+            cardData: JSON.stringify(this.cardToAdd),
           })
+          if (updated) {
+            // const stringId = this.band.id.split('').indexOf('-')
+            // const bandIdToPage = stringId + 1
+            this.$router.push({
+              path: '/bandprofile',
+              query: { band: userBandToAddToo },
+            })
+          }
         }
+        // const updated = await this.$strapi.update(
+        //   'bands',
+        //   this.userBandToAddToo,
+        //   {
+        //     hasFeaturedCard: true,
+        //     cardType: 'band',
+        //     cardData: JSON.stringify(this.band),
+        //   }
+        // )
+        // if (updated) {
+        //   const stringId = this.band.id.split('').indexOf('-')
+        //   const bandIdToPage = stringId + 1
+        //   this.$router.push({
+        //     path: '/bandprofile',
+        //     query: { band: this.band.id.substring(bandIdToPage) },
+        //   })
+        // }
       } catch (error) {
         console.log(error, 'three was an error when trying to make the update')
       }

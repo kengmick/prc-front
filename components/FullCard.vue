@@ -62,7 +62,7 @@
                 query: { band: band.cardData.id },
               }"
             >
-              <FeaturedCardFull :cardData="band" />
+              <FeaturedCardFull :cardData="band.cardData" />
             </NuxtLink>
           </div>
           <div v-else class="h-[120px] w-[90px] bg-[#27ed5f25]"></div>

@@ -143,17 +143,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.ais-SearchBox-input {
-  height: 50px;
-  padding: 1em 3em 1em 1em;
-}
-.ais-SearchBox-submitIcon {
-  height: 18px;
-  width: 18px;
-  margin-left: 1em;
-  margin-right: 1em;
-  margin-bottom: -3px;
-}
-</style>
