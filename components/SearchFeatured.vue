@@ -2,7 +2,7 @@
   <div>
     <section
       v-if="bands"
-      class="container mx-auto flex flex-col justify-center items-center sm:flex-row"
+      class="container mx-auto flex flex-col justify-center items-center sm:flex-row mb-16"
     >
       <PosterCard
         v-for="(band, index) in bands"
@@ -13,6 +13,9 @@
         :addThisCard="true"
         :addToYourCard="true"
         :cardToAdd="cardToAdd"
+        :selectUsersCard="true"
+        :addingCard="true"
+        @selectUsersCard="log(band)"
       />
     </section>
     <!-- <ais-instant-search :search-client="searchClient" :index-name="index">
@@ -75,6 +78,12 @@ export default {
         return b.users_permissions_user.id === this.$strapi.user.id
       })
     } catch (error) {}
+  },
+  methods: {
+    log(band) {
+      console.log('from poster this is band ', band.id)
+      this.$emit('selectUsersCard', band)
+    },
   },
 }
 </script>

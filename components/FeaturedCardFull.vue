@@ -16,7 +16,9 @@
       <section
         class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
       >
-        <h2 class="chedder text-[36px] text-white leading-none">Poster Band</h2>
+        <h2 class="chedder text-[36px] text-white leading-none">
+          {{ cardData.bandName }}
+        </h2>
       </section>
       <!-- info box  -->
       <section
@@ -25,13 +27,17 @@
         <div
           class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
         >
-          <p class="text-[12px] chedder">Punk/Ska</p>
-          <p class="text-[12px] chedder">Jan 1 2020</p>
+          <p class="text-[12px] chedder">Punk/{{ cardData.genre || '' }}</p>
+          <p class="text-[12px] chedder">
+            {{ cardData.dateStarted || 'Jan 1 2020' }}
+          </p>
         </div>
         <div
           class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
         >
-          <p class="text-[12px] chedder">Chicago, IL</p>
+          <p class="text-[12px] chedder">
+            {{ cardData.city }}, {{ cardData.state }}
+          </p>
           <p class="text-[12px] chedder">Internal Message</p>
         </div>
       </section>

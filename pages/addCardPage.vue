@@ -1,6 +1,7 @@
 <template>
   <div v-if="$strapi.user">
     <div v-if="band">
+      <!-- not users card  -->
       <section v-if="band.users_permissions_user.id !== $strapi.user.id">
         <section class="my-4">
           <!-- when not equal to the user id ... does not belong to user -->
@@ -22,7 +23,13 @@
           </p>
           <!-- list all cards  -->
 
-          <SearchFeatured index="bands" filter="yourBands" :cardToAdd="band" />
+          <SearchFeatured
+            index="bands"
+            filter="yourBands"
+            :cardToAdd="band"
+            :usersCard="true"
+            @selectUsersCard="logUsersCard"
+          />
           <!-- <SearchFeatured index="bands" /> -->
         </section>
       </section>
@@ -61,6 +68,7 @@ export default {
   data() {
     return {
       band: null,
+      cardToBeAddedToo: null,
     }
   },
   async mounted() {
@@ -72,6 +80,45 @@ export default {
     } catch (error) {
       console.log(error)
     }
+  },
+  methods: {
+    addCard() {
+      console.log('add a card to something')
+    },
+    async logUsersCard(card) {
+      try {
+        const updated = await this.$strapi.update('bands', card.id, {
+          hasFeaturedCard: true,
+          cardType: 'band',
+          cardData: JSON.stringify(this.band),
+        })
+        if (updated) {
+          this.$router.push({
+            path: '/bandprofile',
+            query: { band: card.id },
+          })
+        }
+        // const updated = await this.$strapi.update(
+        //   'bands',
+        //   this.userBandToAddToo,
+        //   {
+        //     hasFeaturedCard: true,
+        //     cardType: 'band',
+        //     cardData: JSON.stringify(this.band),
+        //   }
+        // )
+        // if (updated) {
+        //   const stringId = this.band.id.split('').indexOf('-')
+        //   const bandIdToPage = stringId + 1
+        //   this.$router.push({
+        //     path: '/bandprofile',
+        //     query: { band: this.band.id.substring(bandIdToPage) },
+        //   })
+        // }
+      } catch (error) {
+        console.log(error, 'three was an error when trying to make the update')
+      }
+    },
   },
 }
 </script>

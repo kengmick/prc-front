@@ -223,7 +223,7 @@
         <span
           v-if="!disableAll"
           class="flex items-center justify-between w-full px-2 cursor-pointer"
-          @click="!addThisCard ? (showModal = true) : addCardToData(band.id)"
+          @click="goToAddCard(band)"
           ><img class="h-[12px] w-[12px]" src="/add.svg" alt="" />Feature</span
         >
         <span
@@ -247,7 +247,7 @@
     >
       <div
         class="w-11/12 bg-black text-white flex justify-center items-center text-[14px] chedder mt-[4px] py-4 mb-6 cursor-pointer"
-        @click="addCardToData(userBandToAddToo)"
+        @click="$emit('selectUsersCard', band.id)"
       >
         Add This Card !!!
       </div>
@@ -315,6 +315,12 @@ export default {
         return false
       },
     },
+    selectUsersCard: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
   },
 
   data() {
@@ -338,55 +344,72 @@ export default {
   },
 
   methods: {
-    async addCardToData(userBandToAddToo) {
+    goToAddCard(band) {
+      if (this.$strapi.user) {
+        this.showModal = false
+        // go to add card page
+        if (band.users_permissions_user.id === this.$strapi.user.id) {
+          console.log('you clicked on your own band ')
+        } else {
+          this.$router.push({
+            path: 'addcardpage',
+            query: { band: band.id, usersCard: false },
+          })
+        }
+      } else {
+        return (this.showModal = true)
+      }
+    },
+    addCardToData(userBandToAddToo, band) {
       // Check if user is logged in
       if (this.$strapi.user) {
         this.showModal = false
       } else {
         return (this.showModal = true)
       }
+      console.log(band.users_permissions_user.id, this.$strapi.user.id)
 
-      try {
-        // updating a band that the user picked to add too with the current bandid from the card
-        await console.log(userBandToAddToo, 'ad some featured card to band ')
-        // console.log('this is the band id that will be added ', this.band.id)
-        // if you selected a card to add to one of your cards
-        if (this.addToYourCard && userBandToAddToo) {
-          console.log(userBandToAddToo, 'the card to add', this.cardToAdd.id)
-          const updated = await this.$strapi.update('bands', userBandToAddToo, {
-            hasFeaturedCard: true,
-            cardType: 'band',
-            cardData: JSON.stringify(this.cardToAdd),
-          })
-          if (updated) {
-            // const stringId = this.band.id.split('').indexOf('-')
-            // const bandIdToPage = stringId + 1
-            this.$router.push({
-              path: '/bandprofile',
-              query: { band: userBandToAddToo },
-            })
-          }
-        }
-        // const updated = await this.$strapi.update(
-        //   'bands',
-        //   this.userBandToAddToo,
-        //   {
-        //     hasFeaturedCard: true,
-        //     cardType: 'band',
-        //     cardData: JSON.stringify(this.band),
-        //   }
-        // )
-        // if (updated) {
-        //   const stringId = this.band.id.split('').indexOf('-')
-        //   const bandIdToPage = stringId + 1
-        //   this.$router.push({
-        //     path: '/bandprofile',
-        //     query: { band: this.band.id.substring(bandIdToPage) },
-        //   })
-        // }
-      } catch (error) {
-        console.log(error, 'three was an error when trying to make the update')
-      }
+      // try {
+      //   // updating a band that the user picked to add too with the current bandid from the card
+      //   await console.log(userBandToAddToo, 'ad some featured card to band ')
+      //   // console.log('this is the band id that will be added ', this.band.id)
+      //   // if you selected a card to add to one of your cards
+      //   if (this.addToYourCard && userBandToAddToo) {
+      //     console.log(userBandToAddToo, 'the card to add', this.cardToAdd.id)
+      //     const updated = await this.$strapi.update('bands', userBandToAddToo, {
+      //       hasFeaturedCard: true,
+      //       cardType: 'band',
+      //       cardData: JSON.stringify(this.cardToAdd),
+      //     })
+      //     if (updated) {
+      //       // const stringId = this.band.id.split('').indexOf('-')
+      //       // const bandIdToPage = stringId + 1
+      //       this.$router.push({
+      //         path: '/bandprofile',
+      //         query: { band: userBandToAddToo },
+      //       })
+      //     }
+      //   }
+      //   // const updated = await this.$strapi.update(
+      //   //   'bands',
+      //   //   this.userBandToAddToo,
+      //   //   {
+      //   //     hasFeaturedCard: true,
+      //   //     cardType: 'band',
+      //   //     cardData: JSON.stringify(this.band),
+      //   //   }
+      //   // )
+      //   // if (updated) {
+      //   //   const stringId = this.band.id.split('').indexOf('-')
+      //   //   const bandIdToPage = stringId + 1
+      //   //   this.$router.push({
+      //   //     path: '/bandprofile',
+      //   //     query: { band: this.band.id.substring(bandIdToPage) },
+      //   //   })
+      //   // }
+      // } catch (error) {
+      //   console.log(error, 'three was an error when trying to make the update')
+      // }
     },
     startChat(user) {
       console.log('user from the poster card ', user, ' the id ', user.id)
