@@ -249,7 +249,8 @@
         class="w-11/12 bg-black text-white flex justify-center items-center text-[14px] chedder mt-[4px] py-4 mb-6 cursor-pointer"
         @click="$emit('selectUsersCard', band.id)"
       >
-        Add This Card !!!
+        <span v-if="usersCard">Add to this Card !!!</span>
+        <span v-else>Add this Card !!!</span>
       </div>
     </section>
     <Modal class="z-50" v-if="showModal" @close="showModal = false" />
@@ -321,6 +322,12 @@ export default {
         return false
       },
     },
+    usersCard: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
   },
 
   data() {
@@ -349,7 +356,10 @@ export default {
         this.showModal = false
         // go to add card page
         if (band.users_permissions_user.id === this.$strapi.user.id) {
-          console.log('you clicked on your own band ')
+          this.$router.push({
+            path: 'addcardpage',
+            query: { band: band.id, usersCard: true },
+          })
         } else {
           this.$router.push({
             path: 'addcardpage',

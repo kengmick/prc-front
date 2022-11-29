@@ -36,8 +36,7 @@
       <section v-if="band.users_permissions_user.id === $strapi.user.id">
         <section class="my-4">
           <h2 class="text-xl text-center my-6 chedder">
-            Add Card to owned band {{ $strapi.user.id }}/
-            {{ band.users_permissions_user.id }}
+            Add Card to your band
           </h2>
           <div class="container-sm mx-auto flex justify-center items-center">
             <PosterCard
@@ -50,7 +49,15 @@
               @startChat="startChatNow(band.users_permissions_user)"
             />
           </div>
-          <!-- <SearchFeatured index="bands" /> -->
+          <h2 class="text-xl text-center my-6 chedder">
+            Pick a card to feature
+          </h2>
+          <SearchFeatured
+            index="bands"
+            filter="allBands"
+            :usersCard="false"
+            @selectUsersCard="logCardPicked"
+          />
         </section>
       </section>
     </div>
@@ -85,6 +92,23 @@ export default {
     addCard() {
       console.log('add a card to something')
     },
+    async logCardPicked(card) {
+      try {
+        const updated = await this.$strapi.update('bands', this.band.id, {
+          hasFeaturedCard: true,
+          cardType: 'band',
+          cardData: JSON.stringify(card),
+        })
+        if (updated) {
+          this.$router.push({
+            path: '/bandprofile',
+            query: { band: this.band.id },
+          })
+        }
+      } catch (error) {
+        console.log(error, 'three was an error when trying to make the update')
+      }
+    },
     async logUsersCard(card) {
       try {
         const updated = await this.$strapi.update('bands', card.id, {
@@ -98,23 +122,6 @@ export default {
             query: { band: card.id },
           })
         }
-        // const updated = await this.$strapi.update(
-        //   'bands',
-        //   this.userBandToAddToo,
-        //   {
-        //     hasFeaturedCard: true,
-        //     cardType: 'band',
-        //     cardData: JSON.stringify(this.band),
-        //   }
-        // )
-        // if (updated) {
-        //   const stringId = this.band.id.split('').indexOf('-')
-        //   const bandIdToPage = stringId + 1
-        //   this.$router.push({
-        //     path: '/bandprofile',
-        //     query: { band: this.band.id.substring(bandIdToPage) },
-        //   })
-        // }
       } catch (error) {
         console.log(error, 'three was an error when trying to make the update')
       }

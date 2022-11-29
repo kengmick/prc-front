@@ -1,9 +1,9 @@
 <template>
   <div class="container md:container mx-auto">
     <Title title="All Bands" />
-    <section class="px-4">
+    <!-- <section class="px-4">
       <Search index="bands" />
-    </section>
+    </section> -->
     <section
       v-if="bands"
       class="m-6 flex flex-col md:flex-wrap md:flex-row md:justify-center"

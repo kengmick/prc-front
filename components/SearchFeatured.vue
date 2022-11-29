@@ -5,6 +5,7 @@
       class="container mx-auto flex flex-col justify-center items-center sm:flex-row mb-16"
     >
       <PosterCard
+        class="mb-20"
         v-for="(band, index) in bands"
         :key="band.bandName + index"
         :band="band"
@@ -15,6 +16,7 @@
         :cardToAdd="cardToAdd"
         :selectUsersCard="true"
         :addingCard="true"
+        :usersCard="usersCard"
         @selectUsersCard="log(band)"
       />
     </section>
@@ -61,6 +63,12 @@ export default {
         return null
       },
     },
+    usersCard: {
+      type: Boolean,
+      default: () => {
+        return false
+      },
+    },
   },
   data() {
     return {
@@ -74,9 +82,13 @@ export default {
   async mounted() {
     try {
       const allBands = await this.$strapi.find('bands')
-      this.bands = allBands.filter((b) => {
-        return b.users_permissions_user.id === this.$strapi.user.id
-      })
+      if (this.filter === 'yourBands') {
+        this.bands = allBands.filter((b) => {
+          return b.users_permissions_user.id === this.$strapi.user.id
+        })
+      } else {
+        this.bands = allBands
+      }
     } catch (error) {}
   },
   methods: {
