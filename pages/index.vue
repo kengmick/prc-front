@@ -3,7 +3,7 @@
     <section class="w-full h-96 flex items-center justify-center bg-[#19332d]">
       <h1 class="text-white">PunkRock Compompund</h1>
     </section>
-    <section v-if="bands.length > 0">
+    <section v-if="bands.length > 0" class="overflow-x-hidden">
       <!-- container for poster cards -->
       <div
         class="flex mt-6 flex-col justify-center items-center md:flex-row md:flex-wrap md:gap-6"

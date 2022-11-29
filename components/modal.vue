@@ -1,11 +1,11 @@
 <template>
   <div
-    class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-10 flex justify-center items-center"
+    class="fixed top-0 left-0 w-[100vw] h-full bg-gray-900 bg-opacity-90 flex justify-center items-center"
   >
     <div
-      class="w-10/12 h-1/3 bg-white text-black flex flex-col justify-between items-center py-12"
+      class="w-10/12 h-1/3 bg-white text-black flex flex-col justify-between items-center py-12 rounded-sm"
     >
-      <p>You need to sign in</p>
+      <p class="chedder text-center text-lg">Please sign in to continue</p>
       <div
         class="bg-black text-white px-4 py-2 flex justify-center items-center"
       >

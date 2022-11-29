@@ -6,13 +6,8 @@
     </section> -->
     <section
       v-if="bands"
-      class="m-6 flex flex-col md:flex-wrap md:flex-row md:justify-center"
+      class="m-6 flex flex-col overflow-x-hidden md:flex-row md:justify-center"
     >
-      <!-- <BandCard
-        v-for="(band, index) in bands"
-        :key="band.bandName + index"
-        :band="band"
-      /> -->
       <PosterCard
         v-for="(band, index) in bands"
         :key="band.bandName + index"
