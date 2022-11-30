@@ -26,7 +26,16 @@
       v-if="allBands"
       class="container mx-auto flex flex-col md:flex-row justify-center items-center"
     >
-      <div
+      <h2>Pick a card to feature</h2>
+      <div>
+        <ais-instant-search :search-client="searchClient" index-name="bands">
+          <section class="flex justify-center items-center">
+            <ais-search-box id="a" />
+          </section>
+          <ais-hits> </ais-hits>
+        </ais-instant-search>
+      </div>
+      <!-- <div
         v-for="(bandCard, index) in allBands"
         :key="band.bandName + index"
         class="overflow-x-hidden"
@@ -51,7 +60,7 @@
         >
           Cancel
         </div>
-      </div>
+      </div> -->
     </section>
     <!-- container for all information of profile  -->
     <section class="container mx-auto px-4">
@@ -102,10 +111,21 @@
 </template>
 <script>
 import moment from 'moment'
+import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
+import { AisInstantSearch, AisSearchBox, AisHits } from 'vue-instantsearch'
 export default {
+  components: {
+    AisInstantSearch,
+    AisSearchBox,
+    AisHits,
+  },
   data() {
     return {
       // band and events
+      searchClient: instantMeiliSearch(
+        'https://prcsearch.net',
+        'OTRmM2M3MGE3NGJlN2FlMGIxYWMwN2E2'
+      ),
       allBands: null,
       band: null,
       events: [],

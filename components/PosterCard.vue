@@ -6,7 +6,7 @@
     <nuxt-img
       class="absolute top-0 negetive-index object-fill"
       format="webp"
-      :src="`band.bandProfileImg.url`"
+      :src="`${band.bandProfileImg.url}`"
       width="600"
       height="600"
     />
