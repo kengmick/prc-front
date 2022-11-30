@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ais-instant-search :search-client="searchClient" index-name="bands">
+    <ais-instant-search :search-client="searchClient" :index-name="index">
       <section class="flex justify-center items-center">
         <ais-search-box id="a" />
       </section>
@@ -8,9 +8,9 @@
         <template v-slot="{ state: { query } }">
           <ais-hits v-if="query.length >= 0">
             <template v-slot="{ items }">
+              {{ items }}
               <ul>
                 <li v-for="item in items" :key="item.objectID">
-                  <!-- bands -->
                   <NuxtLink
                     v-if="index === 'bands'"
                     :to="{
@@ -22,7 +22,6 @@
                     class="text-xl chedder text-blue-700"
                     >{{ item.bandName }}</NuxtLink
                   >
-                  <!-- classifies -->
                   <NuxtLink
                     v-if="index === 'classified'"
                     :to="{
@@ -35,8 +34,6 @@
                     >{{ item.title }}
                   </NuxtLink>
 
-                  <!-- vens -->
-                  <!-- classifies -->
                   <NuxtLink
                     v-if="index === 'venues'"
                     :to="{
@@ -49,7 +46,6 @@
                     >{{ item.name }}
                   </NuxtLink>
 
-                  <!-- tours -->
                   <NuxtLink
                     v-if="index === 'tours'"
                     :to="{
