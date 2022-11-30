@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="cardData"
+    v-if="JSON.stringify(cardData) !== '{}'"
     class="relative w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] scaleDown"
   >
     <NuxtLink :to="{ path: '/bandprofile', query: { band: cardData.id } }">

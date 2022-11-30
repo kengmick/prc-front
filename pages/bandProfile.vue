@@ -8,9 +8,51 @@
         :user="band.users_permissions_user"
         :isFeatured="true"
         :isHome="true"
+        @addFeaturedToBandCard="addCard"
         @startChat="startChatNow(band.users_permissions_user)"
       />
     </div>
+    <!-- button to remove featured card  -->
+    <section class="container flex justify-center items-center mt-6 mx-auto">
+      <div
+        v-if="band.hasFeaturedCard"
+        @click="removeCard(band)"
+        class="px-4 py-2 bg-black text-white chedder"
+      >
+        Remove Featured Card
+      </div>
+    </section>
+    <section
+      v-if="allBands"
+      class="container mx-auto flex flex-col md:flex-row justify-center items-center"
+    >
+      <div
+        v-for="(bandCard, index) in allBands"
+        :key="band.bandName + index"
+        class="overflow-x-hidden"
+      >
+        <PosterCard
+          class="mb-10"
+          :band="bandCard"
+          :user="bandCard.users_permissions_user"
+          :isFeatured="true"
+          :isHome="true"
+          @startChat="startChatNow(bandCard.users_permissions_user)"
+        />
+        <div
+          @click="addCardNow(bandCard)"
+          class="py-2 px-4 bg-black text-white chedder mb-2 text-center"
+        >
+          Add {{ bandCard.bandName }} !!!
+        </div>
+        <div
+          @click="cancelAddCard"
+          class="py-2 px-4 bg-black text-white chedder mb-6 text-center"
+        >
+          Cancel
+        </div>
+      </div>
+    </section>
     <!-- container for all information of profile  -->
     <section class="container mx-auto px-4">
       <!-- showz -->
@@ -54,6 +96,7 @@
         <h2 id="chatroom" class="chedder text-2xl">Chat Room</h2>
       </section>
     </section>
+    <Loading />
   </div>
   <div v-else></div>
 </template>
@@ -63,6 +106,7 @@ export default {
   data() {
     return {
       // band and events
+      allBands: null,
       band: null,
       events: [],
       bandEvents: [],
@@ -172,6 +216,44 @@ export default {
   },
   methods: {
     moment,
+    async addCard(band) {
+      // list all bands so user can pick what card to add to thire card
+      try {
+        const allBands = await this.$strapi.find('bands')
+        this.allBands = allBands
+        // list all the cards as poster card with button
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async addCardNow(bandToAdd) {
+      try {
+        const updated = await this.$strapi.update('bands', this.band.id, {
+          hasFeaturedCard: true,
+          cardData: JSON.stringify(bandToAdd),
+          cardType: 'band',
+        })
+        this.band = updated
+        this.allBands = null
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    cancelAddCard() {
+      this.allBands = null
+    },
+    async removeCard(band) {
+      try {
+        console.log(band.id)
+        const updated = await this.$strapi.update('bands', band.id, {
+          hasFeaturedCard: false,
+          cardData: {},
+        })
+        this.band = updated
+      } catch (error) {
+        console.log(error)
+      }
+    },
     // called on updatedSongList emit from trackForm
     updateSongList(data, status) {
       if (status === 'good') {

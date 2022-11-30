@@ -26,9 +26,11 @@
         <div
           class="w-[116px] h-[102px] bg-[#27ED5E] ml-[4px] flex flex-col items-center justify-center shadow-2xl"
         >
-          <p class="chedder text-[16px]">Punk/{{ band.genre }}</p>
-          <p class="chedder text-[16px]">{{ band.city }}, {{ band.state }}</p>
-          <p class="chedder text-[16px]">{{ band.dateStarted }}</p>
+          <p class="chedder text-[16px] text-center">Punk/{{ band.genre }}</p>
+          <p class="chedder text-[16px] text-center">
+            {{ band.city }}, {{ band.state }}
+          </p>
+          <p class="chedder text-[16px] text-center">{{ band.dateStarted }}</p>
           <!-- maybe show interal chat featured if the user is not logged in and then prompt user to log in on click event -->
           <span v-if="$strapi.user">
             <p
@@ -53,7 +55,7 @@
           </div>
           <!-- first featured card  -->
           <div
-            v-if="band.cardData"
+            v-if="band.hasFeaturedCard"
             class="w-[90px] h-[120px] bg-[#27ED5E] shadow-2xl"
           >
             <NuxtLink
@@ -65,7 +67,14 @@
               <FeaturedCardFull :cardData="band.cardData" />
             </NuxtLink>
           </div>
-          <div v-else class="h-[120px] w-[90px] bg-[#27ed5f25]"></div>
+          <div
+            v-else
+            class="h-[120px] w-[90px] bg-[#27ed5f70] flex flex-col justify-center items-center"
+            @click="addFeaturedToBandCard(band)"
+          >
+            <p class="chedder text-lg text-center">+ Add</p>
+            <p class="chedder text-lg text-center">Featured Card</p>
+          </div>
         </div>
       </section>
       <section
@@ -247,6 +256,10 @@ export default {
     startChat(user) {
       console.log('user from the poster card ', user, ' the id ', user.id)
       this.$emit('startChat', user)
+    },
+    addFeaturedToBandCard() {
+      // this will emit an event to add a card to the card that was clicked on .... the user owned card
+      this.$emit('addFeaturedToBandCard', this.band)
     },
 
     logit() {
