@@ -39,37 +39,29 @@
             class="logo"
             src="/logo-prc.svg"
             alt=""
-            width="164"
+            width="180"
             height="72"
           />
         </NuxtLink>
         <div class="flex justify-between">
           <div v-if="!$strapi.user">
-            <NuxtLink
-              class="chedder text-2xl lt_space nav_font_size"
-              to="/signup"
+            <NuxtLink class="chedder text-xl lt_space" to="/signup"
               >signup</NuxtLink
             >
           </div>
           <div v-if="!$strapi.user">
-            <NuxtLink
-              class="chedder text-2xl lt_space nav_font_size"
-              to="/loginuser"
-              >Sign In</NuxtLink
-            >
+            <NuxtLink class="chedder text-xl" to="/loginuser">Sign In</NuxtLink>
           </div>
           <div v-if="$strapi.user">
             <div>
-              <NuxtLink
-                class="chedder text-2xl lt_space nav_font_size"
-                to="/profile"
+              <NuxtLink class="chedder text-xl lt_space" to="/profile"
                 >User Page</NuxtLink
               >
             </div>
           </div>
           <div v-if="$strapi.user">
             <div @click="logout">
-              <p class="chedder text-2xl lt_space nav_font_size">Logout</p>
+              <p class="chedder text-xl lt_space">Logout</p>
             </div>
           </div>
         </div>
