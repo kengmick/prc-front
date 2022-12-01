@@ -4,46 +4,62 @@
       v-if="bands"
       class="container mx-auto flex flex-col justify-center items-center sm:flex-row mb-16"
     >
-      <PosterCard
-        class="mb-20"
-        v-for="(band, index) in bands"
-        :key="band.bandName + index"
-        :band="band"
-        :user="band.users_permissions_user"
-        :isFeatured="true"
-        :addThisCard="true"
-        :addToYourCard="true"
-        :cardToAdd="cardToAdd"
-        :selectUsersCard="true"
-        :addingCard="true"
-        :usersCard="usersCard"
-        @selectUsersCard="log(band)"
-      />
+      <ais-instant-search :search-client="searchClient" :index-name="index">
+        <section class="flex justify-center items-center">
+          <ais-search-box class="my-6 search" />
+        </section>
+        <ais-hits>
+          <template v-slot="{ items }" v-if="filter === 'yourBands'">
+            your bands
+            <span v-for="(band, index) in items" :key="band.bandName + index">
+              <PosterCard
+                v-if="band.users_permissions_user.id === $strapi.user.id"
+                class="mb-20"
+                :band="band"
+                :user="band.users_permissions_user"
+                :isFeatured="true"
+                :addThisCard="true"
+                :addToYourCard="true"
+                :cardToAdd="cardToAdd"
+                :selectUsersCard="true"
+                :addingCard="true"
+                :usersCard="usersCard"
+                @selectUsersCard="log(band)"
+              />
+            </span>
+          </template>
+          <template v-else>
+            <PosterCard
+              v-for="(band, index) in items"
+              class="mb-20"
+              :key="band.bandName + index"
+              :band="band"
+              :user="band.users_permissions_user"
+              :isFeatured="true"
+              :addThisCard="true"
+              :addToYourCard="true"
+              :cardToAdd="cardToAdd"
+              :selectUsersCard="true"
+              :addingCard="true"
+              :usersCard="usersCard"
+              @selectUsersCard="log(band)"
+            />
+          </template>
+        </ais-hits>
+      </ais-instant-search>
     </section>
-    <!-- <ais-instant-search :search-client="searchClient" :index-name="index">
-      <section class="flex justify-center items-center">
-        <ais-search-box id="a" />
-      </section>
-      <ais-hits>
-        <template v-slot="{ items }">
-          <div>
-            <pre>{{ items[0] }}</pre>
-          </div>
-        </template>
-      </ais-hits>
-    </ais-instant-search> -->
   </div>
 </template>
 
 <script>
-// import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
-// import { AisInstantSearch, AisSearchBox, AisHits } from 'vue-instantsearch'
+import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
+import { AisInstantSearch, AisSearchBox, AisHits } from 'vue-instantsearch'
 export default {
-  // components: {
-  //   AisInstantSearch,
-  //   AisSearchBox,
-  //   AisHits,
-  // },
+  components: {
+    AisInstantSearch,
+    AisSearchBox,
+    AisHits,
+  },
   props: {
     index: {
       type: String,
@@ -73,29 +89,44 @@ export default {
   data() {
     return {
       bands: null,
-      // searchClient: instantMeiliSearch(
-      //   'https://prcsearch.net',
-      //   'OTRmM2M3MGE3NGJlN2FlMGIxYWMwN2E2'
-      // ),
+      searchClient: instantMeiliSearch(
+        'https://prcsearch.net',
+        'OTRmM2M3MGE3NGJlN2FlMGIxYWMwN2E2'
+      ),
     }
   },
   async mounted() {
     try {
       const allBands = await this.$strapi.find('bands')
       if (this.filter === 'yourBands') {
-        this.bands = allBands.filter((b) => {
+        console.log('this is the filter ')
+        const filt = allBands.filter((b) => {
           return b.users_permissions_user.id === this.$strapi.user.id
         })
+
+        console.log(filt)
+        this.bands = filt
       } else {
+        console.log('this is all the bands error ')
         this.bands = allBands
       }
     } catch (error) {}
   },
   methods: {
     log(band) {
+      if (toString(band.id).indexOf('-')) {
+        console.log(band.id.indexOf('-'), 'this is the idx')
+        const idx = band.id.indexOf('-')
+        band.id = band.id.substring(idx + 1)
+      }
       console.log('from poster this is band ', band.id)
       this.$emit('selectUsersCard', band)
     },
   },
 }
 </script>
+<style scoped>
+.ais-SearchBox-input {
+  padding: 2em 1em;
+}
+</style>

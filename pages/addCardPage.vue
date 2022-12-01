@@ -26,11 +26,8 @@
           <SearchFeatured
             index="bands"
             filter="yourBands"
-            :cardToAdd="band"
-            :usersCard="true"
             @selectUsersCard="logUsersCard"
           />
-          <!-- <SearchFeatured index="bands" /> -->
         </section>
       </section>
       <section v-if="band.users_permissions_user.id === $strapi.user.id">
@@ -93,6 +90,12 @@ export default {
       console.log('add a card to something')
     },
     async logCardPicked(card) {
+      console.log('loged card picked ')
+      if (toString(this.band.id).indexOf('-')) {
+        console.log('hello')
+        const idx = this.band.id.indexOf('-')
+        this.band.id = this.band.id.substring(idx + 1)
+      }
       try {
         const updated = await this.$strapi.update('bands', this.band.id, {
           hasFeaturedCard: true,
@@ -110,6 +113,7 @@ export default {
       }
     },
     async logUsersCard(card) {
+      console.log(card.id, 'this is the final function ')
       try {
         const updated = await this.$strapi.update('bands', card.id, {
           hasFeaturedCard: true,
