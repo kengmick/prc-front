@@ -73,7 +73,11 @@
             >Bands</NuxtLink
           >
         </div>
-
+        <div>
+          <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/events"
+            >Showz</NuxtLink
+          >
+        </div>
         <div>
           <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/venues"
             >Venues</NuxtLink
@@ -84,12 +88,7 @@
           <NuxtLink
             class="chedder text-2xl lt_space nav_font_size"
             to="/distros"
-            >Distro/Labels</NuxtLink
-          >
-        </div>
-        <div>
-          <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/events"
-            >Showz</NuxtLink
+            >Labels/Distros</NuxtLink
           >
         </div>
 

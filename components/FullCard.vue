@@ -69,7 +69,7 @@
           </div>
           <div
             v-else
-            class="h-[120px] w-[90px] bg-[#27ed5f70] flex flex-col justify-center items-center"
+            class="h-[120px] w-[90px] bg-gray-500 flex flex-col justify-center items-center"
             @click="addFeaturedToBandCard(band)"
           >
             <p class="chedder text-lg text-center">+ Add</p>
