@@ -117,8 +117,8 @@ export default {
     },
   },
   strapi: {
-    url: process.env.BACKEND_URL,
-    // url: 'http://localhost:1337',
+    // url: process.env.BACKEND_URL,
+    url: 'http://localhost:1337',
     entities: ['bands'],
   },
   io: {

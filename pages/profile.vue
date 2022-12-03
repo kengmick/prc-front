@@ -279,7 +279,7 @@
                   d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
                 />
               </svg>
-              <h3 class="text-3xl pl-2 text-center">Add Bands</h3>
+              <h3 class="text-3xl pl-2 text-center">Add Band</h3>
             </div>
           </NuxtLink>
         </div>
@@ -324,7 +324,7 @@
                   d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
                 />
               </svg>
-              <h3 class="text-3xl pl-2 text-center">Add Showz</h3>
+              <h3 class="text-3xl pl-2 text-center">Add Show</h3>
             </div>
           </NuxtLink>
         </div>
@@ -433,7 +433,7 @@
       <!-- tours  -->
       <section class="container mx-auto">
         <div v-if="tours" class="container mx-auto">
-          <section v-if="events.length > 0" class="container mx-auto">
+          <section class="container mx-auto">
             <div
               v-for="(event, index) in tours"
               :key="event.title + index"
@@ -451,6 +451,7 @@
                   {{ moment(String(event.dateStart)).format('MMM') }}
                 </p>
                 <p class="chedder text-xl text-center inline-block sm:block">
+                  {{ moment(String(event.dateEnd)).format('MMM') }}
                   {{ moment(String(event.dateEnd)).format('Do') }}
                 </p>
               </div>
@@ -479,11 +480,41 @@
               </div>
             </div>
           </section>
-          <section v-else class="container mx-auto">
-            <h3>No Tours Added</h3>
-          </section>
         </div>
       </section>
+
+      <!-- distros -->
+      <div class="container mx-auto my-6">
+        <h2
+          class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
+        >
+          Your Labels/Distros
+        </h2>
+        <div class="w-full">
+          <NuxtLink to="/createdistro">
+            <div
+              class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-2/5"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="25"
+                fill="currentColor"
+                class="bi bi-plus-circle"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                />
+                <path
+                  d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                />
+              </svg>
+              <h3 class="text-3xl pl-2 text-center">Label/Distro</h3>
+            </div>
+          </NuxtLink>
+        </div>
+      </div>
 
       <!-- venue end here  -->
       <div class="container mx-auto my-6">
@@ -598,6 +629,18 @@
             </span>
           </div>
         </section>
+        <!-- distros -->
+        <div class="container mx-auto my-6">
+          <h2
+            class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
+          >
+            Your Favorite Cards
+          </h2>
+          <div class="w-full">
+            <!-- Add favorite cards here -->
+          </div>
+        </div>
+
         <!-- <div
         class="flex items-center"
         v-for="classified in classifieds"
@@ -683,39 +726,6 @@
       <!-- <section class="container mx-auto">
       <p>No Releases</p>
     </section> -->
-
-      <!-- distros -->
-      <!-- <div class="container mx-auto my-6">
-      <h2
-        class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
-      >
-        Your Distros
-      </h2>
-      <div class="w-full">
-        <NuxtLink to="/createdistro">
-          <div
-            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-2/5"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="25"
-              fill="currentColor"
-              class="bi bi-plus-circle"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-              />
-              <path
-                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
-              />
-            </svg>
-            <h3 class="text-3xl pl-2 text-center">Add Distro</h3>
-          </div>
-        </NuxtLink>
-      </div>
-    </div> -->
 
       <!-- <section v-if="distros" class="container mx-auto">
       <div>

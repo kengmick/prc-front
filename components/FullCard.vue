@@ -35,7 +35,7 @@
           <span v-if="$strapi.user">
             <p
               v-if="band.users_permissions_user.id !== $strapi.user.id"
-              class="text-[12px] chedder text-blue-500 underline"
+              class="text-[12px] chedder underline"
               @click="startChat(user)"
             >
               Internal Message
@@ -81,7 +81,7 @@
         class="w-[94px] h-[230px] bg-[#27ED5E] mr-[4px] flex flex-col justify-between items-center pt-[3px] shadow-2xl"
       >
         <NuxtLink
-          class="chedder text-[15px]"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bandprofile',
             hash: '#showz',
@@ -90,7 +90,7 @@
           >Showz</NuxtLink
         >
         <NuxtLink
-          class="chedder text-[15px]"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bandprofile',
             hash: '#releases',
@@ -99,7 +99,7 @@
           >Releases</NuxtLink
         >
         <NuxtLink
-          class="chedder text-[15px]"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bandprofile',
             hash: '#songs',
@@ -108,7 +108,7 @@
           >Songs</NuxtLink
         >
         <NuxtLink
-          class="chedder text-[15px]"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bandprofile',
             hash: '#videos',
@@ -117,7 +117,7 @@
           >Videos</NuxtLink
         >
         <NuxtLink
-          class="chedder text-[15px]"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bandprofile',
             hash: '#bio',
@@ -126,7 +126,7 @@
           >Bio</NuxtLink
         >
         <NuxtLink
-          class="chedder text-[15px]"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bandprofile',
             hash: '#members',
@@ -135,7 +135,7 @@
           >Members</NuxtLink
         >
         <NuxtLink
-          class="chedder text-[15px]"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bandprofile',
             hash: '#pictures',
@@ -144,7 +144,7 @@
           >Pictures</NuxtLink
         >
         <NuxtLink
-          class="chedder text-[15px]"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bandprofile',
             hash: '#merch',
@@ -153,7 +153,7 @@
           >Merch</NuxtLink
         >
         <NuxtLink
-          class="chedder text-[15px]"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bandprofile',
             hash: '#links',
@@ -162,7 +162,7 @@
           >Links</NuxtLink
         >
         <NuxtLink
-          class="chedder text-[15px]"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bandprofile',
             hash: '#chatroom',
@@ -190,21 +190,60 @@
     <!-- buttons  -->
     <section class="flex justify-around mt-[8px]">
       <div
-        class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder shadow-2xl"
+        class="w-[66px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"
       >
-        Save
+        <span class="flex items-center justify-between w-full px-2"
+          ><img class="h-[12px] w-[12px]" src="/share.svg" alt="" />Share</span
+        >
       </div>
       <div
-        class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder shadow-2xl"
+        class="w-[66px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"
       >
-        Copy
+        <span class="flex items-center justify-between w-full px-2"
+          ><img
+            class="h-[12px] w-[12px]"
+            src="/heart.svg"
+            alt=""
+          />Favorite</span
+        >
       </div>
       <div
-        class="w-[90px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[12px] chedder shadow-2xl"
+        class="w-[66px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"
       >
-        QR
+        <span
+          v-if="!disableAll"
+          class="flex items-center justify-between w-full px-2 cursor-pointer"
+          @click="goToAddCard(band)"
+          ><img class="h-[12px] w-[12px]" src="/add.svg" alt="" />Feature</span
+        >
+        <span
+          v-else
+          class="flex items-center justify-between w-full px-2 cursor-pointer"
+          ><img class="h-[12px] w-[12px]" src="/add.svg" alt="" />Feature</span
+        >
+      </div>
+
+      <div
+        class="w-[70px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"
+      >
+        <span class="flex items-center justify-between w-full px-2"
+          ><img class="h-[12px] w-[12px]" src="/qr1.svg" alt="" />QR Code</span
+        >
       </div>
     </section>
+    <section
+      v-if="addingCard"
+      class="flex justify-center items-center relative top-[10px]"
+    >
+      <div
+        class="w-11/12 bg-black text-white flex justify-center items-center text-[14px] chedder mt-[4px] py-4 mb-6 cursor-pointer"
+        @click="$emit('selectUsersCard', band.id)"
+      >
+        <span v-if="usersCard">Add to this Card !!!</span>
+        <span v-else>Add this Card !!!</span>
+      </div>
+    </section>
+    <Modal class="z-50" v-if="showModal" @close="showModal = false" />
   </div>
 </template>
 
@@ -232,6 +271,55 @@ export default {
         return false
       },
     },
+    disableAll: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    addingCard: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    userBandToAddToo: {
+      type: String || Number,
+      default() {
+        return ''
+      },
+    },
+    addThisCard: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    addToYourCard: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    cardToAdd: {
+      type: Object,
+      default() {
+        return {}
+      },
+    },
+
+    selectUsersCard: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    usersCard: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
   },
 
   data() {
@@ -241,6 +329,7 @@ export default {
       updated: null,
       index: 0,
       chatComp: false,
+      showModal: false,
     }
   },
   computed: {
@@ -260,6 +349,76 @@ export default {
     addFeaturedToBandCard() {
       // this will emit an event to add a card to the card that was clicked on .... the user owned card
       this.$emit('addFeaturedToBandCard', this.band)
+    },
+    goToAddCard(band) {
+      if (this.$strapi.user) {
+        this.showModal = false
+        // go to add card page
+        if (band.users_permissions_user.id === this.$strapi.user.id) {
+          this.$router.push({
+            path: 'addcardpage',
+            query: { band: band.id, usersCard: true },
+          })
+        } else {
+          this.$router.push({
+            path: 'addcardpage',
+            query: { band: band.id, usersCard: false },
+          })
+        }
+      } else {
+        return (this.showModal = true)
+      }
+    },
+    addCardToData(userBandToAddToo, band) {
+      // Check if user is logged in
+      if (this.$strapi.user) {
+        this.showModal = false
+      } else {
+        return (this.showModal = true)
+      }
+      console.log(band.users_permissions_user.id, this.$strapi.user.id)
+
+      // try {
+      //   // updating a band that the user picked to add too with the current bandid from the card
+      //   await console.log(userBandToAddToo, 'ad some featured card to band ')
+      //   // console.log('this is the band id that will be added ', this.band.id)
+      //   // if you selected a card to add to one of your cards
+      //   if (this.addToYourCard && userBandToAddToo) {
+      //     console.log(userBandToAddToo, 'the card to add', this.cardToAdd.id)
+      //     const updated = await this.$strapi.update('bands', userBandToAddToo, {
+      //       hasFeaturedCard: true,
+      //       cardType: 'band',
+      //       cardData: JSON.stringify(this.cardToAdd),
+      //     })
+      //     if (updated) {
+      //       // const stringId = this.band.id.split('').indexOf('-')
+      //       // const bandIdToPage = stringId + 1
+      //       this.$router.push({
+      //         path: '/bandprofile',
+      //         query: { band: userBandToAddToo },
+      //       })
+      //     }
+      //   }
+      //   // const updated = await this.$strapi.update(
+      //   //   'bands',
+      //   //   this.userBandToAddToo,
+      //   //   {
+      //   //     hasFeaturedCard: true,
+      //   //     cardType: 'band',
+      //   //     cardData: JSON.stringify(this.band),
+      //   //   }
+      //   // )
+      //   // if (updated) {
+      //   //   const stringId = this.band.id.split('').indexOf('-')
+      //   //   const bandIdToPage = stringId + 1
+      //   //   this.$router.push({
+      //   //     path: '/bandprofile',
+      //   //     query: { band: this.band.id.substring(bandIdToPage) },
+      //   //   })
+      //   // }
+      // } catch (error) {
+      //   console.log(error, 'three was an error when trying to make the update')
+      // }
     },
 
     logit() {

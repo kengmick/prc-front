@@ -10,7 +10,6 @@
         </section>
         <ais-hits>
           <template v-slot="{ items }" v-if="filter === 'yourBands'">
-            your bands
             <span v-for="(band, index) in items" :key="band.bandName + index">
               <PosterCard
                 v-if="band.users_permissions_user.id === $strapi.user.id"
@@ -28,7 +27,7 @@
               />
             </span>
           </template>
-          <template v-else>
+          <template v-else v-slot="{ items }">
             <PosterCard
               v-for="(band, index) in items"
               class="mb-20"
@@ -107,10 +106,12 @@ export default {
         console.log(filt)
         this.bands = filt
       } else {
-        console.log('this is all the bands error ')
+        console.log('this is all the bands  ')
         this.bands = allBands
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error, 'could not get bands')
+    }
   },
   methods: {
     log(band) {

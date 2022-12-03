@@ -469,7 +469,7 @@ export default {
       finalPostImage: '',
       loading: false,
       errorMessage: null,
-      permisson: true,
+      permission: false,
     }
   },
   async mounted() {
@@ -513,6 +513,7 @@ export default {
       this.loading = false
       console.log(error)
     }
+
     try {
       if (this.user) {
         // compare userid to userpermission in front

@@ -8,7 +8,6 @@
         <template v-slot="{ state: { query } }">
           <ais-hits v-if="query.length >= 0">
             <template v-slot="{ items }">
-              {{ items }}
               <ul>
                 <li v-for="item in items" :key="item.objectID">
                   <NuxtLink

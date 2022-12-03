@@ -2,7 +2,7 @@
   <div v-if="tours">
     <Title title="Tours" />
     <section class="px-4">
-      <Search index="tours" />
+      <!-- <Search index="tours" /> -->
     </section>
     <section class="container mx-auto">
       <div
