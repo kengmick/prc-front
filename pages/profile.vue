@@ -333,70 +333,13 @@
       <!-- present showz  -->
       <section class="container mx-auto">
         <div v-if="events" class="container mx-auto">
-          <section v-if="events.length > 0" class="container mx-auto">
-            <div
-              v-for="(event, index) in events"
-              :key="event.title + index"
-              class="shadow-md w-full min-h-64 my-12 mx-auto flex flex-col sm:flex-row transition-all duration-200 hover:scale-105"
-            >
-              <div v-if="event.eventPoster" class="w-full sm:w-1/2 h-64">
-                <img
-                  class="h-full w-full object-cover"
-                  :src="event.eventPoster.url"
-                  alt=""
-                />
-              </div>
-              <div class="p-6">
-                <p class="chedder text-xl text-center inline-block sm:block">
-                  {{ moment(String(event.date)).format('MMM') }}
-                </p>
-                <p class="chedder text-xl text-center inline-block sm:block">
-                  {{ moment(String(event.date)).format('Do') }}
-                </p>
-              </div>
-              <div class="flex flex-col flex-grow p-6">
-                <div>
-                  <p v-if="event.title" class="chedder text-2xl">
-                    {{ event.title }}
-                  </p>
-                  <p v-if="event.headlinerOne" class="text-xl font-black pb-2">
-                    Featuring {{ event.headlinerOne }}
-                  </p>
-                  <p v-if="event.streetAddress" class="text-xl">
-                    The Vic, {{ event.streetAddress }} /
-                    {{ moment(String(event.date)).format('MMMM Do YYYY') }}
-                    @{{ moment(event.timeStarts, 'h').format('LT') }}
-                  </p>
-                  <p v-if="event.city && event.state" class="text-xl">
-                    {{ event.city }}, {{ event.state }}
-                  </p>
-                </div>
-                <div class="flex-grow flex items-center mt-6 sm:mt-2">
-                  <NuxtLink
-                    :to="{
-                      path: 'eventview',
-                      query: { event: event.id },
-                    }"
-                    class="border-2 border-black px-4 py-2"
-                    >View Event</NuxtLink
-                  >
-                  <div
-                    class="border-2 border-black ml-4 px-4 py-2 cursor-pointer"
-                    @click="openPopUp('events', event.id)"
-                  >
-                    Delete
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section v-else class="container mx-auto">
-            <h3>No Showz Added</h3>
+          <pre>{{ events }}</pre>
+          <section v-if="events.length > 0">
+            <CardsShowCard v-for="event in events" :key="event.title" />
           </section>
         </div>
       </section>
       <!-- show venues  -->
-
       <!-- tours -->
       <div class="container mx-auto my-6">
         <h2
@@ -433,53 +376,7 @@
       <!-- tours  -->
       <section class="container mx-auto">
         <div v-if="tours" class="container mx-auto">
-          <section class="container mx-auto">
-            <div
-              v-for="(event, index) in tours"
-              :key="event.title + index"
-              class="shadow-md w-full min-h-64 my-12 mx-auto flex flex-col sm:flex-row transition-all duration-200 hover:scale-105"
-            >
-              <div v-if="event.touringPoster" class="w-full sm:w-1/2 h-64">
-                <img
-                  class="h-full w-full object-cover"
-                  :src="event.touringPoster.url"
-                  alt=""
-                />
-              </div>
-              <div class="p-6">
-                <p class="chedder text-xl text-center inline-block sm:block">
-                  {{ moment(String(event.dateStart)).format('MMM') }}
-                </p>
-                <p class="chedder text-xl text-center inline-block sm:block">
-                  {{ moment(String(event.dateEnd)).format('MMM') }}
-                  {{ moment(String(event.dateEnd)).format('Do') }}
-                </p>
-              </div>
-              <div class="flex flex-col flex-grow p-6">
-                <div>
-                  <p v-if="event.title" class="chedder text-2xl">
-                    {{ event.title }}
-                  </p>
-                </div>
-                <div class="flex-grow flex items-center mt-6 sm:mt-2">
-                  <NuxtLink
-                    :to="{
-                      path: 'tourview',
-                      query: { tour: event.id },
-                    }"
-                    class="border-2 border-black px-4 py-2"
-                    >View Tour</NuxtLink
-                  >
-                  <div
-                    class="border-2 border-black ml-4 px-4 py-2 cursor-pointer"
-                    @click="openPopUp('tours', event.id)"
-                  >
-                    Delete
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+          <CardsTourCard v-for="tour in tours" :key="tour.title" :tour="tour" />
         </div>
       </section>
 
@@ -957,6 +854,15 @@ export default {
     } catch (error) {
       console.log('error is user', error)
     }
+
+    try {
+      this.events = await this.$strapi.find('events', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+    } catch (error) {
+      this.error = 'sorry ... something went wrong events'
+    }
+
     try {
       const chats = await this.$strapi.find('chats', {
         users_permissions_users: this.$strapi.user.id,

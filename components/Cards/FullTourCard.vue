@@ -1,190 +1,188 @@
 <template>
+  <!--  :style="{ backgroundImage: `url(/punk-background.png)` }"  -->
   <div
-    class="w-[300px] h-[400px] border-box border-[#BA39A4] border-[2px] relative overscroll-none text-white"
+    v-if="tour"
+    class="relative w-[300px] h-[400px] border-box border-[#BA39A4] border-[2px] text-white"
   >
-    <nuxt-img
-      class="absolute top-0 negetive-index object-fill"
-      format="webp"
-      :src="`${tour.touringPoster.url}`"
-      width="600"
-      height="600"
-    />
-    <NuxtLink
-      v-if="!addingCard && !disableAll"
-      class=""
-      :to="{
-        path: '/tourview',
-        query: {
-          tour: tour.id,
-        },
-      }"
+    <span v-if="tour.touringPoster">
+      <nuxt-img
+        class="absolute top-0 negetive-index object-fill"
+        format="webp"
+        preload
+        :src="tour.touringPoster.url"
+        width="300"
+        height="400"
+      />
+    </span>
+    <!-- header -->
+    <section
+      class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
     >
-      <!-- header -->
-      <section
-        class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
-      >
-        <h2 class="chedder text-[36px] text-white leading-none">
-          <span v-if="tour.title">{{ tour.title }}</span>
-        </h2>
-      </section>
-    </NuxtLink>
-
+      <h2 class="chedder text-[36px] text-white leading-none">
+        {{ tour.title }}
+      </h2>
+    </section>
     <!-- info box  -->
-    <section class="w-full flex justify-between px-[8px] [bg-blue-500 mb-[8px]">
-      <NuxtLink
-        v-if="!addingCard && !disableAll"
-        :to="{
-          path: '/tour',
-          query: {
-            band: tour.id,
-          },
-        }"
-      >
+    <section class="w-full flex">
+      <section class="w-[202px] h-[230px] flex flex-col">
+        <!-- info box -->
         <div
-          class="bg-[#BA39A4] w-[132px] h-[36px] flex flex-col justify-center items-center"
+          class="w-[160px] h-[102px] bg-[#BA39A4] ml-[4px] flex flex-col items-center justify-center shadow-2xl"
         >
           <span v-if="tour.touringBands">
-            <span v-if="tour.touringBands.length > 0">
+            <p
+              v-for="band in tour.touringBands"
+              :key="band.bandName"
+              class="chedder text-[16px] text-center"
+            >
+              {{ band.bandName }}
+            </p></span
+          >
+
+          <p class="chedder text-[16px] text-center" v-if="tour.dateStart">
+            {{ moment(String(tour.dateStart)).format('YY') }}
+            {{ moment(String(tour.dateStart)).format('MMM') }}
+            {{ moment(String(tour.dateStart)).format('Do') }} -
+            {{ moment(String(tour.dateStart)).format('YY') }}
+            {{ moment(String(tour.dateStart)).format('MMM') }}
+            {{ moment(String(tour.dateStart)).format('Do') }}
+          </p>
+          <!-- maybe show interal chat featured if the user is not logged in and then prompt user to log in on click event -->
+          <span v-if="tour.users_permissions_user">
+            <span v-if="tour.users_permissions_user.id !== $strapi.user">
               <p
-                class="text-[12px] chedder"
-                v-for="band in tour.touringBands.slice(0, 2)"
-                :key="band.bandName"
+                v-if="4 !== $strapi.user.id"
+                class="text-[12px] chedder underline"
+                @click="startChat(user)"
               >
-                {{ band.bandName }}
+                Internal Message
               </p>
             </span>
           </span>
-        </div>
-      </NuxtLink>
-      <div
-        v-else
-        class="bg-[#BA39A4] w-[132px] h-[36px] flex flex-col justify-center items-center"
-      >
-        <span v-if="tour.touringBands">
-          <span v-if="tour.touringBands.length > 0">
-            <p
-              class="text-[12px] chedder text-center"
-              v-for="band in tour.touringBands.slice(0, 2)"
-              :key="band.bandName"
-            >
-              {{ band.bandName }}
-            </p>
+          <span v-else>
+            <p class="text-[12px] chedder underline">Internal Message</p>
           </span>
-        </span>
-      </div>
-      <div
-        class="bg-[#BA39A4] w-[132px] h-[36px] flex flex-col justify-center items-center"
-      >
-        <span>
-          <p class="text-[12px] chedder text-center">
-            starts {{ moment(String(tour.dateStart)).format('MMM') }}
-            {{ moment(String(tour.dateStart)).format('Do') }}
-          </p>
-          <p class="text-[12px] chedder text-center">
-            ends {{ moment(String(tour.dateEnd)).format('MMM') }}
-            {{ moment(String(tour.dateEnd)).format('Do') }}
-          </p>
-        </span>
-      </div>
-    </section>
-
-    <!-- logo and card  -->
-    <section class="w-full flex justify-between px-[4px] mb-[8px]">
-      <NuxtLink
-        v-if="!addingCard && !addThisCard && !disableAll"
-        :to="{
-          path: '/tourview',
-          query: {
-            tour: tour.id,
-          },
-        }"
-      >
-        <div class="w-[141px] h-[186px]">
-          <nuxt-img
-            class="h-full object-cover"
-            format="webp"
-            :src="`${tour.touringPoster.url}`"
-            alt=""
-            width="141"
-            height="186"
-          />
         </div>
-      </NuxtLink>
-      <div v-else class="w-[141px] h-[186px]">
-        <nuxt-img
-          format="webp"
-          class="h-full object-cover"
-          :src="`${tour.touringPoster.url}`"
-          alt=""
-          width="141"
-          height="186"
-        />
-      </div>
-      <!-- first featured Card  -->
-      <div class="w-[141px] h-[186px] bg-[#27ed5f25] cursor-pointer">
-        <span v-if="tour.hasFeaturedCard && !addingCard && !disableAll">
-          <NuxtLink
-            v-if="!disableAll"
-            :to="{
-              path: '/tourview',
-              query: { tour: tour.cardData.id },
-            }"
+        <div class="w-[202px] h-[120px] mt-[8px] flex justify-around">
+          <!-- logo -->
+          <div v-if="tour.touringPoster" class="w-[90px] h-[120px] shadow-2xl">
+            <nuxt-img
+              class="h-full object-cover"
+              :src="tour.touringPoster.url"
+              alt=""
+              width="90"
+              height="120"
+            />
+          </div>
+          <!-- first featured card  -->
+          <div
+            v-if="tour.hasFeaturedCard"
+            class="w-[90px] h-[120px] bg-[#BA39A4] shadow-2xl"
           >
-            <!-- <BasicFeaturedCard
-              :cardData="band.cardData"
-              v-if="tour.cardType === 'band'"
-            /> -->
-          </NuxtLink>
-        </span>
-
-        <div
-          v-if="!tour.hasFeaturedCard && !addingCard"
-          class="flex justify-center items-center h-full w-full border-2"
-        >
-          <!--   v-if="band.users_permissions_user.id === $strapi.user.id" -->
-          <NuxtLink
-            v-if="$strapi.user && !addThisCard && !disableAll"
-            class="h-full w-full flex justify-center items-center"
-            :to="{
-              path: '/addCardPage',
-              query: {
-                tour: tour.id,
-              },
-            }"
+            <NuxtLink
+              :to="{
+                path: '/tourview',
+                query: { tour: tour.cardData.id },
+              }"
+            >
+              <FeaturedCardFull :cardData="tour.cardData" />
+            </NuxtLink>
+          </div>
+          <div
+            v-else
+            class="h-[120px] w-[90px] bg-gray-500 flex flex-col justify-center items-center"
+            @click="addFeaturedToBandCard(tour)"
           >
-            <div>
-              <p class="chedder text-center">
-                <span v-if="addThisCard" class="block">Add this</span>Featured
-                Card
-              </p>
-            </div>
-          </NuxtLink>
-          <div v-else class="h-full w-full flex justify-center items-center">
-            <p class="chedder text-center">
-              <span v-if="addThisCard" class="block">Add this</span>Featured
-              Card
-            </p>
+            <p class="chedder text-lg text-center">+ Add</p>
+            <p class="chedder text-lg text-center">Featured Card</p>
           </div>
         </div>
-      </div>
+      </section>
+      <section
+        class="w-[94px] h-[230px] bg-[#BA39A4] mr-[4px] flex flex-col justify-between items-center pt-[3px] shadow-2xl"
+      >
+        <NuxtLink
+          class="chedder text-[15px] underline"
+          :to="{
+            path: '/tourview',
+            hash: '#showz',
+            query: { tour: tour.id },
+          }"
+          >Showz</NuxtLink
+        >
+        <NuxtLink
+          class="chedder text-[15px] underline"
+          :to="{
+            path: '/tourview',
+            hash: '#videos',
+            query: { tour: tour.id },
+          }"
+          >Videos</NuxtLink
+        >
+        <NuxtLink
+          class="chedder text-[15px] underline"
+          :to="{
+            path: '/tourview',
+            hash: '#pictures',
+            query: { tour: tour.id },
+          }"
+          >Pictures</NuxtLink
+        >
+        <NuxtLink
+          class="chedder text-[15px] underline"
+          :to="{
+            path: '/tourview',
+            hash: '#members',
+            query: { tour: tour.id },
+          }"
+          >Members</NuxtLink
+        >
+        <NuxtLink
+          class="chedder text-[15px] underline"
+          :to="{
+            path: '/merch',
+            hash: '#bio',
+            query: { tour: tour.id },
+          }"
+          >Merch</NuxtLink
+        >
+
+        <NuxtLink
+          class="chedder text-[15px] underline"
+          :to="{
+            path: '/tourview',
+            hash: '#links',
+            query: { tour: tour.id },
+          }"
+          >Links</NuxtLink
+        >
+
+        <NuxtLink
+          class="chedder text-[15px] underline"
+          :to="{
+            path: '/tourview',
+            hash: '#chatroom',
+            query: { tour: tour.id },
+          }"
+          >Chat Room</NuxtLink
+        >
+      </section>
     </section>
 
-    <!-- announcment box  -->
     <section
       v-if="!announcement"
-      class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
+      class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px] mt-[8px]"
     >
       <h2 class="text-[18px]">Announcement</h2>
       <p class="text-[12px]">This is the body of the text ...</p>
     </section>
     <section
       v-if="announcement"
-      class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
+      class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px] mt-[8px]"
     >
-      <h2 class="text-[18px]">{{ announcement.title }}</h2>
-      <p class="text-[12px]">{{ announcement.text }}</p>
+      <h2 class="text-[18px]">{{ announcement[0].title }}</h2>
+      <p class="text-[12px]">{{ announcement[0].text }}</p>
     </section>
-
     <!-- buttons  -->
     <section class="flex justify-around mt-[8px]">
       <div
@@ -246,9 +244,8 @@
 </template>
 
 <script>
-import moment from 'moment'
-
 // import Button from './Button.vue'
+import moment from 'moment'
 export default {
   // components: { Button },
   props: {
@@ -258,28 +255,34 @@ export default {
         return {}
       },
     },
-    addingCard: {
-      type: Boolean,
-      default() {
-        return false
-      },
-    },
     user: {
       type: Object,
       default() {
         return {}
       },
     },
-    userBandToAddToo: {
-      type: String || Number,
-      default() {
-        return ''
-      },
-    },
     isHome: {
       type: Boolean,
       default() {
         return false
+      },
+    },
+    disableAll: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    addingCard: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    userBandToAddToo: {
+      type: String || Number,
+      default() {
+        return ''
       },
     },
     addThisCard: {
@@ -300,12 +303,7 @@ export default {
         return {}
       },
     },
-    disableAll: {
-      type: Boolean,
-      default() {
-        return false
-      },
-    },
+
     selectUsersCard: {
       type: Boolean,
       default() {
@@ -326,22 +324,32 @@ export default {
       userFavs: [],
       updated: null,
       index: 0,
+
       chatComp: false,
-      addFeatured: false,
       showModal: false,
     }
   },
   computed: {
     announcement() {
-      return this.tour.announcements[this.index] || ''
+      // return this.tour.announcements[this.index] || []
+      return [{ title: 'hello', text: 'hello ' }]
     },
-    announcements() {
-      return this.tour.announcements || ''
-    },
+    // announcements() {
+    //   //   return this.tour.announcements || []
+    //   return [{ title: 'hello', text: 'hello ' }]
+    // },
   },
 
   methods: {
     moment,
+    startChat(user) {
+      console.log('user from the poster card ', user, ' the id ', user.id)
+      this.$emit('startChat', user)
+    },
+    addFeaturedToBandCard() {
+      // this will emit an event to add a card to the card that was clicked on .... the user owned card
+      this.$emit('addFeaturedToBandCard', this.tour)
+    },
     goToAddCard(tour) {
       if (this.$strapi.user) {
         this.showModal = false
@@ -370,10 +378,6 @@ export default {
       }
       console.log(tour.users_permissions_user.id, this.$strapi.user.id)
     },
-    startChat(user) {
-      console.log('user from the poster card ', user, ' the id ', user.id)
-      this.$emit('startChat', user)
-    },
 
     logit() {
       console.log('hey this is a double click')
@@ -389,7 +393,7 @@ export default {
         // get all user favorite stuff ... if they have any ... add a new favorite to it ... then resave all favoites to the user favs then route to favorite page the userFavs is an array so you can iterate over it using an array method wich is really an object at the end of the day or it wouldn't be about to have a method attached to it. Thank you for coming ... please come again soon.
         const user = await this.$strapi.user
         this.userFavs = await user.favs
-        const json = { favObject: { type: 'band', id: stringId } }
+        const json = { favObject: { type: 'tour', id: stringId } }
         this.userFavs.push(json)
         //  favs: [...this.userFavs, { favObject: { ...json } }],
         console.log(this.userFavs)
@@ -431,12 +435,6 @@ export default {
 .card_header_size {
   font-size: 56px;
 }
-
-.negetive-index {
-  z-index: -999;
-  filter: blur(4px);
-}
-
 .error {
   position: fixed;
   top: 0;
@@ -458,16 +456,19 @@ export default {
   width: 100vw;
   background: green;
 }
-
 .scaleDown {
-  transform: scale(47.4%);
-  margin-left: -79px;
-  margin-top: -108px;
+  transform: scale(30%);
+  margin-left: -105px;
+  margin-top: -140px;
 }
 
-.scaleDownTwo {
+.scaleDownThree {
   transform: scale(47.4%);
   margin-left: -80px;
   margin-top: -105px;
+}
+.negetive-index {
+  z-index: -999;
+  filter: blur(4px);
 }
 </style>

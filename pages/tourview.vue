@@ -1,42 +1,7 @@
 <template>
   <div>
-    <div v-if="tour" class="container mx-auto">
-      <!-- <pre>{{ tour }}</pre> -->
-      <h1 class="hidden sm:block main_red_text text-center my-6">
-        {{ tour.title }}
-      </h1>
-      <div v-if="tour.touringPoster" class="mb-10 h-[400px]">
-        <div v-if="tour.touringPoster.formats.large">
-          <img
-            :src="tour.touringPoster.formats.large.url"
-            alt=""
-            class="mx-auto object-cover h-[400px]"
-          />
-        </div>
-        <div v-else class="max-h-[400px] object-cover">
-          <img
-            :src="tour.touringPoster.url"
-            alt=""
-            class="mx-auto object-cover h-[400px]"
-          />
-        </div>
-      </div>
-      <h2 class="hidden sm:block text-xl sm:text-2xl main_red_text mb-2">
-        On Tour
-      </h2>
-      <h2 class="block sm:hidden text-xl sm:text-2xl main_red_text">
-        {{ tour.title }}
-      </h2>
-      <p
-        v-if="tour.dateStart && tour.dateEnd"
-        class="chedder text-xl sm:text-2xl"
-      >
-        {{ moment(String(tour.dateStart)).format('MMM') }}
-        {{ moment(String(tour.dateStart)).format('Do') }}
-        <span class="chedder main_red_text mx-4">-</span>
-        {{ moment(String(tour.dateEnd)).format('MMM') }}
-        {{ moment(String(tour.dateEnd)).format('Do') }}
-      </p>
+    <div v-if="tour" class="container mx-auto flex justify-center mt-6">
+      <CardsFullTourCard :tour="tour" />
     </div>
 
     <!-- events -->
@@ -65,7 +30,6 @@
           <h3 class="text-2xl pl-2 w-auto">Add Show To Tour</h3>
         </div>
       </div>
-      <!-- add event form here  -->
       <section v-if="eventForm" class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
         <div class="w-full mt-6 mb-6">
           <FormulateForm v-model="formValues" @submit="addEvents">
