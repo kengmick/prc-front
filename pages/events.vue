@@ -4,7 +4,18 @@
     <section class="px-4">
       <Search index="events" />
     </section>
-    <div v-if="events" class="container mx-auto">
+    <section
+      v-if="events"
+      class="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 my-6"
+    >
+      <CardsShowCard
+        class="mx-auto"
+        v-for="event in events"
+        :key="event.title"
+        :event="event"
+      />
+    </section>
+    <!-- <div v-if="events" class="container mx-auto">
       <section v-if="events.length > 0" class="container mx-auto">
         <div
           v-for="(event, index) in events"
@@ -112,7 +123,7 @@
           </div>
         </section>
       </div>
-    </section>
+    </section> -->
     <section v-if="errorMessage">{{ errorMessage }}</section>
   </section>
   <!-- <div v-if="events">
@@ -181,19 +192,20 @@ export default {
   async mounted() {
     try {
       const events = await this.$strapi.find('events')
-      const upcomingEvents = events.filter((e) => {
-        console.log(moment(e.date).toISOString())
-        return moment(e.date).toISOString() >= moment().toISOString()
-      })
-      const oldShows = events.filter((e) => {
-        return moment(e.date).toISOString() < moment().toISOString()
-      })
-      this.oldEvents = oldShows.sort((a, b) => {
-        return moment.utc(a.date).diff(moment.utc(b.date))
-      })
-      this.events = upcomingEvents.sort((a, b) => {
-        return moment.utc(a.date).diff(moment.utc(b.date))
-      })
+      this.events = events
+      // const upcomingEvents = events.filter((e) => {
+      //   console.log(moment(e.date).toISOString())
+      //   return moment(e.date).toISOString() >= moment().toISOString()
+      // })
+      // const oldShows = events.filter((e) => {
+      //   return moment(e.date).toISOString() < moment().toISOString()
+      // })
+      // this.oldEvents = oldShows.sort((a, b) => {
+      //   return moment.utc(a.date).diff(moment.utc(b.date))
+      // })
+      // this.events = upcomingEvents.sort((a, b) => {
+      //   return moment.utc(a.date).diff(moment.utc(b.date))
+      // })
     } catch (error) {
       console.log(error)
       this.errorMessage = 'Sorry there are no events'

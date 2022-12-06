@@ -1,14 +1,42 @@
 <template>
   <div class="container mx-auto my-6">
-    <section v-if="event" class="container mx-auto mt-6">
-      <!-- <pre>{{ event }}</pre> -->
+    <section class="container" v-if="event">
+      <CardsShowFullCard class="mx-auto" :event="event" />
+    </section>
+    <section class="container mx-auto px-4">
+      <section class="my-2">
+        <h2 id="showdetails" class="chedder text-2xl">Show Details</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="videos" class="chedder text-2xl">Videos</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="bio" class="chedder text-2xl">Bio</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="Pictures" class="chedder text-2xl">Pictures</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="members" class="chedder text-2xl">Members</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="merch" class="chedder text-2xl">Merch</h2>
+      </section>
+
+      <section class="my-2">
+        <h2 id="links" class="chedder text-2xl">Links</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="chatroom" class="chedder text-2xl">Chat Room</h2>
+      </section>
+    </section>
+    <!-- <section v-if="event" class="container mx-auto mt-6">
       <div v-if="event.eventPoster">
         <div
           class="h-[500px] back"
           :style="`background-image: url(${event.eventPoster.url})`"
         ></div>
       </div>
-      <!-- edit button  -->
       <section v-if="user">
         <div class="flex-grow flex items-center my-12 w-full md:w-[450px]">
           <NuxtLink
@@ -36,7 +64,6 @@
           </NuxtLink>
         </div>
       </section>
-      <!-- description -->
       <section>
         <h1 v-if="event" class="my-6">{{ event.title }}</h1>
         <h3 v-if="event.headlinerOne" class="text-3xl mt-4">Headliner</h3>
@@ -119,12 +146,10 @@
         </li>
       </ul>
     </section>
-    <!-- comment box -->
     <section class="container mx-auto my-6">
       <h2 class="text-3xl">Posts</h2>
 
       <section class="my-10">
-        <!-- profileImg.url username, image -->
         <div v-for="(post, index) in posts" :key="post + index">
           <div
             v-if="post.users_permissions_user"
@@ -156,7 +181,6 @@
             </div>
           </div>
         </div>
-        <!-- add post bod  -->
         <div class="w-full mx-auto">
           <p class="text-red-500">{{ postError }}</p>
           <div class="w-full flex justify-center items-center px-4 sm:px-0">
@@ -196,11 +220,9 @@
       v-if="popup"
       class="h-screen w-screen bg-black bg-opacity-10 fixed top-0 left-0 flex items-center justify-center"
     >
-      <!-- upload form  -->
       <div
         class="w-1/4 h-2/5 bg-gray-100 shadow-sm flex justify-center items-center relative"
       >
-        <!-- form goes here -->
         <FormulateInput
           type="image"
           label="Select an image to upload"
@@ -211,12 +233,11 @@
           element-class="w-full sm:w-96 "
           @change="postImage = $event.target.files[0]"
         />
-        <!-- close icon -->
         <div class="absolute top-3 right-3" @click="popupToggle">
           <img class="h-6 w-6" src="~/static/close_black.svg" alt="" />
         </div>
       </div>
-    </section>
+    </section> -->
     <section
       v-if="loading"
       class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white"
@@ -227,9 +248,6 @@
 </template>
 
 <script>
-// <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-//   <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-// </svg>
 import moment from 'moment'
 export default {
   data() {
