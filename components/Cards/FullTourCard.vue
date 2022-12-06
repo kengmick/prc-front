@@ -31,7 +31,7 @@
         >
           <span v-if="tour.touringBands">
             <p
-              v-for="band in tour.touringBands"
+              v-for="band in tour.touringBands.slice(0, 2)"
               :key="band.bandName"
               class="chedder text-[16px] text-center"
             >
@@ -118,6 +118,15 @@
             query: { tour: tour.id },
           }"
           >Videos</NuxtLink
+        >
+        <NuxtLink
+          class="chedder text-[15px] underline"
+          :to="{
+            path: '/tourview',
+            hash: '#bio',
+            query: { tour: tour.id },
+          }"
+          >bio</NuxtLink
         >
         <NuxtLink
           class="chedder text-[15px] underline"

@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="event"
-      class="w-[300px] h-[400px] border-box border-[#BA39A4] border-[2px] relative overscroll-none text-white"
+      class="w-[300px] h-[400px] border-box border-[#F5A01F] border-[2px] relative overscroll-none text-white"
     >
       <nuxt-img
         v-if="event.eventPoster"
@@ -46,16 +46,16 @@
           }"
         >
           <div
-            class="bg-[#BA39A4] w-[132px] h-[36px] flex flex-col justify-center items-center"
+            class="bg-[#F5A01F] w-[132px] h-[36px] flex flex-col justify-center items-center"
           >
             <span v-if="event.bandsPlaying">
               <span v-if="event.bandsPlaying.length > 0">
                 <p
                   class="text-[12px] chedder"
                   v-for="band in event.bandsPlaying.slice(0, 2)"
-                  :key="band.bandName"
+                  :key="band.BandName"
                 >
-                  {{ band.bandName }}
+                  {{ band.BandName }}
                 </p>
               </span>
             </span>
@@ -78,12 +78,22 @@
           </span>
         </div>
         <div
-          class="bg-[#BA39A4] w-[132px] h-[36px] flex flex-col justify-center items-center"
+          class="bg-[#F5A01F] w-[132px] h-[36px] flex flex-col justify-center items-center"
         >
           <span>
             <p class="text-[12px] chedder text-center">
-              starts {{ moment(String(event.date)).format('MMM') }}
+              <span v-if="event.city && event.state"
+                >{{ event.city }}, {{ event.state }}</span
+              >
+            </p>
+            <p class="text-[12px] chedder text-center">
+              {{ moment(String(event.date)).format('MMM') }}
               {{ moment(String(event.date)).format('Do') }}
+              {{
+                moment(String(`${event.date} ${event.timeStarts}`)).format(
+                  'h:mm a'
+                )
+              }}
             </p>
           </span>
         </div>
@@ -184,14 +194,14 @@
         v-if="announcement"
         class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
       >
-        <h2 class="text-[18px]">{{ announcement.title }}</h2>
-        <p class="text-[12px]">{{ announcement.text }}</p>
+        <h2 class="text-[18px]">{{ announcement[0].title }}</h2>
+        <p class="text-[12px]">{{ announcement[0].text }}</p>
       </section>
 
       <!-- buttons  -->
       <section class="flex justify-around mt-[8px]">
         <div
-          class="w-[66px] h-[24px] bg-[#BA39A4] flex justify-center items-center text-[10px] chedder"
+          class="w-[66px] h-[24px] bg-[#F5A01F] flex justify-center items-center text-[10px] chedder"
         >
           <span class="flex items-center justify-between w-full px-2"
             ><img
@@ -202,7 +212,7 @@
           >
         </div>
         <div
-          class="w-[66px] h-[24px] bg-[#BA39A4] flex justify-center items-center text-[10px] chedder"
+          class="w-[66px] h-[24px] bg-[#F5A01F] flex justify-center items-center text-[10px] chedder"
         >
           <span class="flex items-center justify-between w-full px-2"
             ><img
@@ -213,7 +223,7 @@
           >
         </div>
         <div
-          class="w-[66px] h-[24px] bg-[#BA39A4] flex justify-center items-center text-[10px] chedder"
+          class="w-[66px] h-[24px] bg-[#F5A01F] flex justify-center items-center text-[10px] chedder"
         >
           <span
             v-if="!disableAll"
@@ -237,7 +247,7 @@
         </div>
 
         <div
-          class="w-[70px] h-[24px] bg-[#BA39A4] flex justify-center items-center text-[10px] chedder"
+          class="w-[70px] h-[24px] bg-[#F5A01F] flex justify-center items-center text-[10px] chedder"
         >
           <span class="flex items-center justify-between w-full px-2"
             ><img class="h-[12px] w-[12px]" src="/qr1.svg" alt="" />QR
@@ -350,14 +360,10 @@ export default {
   },
   computed: {
     announcement() {
-      return [
-        { title: 'Annocements', text: 'This is the body of the text ...' },
-      ]
+      return [{ title: 'Announcements', text: 'this is the body ...' }]
     },
     announcements() {
-      return [
-        { title: 'Annocements', text: 'This is the body of the text ...' },
-      ]
+      return [{ title: 'Announcements', text: 'This is the body ...' }]
     },
   },
 

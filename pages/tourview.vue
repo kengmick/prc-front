@@ -3,11 +3,37 @@
     <div v-if="tour" class="container mx-auto flex justify-center mt-6">
       <CardsFullTourCard :tour="tour" />
     </div>
+    <section class="container mx-auto px-4">
+      <section class="my-2">
+        <h2 id="showz" class="chedder text-2xl">Showz</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="videos" class="chedder text-2xl">Videos</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="bio" class="chedder text-2xl">Bio</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="Pictures" class="chedder text-2xl">Pictures</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="members" class="chedder text-2xl">Members</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="merch" class="chedder text-2xl">Merch</h2>
+      </section>
 
+      <section class="my-2">
+        <h2 id="links" class="chedder text-2xl">Links</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="chatroom" class="chedder text-2xl">Chat Room</h2>
+      </section>
+    </section>
     <!-- events -->
-    <div v-if="events && tour" class="container mx-auto">
-      <h3 class="text-3xl my-6">Showz</h3>
-      <div v-if="permission" class="px-2 my-6">
+    <!-- <div v-if="events && tour" class="container mx-auto"> -->
+    <!-- <h3 class="text-3xl my-6">Showz</h3> -->
+    <!-- <div v-if="permission" class="px-2 my-6">
         <div
           class="flex justify-center sm:inline-flex items-center border-2 border-black px-4 py-2 cursor-pointer"
           @click="addEventForm"
@@ -29,8 +55,8 @@
           </svg>
           <h3 class="text-2xl pl-2 w-auto">Add Show To Tour</h3>
         </div>
-      </div>
-      <section v-if="eventForm" class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
+      </div> -->
+    <!-- <section v-if="eventForm" class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
         <div class="w-full mt-6 mb-6">
           <FormulateForm v-model="formValues" @submit="addEvents">
             <div class="flex-col sm:flex sm:flex-row">
@@ -43,7 +69,7 @@
                   errors-class="sm:w-4/5 m-auto"
                 />
 
-                <!-- <FormulateInput
+                <FormulateInput
                   v-if="userBands"
                   type="select"
                   name="bandName"
@@ -52,7 +78,7 @@
                   wrapper-class="sm:w-4/5 m-auto"
                   element-class="w-full"
                   errors-class="sm:w-4/5 m-auto"
-                /> -->
+                />
                 <FormulateInput
                   name="date"
                   type="date"
@@ -126,7 +152,7 @@
             </div>
 
             <section class="px-4 mt-10 sm:m-20">
-              <!-- <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+              <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
                 List Bands Playing
               </h2>
               <FormulateInput
@@ -147,7 +173,7 @@
                     element-class="w-full"
                   />
                 </div>
-              </FormulateInput> -->
+              </FormulateInput>
               <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
                 Add Event Poster
               </h2>
@@ -175,7 +201,7 @@
                 />
               </div>
             </section>
-            <!-- <div>
+            <div>
               <FormulateInput
                 type="submit"
                 label="Next"
@@ -183,7 +209,7 @@
                 grouping-class="bg-black"
                 element-class="w-full"
               />
-            </div> -->
+            </div>
             <div
               class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full"
               @click="addEvents"
@@ -229,9 +255,9 @@
             </div>
           </FormulateForm>
         </div>
-      </section>
-      <!-- event list  -->
-      <section class="container mx-auto">
+      </section> -->
+    <!-- event list  -->
+    <!-- <section class="container mx-auto">
         <div v-if="events" class="container mx-auto">
           <section v-if="events.length > 0" class="container mx-auto">
             <div
@@ -285,11 +311,11 @@
             </div>
           </section>
         </div>
-      </section>
-    </div>
+      </section> -->
+    <!-- </div> -->
     <!-- post box -->
     <section class="container mx-auto">
-      <h2 class="text-3xl">Posts</h2>
+      <!-- <h2 class="text-3xl">Posts</h2> -->
 
       <section class="my-10">
         <!-- profileImg.url username, image -->
