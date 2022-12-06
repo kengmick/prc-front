@@ -287,14 +287,21 @@
       <!-- show band here  -->
       <section v-if="bands" class="w-full container mx-auto my-10">
         <div
-          class="grid grid-cols-1 sm:grid sm:grid-cols-2 md:grid-cols-3 gap-10 items-center justify-center"
+          class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 items-center justify-center"
         >
-          <ProfileBandCard
+          <PosterCard
+            class="mb-10 mx-auto"
+            v-for="band in bands"
+            :key="band.bandName"
+            :band="band"
+            :user="band.users_permissions_user"
+          />
+          <!-- <ProfileBandCard
             v-for="(band, index) in bands"
             :key="band.bandName + index"
             :band="band"
             @removedBand="updateData"
-          />
+          /> -->
         </div>
       </section>
       <!-- end show band  -->
@@ -333,9 +340,12 @@
       <!-- present showz  -->
       <section class="container mx-auto">
         <div v-if="events" class="container mx-auto">
-          <pre>{{ events }}</pre>
           <section v-if="events.length > 0">
-            <CardsShowCard v-for="event in events" :key="event.title" />
+            <CardsShowCard
+              v-for="event in events"
+              :key="event.title"
+              :event="event"
+            />
           </section>
         </div>
       </section>
@@ -375,8 +385,16 @@
 
       <!-- tours  -->
       <section class="container mx-auto">
-        <div v-if="tours" class="container mx-auto">
-          <CardsTourCard v-for="tour in tours" :key="tour.title" :tour="tour" />
+        <div
+          v-if="tours"
+          class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 items-center justify-center"
+        >
+          <CardsTourCard
+            class="mx-auto"
+            v-for="tour in tours"
+            :key="tour.title"
+            :tour="tour"
+          />
         </div>
       </section>
 

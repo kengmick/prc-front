@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Event</h1>
     <div
       v-if="event"
       class="w-[300px] h-[400px] border-box border-[#BA39A4] border-[2px] relative overscroll-none text-white"
@@ -28,7 +27,7 @@
           class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
         >
           <h2 class="chedder text-[36px] text-white leading-none">
-            <span v-if="event.title">{{ event.eventPoster.url }} url </span>
+            <span v-if="event.title">{{ event.title }} </span>
           </h2>
         </section>
       </NuxtLink>
@@ -351,12 +350,14 @@ export default {
   },
   computed: {
     announcement() {
-      // return this.event.announcements[this.index] || ''
-      return []
+      return [
+        { title: 'Annocements', text: 'This is the body of the text ...' },
+      ]
     },
     announcements() {
-      // return this.event.announcements || ''
-      return []
+      return [
+        { title: 'Annocements', text: 'This is the body of the text ...' },
+      ]
     },
   },
 

@@ -46,7 +46,7 @@
           <span v-if="tour.touringBands">
             <span v-if="tour.touringBands.length > 0">
               <p
-                class="text-[12px] chedder"
+                class="text-[12px] chedder text-center"
                 v-for="band in tour.touringBands.slice(0, 2)"
                 :key="band.bandName"
               >
@@ -77,12 +77,10 @@
       >
         <span>
           <p class="text-[12px] chedder text-center">
-            starts {{ moment(String(tour.dateStart)).format('MMM') }}
-            {{ moment(String(tour.dateStart)).format('Do') }}
+            {{ moment(String(tour.dateStart)).format('MMM Do YYYY') }}
           </p>
           <p class="text-[12px] chedder text-center">
-            ends {{ moment(String(tour.dateEnd)).format('MMM') }}
-            {{ moment(String(tour.dateEnd)).format('Do') }}
+            {{ moment(String(tour.dateEnd)).format('MMM Do YYYY') }}
           </p>
         </span>
       </div>
