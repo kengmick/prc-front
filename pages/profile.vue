@@ -468,9 +468,9 @@
         <div
           class="grid grid-cols-1 sm:grid sm:grid-cols-2 md:grid-cols-3 gap-10 items-center justify-center"
         >
-          <VenueCard
-            v-for="(venue, index) in venues"
-            :key="venue.title + index"
+          <CardsVenueCard
+            v-for="venue in venues"
+            :key="venue.name"
             :venue="venue"
             @removeVenue="openPopUp"
           />

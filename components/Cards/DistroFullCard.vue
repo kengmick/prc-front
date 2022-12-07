@@ -1,15 +1,15 @@
 <template>
   <!--  :style="{ backgroundImage: `url(/punk-background.png)` }"  -->
   <div
-    v-if="venue"
-    class="relative w-[300px] h-[400px] border-box border-[#F81194] border-[2px] text-white"
+    v-if="distro"
+    class="relative w-[300px] h-[400px] border-box border-[#F5A01F] border-[2px] text-white"
   >
-    <span v-if="venue.venueImg">
+    <span v-if="distro.distroImage">
       <nuxt-img
         class="absolute top-0 negetive-index object-fill"
         format="webp"
         preload
-        :src="venue.venueImg.url"
+        :src="distro.distroImage.url"
         width="300"
         height="400"
       />
@@ -19,7 +19,7 @@
       class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
     >
       <h2 class="chedder text-[36px] text-white leading-none">
-        {{ venue.name }}
+        {{ distro.name }}
       </h2>
     </section>
     <!-- info box  -->
@@ -27,17 +27,18 @@
       <section class="w-[202px] h-[230px] flex flex-col">
         <!-- info box -->
         <div
-          class="w-[160px] h-[102px] bg-[#F81194] ml-[4px] flex flex-col items-center justify-center shadow-2xl"
+          class="w-[160px] h-[102px] bg-[#F5A01F] ml-[4px] flex flex-col items-center justify-center shadow-2xl"
         >
-          <p v-if="venue.city && venue.state" class="text-[16px] chedder">
-            {{ venue.city }}, {{ venue.state }}
+          <!-- maybe show interal chat featured if the user is not logged in and then prompt user to log in on click distro -->
+          <p v-if="distro.city && distro.state" class="text-[16px] chedder">
+            {{ distro.city }}, {{ distro.state }}
           </p>
-          <p class="text-[16px] chedder text-center" v-if="venue.dateOpened">
-            {{ moment(String(venue.dateOpened)).format('MMM Do YYYY') }}
+          <p class="text-[16px] chedder text-center" v-if="distro.dateOpened">
+            {{ moment(String(distro.dateOpened)).format('MMM Do YYYY') }}
           </p>
 
-          <span v-if="venue.users_permissions_user">
-            <span v-if="venue.users_permissions_user.id !== $strapi.user">
+          <span v-if="distro.users_permissions_user">
+            <span v-if="distro.users_permissions_user.id !== $strapi.user">
               <p
                 v-if="4 !== $strapi.user.id"
                 class="text-[12px] chedder underline"
@@ -47,16 +48,16 @@
               </p>
             </span>
           </span>
-          <!-- <span v-else>
+          <span v-else>
             <p class="text-[12px] chedder underline">Internal Message</p>
-          </span> -->
+          </span>
         </div>
         <div class="w-[202px] h-[120px] mt-[8px] flex justify-around">
           <!-- logo -->
-          <div v-if="venue.venueImg" class="w-[90px] h-[120px] shadow-2xl">
+          <div v-if="distro.distroImage" class="w-[90px] h-[120px] shadow-2xl">
             <nuxt-img
               class="h-full object-cover"
-              :src="venue.venueImg.url"
+              :src="distro.distroImage.url"
               alt=""
               width="90"
               height="120"
@@ -64,22 +65,22 @@
           </div>
           <!-- first featured card  -->
           <div
-            v-if="venue.hasFeaturedCard"
-            class="w-[90px] h-[120px] bg-[#F81194] shadow-2xl"
+            v-if="distro.hasFeaturedCard"
+            class="w-[90px] h-[120px] bg-[#F5A01F] shadow-2xl"
           >
             <NuxtLink
               :to="{
-                path: '/venueprofile',
-                query: { venue: venue.cardData.id },
+                path: '/distroview',
+                query: { distro: distro.cardData.id },
               }"
             >
-              <FeaturedCardFull :cardData="venue.cardData" />
+              <FeaturedCardFull :cardData="distro.cardData" />
             </NuxtLink>
           </div>
           <div
             v-else
             class="h-[120px] w-[90px] bg-gray-500 flex flex-col justify-center items-center"
-            @click="addFeaturedToBandCard(venue)"
+            @click="addFeaturedToBandCard(distro)"
           >
             <p class="chedder text-lg text-center">+ Add</p>
             <p class="chedder text-lg text-center">Featured Card</p>
@@ -87,59 +88,59 @@
         </div>
       </section>
       <section
-        class="w-[94px] h-[230px] bg-[#F81194] mr-[4px] flex flex-col justify-between items-center pt-[3px] shadow-2xl"
+        class="w-[94px] h-[230px] bg-[#F5A01F] mr-[4px] flex flex-col justify-between items-center pt-[3px] shadow-2xl"
       >
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/venueprofile',
+            path: '/distroview',
             hash: '#showdetails',
-            query: { venue: venue.id },
+            query: { distro: distro.id },
           }"
-          >Showz</NuxtLink
+          >Show Details</NuxtLink
         >
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/venueprofile',
+            path: '/distroview',
             hash: '#videos',
-            query: { venue: venue.id },
+            query: { distro: distro.id },
           }"
           >Videos</NuxtLink
         >
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/venueprofile',
+            path: '/distroview',
             hash: '#bio',
-            query: { venue: venue.id },
+            query: { distro: distro.id },
           }"
-          >Bio</NuxtLink
+          >bio</NuxtLink
         >
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/venueprofile',
+            path: '/distroview',
             hash: '#pictures',
-            query: { venue: venue.id },
+            query: { distro: distro.id },
           }"
           >Pictures</NuxtLink
         >
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/venueprofile',
+            path: '/distroview',
             hash: '#members',
-            query: { venue: venue.id },
+            query: { distro: distro.id },
           }"
           >Members</NuxtLink
         >
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/venueprofile',
+            path: '/distroview',
             hash: '#merch',
-            query: { venue: venue.id },
+            query: { distro: distro.id },
           }"
           >Merch</NuxtLink
         >
@@ -147,9 +148,9 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/venueprofile',
+            path: '/distroview',
             hash: '#links',
-            query: { venue: venue.id },
+            query: { distro: distro.id },
           }"
           >Links</NuxtLink
         >
@@ -157,9 +158,9 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/venueprofile',
+            path: '/distroview',
             hash: '#chatroom',
-            query: { venue: venue.id },
+            query: { distro: distro.id },
           }"
           >Chat Room</NuxtLink
         >
@@ -183,14 +184,14 @@
     <!-- buttons  -->
     <section class="flex justify-around mt-[8px]">
       <div
-        class="w-[66px] h-[24px] bg-[#F81194] flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-[#F5A01F] flex justify-center items-center text-[10px] chedder"
       >
         <span class="flex items-center justify-between w-full px-2"
           ><img class="h-[12px] w-[12px]" src="/share.svg" alt="" />Share</span
         >
       </div>
       <div
-        class="w-[66px] h-[24px] bg-[#F81194] flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-[#F5A01F] flex justify-center items-center text-[10px] chedder"
       >
         <span class="flex items-center justify-between w-full px-2"
           ><img
@@ -201,12 +202,12 @@
         >
       </div>
       <div
-        class="w-[66px] h-[24px] bg-[#F81194] flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-[#F5A01F] flex justify-center items-center text-[10px] chedder"
       >
         <span
           v-if="!disableAll"
           class="flex items-center justify-between w-full px-2 cursor-pointer"
-          @click="goToAddCard(venue)"
+          @click="goToAddCard(distro)"
           ><img class="h-[12px] w-[12px]" src="/add.svg" alt="" />Feature</span
         >
         <span
@@ -217,7 +218,7 @@
       </div>
 
       <div
-        class="w-[70px] h-[24px] bg-[#F81194] flex justify-center items-center text-[10px] chedder"
+        class="w-[70px] h-[24px] bg-[#F5A01F] flex justify-center items-center text-[10px] chedder"
       >
         <span class="flex items-center justify-between w-full px-2"
           ><img class="h-[12px] w-[12px]" src="/qr1.svg" alt="" />QR Code</span
@@ -230,7 +231,7 @@
     >
       <div
         class="w-11/12 bg-black text-white flex justify-center items-center text-[14px] chedder mt-[4px] py-4 mb-6 cursor-pointer"
-        @click="$emit('selectUsersCard', venue.id)"
+        @click="$emit('selectUsersCard', distro.id)"
       >
         <span v-if="usersCard">Add to this Card !!!</span>
         <span v-else>Add this Card !!!</span>
@@ -246,7 +247,7 @@ import moment from 'moment'
 export default {
   // components: { Button },
   props: {
-    venue: {
+    distro: {
       type: Object,
       default() {
         return {}
@@ -327,11 +328,11 @@ export default {
   },
   computed: {
     announcement() {
-      // return this.venue.announcements[this.index] || []
+      // return this.distro.announcements[this.index] || []
       return [{ title: 'hello', text: 'hello ' }]
     },
     // announcements() {
-    //   //   return this.venue.announcements || []
+    //   //   return this.distro.announcements || []
     //   return [{ title: 'hello', text: 'hello ' }]
     // },
   },
@@ -343,36 +344,36 @@ export default {
       this.$emit('startChat', user)
     },
     addFeaturedToBandCard() {
-      // this will emit an venue to add a card to the card that was clicked on .... the user owned card
-      this.$emit('addFeaturedToBandCard', this.venue)
+      // this will emit an distro to add a card to the card that was clicked on .... the user owned card
+      this.$emit('addFeaturedToBandCard', this.distro)
     },
-    goToAddCard(venue) {
+    goToAddCard(distro) {
       if (this.$strapi.user) {
         this.showModal = false
         // go to add card page
-        if (venue.users_permissions_user.id === this.$strapi.user.id) {
+        if (distro.users_permissions_user.id === this.$strapi.user.id) {
           this.$router.push({
             path: 'addcardpage',
-            query: { venue: venue.id, usersCard: true },
+            query: { distro: distro.id, usersCard: true },
           })
         } else {
           this.$router.push({
             path: 'addcardpage',
-            query: { venue: venue.id, usersCard: false },
+            query: { distro: distro.id, usersCard: false },
           })
         }
       } else {
         return (this.showModal = true)
       }
     },
-    addCardToData(userBandToAddToo, venue) {
+    addCardToData(userBandToAddToo, distro) {
       // Check if user is logged in
       if (this.$strapi.user) {
         this.showModal = false
       } else {
         return (this.showModal = true)
       }
-      console.log(venue.users_permissions_user.id, this.$strapi.user.id)
+      console.log(distro.users_permissions_user.id, this.$strapi.user.id)
     },
 
     logit() {
@@ -384,12 +385,12 @@ export default {
       if (!this.$strapi.user) {
         alert('you must be logged in to favorite')
         console.log('the user is not logged in ')
-        return this.$emit('popup', 'this venue logged ....')
+        return this.$emit('popup', 'this distro logged ....')
       } else {
         // get all user favorite stuff ... if they have any ... add a new favorite to it ... then resave all favoites to the user favs then route to favorite page the userFavs is an array so you can iterate over it using an array method wich is really an object at the end of the day or it wouldn't be about to have a method attached to it. Thank you for coming ... please come again soon.
         const user = await this.$strapi.user
         this.userFavs = await user.favs
-        const json = { favObject: { type: 'venue', id: stringId } }
+        const json = { favObject: { type: 'distro', id: stringId } }
         this.userFavs.push(json)
         //  favs: [...this.userFavs, { favObject: { ...json } }],
         console.log(this.userFavs)
