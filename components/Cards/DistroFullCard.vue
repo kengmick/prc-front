@@ -2,7 +2,7 @@
   <!--  :style="{ backgroundImage: `url(/punk-background.png)` }"  -->
   <div
     v-if="distro"
-    class="relative w-[300px] h-[400px] border-box border-[#F5A01F] border-[2px] text-white"
+    class="relative w-[300px] h-[400px] border-box border-[#F5A01F] border-[2px] text-black"
   >
     <span v-if="distro.distroImage">
       <nuxt-img
@@ -27,7 +27,7 @@
       <section class="w-[202px] h-[230px] flex flex-col">
         <!-- info box -->
         <div
-          class="w-[160px] h-[102px] bg-[#F5A01F] ml-[4px] flex flex-col items-center justify-center shadow-2xl"
+          class="w-[160px] h-[102px] bg-[#22E8FF] ml-[4px] flex flex-col items-center justify-center shadow-2xl"
         >
           <!-- maybe show interal chat featured if the user is not logged in and then prompt user to log in on click distro -->
           <p v-if="distro.city && distro.state" class="text-[16px] chedder">
@@ -66,7 +66,7 @@
           <!-- first featured card  -->
           <div
             v-if="distro.hasFeaturedCard"
-            class="w-[90px] h-[120px] bg-[#F5A01F] shadow-2xl"
+            class="w-[90px] h-[120px] bg-[#22E8FF] shadow-2xl"
           >
             <NuxtLink
               :to="{
@@ -88,7 +88,7 @@
         </div>
       </section>
       <section
-        class="w-[94px] h-[230px] bg-[#F5A01F] mr-[4px] flex flex-col justify-between items-center pt-[3px] shadow-2xl"
+        class="w-[94px] h-[230px] bg-[#22E8FF] mr-[4px] flex flex-col justify-between items-center pt-[3px] shadow-2xl"
       >
         <NuxtLink
           class="chedder text-[15px] underline"
@@ -184,14 +184,14 @@
     <!-- buttons  -->
     <section class="flex justify-around mt-[8px]">
       <div
-        class="w-[66px] h-[24px] bg-[#F5A01F] flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-[#22E8FF] flex justify-center items-center text-[10px] chedder"
       >
         <span class="flex items-center justify-between w-full px-2"
           ><img class="h-[12px] w-[12px]" src="/share.svg" alt="" />Share</span
         >
       </div>
       <div
-        class="w-[66px] h-[24px] bg-[#F5A01F] flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-[#22E8FF] flex justify-center items-center text-[10px] chedder"
       >
         <span class="flex items-center justify-between w-full px-2"
           ><img
@@ -202,7 +202,7 @@
         >
       </div>
       <div
-        class="w-[66px] h-[24px] bg-[#F5A01F] flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-[#22E8FF] flex justify-center items-center text-[10px] chedder"
       >
         <span
           v-if="!disableAll"
@@ -218,7 +218,7 @@
       </div>
 
       <div
-        class="w-[70px] h-[24px] bg-[#F5A01F] flex justify-center items-center text-[10px] chedder"
+        class="w-[70px] h-[24px] bg-[#22E8FF] flex justify-center items-center text-[10px] chedder"
       >
         <span class="flex items-center justify-between w-full px-2"
           ><img class="h-[12px] w-[12px]" src="/qr1.svg" alt="" />QR Code</span

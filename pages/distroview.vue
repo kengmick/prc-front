@@ -3,6 +3,33 @@
     <section v-if="distro" class="container mx-auto my-6">
       <CardsDistroFullCard class="mx-auto" :distro="distro" />
     </section>
+    <section class="container mx-auto px-4">
+      <section class="my-2">
+        <h2 id="showz" class="chedder text-2xl">Showz</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="videos" class="chedder text-2xl">Videos</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="bio" class="chedder text-2xl">Bio</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="Pictures" class="chedder text-2xl">Pictures</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="members" class="chedder text-2xl">Members</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="merch" class="chedder text-2xl">Merch</h2>
+      </section>
+
+      <section class="my-2">
+        <h2 id="links" class="chedder text-2xl">Links</h2>
+      </section>
+      <section class="my-2">
+        <h2 id="chatroom" class="chedder text-2xl">Chat Room</h2>
+      </section>
+    </section>
   </div>
 </template>
 

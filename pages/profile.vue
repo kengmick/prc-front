@@ -401,11 +401,11 @@
       <!-- distros -->
       <div class="container mx-auto my-6">
         <h2
-          class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
+          class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2 mb-6"
         >
           Your Labels/Distros
         </h2>
-        <div class="w-full">
+        <div class="w-full mb-6">
           <NuxtLink to="/createdistro">
             <div
               class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-2/5"
@@ -428,6 +428,15 @@
               <h3 class="text-3xl pl-2 text-center">Label/Distro</h3>
             </div>
           </NuxtLink>
+        </div>
+        <div
+          class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 items-center justify-center"
+        >
+          <CardsDistroCard
+            v-for="distro in distros"
+            :key="distro.name"
+            :distro="distro"
+          />
         </div>
       </div>
 

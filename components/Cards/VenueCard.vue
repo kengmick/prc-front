@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-[300px] h-[400px] border-box border-[#BA39A4] border-[2px] relative overscroll-none text-white"
+    class="w-[300px] h-[400px] border-box border-[#F81194] border-[2px] relative overscroll-none text-white"
   >
     <nuxt-img
       class="absolute top-0 negetive-index object-fill"
@@ -41,7 +41,7 @@
         }"
       >
         <div
-          class="bg-[#BA39A4] w-[132px] h-[36px] flex flex-col justify-center items-center"
+          class="bg-[#F81194] w-[132px] h-[36px] flex flex-col justify-center items-center"
         >
           <p class="text-[12px] chedder text-center">
             {{ venue.city }}, {{ venue.state }}
@@ -50,7 +50,7 @@
       </NuxtLink>
       <div
         v-else
-        class="bg-[#BA39A4] w-[132px] h-[36px] flex flex-col justify-center items-center"
+        class="bg-[#F81194] w-[132px] h-[36px] flex flex-col justify-center items-center"
       >
         <!-- <span v-if="venue.touringBands">
           <span v-if="venue.touringBands.length > 0">
@@ -65,7 +65,7 @@
         </span> -->
       </div>
       <div
-        class="bg-[#BA39A4] w-[132px] h-[36px] flex flex-col justify-center items-center"
+        class="bg-[#F81194] w-[132px] h-[36px] flex flex-col justify-center items-center"
       >
         <span>
           <p class="text-[12px] chedder text-center">
@@ -175,14 +175,14 @@
     <!-- buttons  -->
     <section class="flex justify-around mt-[8px]">
       <div
-        class="w-[66px] h-[24px] bg-[#BA39A4] flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-[#F81194] flex justify-center items-center text-[10px] chedder"
       >
         <span class="flex items-center justify-between w-full px-2"
           ><img class="h-[12px] w-[12px]" src="/share.svg" alt="" />Share</span
         >
       </div>
       <div
-        class="w-[66px] h-[24px] bg-[#BA39A4] flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-[#F81194] flex justify-center items-center text-[10px] chedder"
       >
         <span class="flex items-center justify-between w-full px-2"
           ><img
@@ -193,7 +193,7 @@
         >
       </div>
       <div
-        class="w-[66px] h-[24px] bg-[#BA39A4] flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-[#F81194] flex justify-center items-center text-[10px] chedder"
       >
         <span
           v-if="!disableAll"
@@ -209,7 +209,7 @@
       </div>
 
       <div
-        class="w-[70px] h-[24px] bg-[#BA39A4] flex justify-center items-center text-[10px] chedder"
+        class="w-[70px] h-[24px] bg-[#F81194] flex justify-center items-center text-[10px] chedder"
       >
         <span class="flex items-center justify-between w-full px-2"
           ><img class="h-[12px] w-[12px]" src="/qr1.svg" alt="" />QR Code</span
