@@ -526,7 +526,13 @@
           v-if="classifieds"
           class="container mx-auto px-4 flex flex-col items-start"
         >
-          <div
+          <CardsClassifiedCard
+            v-for="article in classifieds"
+            :key="article.title"
+            :article="article"
+          />
+
+          <!-- <div
             v-for="article in classifieds"
             :key="article.title"
             class="my-6 flex flex-col sm:block sm:text-left"
@@ -551,7 +557,7 @@
             >
               Delete
             </span>
-          </div>
+          </div> -->
         </section>
         <!-- distros -->
         <div class="container mx-auto my-6">
