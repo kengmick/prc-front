@@ -6,7 +6,7 @@
     </section>
     <section
       v-if="events"
-      class="container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 my-6"
+      class="container grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 my-6"
     >
       <CardsShowCard
         class="mx-auto"

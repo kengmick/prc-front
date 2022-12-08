@@ -338,17 +338,20 @@
       </div>
 
       <!-- present showz  -->
-      <section class="container mx-auto">
-        <div v-if="events" class="container mx-auto">
-          <section v-if="events.length > 0">
-            <CardsShowCard
-              v-for="event in events"
-              :key="event.title"
-              :event="event"
-            />
-          </section>
+      <section class="container mx-auto w-full">
+        <div
+          v-if="events"
+          class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 items-center justify-center mx-auto"
+        >
+          <CardsShowCard
+            class="mx-auto"
+            v-for="event in events"
+            :key="event.title"
+            :event="event"
+          />
         </div>
       </section>
+
       <!-- show venues  -->
       <!-- tours -->
       <div class="container mx-auto my-6">
@@ -384,10 +387,10 @@
       </div>
 
       <!-- tours  -->
-      <section class="container mx-auto">
+      <section class="container mx-auto w-full">
         <div
           v-if="tours"
-          class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 items-center justify-center"
+          class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 items-center justify-center mx-auto"
         >
           <CardsTourCard
             class="mx-auto"
@@ -433,6 +436,7 @@
           class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 items-center justify-center"
         >
           <CardsDistroCard
+            class="mx-auto"
             v-for="distro in distros"
             :key="distro.name"
             :distro="distro"
@@ -475,9 +479,10 @@
       <!-- venues list here  -->
       <section v-if="venues" class="w-full container mx-auto my-10">
         <div
-          class="grid grid-cols-1 sm:grid sm:grid-cols-2 md:grid-cols-3 gap-10 items-center justify-center"
+          class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 items-center justify-center mx-auto"
         >
           <CardsVenueCard
+            class="mx-auto"
             v-for="venue in venues"
             :key="venue.name"
             :venue="venue"

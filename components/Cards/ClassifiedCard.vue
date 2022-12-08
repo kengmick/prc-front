@@ -89,8 +89,8 @@
       <section
         class="w-full flex justify-between mb-[8px] h-[186px] py-[4px] px-[4px]"
       >
-        <div class="bg-white w-full h-full p-[8px]">
-          <p>Here there will be the text of a classified add</p>
+        <div class="bg-white w-full h-full p-[8px] overflow-scroll">
+          <p>{{ article.description }}</p>
         </div>
       </section>
     </NuxtLink>

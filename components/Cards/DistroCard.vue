@@ -158,8 +158,8 @@
       v-if="announcement"
       class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
     >
-      <h2 class="text-[18px]">{{ announcement.title }}</h2>
-      <p class="text-[12px]">{{ announcement.text }}</p>
+      <h2 class="text-[18px]">{{ announcement[0].title }}</h2>
+      <p class="text-[12px]">{{ announcement[0].text }}</p>
     </section>
 
     <!-- buttons  -->

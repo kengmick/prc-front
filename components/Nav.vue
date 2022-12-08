@@ -117,11 +117,11 @@
         <!-- <div>
           <NuxtLink class="chedder text-2xl" to="/Merch">Merch</NuxtLink>
         </div> -->
-        <div>
+        <!-- <div>
           <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/videos"
             >Videos</NuxtLink
           >
-        </div>
+        </div> -->
 
         <div v-if="$strapi.user">
           <!-- <div @click="logout">
