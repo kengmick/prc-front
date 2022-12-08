@@ -76,29 +76,63 @@
     </section>
 
     <!-- logo and card  -->
-    <section
-      class="w-full flex justify-between mb-[8px] h-[186px] py-[8px] px-[10px]"
+    <NuxtLink
+      v-if="!addingCard && !disableAll"
+      class=""
+      :to="{
+        path: '/classifiedview',
+        query: {
+          article: article.id,
+        },
+      }"
     >
-      <div>
-        <p>Here there will be the text of a classified add</p>
-      </div>
-    </section>
+      <section
+        class="w-full flex justify-between mb-[8px] h-[186px] py-[4px] px-[4px]"
+      >
+        <div class="bg-white w-full h-full p-[8px]">
+          <p>Here there will be the text of a classified add</p>
+        </div>
+      </section>
+    </NuxtLink>
 
     <!-- announcment box  -->
-    <section
-      v-if="!announcement"
-      class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
+    <NuxtLink
+      v-if="!addingCard && !disableAll"
+      class=""
+      :to="{
+        path: '/classifiedview',
+        query: {
+          article: article.id,
+        },
+      }"
     >
-      <h2 class="text-[18px]">Announcement</h2>
-      <p class="text-[12px]">This is the body of the text ...</p>
-    </section>
-    <section
-      v-if="announcement"
-      class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
+      <section
+        v-if="!announcement"
+        class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
+      >
+        <h2 class="text-[18px]">Announcement</h2>
+        <p class="text-[12px]">This is the body of the text ...</p>
+      </section>
+    </NuxtLink>
+
+    <NuxtLink
+      v-if="!addingCard && !disableAll"
+      class=""
+      :to="{
+        path: '/classifiedview',
+        query: {
+          article: article.id,
+        },
+      }"
     >
-      <h2 class="text-[18px]">{{ announcement.title }}</h2>
-      <p class="text-[12px]">{{ announcement.text }}</p>
-    </section>
+      <section
+        v-if="announcement"
+        class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
+      >
+        <h2 class="text-[18px]">{{ announcement[0].title }}</h2>
+        <p class="text-[12px]">{{ announcement[0].text }}</p>
+      </section>
+    </NuxtLink>
 
     <!-- buttons  -->
     <section class="flex justify-around mt-[8px]">
