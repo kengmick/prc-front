@@ -81,7 +81,7 @@
           >
             <NuxtLink
               :to="{
-                path: '/tourview',
+                path: '/tours/tourview',
                 query: { tour: tour.cardData.id },
               }"
             >
@@ -104,7 +104,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/tourview',
+            path: '/tours/tourview',
             hash: '#showz',
             query: { tour: tour.id },
           }"
@@ -113,7 +113,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/tourview',
+            path: '/tours/tourview',
             hash: '#videos',
             query: { tour: tour.id },
           }"
@@ -122,7 +122,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/tourview',
+            path: '/tours/tourview',
             hash: '#bio',
             query: { tour: tour.id },
           }"
@@ -131,7 +131,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/tourview',
+            path: '/tours/tourview',
             hash: '#pictures',
             query: { tour: tour.id },
           }"
@@ -140,7 +140,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/tourview',
+            path: '/tours/tourview',
             hash: '#members',
             query: { tour: tour.id },
           }"
@@ -159,7 +159,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/tourview',
+            path: '/tours/tourview',
             hash: '#links',
             query: { tour: tour.id },
           }"
@@ -169,7 +169,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/tourview',
+            path: '/tours/tourview',
             hash: '#chatroom',
             query: { tour: tour.id },
           }"

@@ -11,7 +11,9 @@
           <h2 class="text-2xl text-white">
             {{ band.bandName }}
           </h2>
-          <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
+          <NuxtLink
+            :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
+          >
             <h2 class="text-2xl text-white">View Profile</h2>
           </NuxtLink>
         </div>
@@ -28,7 +30,9 @@
           <h2 class="text-2xl text-white">
             {{ band.bandName }}
           </h2>
-          <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
+          <NuxtLink
+            :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
+          >
             <h2 class="text-2xl text-white">View Profile</h2>
           </NuxtLink>
         </div>

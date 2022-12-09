@@ -1,105 +1,83 @@
 <template>
   <div>
     <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
-    <h1 class="main_red_text text-center">Create Show</h1>
-
+    <h1 class="text-center my-4">Create Your Band Profile</h1>
     <section class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
       <div class="w-full mt-6 mb-6">
         <FormulateForm v-model="formValues" @submit="submitForm">
           <div class="flex-col sm:flex sm:flex-row">
             <div class="w-full px-4 sm:w-1/2">
+              <h3 class="m-auto sm:w-4/5">Band Details</h3>
               <FormulateInput
-                name="title"
-                label="Title"
-                wrapper-class="m-auto sm:w-4/5 "
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              />
-              <FormulateInput
-                name="headlinerOne"
-                label="Headlining Band"
-                wrapper-class="m-auto sm:w-4/5 "
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              />
-
-              <FormulateInput
-                v-if="userBands"
-                value="null"
-                type="select"
                 name="bandName"
-                label="Add show to a band you created Optional?"
-                :options="{ ...userBands, clear: 'clear form' }"
+                label="What is the band name"
+                wrapper-class="m-auto sm:w-4/5 "
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
+                name="genreAlt"
+                :options="{
+                  oldPunk: 'Old Punk',
+                  hardCore: 'HardCore',
+                  streetSkate: 'Street/Skate',
+                  oi: 'Oi!',
+                  crust: 'Crust',
+                  skaSurf: 'Ska/Surf',
+                  melodicPop: 'Melodic/Pop',
+                  anarchoPeace: 'Anarcho/Peace',
+                  other: 'Other',
+                }"
+                type="select"
+                label="What is the genre"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-                @change="clear($event.target.value)"
               />
-
+              <FormulateInput
+                v-if="formValues.genreAlt === 'other'"
+                name="genre"
+                label="What is the genre"
+                placeholder="Add Your band genre"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
+                name="dateStarted"
+                type="date"
+                label="Date Band Started"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <FormulateInput
+                name="recordLabel"
+                label="Record label?"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
               <!-- <FormulateInput
-                v-if="userDistros"
-                value="null"
-                type="select"
-                name="distroName"
-                label="Add show to your distro Optional?"
-                :options="userDistros"
+                name="bandEmail"
+                label="Band email?"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               /> -->
-              <FormulateInput
-                v-if="userTours"
-                value="null"
-                type="select"
-                name="tourName"
-                label="Add Show to your tour Optional?"
-                :options="{ ...userTours, clear: 'clear form' }"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-                @change="clearTour($event.target.value)"
-              />
-              <FormulateInput
-                v-if="userVenues"
-                value="null"
-                type="select"
-                name="venueName"
-                label="Add Show to your Venue Optional?"
-                :options="userVenues"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              />
-              <FormulateInput
-                name="date"
-                type="date"
-                label="Date of event"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              />
-              <FormulateInput
-                name="timeStarts"
-                type="time"
-                step="0.000"
-                label="Time Event Begins"
-                placeholder="5555 wolf ave"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-                @change="log($event.target.value)"
-              />
-
-              <FormulateInput
-                name="venueName"
-                type="text"
-                label="Event Venue"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              />
             </div>
             <div class="w-full px-4 sm:w-1/2">
+              <!-- Tier 2 contact list  -->
+
+              <FormulateInput
+                v-if="acc < 2"
+                name="contact"
+                label="Band contact"
+                wrapper-class="m-auto sm:w-4/5 "
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+              <h3 class="sm:w-4/5 m-auto">Location</h3>
               <FormulateInput
                 name="country"
                 label="Country"
@@ -110,6 +88,7 @@
                 type="select"
                 @change="formValues.country = $event.target.value"
               />
+
               <FormulateInput
                 v-if="formValues.country === 'United States'"
                 name="state"
@@ -118,8 +97,9 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-                type="text"
+                type="select"
               />
+              <!-- make select here -->
               <FormulateInput
                 v-if="formValues.country === 'United States'"
                 name="city"
@@ -131,6 +111,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+
               <FormulateInput
                 v-else-if="formValues.country === 'Northern Ireland'"
                 name="city"
@@ -142,6 +123,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+
               <FormulateInput
                 v-else-if="formValues.country === 'England'"
                 name="city"
@@ -153,6 +135,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+
               <FormulateInput
                 v-else-if="formValues.country === 'Scotland'"
                 name="city"
@@ -164,6 +147,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+
               <FormulateInput
                 v-else-if="formValues.country === 'Wales'"
                 name="city"
@@ -175,6 +159,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+
               <FormulateInput
                 v-else-if="formValues.country === 'Ireland'"
                 name="city"
@@ -186,6 +171,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+
               <FormulateInput
                 v-else-if="
                   formValues.country !== 'United States' ||
@@ -201,66 +187,211 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
-              <FormulateInput
-                v-if="
-                  !formValues.country || formValues.country === 'United States'
-                "
-                name="streetAddress"
-                validation="required"
-                type="text"
-                label="Street Address and Name"
-                placeholder="5555 wolf ave"
-                wrapper-class="sm:w-4/5 m-auto mb-4"
+              <!-- <FormulateInput
+                name="city"
+                label="City that the band is from?"
+                wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-              />
+              /> -->
             </div>
           </div>
-
           <section class="px-4 mt-10 sm:m-20">
-            <!-- <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
-              List Bands Playing
-            </h2> -->
-            <!-- list of bands playing optional  <FormulateInput
+            <!-- altContact and links -->
+
+            <div v-if="acc === 2">
+              <h2 class="my-4">Add Contacts</h2>
+              <FormulateInput
+                type="group"
+                name="altContacts"
+                :repeatable="true"
+                label="Contacts"
+                add-label="+ Add contact"
+                wrapper-class="w-full"
+                element-class="w-full"
+              >
+                <FormulateInput
+                  name="contact"
+                  label="Countact Info"
+                  wrapper-class="sm:w-4/5 m-auto"
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 m-auto"
+                />
+              </FormulateInput>
+              <h2 class="my-4">Add Links</h2>
+              <FormulateInput
+                type="group"
+                name="links"
+                :repeatable="true"
+                label="Links"
+                add-label="+ Add link"
+                wrapper-class="w-full"
+                element-class="w-full"
+              >
+                <FormulateInput
+                  name="link"
+                  label="Add A Link"
+                  wrapper-class="sm:w-4/5 m-auto"
+                  element-class="w-full"
+                  errors-class="sm:w-4/5 m-auto"
+                />
+              </FormulateInput>
+            </div>
+            <!-- end of links and contacts repeatable  -->
+            <h2 v-if="acc === 2" class="my-4">Add Band Members</h2>
+            <FormulateInput
+              v-if="acc === 2"
               type="group"
-              name="bandsPlaying"
+              name="members"
               :repeatable="true"
-              label="Band Playing"
-              add-label="+ Add bands"
+              label="Band Members"
+              add-label="+ Add members"
               wrapper-class="w-full"
               element-class="w-full"
             >
               <div>
                 <FormulateInput
-                  name="BandName"
-                  label="Add band name"
-                  required="true"
+                  name="name"
+                  label="Add band member first and last name"
+                  wrapper-class="w-full"
+                  element-class="w-full"
+                />
+                <FormulateInput
+                  name="instrument"
+                  label="Add Instrument"
+                  wrapper-class="w-full"
+                  element-class="w-full"
+                />
+                <FormulateInput
+                  type="date"
+                  name="dateStart"
+                  label="Date members started"
+                  wrapper-class="w-full"
+                  element-class="w-full"
+                />
+                <FormulateInput
+                  type="image"
+                  name="image"
+                  label="Add image of member"
+                  help="Select a png, jpg or gif to upload."
+                  validation="mime:image/jpeg,image/png,image/gif,image/webp"
+                  input-class="w-full sm:w-96 "
+                  wrapper-class="w-full sm:w-96 "
+                  element-class="w-full sm:w-96 "
+                />
+              </div>
+            </FormulateInput>
+
+            <div class="flex flex-col w-full justify-center items-center">
+              <h2 class="text-center mb-10 mt-4">Add Profile Image</h2>
+              <FormulateInput
+                type="image"
+                name="bandProfileImg"
+                label="Select an image to upload"
+                help="Select a png, jpg or gif to upload."
+                validation="mime:image/jpeg,image/png,image/gif,image/webp"
+                input-class="w-full sm:w-96 "
+                wrapper-class="w-full sm:w-96 "
+                element-class="w-full sm:w-96 "
+                @change="profileImage = $event.target.files[0]"
+              />
+            </div>
+            <!-- logo can go here if needed-->
+            <!-- <h2 class="text-center mb-10 mt-4">Add Your band Logo</h2>
+            <div class="flex w-full justify-center">
+              <FormulateInput
+                type="image"
+                name="logo"
+                label="Select an logo to upload"
+                help="Select a png, jpg or gif to upload."
+                validation="mime:image/jpeg,image/png,image/gif,image/webp"
+                input-class="w-full sm:w-96 "
+                wrapper-class="w-full sm:w-96 "
+                element-class="w-full sm:w-96 "
+                @change="logoImage = $event.target.files[0]"
+              />
+            </div> -->
+            <!-- <div v-if="image">
+              <img :src="image[0].url" alt="fdsfadsf" />
+            </div> -->
+            <!-- <h2 v-if="acc === 2" class="text-center mb-10 mt-4">
+              Add Previous Shows Played (optional)
+            </h2> -->
+            <!-- <FormulateInput
+              v-if="acc === 2"
+              type="group"
+              name="oldShows"
+              :repeatable="true"
+              label="Previous Shows Played"
+              add-label="+ Add Show"
+              wrapper-class="w-full"
+              element-class="w-full"
+            >
+              <div>
+                <FormulateInput
+                  name="title"
+                  label="Name of Show"
+                  wrapper-class="w-full"
+                  element-class="w-full"
+                />
+                <FormulateInput
+                  name="city"
+                  label="city of event"
+                  wrapper-class="w-full"
+                  element-class="w-full"
+                />
+                <FormulateInput
+                  name="state"
+                  label="state of event"
+                  wrapper-class="w-full"
+                  element-class="w-full"
+                />
+
+                <FormulateInput
+                  name="venueName"
+                  label="Venue Name"
                   wrapper-class="w-full"
                   element-class="w-full"
                 />
               </div>
             </FormulateInput> -->
-            <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
-              Add Event Poster
+            <h2 v-if="acc === 2">Add Photos</h2>
+            <FormulateInput
+              v-if="acc === 2"
+              type="group"
+              name="photos"
+              :repeatable="true"
+              label="Add Photos"
+              add-label="+ Add Photo"
+              wrapper-class="w-full"
+              element-class="w-full"
+            >
+              <div>
+                <FormulateInput
+                  type="image"
+                  name="pic"
+                  label="add photos"
+                  help="Select a png, jpg or gif to upload."
+                  validation="mime:image/jpeg,image/png,image/gif,image/webp"
+                  input-class="w-full sm:w-96 "
+                  wrapper-class="w-full sm:w-96 "
+                  element-class="w-full sm:w-96 "
+                  @change="addPic($event.target.files[0])"
+                />
+              </div>
+            </FormulateInput>
+
+            <h2
+              v-if="acc === 2"
+              class="text-center main_red_text text-2xl mb-10 mt-4"
+            >
+              Add Band Bio
             </h2>
-            <div class="flex w-full justify-center">
+            <div v-if="acc === 2" class="flex w-full justify-center">
               <FormulateInput
-                type="image"
-                name="eventPoster"
-                label="Add Event Poster"
-                help="Select a png, jpg or gif to upload."
-                validation="mime:image/jpeg,image/png,image/gif"
-                input-class="w-full sm:w-96 "
-                wrapper-class="w-full sm:w-96 "
-                element-class="w-full sm:w-96 "
-                @change="eventPosterFile = $event.target.files[0]"
-              />
-            </div>
-            <div class="flex w-full justify-center">
-              <FormulateInput
-                name="eventDescription"
+                name="bio"
                 type="textarea"
-                label="Add a description of event"
+                label="Enter your band bio here"
                 input-class="w-full sm:w-96 h-72"
                 wrapper-class="w-full sm:w-96 h-72"
                 element-class="w-full sm:w-96 h-72"
@@ -303,30 +434,22 @@
 </template>
 
 <script>
-import moment from 'moment'
 export default {
   data() {
     return {
       formValues: {},
-      errorMessage: '',
-      event: {},
+      errorMessage: null,
+      band: {},
       created: false,
-      eventPosterFile: '',
-      eventPosterFinal: '',
-      end: '',
-      // profiles to populate form options
-      userBands: null,
-      userVenues: null,
-      userTours: null,
-      userDistros: null,
-      // profiles array
-      bands: [],
-      venues: [],
-      tours: [],
-      distros: [],
+      profileImage: '',
+      logoImage: '',
+      logoImageFinal: '',
+      image: '',
+      showPosters: [],
+      pictures: [],
+      acc: 1,
+      otherGen: '',
       loading: false,
-      tour: null,
-      tourEvent: null,
       test: {
         'New York': [
           'New York',
@@ -2786,211 +2909,149 @@ export default {
     },
   },
   async mounted() {
-    // finds all band to populate form
-    try {
-      const bands = await this.$strapi.find('bands', {
-        users_permissions_user: this.$strapi.user.id,
-      })
-      this.bands = bands
-      const o = {}
-      bands.forEach((b) => {
-        o[b.bandName] = b.bandName
-      })
-      // This is user band for the full
-      this.userBands = o
-      console.log(this.userBands)
-    } catch (error) {
-      this.userBands = null
-      console.log(error)
-    }
-    // venues
-    try {
-      const venues = await this.$strapi.find('venues', {
-        users_permissions_user: this.$strapi.user.id,
-      })
-      this.venues = venues
-      const o = {}
-      venues.forEach((v) => {
-        o[v.name] = v.name
-      })
-      // This is user band for the full
-      this.userVenues = o
-    } catch (error) {
-      this.userVenues = null
-      console.log(error)
-    }
-    // distros
-    // must work on later
-    try {
-      const distros = await this.$strapi.find('record-labels', {
-        users_permissions_user: this.$strapi.user.id,
-      })
-      this.distros = distros
-      const o = {}
-      distros.forEach((d) => {
-        o[d.name] = d.name
-      })
-      // This is user band for the full
-      this.userDistros = o
-    } catch (error) {
-      this.userDistros = null
-      console.log(error)
-    }
-    // tour
-    try {
-      const tours = await this.$strapi.find('tours', {
-        users_permissions_user: this.$strapi.user.id,
-      })
-      this.tour = tours
-      const o = {}
-      tours.forEach((t) => {
-        console.log(t, ' this is the tour')
-        o[t.title] = t.title
-      })
-      // This is user band for the full
-      this.userTours = o
-    } catch (error) {
-      this.userTours = null
-      console.log(error)
-    }
+    const user = await this.$strapi.findOne('users', this.$strapi.user.id)
+    this.acc = user.acc
   },
-
   methods: {
-    moment,
-    log(val) {
-      const d = (val += ':00.000')
-      console.log(d)
-    },
-    clear(val) {
-      if (val === 'clear') {
-        this.formValues.bandName = null
+    log() {
+      if (this.formValues.links) {
+        const links = this.formValues.links.map((l) => {
+          const newLink = l.replace(/^https?:\/\//, '')
+          return { link: newLink }
+        })
+        console.log(links)
+        this.formValues.links = links
       }
     },
-    async clearTour(val) {
-      if (val === 'clear') {
-        this.formValues.tourName = null
-      } else {
-        try {
-          console.log(val)
-          const t = await this.$strapi.find('tours', { title: val })
-          // sets the tour in data objects
-          this.tour = t[0]
-          console.log(t)
-        } catch (error) {
-          console.log(error)
-        }
-      }
+    addPic(val) {
+      console.log(val)
     },
     async submitForm() {
-      // uploading bandProfileImg
       this.loading = true
-      if (this.formValues.timeStarts) {
-        this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
-      }
-      try {
-        const formData = new FormData()
-        await formData.append('files', this.eventPosterFile)
-        const [eventPosterFinal] = await this.$strapi.create('upload', formData)
-        this.eventPosterFinal = eventPosterFinal
-        this.formValues.eventPoster = eventPosterFinal
-      } catch (error) {
-        console.log(error, '351: error in uploading event poster ')
-        this.loading = false
-        this.errorMessage =
-          'Could not upload the event poster ... please try again '
-      }
-      try {
-        // if user picks band find band but not a tour
-        if (
-          this.formValues.bandName !== 'null' &&
-          this.formValues.tourName === 'null'
-        ) {
-          console.log('this is the bandName conditional not the tour  ')
-          const b = this.bands.filter((band) => {
-            return band.bandName === this.formValues.bandName
-          })
-          console.log(b)
-          this.formValues.bandName = b[0]
-          const event = await this.$strapi.create('events', {
-            ...this.formValues,
-            users_permissions_user: this.$strapi.user.id,
-          })
+      // uploading bandProfileImg
+      const members = []
+      if (this.formValues.members) {
+        for (let index = 0; index < this.formValues.members.length; index++) {
+          const formData = new FormData()
+          formData.append(
+            'files',
+            this.formValues.members[index].image.files[0].file
+          )
+          const [image] = await this.$strapi.create('upload', formData)
 
-          await this.$strapi.update('bands', b[0].id, {
-            events: [...b[0].events, event],
+          members.push({
+            image: image,
+            name: this.formValues.members[index].name,
+            instrument: this.formValues.members[index].instrument,
+            dateStart: this.formValues.members[index].dateStart,
           })
-          this.event = event
+        }
+      }
+      this.formValues.members = members
+      // getting pictures uploaded
+      const pictures = []
+      if (this.formValues.photos && this.acc === 2) {
+        for (let index = 0; index < this.formValues.photos.length; index++) {
+          const formData = new FormData()
+          formData.append(
+            'files',
+            this.formValues.photos[index].pic.files[0].file
+          )
+          const [image] = await this.$strapi.create('upload', formData)
+
+          pictures.push({ pic: image })
+          console.log('adding pictures ', pictures)
+        }
+        this.pictures = pictures
+        this.formValues.photos = pictures
+      }
+      if (this.profileImage) {
+        try {
+          console.log('profile image ')
+          const formData = new FormData()
+          await formData.append('files', this.profileImage)
+          const [image] = await this.$strapi.create('upload', formData)
+          this.image = image
+          this.formValues.bandProfileImg = image
+          console.log(image)
+        } catch (error) {
+          console.log(error)
+          this.errorMessage =
+            'Sorry we could not upload your profile image ... please try again '
           this.loading = false
         }
-        // if band and tour name
-        if (
-          this.formValues.bandName !== 'null' &&
-          this.formValues.tourName !== 'null'
-        ) {
-          console.log('this is the band and tour  conditional ')
-          const b = this.bands.filter((band) => {
-            return band.bandName === this.formValues.bandName
-          })
-          this.formValues.bandName = b[0]
-          const event = await this.$strapi.create('events', {
-            ...this.formValues,
-            users_permissions_user: this.$strapi.user.id,
-          })
-          this.event = event
-          // put band id and update the band
-          await this.$strapi.update('bands', b[0].id, {
-            events: [...b[0].events, event],
-          })
-          await this.$strapi.update('tours', this.tour.id, {
-            events: [...this.tour.events, event],
-          })
-        }
-        // if user picks a tour but not a band
-        if (
-          this.formValues.bandName === 'null' &&
-          this.formValues.tourName !== 'null'
-        ) {
-          this.formValues.bandName = null
-          const event = await this.$strapi.create('events', {
-            ...this.formValues,
-            users_permissions_user: this.$strapi.user.id,
-          })
-          this.event = event
-          // put band id and update the band
-          await this.$strapi.update('tours', this.tour.id, {
-            events: [...this.tour.events, event],
-          })
-        }
-        // if user does not pick a band or a tour
-      } catch (error) {
-        console.log('form vals', this.formValues)
-        console.log(error, 'there was an error in creating an event  ')
-        this.loading = false
-        this.errorMessage = 'Sorry, something went wrong ... please try again '
       }
-
-      if (
-        this.formValues.bandName === 'null' &&
-        this.formValues.tourName === 'null'
-      ) {
-        // user does not pick band our tour
-        this.formValues.bandName = null
-        const event = await this.$strapi.create('events', {
+      if (this.logoImage) {
+        try {
+          console.log('logoImage')
+          const formData = new FormData()
+          await formData.append('files', this.logoImage)
+          const [logoImageFinal] = await this.$strapi.create('upload', formData)
+          this.logoImageFinal = logoImageFinal
+          this.formValues.logo = logoImageFinal
+        } catch (error) {
+          console.log(error)
+          this.errorMessage =
+            'Sorry we could not upload your logo ... please try again'
+          this.loading = false
+        }
+      }
+      // old shows array
+      // Creating band data
+      try {
+        if (this.formValues.links) {
+          const links = this.formValues.links.map((l) => {
+            const newLink = l.link.replace(/^https?:\/\//, '')
+            return { link: newLink }
+          })
+          this.formValues.links = links
+        }
+        if (this.formValues.contact) {
+          const isContactLink = this.formValues.contact.search('.com')
+          if (isContactLink) {
+            const newContact = this.formValues.contact.replace(
+              /^https?:\/\//,
+              ''
+            )
+            this.formValues.contact = newContact
+          }
+        }
+        if (this.formValues.linkOne) {
+          this.formValues.linkOne = this.formValues.linkOne.replace(
+            /^https?:\/\//,
+            ''
+          )
+        }
+        if (this.formValues.genre) {
+          this.formValues.genreAlt = 'other'
+        } else if (this.formValues.genreAlt) {
+          this.formValues.genre = null
+        }
+        console.log('creating the band now ... ')
+        const band = await this.$strapi.create('bands', {
           ...this.formValues,
+          acc: this.acc,
           users_permissions_user: this.$strapi.user.id,
         })
-        this.event = event
+        this.band = band
+        console.log(band, 'this is the new created band ', band.id)
+        this.loading = false
+      } catch (error) {
+        this.errorMessage = 'Sorry ... please try again'
+        console.log(error, 'creating band')
         this.loading = false
       }
-      if (this.event) {
+      // after creation take user to band admin
+      if (this.band) {
         this.$router.push({
-          path: '/eventview',
-          query: { event: this.event.id },
+          path: '/bands/bandprofile',
+          query: { band: this.band.id },
         })
       }
     },
   },
 }
+// city state
 </script>
 
 <style scoped>

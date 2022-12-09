@@ -103,7 +103,7 @@
         <div>
           <NuxtLink
             class="chedder text-2xl lt_space nav_font_size"
-            to="/Classifieds"
+            to="/classified/classifieds"
             >Classifieds</NuxtLink
           >
         </div>
@@ -216,7 +216,7 @@
       <div @click="toggleMenu">
         <NuxtLink
           class="chedder text-2xl lt_space nav_font_size"
-          to="/classifieds"
+          to="/classified/classifieds"
           >Classifieds</NuxtLink
         >
       </div>

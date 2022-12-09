@@ -10,14 +10,16 @@
         >
           <NuxtLink
             class="flex-grow"
-            :to="{ path: '/bandprofile', query: { band: band.id } }"
+            :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
           >
             <h2 class="text-2xl text-white">
               {{ band.bandName }}
             </h2>
           </NuxtLink>
 
-          <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
+          <NuxtLink
+            :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
+          >
             <h2 class="text-2xl text-white">View Profile</h2>
           </NuxtLink>
           <div class="pl-6 cursor-pointer" @click="removeBand(band)">
@@ -37,7 +39,9 @@
           <h2 class="text-2xl text-white flex-grow cursor-pointer">
             {{ band.bandName }}
           </h2>
-          <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
+          <NuxtLink
+            :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
+          >
             <h2 class="text-2xl text-white">View Profile</h2>
           </NuxtLink>
           <div class="pl-6 cursor-pointer" @click="removeBand(band)">

@@ -104,7 +104,7 @@ export default {
         })
         if (updated) {
           this.$router.push({
-            path: '/bandprofile',
+            path: '/bands/bandprofile',
             query: { band: this.band.id },
           })
         }
@@ -122,7 +122,7 @@ export default {
         })
         if (updated) {
           this.$router.push({
-            path: '/bandprofile',
+            path: '/bands/bandprofile',
             query: { band: card.id },
           })
         }

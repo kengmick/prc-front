@@ -359,7 +359,7 @@ export default {
     },
     cancel: function () {
       this.$router.push({
-        path: '/bandprofile',
+        path: '/bands/bandprofile',
         query: { band: this.band.id },
       })
     },
@@ -485,7 +485,7 @@ export default {
 
       if (this.band) {
         this.$router.push({
-          path: '/bandprofile',
+          path: '/bands/bandprofile',
           query: { band: this.band.id },
         })
       }

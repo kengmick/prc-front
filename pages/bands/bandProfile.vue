@@ -488,7 +488,7 @@ export default {
       // after creation take user to band admin
       if (this.event) {
         this.$router.push({
-          path: '/eventview',
+          path: '/events/eventview',
           query: { event: this.event.id },
         })
       }

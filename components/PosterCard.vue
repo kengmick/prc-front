@@ -14,7 +14,7 @@
       v-if="!addingCard && !disableAll"
       class=""
       :to="{
-        path: '/bandprofile',
+        path: '/bands/bandprofile',
         query: {
           band: band.id,
         },
@@ -42,7 +42,7 @@
       <NuxtLink
         v-if="!addingCard && !disableAll"
         :to="{
-          path: '/bandprofile',
+          path: '/bands/bandprofile',
           query: {
             band: band.id,
           },
@@ -72,7 +72,7 @@
         <NuxtLink
           v-if="addingCard && !disableAll"
           :to="{
-            path: '/bandprofile',
+            path: '/bands/bandprofile',
             query: {
               band: band.id,
             },
@@ -105,7 +105,7 @@
       <NuxtLink
         v-if="!addingCard && !addThisCard && !disableAll"
         :to="{
-          path: '/bandprofile',
+          path: '/bands/bandprofile',
           query: {
             band: band.id,
           },
@@ -138,7 +138,7 @@
           <NuxtLink
             v-if="!disableAll"
             :to="{
-              path: '/bandprofile',
+              path: '/bands/bandprofile',
               query: { band: band.cardData.id },
             }"
           >
@@ -395,7 +395,7 @@ export default {
       //       // const stringId = this.band.id.split('').indexOf('-')
       //       // const bandIdToPage = stringId + 1
       //       this.$router.push({
-      //         path: '/bandprofile',
+      //         path: '/bands/bandprofile',
       //         query: { band: userBandToAddToo },
       //       })
       //     }
@@ -413,7 +413,7 @@ export default {
       //   //   const stringId = this.band.id.split('').indexOf('-')
       //   //   const bandIdToPage = stringId + 1
       //   //   this.$router.push({
-      //   //     path: '/bandprofile',
+      //   //     path: '/bands/bandprofile',
       //   //     query: { band: this.band.id.substring(bandIdToPage) },
       //   //   })
       //   // }

@@ -84,7 +84,7 @@
           >
             <NuxtLink
               :to="{
-                path: '/eventview',
+                path: '/events/eventview',
                 query: { event: event.cardData.id },
               }"
             >
@@ -107,7 +107,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/eventview',
+            path: '/events/eventview',
             hash: '#showdetails',
             query: { event: event.id },
           }"
@@ -116,7 +116,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/eventview',
+            path: '/events/eventview',
             hash: '#videos',
             query: { event: event.id },
           }"
@@ -125,7 +125,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/eventview',
+            path: '/events/eventview',
             hash: '#bio',
             query: { event: event.id },
           }"
@@ -134,7 +134,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/eventview',
+            path: '/events/eventview',
             hash: '#pictures',
             query: { event: event.id },
           }"
@@ -143,7 +143,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/eventview',
+            path: '/events/eventview',
             hash: '#members',
             query: { event: event.id },
           }"
@@ -152,7 +152,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/eventview',
+            path: '/events/eventview',
             hash: '#merch',
             query: { event: event.id },
           }"
@@ -162,7 +162,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/eventview',
+            path: '/events/eventview',
             hash: '#links',
             query: { event: event.id },
           }"
@@ -172,7 +172,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/eventview',
+            path: '/events/eventview',
             hash: '#chatroom',
             query: { event: event.id },
           }"

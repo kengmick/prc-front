@@ -6,7 +6,7 @@
     </section> -->
     <section
       v-if="bands"
-      class="m-6 flex flex-col overflow-x-hidden md:flex-row md:justify-center"
+      class="mx-6 flex flex-col gap-10 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-10"
     >
       <PosterCard
         v-for="(band, index) in bands"

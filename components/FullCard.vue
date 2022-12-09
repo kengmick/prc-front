@@ -60,7 +60,7 @@
           >
             <NuxtLink
               :to="{
-                path: '/bandprofile',
+                path: '/bands/bandprofile',
                 query: { band: band.cardData.id },
               }"
             >
@@ -83,7 +83,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/bandprofile',
+            path: '/bands/bandprofile',
             hash: '#showz',
             query: { band: band.id },
           }"
@@ -92,7 +92,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/bandprofile',
+            path: '/bands/bandprofile',
             hash: '#releases',
             query: { band: band.id },
           }"
@@ -101,7 +101,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/bandprofile',
+            path: '/bands/bandprofile',
             hash: '#songs',
             query: { band: band.id },
           }"
@@ -110,7 +110,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/bandprofile',
+            path: '/bands/bandprofile',
             hash: '#videos',
             query: { band: band.id },
           }"
@@ -119,7 +119,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/bandprofile',
+            path: '/bands/bandprofile',
             hash: '#bio',
             query: { band: band.id },
           }"
@@ -128,7 +128,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/bandprofile',
+            path: '/bands/bandprofile',
             hash: '#members',
             query: { band: band.id },
           }"
@@ -137,7 +137,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/bandprofile',
+            path: '/bands/bandprofile',
             hash: '#pictures',
             query: { band: band.id },
           }"
@@ -146,7 +146,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/bandprofile',
+            path: '/bands/bandprofile',
             hash: '#merch',
             query: { band: band.id },
           }"
@@ -155,7 +155,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/bandprofile',
+            path: '/bands/bandprofile',
             hash: '#links',
             query: { band: band.id },
           }"
@@ -164,7 +164,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/bandprofile',
+            path: '/bands/bandprofile',
             hash: '#chatroom',
             query: { band: band.id },
           }"
@@ -394,7 +394,7 @@ export default {
       //       // const stringId = this.band.id.split('').indexOf('-')
       //       // const bandIdToPage = stringId + 1
       //       this.$router.push({
-      //         path: '/bandprofile',
+      //         path: '/bands/bandprofile',
       //         query: { band: userBandToAddToo },
       //       })
       //     }
@@ -412,7 +412,7 @@ export default {
       //   //   const stringId = this.band.id.split('').indexOf('-')
       //   //   const bandIdToPage = stringId + 1
       //   //   this.$router.push({
-      //   //     path: '/bandprofile',
+      //   //     path: '/bands/bandprofile',
       //   //     query: { band: this.band.id.substring(bandIdToPage) },
       //   //   })
       //   // }

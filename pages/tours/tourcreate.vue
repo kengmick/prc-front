@@ -185,7 +185,7 @@ export default {
       // after creation take user to band admin
       if (this.tour) {
         this.$router.push({
-          path: '/tourview',
+          path: '/tours/tourview',
           query: { tour: this.tour.id },
         })
       }

@@ -3,7 +3,9 @@
     v-if="JSON.stringify(cardData) !== '{}'"
     class="relative w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] scaleDown"
   >
-    <NuxtLink :to="{ path: '/bandprofile', query: { band: cardData.id } }">
+    <NuxtLink
+      :to="{ path: '/bands/bandprofile', query: { band: cardData.id } }"
+    >
       <nuxt-img
         class="absolute top-0 negetive-index blur-xl object-fill"
         format="webp"

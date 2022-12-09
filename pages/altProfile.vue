@@ -80,7 +80,7 @@
           <p class="text-2xl chedder text-white flex-grow">Band Profiles</p>
           <div>
             <nuxtLink
-              :to="{ path: '/createband' }"
+              :to="{ path: '//bands//bands/createband' }"
               class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
               >+ Create Band
             </nuxtLink>
@@ -99,13 +99,13 @@
             <td>
               <div class="flex gap-6">
                 <nuxtLink
-                  :to="{ path: '/bandprofile', query: { band: band.id } }"
+                  :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
                   class="btn_custom"
                   >View
                 </nuxtLink>
                 <nuxtLink
                   :to="{
-                    path: '/bandadmin',
+                    path: '/bands/bandadmin',
                     query: { band: band.id },
                   }"
                   class="btn_custom"
@@ -123,7 +123,7 @@
           <h3 class="text-3xl flex-grow mb-4">Bands</h3>
           <div class="pr-2">
             <NuxtLink
-              :to="{ path: '/createband' }"
+              :to="{ path: '//bands//bands/createband' }"
               class="chedder py-2 px-4 border-2 border-black"
               >+ Create Band</NuxtLink
             >
@@ -143,14 +143,14 @@
               </p>
               <div class="mt-4">
                 <NuxtLink
-                  :to="{ path: '/bandprofile', query: { band: band.id } }"
+                  :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
                   class="chedder py-2 px-4 border-2 border-black"
                 >
                   View</NuxtLink
                 >
                 <NuxtLink
                   :to="{
-                    path: '/bandadmin',
+                    path: '/bands/bandadmin',
                     query: { band: band.id },
                   }"
                   class="chedder py-2 px-4 border-2 border-black ml-2"
@@ -167,7 +167,7 @@
           <p class="text-2xl chedder text-white flex-grow">Classifieds</p>
           <div>
             <nuxtLink
-              :to="{ path: '/createclassified' }"
+              :to="{ path: '/classified/classified/createclassified' }"
               class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
               >+ Create Classified
             </nuxtLink>
@@ -187,7 +187,7 @@
               <div class="flex gap-6">
                 <nuxtLink
                   :to="{
-                    path: '/classifiedview',
+                    path: '/classified/classifiedview',
                     query: { article: article.id },
                   }"
                   class="btn_custom"
@@ -195,7 +195,7 @@
                 </nuxtLink>
                 <nuxtLink
                   :to="{
-                    path: '/classifiededit',
+                    path: '/classified/classified/classifiededit',
                     query: { article: article.id },
                   }"
                   class="btn_custom"
@@ -234,7 +234,7 @@
               <div class="mt-4">
                 <NuxtLink
                   :to="{
-                    path: '/classifiedview',
+                    path: '/classified/classifiedview',
                     query: { article: article.id },
                   }"
                   class="chedder py-2 px-4 border-2 border-black"
@@ -243,7 +243,7 @@
                 >
                 <NuxtLink
                   :to="{
-                    path: '/classifiededit',
+                    path: '/classified/classified/classifiededit',
                     query: { article: article.id },
                   }"
                   class="chedder py-2 px-4 border-2 border-black ml-2"
@@ -261,7 +261,7 @@
           <p class="text-2xl chedder text-white flex-grow">Venues</p>
           <div>
             <nuxtLink
-              :to="{ path: '/createVenue' }"
+              :to="{ path: '//venues/createvenue' }"
               class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
               >+ Create Venue
             </nuxtLink>
@@ -286,7 +286,7 @@
                 </nuxtLink>
                 <nuxtLink
                   :to="{
-                    path: '/venueedit',
+                    path: '//venues/venueedit',
                     query: { venue: venue.id },
                   }"
                   class="btn_custom"
@@ -302,7 +302,7 @@
           <h3 class="text-3xl flex-grow mb-4">Venues</h3>
           <div class="pr-2">
             <NuxtLink
-              :to="{ path: '/createvenue' }"
+              :to="{ path: '//venues/createvenue' }"
               class="chedder py-2 px-4 border-2 border-black"
               >+ Add Venue</NuxtLink
             >
@@ -317,7 +317,7 @@
           <h3 class="text-3xl flex-grow mb-4">Venues</h3>
           <div class="pr-2">
             <NuxtLink
-              :to="{ path: '/createvenue' }"
+              :to="{ path: '//venues/createvenue' }"
               class="chedder py-2 px-4 border-2 border-black"
               >+ Add Venue</NuxtLink
             >
@@ -347,7 +347,7 @@
                 >
                 <NuxtLink
                   :to="{
-                    path: '/venueedit',
+                    path: '//venues/venueedit',
                     query: { venue: v.id },
                   }"
                   class="chedder py-2 px-4 border-2 border-black ml-2"
@@ -363,7 +363,7 @@
           <h3 class="text-3xl flex-grow mb-4">Venues</h3>
           <div class="pr-2">
             <NuxtLink
-              :to="{ path: '/createvenue' }"
+              :to="{ path: '//venues/createvenue' }"
               class="chedder py-2 px-4 border-2 border-black"
               >+ Add Venue</NuxtLink
             >
@@ -396,7 +396,10 @@
             <td>
               <div class="flex gap-6">
                 <nuxtLink
-                  :to="{ path: '/eventview', query: { event: event.id } }"
+                  :to="{
+                    path: '/events/eventview',
+                    query: { event: event.id },
+                  }"
                   class="btn_custom"
                   >View
                 </nuxtLink>
@@ -454,7 +457,7 @@
               <div class="mt-4">
                 <NuxtLink
                   :to="{
-                    path: '/eventview',
+                    path: '/events/eventview',
                     query: { event: ev.id },
                   }"
                   class="chedder py-2 px-4 border-2 border-black"
@@ -493,7 +496,7 @@
           <p class="text-2xl chedder text-white flex-grow">Tours</p>
           <div>
             <nuxtLink
-              :to="{ path: '/tourcreate' }"
+              :to="{ path: '//tours/tourcreate' }"
               class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
               >+ Create Tour
             </nuxtLink>
@@ -513,13 +516,13 @@
             <td>
               <div class="flex gap-6">
                 <nuxtLink
-                  :to="{ path: '/tourview', query: { tour: tour.id } }"
+                  :to="{ path: '/tours/tourview', query: { tour: tour.id } }"
                   class="btn_custom"
                   >View
                 </nuxtLink>
                 <nuxtLink
                   :to="{
-                    path: '/touredit',
+                    path: '//tours/touredit',
                     query: { tour: tour.id },
                   }"
                   class="btn_custom"
@@ -535,7 +538,7 @@
           <h3 class="text-3xl flex-grow mb-4">Tours</h3>
           <div class="pr-2">
             <NuxtLink
-              :to="{ path: '/tourcreate' }"
+              :to="{ path: '//tours/tourcreate' }"
               class="chedder py-2 px-4 border-2 border-black"
               >+ Add tour</NuxtLink
             >
@@ -551,7 +554,7 @@
           <h3 class="text-3xl flex-grow mb-4">Tours</h3>
           <div class="pr-2">
             <NuxtLink
-              :to="{ path: '/tourcreate' }"
+              :to="{ path: '//tours/tourcreate' }"
               class="chedder py-2 px-4 border-2 border-black"
               >+ Add Tour</NuxtLink
             >
@@ -572,7 +575,7 @@
               <div class="mt-4">
                 <NuxtLink
                   :to="{
-                    path: '/tourview',
+                    path: '/tours/tourview',
                     query: {
                       tour: t.id,
                     },
@@ -583,7 +586,7 @@
                 >
                 <NuxtLink
                   :to="{
-                    path: '/touredit',
+                    path: '//tours/touredit',
                     query: {
                       tour: t.id,
                     },
@@ -601,7 +604,7 @@
           <h3 class="text-3xl flex-grow mb-4">Tour</h3>
           <div class="pr-2">
             <NuxtLink
-              :to="{ path: '/tourcreate' }"
+              :to="{ path: '//tours/tourcreate' }"
               class="chedder py-2 px-4 border-2 border-black"
               >+ Add Tour</NuxtLink
             >

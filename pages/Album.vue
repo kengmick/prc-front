@@ -27,7 +27,7 @@
               By
               <NuxtLink
                 class="text-4xl main_red_text"
-                :to="'/bandprofile/' + bandBand.id"
+                :to="'/bands/bandprofile/' + bandBand.id"
                 ><em>{{ band.bandName }}</em></NuxtLink
               >
             </p>

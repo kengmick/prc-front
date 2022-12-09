@@ -6,11 +6,11 @@
     </section>
     <section
       v-if="distros"
-      class="mx-6 my-10 flex flex-col gap-6 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-10"
+      class="mx-6 flex flex-col gap-10 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-10"
     >
-      <DistroCard
-        v-for="(distro, index) in distros"
-        :key="distro.name + index"
+      <CardsDistroCard
+        v-for="distro in distros"
+        :key="distro.name"
         :distro="distro"
       />
     </section>

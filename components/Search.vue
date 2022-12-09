@@ -13,7 +13,7 @@
                   <NuxtLink
                     v-if="index === 'bands'"
                     :to="{
-                      path: '/bandprofile',
+                      path: '/bands/bandprofile',
                       query: {
                         band: item.id.substring(item.id.indexOf('-') + 1),
                       },
@@ -24,7 +24,7 @@
                   <NuxtLink
                     v-if="index === 'classified'"
                     :to="{
-                      path: '/classifiedview',
+                      path: '/classified/classifiedview',
                       query: {
                         article: item.id.substring(item.id.indexOf('-') + 1),
                       },

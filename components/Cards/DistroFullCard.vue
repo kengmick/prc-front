@@ -70,7 +70,7 @@
           >
             <NuxtLink
               :to="{
-                path: '/distroview',
+                path: '/distros/distroview',
                 query: { distro: distro.cardData.id },
               }"
             >
@@ -93,7 +93,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/distroview',
+            path: '/distros/distroview',
             hash: '#showdetails',
             query: { distro: distro.id },
           }"
@@ -102,7 +102,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/distroview',
+            path: '/distros/distroview',
             hash: '#videos',
             query: { distro: distro.id },
           }"
@@ -111,7 +111,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/distroview',
+            path: '/distros/distroview',
             hash: '#bio',
             query: { distro: distro.id },
           }"
@@ -120,7 +120,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/distroview',
+            path: '/distros/distroview',
             hash: '#pictures',
             query: { distro: distro.id },
           }"
@@ -129,7 +129,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/distroview',
+            path: '/distros/distroview',
             hash: '#members',
             query: { distro: distro.id },
           }"
@@ -138,7 +138,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/distroview',
+            path: '/distros/distroview',
             hash: '#merch',
             query: { distro: distro.id },
           }"
@@ -148,7 +148,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/distroview',
+            path: '/distros/distroview',
             hash: '#links',
             query: { distro: distro.id },
           }"
@@ -158,7 +158,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/distroview',
+            path: '/distros/distroview',
             hash: '#chatroom',
             query: { distro: distro.id },
           }"

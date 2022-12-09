@@ -135,7 +135,7 @@ export default {
       // after creation take user to band admin
       if (this.classified) {
         this.$router.push({
-          path: '/classifiedview',
+          path: '/classified/classifiedview',
           query: { article: this.classified.id },
         })
       }

@@ -445,7 +445,7 @@ export default {
       // after creation take user to band admin
       if (this.distro) {
         this.$router.push({
-          path: '/distroview',
+          path: '/distros/distroview',
           query: { distro: this.distro.id },
         })
       }

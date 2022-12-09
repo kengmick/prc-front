@@ -13,7 +13,7 @@
       v-if="!addingCard && !disableAll"
       class=""
       :to="{
-        path: '/tourview',
+        path: '/tours/tourview',
         query: {
           tour: tour.id,
         },
@@ -91,7 +91,7 @@
       <NuxtLink
         v-if="!addingCard && !addThisCard && !disableAll"
         :to="{
-          path: '/tourview',
+          path: '/tours/tourview',
           query: {
             tour: tour.id,
           },
@@ -124,7 +124,7 @@
           <NuxtLink
             v-if="!disableAll"
             :to="{
-              path: '/tourview',
+              path: '/tours/tourview',
               query: { tour: tour.cardData.id },
             }"
           >

@@ -13,7 +13,7 @@
       v-if="!addingCard && !disableAll"
       class=""
       :to="{
-        path: '/distroview',
+        path: '/distros/distroview',
         query: {
           distro: distro.id,
         },
@@ -34,7 +34,7 @@
       <NuxtLink
         v-if="!addingCard && !disableAll"
         :to="{
-          path: '/distroview',
+          path: '/distros/distroview',
           query: {
             distro: distro.id,
           },
@@ -70,7 +70,7 @@
       <NuxtLink
         v-if="!addingCard && !addThisCard && !disableAll"
         :to="{
-          path: '/distroview',
+          path: '/distros/distroview',
           query: {
             distro: distro.id,
           },
@@ -103,7 +103,7 @@
           <NuxtLink
             v-if="!disableAll"
             :to="{
-              path: '/distroview',
+              path: '/distros/distroview',
               query: { distro: distro.cardData.id },
             }"
           >

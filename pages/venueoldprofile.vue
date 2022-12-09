@@ -29,7 +29,7 @@
       >
         <NuxtLink
           :to="{
-            path: 'venueedit',
+            path: '/venues/venueedit',
             query: { venue: venue.id },
           }"
           class="border-2 border-black px-6 ml-2 w-full"

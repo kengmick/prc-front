@@ -14,7 +14,7 @@
       v-if="!addingCard && !disableAll"
       class=""
       :to="{
-        path: '/classifiedview',
+        path: '/classified/classifiedview',
         query: {
           article: article.id,
         },
@@ -35,7 +35,7 @@
       <NuxtLink
         v-if="!addingCard && !disableAll"
         :to="{
-          path: '/classifiedview',
+          path: '/classified/classifiedview',
           query: {
             article: article.id,
           },
@@ -80,7 +80,7 @@
       v-if="!addingCard && !disableAll"
       class=""
       :to="{
-        path: '/classifiedview',
+        path: '/classified/classifiedview',
         query: {
           article: article.id,
         },
@@ -100,7 +100,7 @@
       v-if="!addingCard && !disableAll"
       class=""
       :to="{
-        path: '/classifiedview',
+        path: '/classified/classifiedview',
         query: {
           article: article.id,
         },
@@ -119,7 +119,7 @@
       v-if="!addingCard && !disableAll"
       class=""
       :to="{
-        path: '/classifiedview',
+        path: '/classified/classifiedview',
         query: {
           article: article.id,
         },

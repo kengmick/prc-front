@@ -16,7 +16,7 @@
         v-if="!addingCard && !disableAll"
         class=""
         :to="{
-          path: '/eventview',
+          path: '/events/eventview',
           query: {
             event: event.id,
           },
@@ -39,7 +39,7 @@
         <NuxtLink
           v-if="!addingCard && !disableAll"
           :to="{
-            path: '/eventview',
+            path: '/events/eventview',
             query: {
               band: event.id,
             },
@@ -104,7 +104,7 @@
         <NuxtLink
           v-if="!addingCard && !addThisCard && !disableAll"
           :to="{
-            path: '/eventview',
+            path: '/events/eventview',
             query: {
               event: event.id,
             },
@@ -139,7 +139,7 @@
             <NuxtLink
               v-if="!disableAll"
               :to="{
-                path: '/tourview',
+                path: '/tours/tourview',
                 query: { event: event.cardData.id },
               }"
             >

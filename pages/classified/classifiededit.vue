@@ -1,14 +1,7 @@
 <template>
   <div>
-    <h3>Classified Create Page</h3>
-    <div
-      v-if="loading"
-      class="fixed top-0 left-0 h-screen w-screen z-50 bg-black flex justify-center items-center"
-    >
-      <Spinner class="mr-6" />
-      <h3 class="text-white">Creating Classified</h3>
-    </div>
-    <section v-if="!loading" class="container mx-auto px-2 my-4">
+    <h3>Edit Classified</h3>
+    <section class="container mx-auto px-2 my-4">
       <FormulateForm v-model="formValues" @submit="submitForm">
         <FormulateInput
           name="title"
@@ -57,20 +50,6 @@
           element-class="w-full"
           errors-class="sm:w-4/5 m-auto"
         />
-        <h2 class="text-center mb-10 mt-4">Add An Image</h2>
-        <div class="w-full flex justify-center">
-          <FormulateInput
-            type="image"
-            name="image"
-            label="Select an image to upload"
-            help="Select a png, jpg or gif to upload."
-            validation="mime:image/jpeg,image/png,image/gif"
-            input-class="w-full sm:w-96 "
-            wrapper-class="w-full sm:w-96 "
-            element-class="w-full sm:w-96 "
-            @change="pic = $event.target.files[0]"
-          />
-        </div>
         <section>
           <FormulateInput
             name="description"
@@ -84,17 +63,33 @@
 
         <FormulateInput
           type="submit"
-          label="Create"
+          label="Update"
           wrapper-class="w-full mt-10 px-4 sm:mx-10"
           grouping-class="bg-black"
           element-class="w-full"
         />
       </FormulateForm>
     </section>
-
-    <div v-if="errorMessage">
-      <pre>{{ errorMessage }}</pre>
-    </div>
+    <section
+      v-if="loading"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <Spinner />
+    </section>
+    <section
+      v-if="errorMessage"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <div>
+        <h2>{{ errorMessage }}</h2>
+        <h3
+          class="text-center text-2xl cursor-pointer"
+          @click="errorMessage = null"
+        >
+          Close X
+        </h3>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -106,37 +101,46 @@ export default {
       formValues: {},
       errorMessage: '',
       classified: {},
-      pic: '',
-      finalImage: '',
       loading: false,
+    }
+  },
+  async mounted() {
+    try {
+      const article = await this.$strapi.findOne(
+        'classifieds',
+        this.$route.query.article
+      )
+      this.classified = article
+      this.formValues = article
+    } catch (error) {
+      this.$nuxt.error({ statusCode: 404, message: error })
     }
   },
   methods: {
     moment,
-
     async submitForm() {
+      this.loading = true
       try {
-        const formData = new FormData()
-        await formData.append('files', this.pic)
-        const [finalImage] = await this.$strapi.create('upload', formData)
-        this.finalImage = finalImage
-        this.formValues.image = finalImage
-      } catch (error) {
-        console.log(error)
-      }
-      try {
-        console.log(this.formValues)
-        const article = await this.$strapi.create('classifieds', {
-          ...this.formValues,
-          users_permissions_user: this.$strapi.user.id,
-        })
+        const article = await this.$strapi.update(
+          'classifieds',
+          this.$route.query.article,
+          {
+            ...this.formValues,
+            users_permissions_user: this.$strapi.user.id,
+          }
+        )
         this.classified = article
-        console.log(this.classified, article, 'article ')
-      } catch (error) {}
-      if (this.classified) {
         this.loading = false
+      } catch (error) {
+        this.loading = false
+        console.log('there was an error ')
+        this.errorMessage = 'Sorry, something went wrong ... please try again'
+        this.$nuxt.error({ statusCode: 404, message: error })
+      }
+      // after creation take user to band admin
+      if (this.classified) {
         this.$router.push({
-          path: '/classifiedview',
+          path: '/classified/classifiedview',
           query: { article: this.classified.id },
         })
       }

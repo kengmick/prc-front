@@ -13,7 +13,7 @@
       <div class="h-full w-full bg-black flex items-center justify-center">
         <NuxtLink
           :to="{
-            path: '/bandprofile',
+            path: '/bands/bandprofile',
             query: {
               band: band.id,
             },
@@ -39,17 +39,23 @@
           <div
             class="w-full h-full md:w-[238px] md:h-[160px] border-4 p-[16px] border-black bg-white flex flex-col justify-center"
           >
-            <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
+            <NuxtLink
+              :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
+            >
               <p v-if="band.genre" class="card_basic_info_text chedder">
                 {{ band.genre }}
               </p>
             </NuxtLink>
-            <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
+            <NuxtLink
+              :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
+            >
               <p v-if="band.genreAlt" class="card_basic_info_text chedder">
                 Punk/{{ band.genreAlt }}
               </p>
             </NuxtLink>
-            <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
+            <NuxtLink
+              :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
+            >
               <p
                 v-if="
                   band.city && band.state && band.country !== 'United States'
@@ -65,7 +71,9 @@
                 {{ band.country }}, {{ band.city }}
               </p>
             </NuxtLink>
-            <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
+            <NuxtLink
+              :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
+            >
               <p v-if="band.dateStarted" class="card_basic_info_text chedder">
                 {{ band.dateStarted }}
               </p>
@@ -100,7 +108,7 @@
           >
             <NuxtLink
               :to="{
-                path: '/bandprofile',
+                path: '/bands/bandprofile',
                 hash: '#showz',
                 query: { band: band.id },
               }"
@@ -117,7 +125,7 @@
             </NuxtLink>
             <NuxtLink
               :to="{
-                path: '/classifieds',
+                path: '/classified/classifieds',
                 query: { band: band.id },
               }"
             >
@@ -127,7 +135,7 @@
             </NuxtLink>
             <NuxtLink
               :to="{
-                path: '/bandprofile',
+                path: '/bands/bandprofile',
                 hash: '#releases',
                 query: { band: band.id },
               }"
@@ -138,7 +146,7 @@
             </NuxtLink>
             <NuxtLink
               :to="{
-                path: '/bandprofile',
+                path: '/bands/bandprofile',
                 hash: '#songs',
                 query: { band: band.id },
               }"
@@ -147,7 +155,7 @@
             </NuxtLink>
             <!-- <NuxtLink
               :to="{
-                path: '/bandprofile',
+                path: '/bands/bandprofile',
                 hash: '#links',
                 query: { band: band.id },
               }"
@@ -156,7 +164,7 @@
             </NuxtLink> -->
             <NuxtLink
               :to="{
-                path: '/bandprofile',
+                path: '/bands/bandprofile',
                 hash: '#posts',
                 query: { band: band.id },
               }"
@@ -174,7 +182,9 @@
             v-if="band.bandProfileImg"
             class="h-full w-full md:h-[240px] md:w-[240px]"
           >
-            <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
+            <NuxtLink
+              :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
+            >
               <img
                 class="object-cover w-full h-full border-4 border-black hover:scale-110 transition-all duration-100"
                 :src="band.bandProfileImg.url"
@@ -183,7 +193,9 @@
             </NuxtLink>
           </div>
           <div v-else class="h-[240px] w-[240px]">
-            <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
+            <NuxtLink
+              :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
+            >
               <img
                 class="object-cover w-full h-full border-4 border-black hover:scale-110 transition-all duration-100"
                 src="~/static/punk-background.png"
@@ -297,7 +309,9 @@
         <Button text="Share" />
       </section>
       <section class="px-[16px] pt-[8px]">
-        <NuxtLink :to="{ path: '/bandprofile', query: { band: band.id } }">
+        <NuxtLink
+          :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
+        >
           <Button
             class="bg-black chedder text-xl"
             text="View Profile"
