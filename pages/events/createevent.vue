@@ -113,17 +113,30 @@
               <FormulateInput
                 v-if="formValues.country === 'United States'"
                 name="state"
-                label="Home state?"
+                label="State"
                 :options="Object.keys(cs)"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-                type="text"
+                type="select"
               />
-              <FormulateInput
+
+              <div>
+                <label for="city">City</label>
+                <input list="city" name="city" />
+                <datalist id="city">
+                  <option
+                    v-for="city in cs[formValues.state]"
+                    :key="city"
+                    :value="city"
+                  ></option>
+                </datalist>
+              </div>
+
+              <imput
                 v-if="formValues.country === 'United States'"
                 name="city"
-                label="City that the band is from?"
+                label="City"
                 :options="cs[formValues.state] || ''"
                 type="select"
                 placeholder="City"
