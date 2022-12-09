@@ -377,7 +377,7 @@
           <p class="text-2xl chedder text-white flex-grow">Showz</p>
           <div>
             <nuxtLink
-              :to="{ path: '/createevent' }"
+              :to="{ path: '///events/createevent' }"
               class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
               >+ Create Show
             </nuxtLink>
@@ -421,7 +421,7 @@
           <h3 class="text-3xl flex-grow mb-4">Showz</h3>
           <div class="pr-2">
             <NuxtLink
-              :to="{ path: '/createevent' }"
+              :to="{ path: '///events/createevent' }"
               class="chedder py-2 px-4 border-2 border-black"
               >+ Add Show</NuxtLink
             >
@@ -436,7 +436,7 @@
           <h3 class="text-3xl flex-grow mb-4">Showz</h3>
           <div class="pr-2">
             <NuxtLink
-              :to="{ path: '/createevent' }"
+              :to="{ path: '///events/createevent' }"
               class="chedder py-2 px-4 border-2 border-black"
               >+ Add Show</NuxtLink
             >
@@ -482,7 +482,7 @@
           <h3 class="text-3xl flex-grow mb-4">Events</h3>
           <div class="pr-2">
             <NuxtLink
-              :to="{ path: '/createevent' }"
+              :to="{ path: '///events/createevent' }"
               class="chedder py-2 px-4 border-2 border-black"
               >+ Add Events</NuxtLink
             >
