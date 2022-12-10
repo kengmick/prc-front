@@ -124,6 +124,7 @@
               <div class="sm:w-4/5 m-auto mb-[2rem]">
                 <label for="city" class="label">City</label>
                 <input
+                  v-model="city"
                   class="dropdown"
                   list="city"
                   name="city"
@@ -378,6 +379,7 @@ export default {
   data() {
     return {
       formValues: {},
+      city: null,
       ageRestriction: '',
       alcoholPolicy: '',
       errorMessage: '',
@@ -2986,6 +2988,9 @@ export default {
           })
           console.log(b)
           this.formValues.bandName = b[0]
+          if (this.city !== null) {
+            this.formValues.city = this.city
+          }
           const event = await this.$strapi.create('events', {
             ...this.formValues,
             users_permissions_user: this.$strapi.user.id,
@@ -3007,6 +3012,11 @@ export default {
             return band.bandName === this.formValues.bandName
           })
           this.formValues.bandName = b[0]
+          this.formValues.ageRestriction = this.ageRestriction
+          this.formValues.alcoholPolicy = this.alcoholPolicy
+          if (this.city !== null) {
+            this.formValues.city = this.city
+          }
           const event = await this.$strapi.create('events', {
             ...this.formValues,
             users_permissions_user: this.$strapi.user.id,
@@ -3026,6 +3036,9 @@ export default {
           this.formValues.tourName !== 'null'
         ) {
           this.formValues.bandName = null
+          if (this.city !== null) {
+            this.formValues.city = this.city
+          }
           const event = await this.$strapi.create('events', {
             ...this.formValues,
             users_permissions_user: this.$strapi.user.id,
@@ -3052,6 +3065,10 @@ export default {
         this.formValues.bandName = null
         this.formValues.ageRestriction = this.ageRestriction
         this.formValues.alcoholPolicy = this.alcoholPolicy
+        if (this.city !== null) {
+          this.formValues.city = this.city
+        }
+
         const event = await this.$strapi.create('events', {
           ...this.formValues,
           users_permissions_user: this.$strapi.user.id,
