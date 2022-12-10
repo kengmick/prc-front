@@ -122,7 +122,7 @@
               />
 
               <div class="sm:w-4/5 m-auto mb-[2rem]">
-                <label for="city">City</label>
+                <label for="city" class="label">City</label>
                 <input
                   class="dropdown"
                   list="city"
@@ -232,6 +232,34 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+              <FormulateInput
+                name="addmissionFee"
+                type="number"
+                placeholder="10.00"
+                label="Addmission Fee"
+                wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              />
+
+              <div class="sm:w-4/5 m-auto mb-[2rem]">
+                <label for="ageRestriction" class="label"
+                  >Age Restriction
+                </label>
+                <input
+                  class="dropdown"
+                  list="city"
+                  name="city"
+                  placeholder="type or select the city"
+                />
+                <datalist id="city">
+                  <option
+                    v-for="city in cs[formValues.state]"
+                    :key="city"
+                    :value="city"
+                  ></option>
+                </datalist>
+              </div>
             </div>
           </div>
 
@@ -3016,20 +3044,5 @@ export default {
   width: 300px;
   margin-left: auto;
   margin-right: auto;
-}
-
-.dropdown {
-  appearance: none;
-  border-radius: 0.3em;
-  border: 1px solid #c10609;
-  box-sizing: border-box;
-  background-color: transparent;
-  font-size: 0.9em;
-  padding: 0.75em;
-  display: block;
-  width: 100%;
-  font-weight: 400;
-  line-height: 1.2em;
-  margin: 0;
 }
 </style>
