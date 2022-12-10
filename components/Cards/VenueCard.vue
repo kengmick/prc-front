@@ -13,7 +13,7 @@
       v-if="!addingCard && !disableAll"
       class=""
       :to="{
-        path: '/venueprofile',
+        path: '//venues/venueprofile',
         query: {
           venue: venue.id,
         },
@@ -34,7 +34,7 @@
       <NuxtLink
         v-if="!addingCard && !disableAll"
         :to="{
-          path: '/venueprofile',
+          path: '//venues/venueprofile',
           query: {
             venue: venue.id,
           },
@@ -80,7 +80,7 @@
       <NuxtLink
         v-if="!addingCard && !addThisCard && !disableAll"
         :to="{
-          path: '/venueprofile',
+          path: '//venues/venueprofile',
           query: {
             venue: venue.id,
           },
@@ -113,7 +113,7 @@
           <NuxtLink
             v-if="!disableAll"
             :to="{
-              path: '/venueprofile',
+              path: '//venues/venueprofile',
               query: { venue: venue.cardData.id },
             }"
           >

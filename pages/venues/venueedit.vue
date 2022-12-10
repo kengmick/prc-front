@@ -465,7 +465,7 @@ export default {
       // after creation take user to band admin
       if (this.venue) {
         this.$router.push({
-          path: '/venueprofile',
+          path: '//venues/venueprofile',
           query: { venue: this.venue.id },
         })
       }

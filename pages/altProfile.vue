@@ -280,7 +280,10 @@
             <td>
               <div class="flex gap-6">
                 <nuxtLink
-                  :to="{ path: '/venueprofile', query: { venue: venue.id } }"
+                  :to="{
+                    path: '//venues/venueprofile',
+                    query: { venue: venue.id },
+                  }"
                   class="btn_custom"
                   >View
                 </nuxtLink>
@@ -338,7 +341,7 @@
               <div class="mt-4">
                 <NuxtLink
                   :to="{
-                    path: '/venueprofile',
+                    path: '//venues/venueprofile',
                     query: { venue: v.id },
                   }"
                   class="chedder py-2 px-4 border-2 border-black"

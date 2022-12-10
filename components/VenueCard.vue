@@ -5,7 +5,9 @@
     <div class="h-1/6">
       <p class="chedder text-2xl main_red_text p-6">{{ venue.name }}</p>
     </div>
-    <NuxtLink :to="{ path: 'venueprofile', query: { venue: venue.id } }">
+    <NuxtLink
+      :to="{ path: '/venues/venueprofile', query: { venue: venue.id } }"
+    >
       <div v-if="venue.venueImg" class="w-full h-3/6">
         <img
           class="h-full w-full object-cover"
@@ -30,7 +32,7 @@
     <div class="h-1/6 pl-6 flex items-center">
       <NuxtLink
         class="chedder px-4 py-2 border-2 border-black"
-        :to="{ path: 'venueprofile', query: { venue: venue.id } }"
+        :to="{ path: '/venues/venueprofile', query: { venue: venue.id } }"
         >View Venue</NuxtLink
       >
       <!-- emits event to parent with dataType and id  -->

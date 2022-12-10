@@ -69,7 +69,7 @@
           >
             <NuxtLink
               :to="{
-                path: '/venueprofile',
+                path: '//venues/venueprofile',
                 query: { venue: venue.cardData.id },
               }"
             >
@@ -92,7 +92,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/venueprofile',
+            path: '//venues/venueprofile',
             hash: '#showdetails',
             query: { venue: venue.id },
           }"
@@ -101,7 +101,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/venueprofile',
+            path: '//venues/venueprofile',
             hash: '#videos',
             query: { venue: venue.id },
           }"
@@ -110,7 +110,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/venueprofile',
+            path: '//venues/venueprofile',
             hash: '#bio',
             query: { venue: venue.id },
           }"
@@ -119,7 +119,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/venueprofile',
+            path: '//venues/venueprofile',
             hash: '#pictures',
             query: { venue: venue.id },
           }"
@@ -128,7 +128,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/venueprofile',
+            path: '//venues/venueprofile',
             hash: '#members',
             query: { venue: venue.id },
           }"
@@ -137,7 +137,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/venueprofile',
+            path: '//venues/venueprofile',
             hash: '#merch',
             query: { venue: venue.id },
           }"
@@ -147,7 +147,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/venueprofile',
+            path: '//venues/venueprofile',
             hash: '#links',
             query: { venue: venue.id },
           }"
@@ -157,7 +157,7 @@
         <NuxtLink
           class="chedder text-[15px] underline"
           :to="{
-            path: '/venueprofile',
+            path: '//venues/venueprofile',
             hash: '#chatroom',
             query: { venue: venue.id },
           }"
