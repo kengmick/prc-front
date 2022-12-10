@@ -121,9 +121,14 @@
                 type="select"
               />
 
-              <div>
+              <div class="sm:w-4/5 m-auto mb-[2rem]">
                 <label for="city">City</label>
-                <input list="city" name="city" />
+                <input
+                  class="dropdown"
+                  list="city"
+                  name="city"
+                  placeholder="type or select the city"
+                />
                 <datalist id="city">
                   <option
                     v-for="city in cs[formValues.state]"
@@ -3011,5 +3016,20 @@ export default {
   width: 300px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.dropdown {
+  appearance: none;
+  border-radius: 0.3em;
+  border: 1px solid #c10609;
+  box-sizing: border-box;
+  background-color: transparent;
+  font-size: 0.9em;
+  padding: 0.75em;
+  display: block;
+  width: 100%;
+  font-weight: 400;
+  line-height: 1.2em;
+  margin: 0;
 }
 </style>
