@@ -247,6 +247,8 @@
                   >Age Restriction
                 </label>
                 <input
+                  id="ageRestriction"
+                  v-model="ageRestriction"
                   class="dropdown"
                   list="ageRestriction"
                   name="ageRestriction"
@@ -254,15 +256,7 @@
                 />
                 <datalist id="ageRestriction">
                   <option
-                    v-for="age in [
-                      'All Ages',
-                      '3+',
-                      '10+',
-                      '12+',
-                      '14+',
-                      '18+',
-                      '21+',
-                    ]"
+                    v-for="age in ['All Ages', '17+', '18+', '21+']"
                     :key="age"
                     :value="age"
                   ></option>
@@ -272,6 +266,7 @@
               <div class="sm:w-4/5 m-auto mb-[2rem]">
                 <label for="alcoholPolicy" class="label">Alcohol Policy </label>
                 <input
+                  v-model="alcoholPolicy"
                   class="dropdown"
                   list="alcoholPolicy"
                   name="alcoholPolicy"
@@ -383,6 +378,8 @@ export default {
   data() {
     return {
       formValues: {},
+      ageRestriction: '',
+      alcoholPolicy: '',
       errorMessage: '',
       event: {},
       created: false,
@@ -2932,6 +2929,9 @@ export default {
 
   methods: {
     moment,
+    logStuff(val) {
+      console.log(val, 'this is the value of the form input')
+    },
     log(val) {
       const d = (val += ':00.000')
       console.log(d)
@@ -3050,6 +3050,8 @@ export default {
       ) {
         // user does not pick band our tour
         this.formValues.bandName = null
+        this.formValues.ageRestriction = this.ageRestriction
+        this.formValues.alcoholPolicy = this.alcoholPolicy
         const event = await this.$strapi.create('events', {
           ...this.formValues,
           users_permissions_user: this.$strapi.user.id,

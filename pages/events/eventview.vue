@@ -1,11 +1,29 @@
 <template>
-  <div class="container mx-auto my-6">
-    <section class="container" v-if="event">
+  <div v-if="event" class="container mx-auto my-6">
+    <section class="container">
       <CardsShowFullCard class="mx-auto" :event="event" />
     </section>
     <section class="container mx-auto px-4">
       <section class="my-2">
         <h2 id="showdetails" class="chedder text-2xl">Show Details</h2>
+        <div class="flex flex-col gap-4">
+          <div v-if="event.addmissionFee" class="flex flex-col gap-2 mt-2">
+            <p class="chedder">
+              Addmission Fee <span v-if="event.addmissionFee === 0">Free</span>
+              <span v-else>${{ event.addmissionFee }}</span>
+            </p>
+          </div>
+          <div v-if="event.ageRestriction">
+            <p class="chedder">
+              Age Restriction: <span>{{ event.ageRestriction }}</span>
+            </p>
+          </div>
+          <div v-if="event.alcoholPolicy">
+            <p class="chedder">
+              Alcohol Policy: <span>{{ event.alcoholPolicy }}</span>
+            </p>
+          </div>
+        </div>
       </section>
       <section class="my-2">
         <h2 id="videos" class="chedder text-2xl">Videos</h2>
