@@ -5,12 +5,20 @@
     </section>
     <section class="container mx-auto px-4">
       <section class="my-2">
-        <h2 id="showdetails" class="chedder text-2xl">Show Details</h2>
+        <h2 id="showdetails" class="chedder text-2xl mt-4">Show Details</h2>
         <div class="flex flex-col gap-4">
+          <div v-if="event.streetAddress" class="flex flex-col mt-2">
+            <p class="chedder">Address</p>
+            <p class="font-medium">{{ event.streetAddress }}</p>
+            <p class="font-medium" v-if="event.city && event.state">
+              {{ event.city }}, {{ event.state }}
+            </p>
+          </div>
           <div v-if="event.addmissionFee" class="flex flex-col gap-2 mt-2">
-            <p class="chedder">
-              Addmission Fee <span v-if="event.addmissionFee === 0">Free</span>
-              <span v-else>${{ event.addmissionFee }}</span>
+            <p>
+              <span class="chedder">Addmission Fee:</span>
+              <span v-if="event.addmissionFee === 0">Free</span>
+              <span v-else class="">${{ event.addmissionFee }}</span>
             </p>
           </div>
           <div v-if="event.ageRestriction">

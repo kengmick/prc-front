@@ -22,7 +22,6 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
-
               <FormulateInput
                 v-if="userBands"
                 value="null"
