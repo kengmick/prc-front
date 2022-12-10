@@ -248,15 +248,44 @@
                 </label>
                 <input
                   class="dropdown"
-                  list="city"
-                  name="city"
-                  placeholder="type or select the city"
+                  list="ageRestriction"
+                  name="ageRestriction"
+                  placeholder="type or select the age restriction policy"
                 />
-                <datalist id="city">
+                <datalist id="ageRestriction">
                   <option
-                    v-for="city in cs[formValues.state]"
-                    :key="city"
-                    :value="city"
+                    v-for="age in [
+                      'All Ages',
+                      '3+',
+                      '10+',
+                      '12+',
+                      '14+',
+                      '18+',
+                      '21+',
+                    ]"
+                    :key="age"
+                    :value="age"
+                  ></option>
+                </datalist>
+              </div>
+
+              <div class="sm:w-4/5 m-auto mb-[2rem]">
+                <label for="alcoholPolicy" class="label">Alcohol Policy </label>
+                <input
+                  class="dropdown"
+                  list="alcoholPolicy"
+                  name="alcoholPolicy"
+                  placeholder="type or select the alcohol policy"
+                />
+                <datalist id="alcoholPolicy">
+                  <option
+                    v-for="policy in [
+                      'No Alcohol',
+                      'BYOB',
+                      'Sold on premisies',
+                    ]"
+                    :key="policy"
+                    :value="policy"
                   ></option>
                 </datalist>
               </div>
