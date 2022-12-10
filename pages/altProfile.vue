@@ -261,7 +261,7 @@
           <p class="text-2xl chedder text-white flex-grow">Venues</p>
           <div>
             <nuxtLink
-              :to="{ path: '//venues/createvenue' }"
+              :to="{ path: '/venues/createvenue' }"
               class="chedder text-2xl text-white flex-1 text-left border-2 border-white px-4 py-2"
               >+ Create Venue
             </nuxtLink>
@@ -281,7 +281,7 @@
               <div class="flex gap-6">
                 <nuxtLink
                   :to="{
-                    path: '//venues/venueprofile',
+                    path: '/venues/venueprofile',
                     query: { venue: venue.id },
                   }"
                   class="btn_custom"
@@ -305,7 +305,7 @@
           <h3 class="text-3xl flex-grow mb-4">Venues</h3>
           <div class="pr-2">
             <NuxtLink
-              :to="{ path: '//venues/createvenue' }"
+              :to="{ path: '/venues/createvenue' }"
               class="chedder py-2 px-4 border-2 border-black"
               >+ Add Venue</NuxtLink
             >
@@ -320,7 +320,7 @@
           <h3 class="text-3xl flex-grow mb-4">Venues</h3>
           <div class="pr-2">
             <NuxtLink
-              :to="{ path: '//venues/createvenue' }"
+              :to="{ path: '/venues/createvenue' }"
               class="chedder py-2 px-4 border-2 border-black"
               >+ Add Venue</NuxtLink
             >
@@ -341,7 +341,7 @@
               <div class="mt-4">
                 <NuxtLink
                   :to="{
-                    path: '//venues/venueprofile',
+                    path: '/venues/venueprofile',
                     query: { venue: v.id },
                   }"
                   class="chedder py-2 px-4 border-2 border-black"
@@ -366,7 +366,7 @@
           <h3 class="text-3xl flex-grow mb-4">Venues</h3>
           <div class="pr-2">
             <NuxtLink
-              :to="{ path: '//venues/createvenue' }"
+              :to="{ path: '/venues/createvenue' }"
               class="chedder py-2 px-4 border-2 border-black"
               >+ Add Venue</NuxtLink
             >

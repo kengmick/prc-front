@@ -452,7 +452,7 @@
           Your Venues
         </h2>
         <div class="w-full">
-          <NuxtLink to="//venues/createvenue">
+          <NuxtLink to="/venues/createvenue">
             <div
               class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-2/5"
             >
