@@ -67,6 +67,13 @@
       <!-- showz -->
       <section class="my-2">
         <h2 id="showz" class="chedder text-2xl">Showz</h2>
+        <div v-if="events">
+          <CardsShowCard
+            v-for="event in events"
+            :key="event.title"
+            :event="event"
+          />
+        </div>
       </section>
       <!-- release -->
       <section class="my-2">
