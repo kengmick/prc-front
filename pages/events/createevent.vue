@@ -137,7 +137,7 @@
                   ></option>
                 </datalist>
               </div>
-
+              <!-- 
               <imput
                 v-if="formValues.country === 'United States'"
                 name="city"
@@ -148,9 +148,9 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-              />
+              /> -->
               <FormulateInput
-                v-else-if="formValues.country === 'Northern Ireland'"
+                v-if="formValues.country === 'Northern Ireland'"
                 name="city"
                 label="City that the band is from?"
                 :options="ni"
@@ -204,7 +204,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
-              <FormulateInput
+              <!-- <FormulateInput
                 v-else-if="
                   formValues.country !== 'United States' ||
                   'England' ||
@@ -218,7 +218,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-              />
+              /> -->
               <FormulateInput
                 v-if="
                   !formValues.country || formValues.country === 'United States'
@@ -247,16 +247,17 @@
                   >Age Restriction
                 </label>
                 <input
+                  v-model="ageRestriction"
                   class="dropdown"
-                  list="city"
-                  name="city"
-                  placeholder="type or select the city"
+                  list="ageRestriction"
+                  name="ageRestriction"
+                  placeholder="type or select ageRestriction"
                 />
-                <datalist id="city">
+                <datalist id="ageRestriction">
                   <option
-                    v-for="city in cs[formValues.state]"
-                    :key="city"
-                    :value="city"
+                    v-for="age in restrictions"
+                    :key="age"
+                    :value="age"
                   ></option>
                 </datalist>
               </div>
@@ -353,6 +354,8 @@ import moment from 'moment'
 export default {
   data() {
     return {
+      restrictions: ['all ages', '17+', '18+', '21+'],
+      ageRestriction: null,
       formValues: {},
       errorMessage: '',
       event: {},
@@ -2929,6 +2932,7 @@ export default {
     },
     async submitForm() {
       // uploading bandProfileImg
+      this.formValues.ageRestriction = this.ageRestriction
       this.loading = true
       if (this.formValues.timeStarts) {
         this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
