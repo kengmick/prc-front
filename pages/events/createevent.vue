@@ -22,6 +22,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+
               <FormulateInput
                 v-if="userBands"
                 value="null"
@@ -123,7 +124,6 @@
               <div class="sm:w-4/5 m-auto mb-[2rem]">
                 <label for="city" class="label">City</label>
                 <input
-                  v-model="city"
                   class="dropdown"
                   list="city"
                   name="city"
@@ -247,40 +247,16 @@
                   >Age Restriction
                 </label>
                 <input
-                  id="ageRestriction"
-                  v-model="ageRestriction"
                   class="dropdown"
-                  list="ageRestriction"
-                  name="ageRestriction"
-                  placeholder="type or select the age restriction policy"
+                  list="city"
+                  name="city"
+                  placeholder="type or select the city"
                 />
-                <datalist id="ageRestriction">
+                <datalist id="city">
                   <option
-                    v-for="age in ['All Ages', '17+', '18+', '21+']"
-                    :key="age"
-                    :value="age"
-                  ></option>
-                </datalist>
-              </div>
-
-              <div class="sm:w-4/5 m-auto mb-[2rem]">
-                <label for="alcoholPolicy" class="label">Alcohol Policy </label>
-                <input
-                  v-model="alcoholPolicy"
-                  class="dropdown"
-                  list="alcoholPolicy"
-                  name="alcoholPolicy"
-                  placeholder="type or select the alcohol policy"
-                />
-                <datalist id="alcoholPolicy">
-                  <option
-                    v-for="policy in [
-                      'No Alcohol',
-                      'BYOB',
-                      'Sold on premisies',
-                    ]"
-                    :key="policy"
-                    :value="policy"
+                    v-for="city in cs[formValues.state]"
+                    :key="city"
+                    :value="city"
                   ></option>
                 </datalist>
               </div>
@@ -378,9 +354,6 @@ export default {
   data() {
     return {
       formValues: {},
-      city: null,
-      ageRestriction: '',
-      alcoholPolicy: '',
       errorMessage: '',
       event: {},
       created: false,
@@ -2930,9 +2903,6 @@ export default {
 
   methods: {
     moment,
-    logStuff(val) {
-      console.log(val, 'this is the value of the form input')
-    },
     log(val) {
       const d = (val += ':00.000')
       console.log(d)
@@ -2987,9 +2957,6 @@ export default {
           })
           console.log(b)
           this.formValues.bandName = b[0]
-          if (this.city !== null) {
-            this.formValues.city = this.city
-          }
           const event = await this.$strapi.create('events', {
             ...this.formValues,
             users_permissions_user: this.$strapi.user.id,
@@ -3011,11 +2978,6 @@ export default {
             return band.bandName === this.formValues.bandName
           })
           this.formValues.bandName = b[0]
-          this.formValues.ageRestriction = this.ageRestriction
-          this.formValues.alcoholPolicy = this.alcoholPolicy
-          if (this.city !== null) {
-            this.formValues.city = this.city
-          }
           const event = await this.$strapi.create('events', {
             ...this.formValues,
             users_permissions_user: this.$strapi.user.id,
@@ -3035,9 +2997,6 @@ export default {
           this.formValues.tourName !== 'null'
         ) {
           this.formValues.bandName = null
-          if (this.city !== null) {
-            this.formValues.city = this.city
-          }
           const event = await this.$strapi.create('events', {
             ...this.formValues,
             users_permissions_user: this.$strapi.user.id,
@@ -3062,12 +3021,6 @@ export default {
       ) {
         // user does not pick band our tour
         this.formValues.bandName = null
-        this.formValues.ageRestriction = this.ageRestriction
-        this.formValues.alcoholPolicy = this.alcoholPolicy
-        if (this.city !== null) {
-          this.formValues.city = this.city
-        }
-
         const event = await this.$strapi.create('events', {
           ...this.formValues,
           users_permissions_user: this.$strapi.user.id,
