@@ -27,7 +27,7 @@
                   list="bandsSelected"
                   name="bandsSelected"
                   placeholder="type or select a band"
-                  @change="logForm"
+                  @change="addBands"
                 />
                 <datalist id="bandsSelected">
                   <option
@@ -156,6 +156,7 @@
               <div class="sm:w-4/5 m-auto mb-[2rem]">
                 <label for="city" class="label">City</label>
                 <input
+                  v-model="city"
                   class="dropdown"
                   list="city"
                   name="city"
@@ -357,6 +358,9 @@
           </div>
         </FormulateForm>
       </div>
+      <div @click="logForm" class="text-green-500">
+        click me fdsfdsafdsafdsafdsafdas
+      </div>
     </section>
     <section
       v-if="loading"
@@ -409,6 +413,7 @@ export default {
       loading: false,
       tour: null,
       tourEvent: null,
+      city: '',
       test: {
         'New York': [
           'New York',
@@ -2946,7 +2951,7 @@ export default {
       this.bandsPlaying.push({ BandName: '' })
     },
     logForm() {
-      console.log(this.bandsPlaying)
+      console.log('============== end of loop')
     },
     log(val) {
       const d = (val += ':00.000')
@@ -2976,7 +2981,10 @@ export default {
       // uploading bandProfileImg
       this.formValues.ageRestriction = this.ageRestriction
       this.formValues.bandsPlaying = this.bandsPlaying
+      this.formValues.city = this.city
       this.loading = true
+      // update bands event property
+
       if (this.formValues.timeStarts) {
         this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
       }
@@ -2993,30 +3001,25 @@ export default {
           'Could not upload the event poster ... please try again '
       }
       try {
-        // if user picks band that the user owns  but not a tour
-        if (
-          this.formValues.bandName !== 'null' &&
-          this.formValues.tourName === 'null'
-        ) {
-          console.log('this is the bandName conditional not the tour  ')
-          // make it nested loop over all the bands that the user has that match the bands that the user has entered in the forms ...
-          // if the user picked any of the bands then update the bands event property ... see line 2984
-          // const b = this.bands.filter((band) => {
-          //   return band.bandName === this.formValues.bandName
-          // })
-          // console.log(b)
-          // this.formValues.bandName = b[0]
-          const event = await this.$strapi.create('events', {
-            ...this.formValues,
-            users_permissions_user: this.$strapi.user.id,
-          })
+        const event = await this.$strapi.create('events', {
+          ...this.formValues,
+          users_permissions_user: this.$strapi.user.id,
+        })
 
-          // await this.$strapi.update('bands', b[0].id, {
-          //   events: [...b[0].events, event],
-          // })
-          this.event = event
-          this.loading = false
+        for (let i = 0; i < this.formValues.bandsPlaying.length; i++) {
+          for (let j = 0; j < this.bands.length; j++) {
+            if (
+              this.formValues.bandsPlaying[i].BandName ===
+              this.bands[j].bandName
+            ) {
+              await this.$strapi.update('bands', this.bands[j].id, {
+                events: [...this.bands[j].events, event],
+              })
+            }
+          }
         }
+        this.event = event
+        this.loading = false
       } catch (error) {
         console.log('form vals', this.formValues)
         console.log(error, 'there was an error in creating an event  ')
