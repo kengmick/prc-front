@@ -27,7 +27,6 @@
                   list="bandsSelected"
                   name="bandsSelected"
                   placeholder="type or select a band"
-                  @change="addBands"
                 />
                 <datalist id="bandsSelected">
                   <option
