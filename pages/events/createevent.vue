@@ -79,7 +79,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               /> -->
-              <FormulateInput
+              <!-- <FormulateInput
                 v-if="userTours"
                 value="null"
                 type="select"
@@ -101,7 +101,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-              />
+              /> -->
               <FormulateInput
                 name="date"
                 type="date"
@@ -3017,78 +3017,11 @@ export default {
           this.event = event
           this.loading = false
         }
-        // if band and tour name
-        if (
-          this.formValues.bandName !== 'null' &&
-          this.formValues.tourName !== 'null'
-        ) {
-          console.log('this is the band and tour  conditional ')
-          const b = this.bands.filter((band) => {
-            return band.bandName === this.formValues.bandName
-          })
-          this.formValues.bandName = b[0]
-          const event = await this.$strapi.create('events', {
-            ...this.formValues,
-            users_permissions_user: this.$strapi.user.id,
-          })
-          this.event = event
-          // put band id and update the band
-          await this.$strapi.update('bands', b[0].id, {
-            events: [...b[0].events, event],
-          })
-          await this.$strapi.update('tours', this.tour.id, {
-            events: [...this.tour.events, event],
-          })
-        }
-
-        if (
-          this.formValues.bandName === 'null' &&
-          this.formValues.tourName !== 'null'
-        ) {
-          this.formValues.bandName = null
-          const event = await this.$strapi.create('events', {
-            ...this.formValues,
-            users_permissions_user: this.$strapi.user.id,
-          })
-          this.event = event
-          // put band id and update the band
-          await this.$strapi.update('tours', this.tour.id, {
-            events: [...this.tour.events, event],
-          })
-        }
-        // if user picks a tour but not a band
-        if (
-          this.formValues.bandName === 'null' &&
-          this.formValues.tourName === 'null'
-        ) {
-          // user does not pick band our tour
-          this.formValues.bandName = null
-          const event = await this.$strapi.create('events', {
-            ...this.formValues,
-            users_permissions_user: this.$strapi.user.id,
-          })
-          this.event = event
-          this.loading = false
-        }
       } catch (error) {
         console.log('form vals', this.formValues)
         console.log(error, 'there was an error in creating an event  ')
         this.loading = false
         this.errorMessage = 'Sorry, something went wrong ... please try again '
-      }
-
-      if (
-        this.formValues.bandName === 'null' &&
-        this.formValues.tourName === 'null'
-      ) {
-        // user does not pick band our tour
-        this.formValues.bandName = null
-        const event = await this.$strapi.create('events', {
-          ...this.formValues,
-          users_permissions_user: this.$strapi.user.id,
-        })
-        this.event = event
-        this.loading = false
       }
       if (this.event) {
         this.$router.push({
