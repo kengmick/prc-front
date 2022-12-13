@@ -15,15 +15,47 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
-              <FormulateInput
+              <div
+                v-for="(band, index) in bandsPlaying"
+                :key="index"
+                class="sm:w-4/5 m-auto mb-[2rem]"
+              >
+                <label for="bandToAdd" class="label">Add a band</label>
+                <input
+                  v-model="bandsPlaying[index].BandName"
+                  class="dropdown"
+                  list="bandsSelected"
+                  name="bandsSelected"
+                  placeholder="type or select a band"
+                  @change="logForm"
+                />
+                <datalist id="bandsSelected">
+                  <option
+                    v-for="band in bands"
+                    :key="band.bandName"
+                    :value="band.bandName"
+                  ></option>
+                </datalist>
+                <div
+                  v-if="index >= 1"
+                  @click="removeBand(index)"
+                  class="px-4 py-2 bg-black text-white mt-6"
+                >
+                  - Remove band
+                </div>
+              </div>
+              <div @click="addBands" class="px-4 py-2 bg-black text-white my-4">
+                + Add another band
+              </div>
+              <!-- <FormulateInput
                 name="headlinerOne"
                 label="Headlining Band"
                 wrapper-class="m-auto sm:w-4/5 "
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-              />
+              /> -->
 
-              <FormulateInput
+              <!-- <FormulateInput
                 v-if="userBands"
                 value="null"
                 type="select"
@@ -34,7 +66,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
                 @change="clear($event.target.value)"
-              />
+              /> -->
 
               <!-- <FormulateInput
                 v-if="userDistros"
@@ -354,6 +386,7 @@ import moment from 'moment'
 export default {
   data() {
     return {
+      bandsPlaying: [{ BandName: '' }],
       restrictions: ['all ages', '17+', '18+', '21+'],
       ageRestriction: null,
       formValues: {},
@@ -2906,6 +2939,15 @@ export default {
 
   methods: {
     moment,
+    removeBand(index) {
+      console.log(this.bandsPlaying.splice(index, 1))
+    },
+    addBands() {
+      this.bandsPlaying.push({ BandName: '' })
+    },
+    logForm() {
+      console.log(this.bandsPlaying)
+    },
     log(val) {
       const d = (val += ':00.000')
       console.log(d)
@@ -2933,6 +2975,7 @@ export default {
     async submitForm() {
       // uploading bandProfileImg
       this.formValues.ageRestriction = this.ageRestriction
+      this.formValues.bandsPlaying = this.bandsPlaying
       this.loading = true
       if (this.formValues.timeStarts) {
         this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
@@ -2950,25 +2993,27 @@ export default {
           'Could not upload the event poster ... please try again '
       }
       try {
-        // if user picks band find band but not a tour
+        // if user picks band that the user owns  but not a tour
         if (
           this.formValues.bandName !== 'null' &&
           this.formValues.tourName === 'null'
         ) {
           console.log('this is the bandName conditional not the tour  ')
-          const b = this.bands.filter((band) => {
-            return band.bandName === this.formValues.bandName
-          })
-          console.log(b)
-          this.formValues.bandName = b[0]
+          // make it nested loop over all the bands that the user has that match the bands that the user has entered in the forms ...
+          // if the user picked any of the bands then update the bands event property ... see line 2984
+          // const b = this.bands.filter((band) => {
+          //   return band.bandName === this.formValues.bandName
+          // })
+          // console.log(b)
+          // this.formValues.bandName = b[0]
           const event = await this.$strapi.create('events', {
             ...this.formValues,
             users_permissions_user: this.$strapi.user.id,
           })
 
-          await this.$strapi.update('bands', b[0].id, {
-            events: [...b[0].events, event],
-          })
+          // await this.$strapi.update('bands', b[0].id, {
+          //   events: [...b[0].events, event],
+          // })
           this.event = event
           this.loading = false
         }
@@ -2995,7 +3040,7 @@ export default {
             events: [...this.tour.events, event],
           })
         }
-        // if user picks a tour but not a band
+
         if (
           this.formValues.bandName === 'null' &&
           this.formValues.tourName !== 'null'
@@ -3011,7 +3056,20 @@ export default {
             events: [...this.tour.events, event],
           })
         }
-        // if user does not pick a band or a tour
+        // if user picks a tour but not a band
+        if (
+          this.formValues.bandName === 'null' &&
+          this.formValues.tourName === 'null'
+        ) {
+          // user does not pick band our tour
+          this.formValues.bandName = null
+          const event = await this.$strapi.create('events', {
+            ...this.formValues,
+            users_permissions_user: this.$strapi.user.id,
+          })
+          this.event = event
+          this.loading = false
+        }
       } catch (error) {
         console.log('form vals', this.formValues)
         console.log(error, 'there was an error in creating an event  ')

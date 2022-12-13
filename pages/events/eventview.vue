@@ -1,5 +1,6 @@
 <template>
   <div v-if="event" class="container mx-auto my-6">
+    <pre>{{ event }}</pre>
     <section class="container">
       <CardsShowFullCard class="mx-auto" :event="event" />
     </section>

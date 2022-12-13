@@ -67,9 +67,9 @@
       <!-- showz -->
       <section class="my-2">
         <h2 id="showz" class="chedder text-2xl">Showz</h2>
-        <div v-if="events">
+        <div v-if="band.events.length > 0">
           <CardsShowCard
-            v-for="event in events"
+            v-for="event in band.events"
             :key="event.title"
             :event="event"
           />
