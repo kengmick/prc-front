@@ -37,7 +37,7 @@
                   ></option>
                 </datalist>
                 <div
-                  v-if="index >= 1"
+                  v-if="index >= 1 && bandsPlaying[index].BandName"
                   @click="removeBand(index)"
                   class="px-4 py-2 bg-black text-white mt-6"
                 >
