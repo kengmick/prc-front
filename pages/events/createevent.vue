@@ -38,46 +38,37 @@
                 <div
                   v-if="index >= 1 && bandsPlaying[index].BandName"
                   @click="removeBand(index)"
-                  class="px-4 py-2 bg-black text-white mt-6"
+                  class="px-4 py-2 bg-black text-red-600 my-4 w-full m-auto"
                 >
                   - Remove band
                 </div>
               </div>
-              <div @click="addBands" class="px-4 py-2 bg-black text-white my-4">
+              <div
+                @click="addBands"
+                class="px-4 py-2 bg-black text-white my-4 sm:w-4/5 m-auto"
+              >
                 + Add another band
               </div>
-              <!-- <FormulateInput
-                name="headlinerOne"
-                label="Headlining Band"
-                wrapper-class="m-auto sm:w-4/5 "
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              /> -->
 
-              <!-- <FormulateInput
-                v-if="userBands"
-                value="null"
-                type="select"
-                name="bandName"
-                label="Add show to a band you created Optional?"
-                :options="{ ...userBands, clear: 'clear form' }"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-                @change="clear($event.target.value)"
-              /> -->
-
-              <!-- <FormulateInput
-                v-if="userDistros"
-                value="null"
-                type="select"
-                name="distroName"
-                label="Add show to your distro Optional?"
-                :options="userDistros"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              /> -->
+              <div class="sm:w-4/5 m-auto mb-[2rem]">
+                <label for="distro" class="label"
+                  >Add show To your Label/Distro</label
+                >
+                <input
+                  v-model="userDistro"
+                  class="dropdown"
+                  list="distro"
+                  name="distro"
+                  placeholder="type or select a distro"
+                />
+                <datalist id="distro">
+                  <option
+                    v-for="distro in distros"
+                    :key="distro.name"
+                    :value="distro.name"
+                  ></option>
+                </datalist>
+              </div>
               <!-- <FormulateInput
                 v-if="userTours"
                 value="null"
@@ -357,9 +348,6 @@
           </div>
         </FormulateForm>
       </div>
-      <div @click="logForm" class="text-green-500">
-        click me fdsfdsafdsafdsafdsafdas
-      </div>
     </section>
     <section
       v-if="loading"
@@ -399,11 +387,9 @@ export default {
       eventPosterFile: '',
       eventPosterFinal: '',
       end: '',
-      // profiles to populate form options
-      userBands: null,
       userVenues: null,
       userTours: null,
-      userDistros: null,
+      userDistro: '',
       // profiles array
       bands: [],
       venues: [],
@@ -2906,18 +2892,11 @@ export default {
       console.log(error)
     }
     // distros
-    // must work on later
     try {
       const distros = await this.$strapi.find('record-labels', {
         users_permissions_user: this.$strapi.user.id,
       })
       this.distros = distros
-      const o = {}
-      distros.forEach((d) => {
-        o[d.name] = d.name
-      })
-      // This is user band for the full
-      this.userDistros = o
     } catch (error) {
       this.userDistros = null
       console.log(error)
@@ -2982,11 +2961,11 @@ export default {
       this.formValues.bandsPlaying = this.bandsPlaying
       this.formValues.city = this.city
       this.loading = true
-      // update bands event property
 
       if (this.formValues.timeStarts) {
         this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
       }
+      // upload event poster
       try {
         const formData = new FormData()
         await formData.append('files', this.eventPosterFile)
@@ -3005,6 +2984,7 @@ export default {
           users_permissions_user: this.$strapi.user.id,
         })
 
+        // check bands and update band if user owns
         for (let i = 0; i < this.formValues.bandsPlaying.length; i++) {
           for (let j = 0; j < this.bands.length; j++) {
             if (
@@ -3015,6 +2995,16 @@ export default {
                 events: [...this.bands[j].events, event],
               })
             }
+          }
+        }
+        // check distro and update distro if user owns
+        for (let i = 0; i < this.distros.length; i++) {
+          console.log('distro loop ', this.userDistro)
+          if (this.userDistro === this.distros[i].name) {
+            console.log('conditional distro ')
+            await this.$strapi.update('record-labels', this.distros[i].id, {
+              events: [...this.distros[i].events, event],
+            })
           }
         }
         this.event = event
