@@ -5,7 +5,17 @@
     </section>
     <section class="container mx-auto px-4">
       <section class="my-2">
-        <h2 id="showz" class="chedder text-2xl">Showz</h2>
+        <h2 id="showz" class="chedder text-2xl my-4">Showz</h2>
+        <div
+          v-if="events"
+          class="mx-auto flex flex-col justify-center items-center gap-10 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-10 my-4"
+        >
+          <CardsShowCard
+            v-for="event in distro.events"
+            :key="event.title"
+            :event="event"
+          />
+        </div>
       </section>
       <section class="my-2">
         <h2 id="videos" class="chedder text-2xl">Videos</h2>

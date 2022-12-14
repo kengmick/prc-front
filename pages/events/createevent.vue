@@ -49,7 +49,7 @@
               >
                 + Add another band
               </div>
-
+              <!-- distros  -->
               <div class="sm:w-4/5 m-auto mb-[2rem]">
                 <label for="distro" class="label"
                   >Add show To your Label/Distro</label
@@ -69,29 +69,47 @@
                   ></option>
                 </datalist>
               </div>
-              <!-- <FormulateInput
-                v-if="userTours"
-                value="null"
-                type="select"
-                name="tourName"
-                label="Add Show to your tour Optional?"
-                :options="{ ...userTours, clear: 'clear form' }"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-                @change="clearTour($event.target.value)"
-              />
-              <FormulateInput
-                v-if="userVenues"
-                value="null"
-                type="select"
-                name="venueName"
-                label="Add Show to your Venue Optional?"
-                :options="userVenues"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              /> -->
+
+              <!-- Tours  -->
+              <div class="sm:w-4/5 m-auto mb-[2rem]">
+                <label for="tour" class="label">Add show to your tour</label>
+                <input
+                  v-model="tour"
+                  class="dropdown"
+                  list="tour"
+                  name="tour"
+                  placeholder="select a tour"
+                />
+                <datalist id="tour">
+                  <option
+                    v-for="t in tours"
+                    :key="t.title"
+                    :value="t.title"
+                  ></option>
+                </datalist>
+              </div>
+
+              <!-- venues  -->
+              <div class="sm:w-4/5 m-auto mb-[2rem]">
+                <label for="tour" class="label"
+                  >Add the show to your venue</label
+                >
+                <input
+                  v-model="venue"
+                  class="dropdown"
+                  list="venue"
+                  name="venue"
+                  placeholder="select a venue"
+                />
+                <datalist id="venue">
+                  <option
+                    v-for="v in venues"
+                    :key="v.name"
+                    :value="v.name"
+                  ></option>
+                </datalist>
+              </div>
+
               <FormulateInput
                 name="date"
                 type="date"
@@ -110,15 +128,6 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
                 @change="log($event.target.value)"
-              />
-
-              <FormulateInput
-                name="venueName"
-                type="text"
-                label="Event Venue"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
               />
             </div>
             <div class="w-full px-4 sm:w-1/2">
@@ -393,10 +402,11 @@ export default {
       // profiles array
       bands: [],
       venues: [],
+      venue: '',
       tours: [],
       distros: [],
       loading: false,
-      tour: null,
+      tour: '',
       tourEvent: null,
       city: '',
       test: {
@@ -2864,15 +2874,7 @@ export default {
         users_permissions_user: this.$strapi.user.id,
       })
       this.bands = bands
-      const o = {}
-      bands.forEach((b) => {
-        o[b.bandName] = b.bandName
-      })
-      // This is user band for the full
-      this.userBands = o
-      console.log(this.userBands)
     } catch (error) {
-      this.userBands = null
       console.log(error)
     }
     // venues
@@ -2881,14 +2883,7 @@ export default {
         users_permissions_user: this.$strapi.user.id,
       })
       this.venues = venues
-      const o = {}
-      venues.forEach((v) => {
-        o[v.name] = v.name
-      })
-      // This is user band for the full
-      this.userVenues = o
     } catch (error) {
-      this.userVenues = null
       console.log(error)
     }
     // distros
@@ -2906,16 +2901,8 @@ export default {
       const tours = await this.$strapi.find('tours', {
         users_permissions_user: this.$strapi.user.id,
       })
-      this.tour = tours
-      const o = {}
-      tours.forEach((t) => {
-        console.log(t, ' this is the tour')
-        o[t.title] = t.title
-      })
-      // This is user band for the full
-      this.userTours = o
+      this.tours = tours
     } catch (error) {
-      this.userTours = null
       console.log(error)
     }
   },
@@ -2957,6 +2944,8 @@ export default {
     },
     async submitForm() {
       // uploading bandProfileImg
+
+      this.formValues.venueName = this.venue
       this.formValues.ageRestriction = this.ageRestriction
       this.formValues.bandsPlaying = this.bandsPlaying
       this.formValues.city = this.city
@@ -3007,6 +2996,24 @@ export default {
             })
           }
         }
+
+        // check distro and update distro if user owns
+        for (let i = 0; i < this.tours.length; i++) {
+          if (this.tour === this.tours[i].title) {
+            await this.$strapi.update('tours', this.tours[i].id, {
+              events: [...this.tours[i].events, event],
+            })
+          }
+        }
+        // check venues
+        for (let i = 0; i < this.venues.length; i++) {
+          if (this.venue === this.venues[i].name) {
+            await this.$strapi.update('venues', this.venues[i].id, {
+              events: [...this.venues[i].events, event],
+            })
+          }
+        }
+        // set the event and route user to event page
         this.event = event
         this.loading = false
       } catch (error) {
