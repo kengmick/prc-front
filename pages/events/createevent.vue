@@ -2910,7 +2910,7 @@ export default {
   methods: {
     moment,
     removeBand(index) {
-      console.log(this.bandsPlaying.splice(index, 1))
+      this.bandsPlaying.splice(index, 1)
     },
     addBands() {
       this.bandsPlaying.push({ BandName: '' })

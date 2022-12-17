@@ -35,32 +35,6 @@
           <ais-hits> </ais-hits>
         </ais-instant-search>
       </div>
-      <!-- <div
-        v-for="(bandCard, index) in allBands"
-        :key="band.bandName + index"
-        class="overflow-x-hidden"
-      >
-        <PosterCard
-          class="mb-10"
-          :band="bandCard"
-          :user="bandCard.users_permissions_user"
-          :isFeatured="true"
-          :isHome="true"
-          @startChat="startChatNow(bandCard.users_permissions_user)"
-        />
-        <div
-          @click="addCardNow(bandCard)"
-          class="py-2 px-4 bg-black text-white chedder mb-2 text-center"
-        >
-          Add {{ bandCard.bandName }} !!!
-        </div>
-        <div
-          @click="cancelAddCard"
-          class="py-2 px-4 bg-black text-white chedder mb-6 text-center"
-        >
-          Cancel
-        </div>
-      </div> -->
     </section>
     <!-- container for all information of profile  -->
     <section class="container mx-auto px-4">
@@ -78,9 +52,35 @@
           />
         </div>
       </section>
-      <!-- release -->
+      <!-- releases -->
       <section class="my-2">
         <h2 id="releases" class="chedder text-2xl">Releases</h2>
+        <!-- add releases button  -->
+        <NuxtLink
+          v-if="permission"
+          :to="{ path: '/releases/create', query: { band: band.id } }"
+        >
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-1/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Add Releases</h3>
+          </div>
+        </NuxtLink>
       </section>
       <!-- songs -->
       <section class="my-2">
