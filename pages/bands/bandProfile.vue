@@ -81,6 +81,9 @@
             <h3 class="text-3xl pl-2 text-center">Add Releases</h3>
           </div>
         </NuxtLink>
+        <div v-if="band.releases">
+          <pre>{{ band.releases }}</pre>
+        </div>
       </section>
       <!-- songs -->
       <section class="my-2">

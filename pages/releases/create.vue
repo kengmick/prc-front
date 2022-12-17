@@ -102,6 +102,30 @@
             - Remove song
           </div>
         </div>
+        <h2 class="text-xl">Add Photos</h2>
+        <FormulateInput
+          type="group"
+          name="images"
+          :repeatable="true"
+          label="Add Photos"
+          add-label="+ Add Photo"
+          wrapper-class="w-full"
+          element-class="w-full"
+        >
+          <div>
+            <FormulateInput
+              type="image"
+              name="pic"
+              label="add photos"
+              help="Select a png, jpg or gif to upload."
+              validation="mime:image/jpeg,image/png,image/gif"
+              input-class="w-full sm:w-96 "
+              wrapper-class="w-full sm:w-96 "
+              element-class="w-full sm:w-96 "
+              @change="addPic($event.target.files[0])"
+            />
+          </div>
+        </FormulateInput>
 
         <FormulateInput
           type="submit"
@@ -112,6 +136,7 @@
         />
       </FormulateForm>
     </section>
+    <pre>{{ pictures }}</pre>
   </div>
 </template>
 
@@ -125,6 +150,7 @@ export default {
       mainImage: '',
       mainImageFile: '',
       loading: false,
+      pictures: [],
       band: '',
     }
   },
@@ -137,9 +163,33 @@ export default {
     }
   },
   methods: {
+    addPic(val) {
+      console.log(this.formValues.images)
+    },
     async submitForm() {
       this.formValues.songList = this.songList
-      this.formValues.links = this.links
+      this.formValues.releaseLinks = this.links
+
+      if (this.formValues.images) {
+        const pictures = []
+        for (let index = 0; index < this.formValues.images.length; index++) {
+          const formData = new FormData()
+          formData.append(
+            'files',
+            this.formValues.images[index].pic.files[0].file
+          )
+          const [image] = await this.$strapi.create('upload', formData)
+
+          pictures.push({ image })
+          console.log('adding pictures ', pictures)
+        }
+        this.pictures = pictures
+        console.log('pictures', this.pictures)
+
+        this.formValues.images = pictures.map((i) => {
+          return { pic: i.image }
+        })
+      }
       try {
         const formData = new FormData()
         await formData.append('files', this.mainImageFile)
