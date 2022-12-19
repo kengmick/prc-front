@@ -52,7 +52,7 @@
           />
         </div>
       </section>
-      <!-- releases -->
+      <!-- discography -->
       <section class="my-2">
         <h2 id="releases" class="chedder text-2xl">Releases</h2>
         <!-- add releases button  -->
@@ -78,11 +78,33 @@
                 d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
               />
             </svg>
-            <h3 class="text-3xl pl-2 text-center">Add Releases</h3>
+            <h3 class="text-3xl pl-2 text-center">Add to discography</h3>
           </div>
         </NuxtLink>
-        <div v-if="band.releases">
-          <pre>{{ band.releases }}</pre>
+        <div>
+          <div v-if="band.releases" class="flex gap-4 overflow-y-scroll">
+            <!-- <pre>{{ band.releases }}</pre> -->
+            <div v-for="release in band.releases" :key="release.title">
+              <div class="my-6 w-[300px]">
+                <div>
+                  <NuxtImg
+                    class=""
+                    :src="release.mainImage.url"
+                    alt=""
+                    height="300"
+                    width="300"
+                  />
+                </div>
+                <div
+                  class="w-full bg-black text-white px-2 py-4 flex items-center"
+                >
+                  <div>
+                    <p>{{ release.title }} ({{ release.date }})</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
       <!-- songs -->
