@@ -53,8 +53,8 @@
         </div>
       </section>
       <!-- discography -->
-      <section class="my-2">
-        <h2 id="releases" class="chedder text-2xl">Releases</h2>
+      <section class="my-4">
+        <h2 id="releases" class="chedder text-2xl my-4">Discography</h2>
         <!-- add releases button  -->
         <NuxtLink
           v-if="permission"
