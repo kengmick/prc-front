@@ -1,6 +1,59 @@
 <template>
   <div>
-    <h1>All Releases</h1>
+    <section v-if="release" class="mx-auto w-full">
+      <div v-if="release.mainImage" class="px-4">
+        <div class="mx-auto my-6 w-[300px]">
+          <div>
+            <NuxtImg
+              class=""
+              :src="release.mainImage.url"
+              alt=""
+              height="300"
+              width="300"
+            />
+          </div>
+          <div class="w-full bg-black text-white px-2 py-4 flex items-center">
+            <div>
+              <p>{{ release.title }} ({{ release.date }})</p>
+            </div>
+          </div>
+        </div>
+        <div class="my-4">
+          <h3>Label</h3>
+          <p>{{ release.label }}</p>
+        </div>
+        <div class="my-4">
+          <h3>History/Description</h3>
+          <p>{{ release.bio }}</p>
+        </div>
+        <div class="my-4">
+          <h3>Songs</h3>
+          <p v-for="song in release.songList" :key="song.title">
+            {{ song.title }}
+          </p>
+        </div>
+
+        <div>
+          <h3>Photos</h3>
+          <div class="flex overflow-y-scroll gap-4 my-4">
+            <NuxtImg
+              v-for="image in release.images"
+              :key="image.id"
+              :src="image.pic.url"
+              height="300"
+              width="300"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Links</h3>
+        <div v-for="link in release.rLink" :key="link.id">
+          <a :href="link.link">{{ link.link }}</a>
+        </div>
+      </div>
+    </section>
     <!-- <div v-if="release.songList.length > 0">
               <h2 class="text-xl">Song List</h2>
               <ul>
@@ -22,5 +75,17 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      release: [],
+    }
+  },
+  async fetch() {
+    const band = await this.$strapi.findOne('bands', this.$route.query.bandId)
+    this.release = band.releases.filter((r) => {
+      return r.id.toString() === this.$route.query.releaseId
+    })[0]
+  },
+}
 </script>

@@ -85,24 +85,31 @@
           <div v-if="band.releases" class="flex gap-4 overflow-y-scroll">
             <!-- <pre>{{ band.releases }}</pre> -->
             <div v-for="release in band.releases" :key="release.title">
-              <div class="my-6 w-[300px]">
-                <div>
-                  <NuxtImg
-                    class=""
-                    :src="release.mainImage.url"
-                    alt=""
-                    height="300"
-                    width="300"
-                  />
-                </div>
-                <div
-                  class="w-full bg-black text-white px-2 py-4 flex items-center"
-                >
+              <NuxtLink
+                :to="{
+                  path: '/releases',
+                  query: { releaseId: release.id, bandId: band.id },
+                }"
+              >
+                <div class="my-6 w-[300px]">
                   <div>
-                    <p>{{ release.title }} ({{ release.date }})</p>
+                    <NuxtImg
+                      class=""
+                      :src="release.mainImage.url"
+                      alt=""
+                      height="300"
+                      width="300"
+                    />
+                  </div>
+                  <div
+                    class="w-full bg-black text-white px-2 py-4 flex items-center"
+                  >
+                    <div>
+                      <p>{{ release.title }} ({{ release.date }})</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </NuxtLink>
             </div>
           </div>
         </div>
