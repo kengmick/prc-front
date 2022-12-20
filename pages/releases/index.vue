@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section v-if="release" class="mx-auto w-full">
+    <section v-if="release" class="mx-auto container">
       <div v-if="release.mainImage" class="px-4">
         <div class="mx-auto my-6 w-[300px]">
           <div>
