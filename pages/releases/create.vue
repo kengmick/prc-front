@@ -168,7 +168,7 @@ export default {
     },
     async submitForm() {
       this.formValues.songList = this.songList
-      this.formValues.releaseLinks = this.links
+      this.formValues.rLink = this.links
 
       if (this.formValues.images) {
         const pictures = []
