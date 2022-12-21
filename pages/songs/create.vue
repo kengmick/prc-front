@@ -150,12 +150,10 @@ export default {
     async submitForm() {
       this.formValues.songWriters = this.songWriters
       this.formValues.lyricWriters = this.lyricWriters
-
       try {
         await this.$strapi.update('bands', this.band.id, {
           bandSongs: [...this.band.bandSongs, this.formValues],
         })
-
         this.$router.push({
           path: '/bands/bandprofile',
           query: { band: this.band.id },

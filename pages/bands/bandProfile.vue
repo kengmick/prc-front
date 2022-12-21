@@ -116,7 +116,7 @@
       </section>
       <!-- songs -->
       <section class="my-2">
-        <h2 id="songs" class="chedder text-2xl">Songs</h2>
+        <h2 id="songs" class="chedder text-2xl my-6">Songs</h2>
         <NuxtLink
           v-if="permission"
           :to="{ path: '/songs/create', query: { band: band.id } }"
@@ -142,6 +142,30 @@
             <h3 class="text-3xl pl-2 text-center">Add a song</h3>
           </div>
         </NuxtLink>
+        <div class="my-6">
+          <ul v-if="band.bandSongs">
+            <li v-for="song in band.bandSongs" :key="song.id" class="mt-6">
+              <div class="flex items-center">
+                <h3 class="pr-4">{{ song.title }}</h3>
+                <p>({{ song.date }})</p>
+              </div>
+              <h4 class="my-2">Song Writers</h4>
+              <ul v-if="song.songWriters">
+                <li v-for="writer in song.songWriters" :key="writer.id">
+                  <p>{{ writer.name }}</p>
+                </li>
+              </ul>
+              <h4 v-if="song.lyricWriter.length > 0" class="my-2">
+                Lyric Writers
+              </h4>
+              <ul v-if="song.lyricWriter.length > 0">
+                <li v-for="writer in song.lyricWriter" :key="writer.id">
+                  <p>{{ writer.name }}</p>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
       </section>
       <!-- videos -->
       <section class="my-2">
@@ -149,15 +173,69 @@
       </section>
       <!-- bio -->
       <section class="my-2">
-        <h2 id="bio" class="chedder text-2xl">Bio</h2>
+        <h2 id="bio" class="chedder text-2xl">Biography</h2>
+        <div v-if="band.bio">
+          {{ band.bio }}
+        </div>
       </section>
       <!-- Members -->
       <section class="my-2">
-        <h2 id="members" class="chedder text-2xl">Members</h2>
+        <h2 id="members" class="chedder text-2xl">Performers</h2>
+        <NuxtLink
+          v-if="permission"
+          :to="{ path: '/performer/create', query: { band: band.id } }"
+        >
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-1/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Add a performer</h3>
+          </div>
+        </NuxtLink>
+        <div>
+          <ul>
+            <li v-for="performer in band.members" :key="performer.id">
+              <NuxtImg
+                v-if="performer.image"
+                :src="performer.image.url"
+                alt=""
+                height="200"
+                width="200"
+              />
+              <p>
+                {{ performer.name }} ({{ performer.dateStart }})
+                {{ performer.dateEnd }}
+              </p>
+              <ul>
+                <li
+                  v-for="instrument in performer.instuments"
+                  :key="instrument.id"
+                >
+                  <p>{{ instrument.name }}</p>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
       </section>
       <!-- Pictures -->
       <section class="my-2">
         <h2 id="pictures" class="chedder text-2xl">Pictures</h2>
+        <div>ul</div>
       </section>
       <!-- Merch -->
       <section class="my-2">
@@ -249,6 +327,7 @@ export default {
 
   async mounted() {
     // get bands
+    console.log('this is the query', this.$route.query.band)
     // check if user is logged in and owns the band
     try {
       const band = await this.$strapi.findOne('bands', this.$route.query.band)
