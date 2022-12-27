@@ -217,12 +217,14 @@
                 width="200"
               />
               <p>
-                {{ performer.name }} ({{ performer.dateStart }})
-                {{ performer.dateEnd }}
+                <span class="text-xl"> {{ performer.name }}</span>
+                <span class="text-sm">
+                  ( {{ performer.dateStart }} - {{ performer.dateEnd }})</span
+                >
               </p>
               <ul>
                 <li
-                  v-for="instrument in performer.instuments"
+                  v-for="instrument in performer.instruments"
                   :key="instrument.id"
                 >
                   <p>{{ instrument.name }}</p>
@@ -235,7 +237,7 @@
       <!-- Pictures -->
       <section class="my-2">
         <h2 id="pictures" class="chedder text-2xl">Pictures</h2>
-        <div>ul</div>
+        <div></div>
       </section>
       <!-- Merch -->
       <section class="my-2">
