@@ -242,7 +242,9 @@
       <!-- Pictures -->
       <section class="my-2">
         <h2 id="pictures" class="chedder text-2xl my-6">Pictures</h2>
+        <!-- add photo button  -->
         <div
+          v-if="permission"
           @click="addPhotoModal"
           class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-1/5"
         >
@@ -262,6 +264,15 @@
             />
           </svg>
           <h3 class="text-3xl pl-2 text-center">Add Photos</h3>
+        </div>
+        <div v-if="band.pictures" class="flex gap-6 overflow-x-scroll my-6">
+          <NuxtImg
+            v-for="pic in band.pictures"
+            :key="pic.id"
+            :src="pic.url"
+            height="300"
+            width="300"
+          />
         </div>
       </section>
       <!-- Merch -->
@@ -291,7 +302,7 @@
         <h3 class="text-3xl text-center">Add A Photo</h3>
         <div class="my-6">
           <FormulateInput
-            v-model="photo"
+            v-model="imageAdd"
             type="image"
             name="photo"
             label="Select an image to upload"
@@ -302,27 +313,12 @@
             element-class="w-full sm:w-96 "
             @change="photo = $event.target.files[0]"
           />
-          <pre>{{ photo[0] }} </pre>
           <div
+            v-if="photo"
+            class="flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full"
             @click="addPhoto"
-            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-1/5"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="25"
-              fill="currentColor"
-              class="bi bi-plus-circle"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-              />
-              <path
-                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
-              />
-            </svg>
-            <h3 class="text-3xl pl-2 text-center">Add Photos</h3>
+            <h3 class="text-3xl pl-2 text-center">Add Image</h3>
           </div>
         </div>
       </div>
@@ -349,7 +345,8 @@ export default {
       ),
       addPhotoBox: false,
       allBands: null,
-      photo: 'some image ',
+      imageAdd: '',
+      photo: '',
       band: null,
       events: [],
       bandEvents: [],
@@ -474,6 +471,11 @@ export default {
           'Sorry we could not upload your profile image ... please try again '
         this.loading = false
       }
+      const updated = await this.$strapi.update('bands', this.band.id, {
+        pictures: [...this.band.pictures, this.photo],
+      })
+      this.band = updated
+      this.addPhotoBox = false
     },
     async addCard(band) {
       // list all bands so user can pick what card to add to thire card
