@@ -302,7 +302,7 @@
             element-class="w-full sm:w-96 "
             @change="photo = $event.target.files[0]"
           />
-          <pre>{{ photo[0] }}  </pre>
+          <pre>{{ photo[0] }} </pre>
           <div
             @click="addPhoto"
             class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-1/5"
