@@ -266,13 +266,15 @@
           <h3 class="text-3xl pl-2 text-center">Add Photos</h3>
         </div>
         <div v-if="band.pictures" class="flex gap-6 overflow-x-scroll my-6">
-          <NuxtImg
-            v-for="pic in band.pictures"
-            :key="pic.id"
-            :src="pic.url"
-            height="300"
-            width="300"
-          />
+          <div v-for="pic in band.pictures" :key="pic.id">
+            <NuxtImg :src="pic.url" height="300" width="300" />
+            <div
+              class="w-[300px] h-[40px] px-6 mb-6 flex items-center bg-black text-white"
+              @click="deletePhoto(pic.id)"
+            >
+              <p class="chedder">Delete</p>
+            </div>
+          </div>
         </div>
       </section>
       <!-- Merch -->
@@ -282,6 +284,38 @@
       <!-- Links -->
       <section class="my-2">
         <h2 id="links" class="chedder text-2xl my-6">Links</h2>
+        <NuxtLink
+          v-if="permission"
+          :to="{ path: '/links/create', query: { band: band.id } }"
+        >
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-1/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Add Links</h3>
+          </div>
+        </NuxtLink>
+        <div v-if="band.links">
+          <ul>
+            <li v-for="link in band.links" :key="link.id" class="my-4">
+              <a :href="link.link">{{ link.link }}</a>
+            </li>
+          </ul>
+        </div>
       </section>
       <!-- Chat Room -->
       <section class="my-2">
@@ -459,6 +493,21 @@ export default {
     moment,
     addPhotoModal() {
       this.addPhotoBox = true
+    },
+    async deletePhoto(picId) {
+      console.log(picId, 'this is the pic id in the delete photo function')
+      const updatedPhotos = this.band.pictures.filter((pic) => {
+        return pic.id !== picId
+      })
+      console.log(updatedPhotos, 'this is the updated photos')
+      try {
+        const updated = await this.$strapi.update('bands', this.band.id, {
+          pictures: [...updatedPhotos],
+        })
+        this.band = updated
+      } catch (error) {
+        console.log('could not delete the photo')
+      }
     },
     async addPhoto() {
       try {
