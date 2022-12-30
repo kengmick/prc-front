@@ -269,6 +269,7 @@
           <div v-for="pic in band.pictures" :key="pic.id">
             <NuxtImg :src="pic.url" height="300" width="300" />
             <div
+              v-if="permission"
               class="w-[300px] h-[40px] px-6 mb-6 flex items-center bg-black text-white"
               @click="deletePhoto(pic.id)"
             >
@@ -333,6 +334,12 @@
         class="w-full h-full bg-white flex flex-col justify-center items-center"
         style="z-index: 9999999999999999999"
       >
+        <p
+          class="absolute top-[20px] left-[20px] chedder"
+          @click="addPhotoModal"
+        >
+          x
+        </p>
         <h3 class="text-3xl text-center">Add A Photo</h3>
         <div class="my-6">
           <FormulateInput
@@ -489,10 +496,25 @@ export default {
     })
     this.posts = posts
   },
+  created() {
+    const backButtonRouteGuard = this.$router.beforeEach((to, from, next) => {
+      if (this.addPhotoBox === true) {
+        next(false)
+        this.addPhotoBox = false
+      } else {
+        next(true)
+      }
+    })
+
+    this.$once('hook:destroyed', () => {
+      this.addPhotoBox = false
+      backButtonRouteGuard()
+    })
+  },
   methods: {
     moment,
     addPhotoModal() {
-      this.addPhotoBox = true
+      this.addPhotoBox = !this.addPhotoBox
     },
     async deletePhoto(picId) {
       console.log(picId, 'this is the pic id in the delete photo function')
