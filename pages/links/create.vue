@@ -2,7 +2,6 @@
   <div>
     <h2 class="text-center">Add Links</h2>
     <section v-if="band" class="container mx-auto w-11/12 md:w-3/4 my-6">
-      <pre>{{ band.links }}</pre>
       <div
         v-for="(link, index) in links"
         :key="index"

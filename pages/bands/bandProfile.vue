@@ -46,15 +46,42 @@
       <!-- showz -->
       <section class="my-2">
         <h2 id="showz" class="chedder text-2xl my-4">Showz</h2>
-        <div
-          v-if="band.events.length > 0"
-          class="mx-auto flex flex-col justify-center items-center gap-10 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-10 my-4"
+        <NuxtLink
+          v-if="permission"
+          :to="{ path: '/events/createevent', query: { band: band.id } }"
         >
-          <CardsShowCard
-            v-for="event in band.events"
-            :key="event.title"
-            :event="event"
-          />
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-1/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Add Showz</h3>
+          </div>
+        </NuxtLink>
+        <div v-if="band.events.length > 0" class="flex gap-4 overflow-y-scroll">
+          <div v-for="event in band.events" :key="event.title" class="my-6">
+            <CardsShowCard :event="event" />
+            <div
+              v-if="permission"
+              class="w-[300px] h-[40px] px-6 mb-6 flex items-center bg-black text-white mt-4"
+              @click="deleteData(event.id, 'events')"
+            >
+              <p class="chedder">Delete</p>
+            </div>
+          </div>
         </div>
       </section>
       <!-- discography -->
@@ -115,6 +142,13 @@
                   </div>
                 </div>
               </NuxtLink>
+              <div
+                v-if="permission"
+                class="w-[300px] h-[40px] px-6 mb-6 flex items-center bg-black text-white"
+                @click="deleteData(release.id, 'releases')"
+              >
+                <p class="chedder">Delete</p>
+              </div>
             </div>
           </div>
         </div>
@@ -153,6 +187,14 @@
               <div class="flex items-center">
                 <h3 class="pr-4">{{ song.title }}</h3>
                 <p>({{ song.date }})</p>
+                <div class="grow">
+                  <p
+                    class="text-right"
+                    @click="deleteData(song.id, 'bandSongs')"
+                  >
+                    X Delete Song
+                  </p>
+                </div>
               </div>
               <h4 class="my-2">Song Writers</h4>
               <ul v-if="song.songWriters">
@@ -235,6 +277,13 @@
                   <p>{{ instrument.name }}</p>
                 </li>
               </ul>
+              <div
+                v-if="permission"
+                class="w-[200px] h-[40px] px-6 mb-6 flex items-center bg-black text-white"
+                @click="deleteData(performer.id, 'members')"
+              >
+                <p class="chedder">Delete</p>
+              </div>
             </li>
           </ul>
         </div>
@@ -271,7 +320,7 @@
             <div
               v-if="permission"
               class="w-[300px] h-[40px] px-6 mb-6 flex items-center bg-black text-white"
-              @click="deletePhoto(pic.id)"
+              @click="deleteData(pic.id, 'pictures')"
             >
               <p class="chedder">Delete</p>
             </div>
@@ -313,7 +362,8 @@
         <div v-if="band.links">
           <ul>
             <li v-for="link in band.links" :key="link.id" class="my-4">
-              <a :href="link.link">{{ link.link }}</a>
+              <a :href="link.link">{{ link.link }} </a>
+              <p class="mt-4" @click="deleteData(link.id, 'links')">X Delete</p>
             </li>
           </ul>
         </div>
@@ -516,19 +566,28 @@ export default {
     addPhotoModal() {
       this.addPhotoBox = !this.addPhotoBox
     },
-    async deletePhoto(picId) {
-      console.log(picId, 'this is the pic id in the delete photo function')
-      const updatedPhotos = this.band.pictures.filter((pic) => {
-        return pic.id !== picId
-      })
-      console.log(updatedPhotos, 'this is the updated photos')
-      try {
-        const updated = await this.$strapi.update('bands', this.band.id, {
-          pictures: [...updatedPhotos],
+    async deleteData(id, dataType) {
+      if (
+        dataType === 'pictures' ||
+        dataType === 'releases' ||
+        dataType === 'songs' ||
+        dataType === 'bandSongs' ||
+        dataType === 'members' ||
+        dataType === 'links' ||
+        dataType === 'events'
+      ) {
+        const updated = this.band[dataType].filter((data) => {
+          return data.id !== id
         })
-        this.band = updated
-      } catch (error) {
-        console.log('could not delete the photo')
+        console.log(updated, 'this is the updated and this is the id ', id)
+        try {
+          const updatedBand = await this.$strapi.update('bands', this.band.id, {
+            [dataType]: [...updated],
+          })
+          this.band = updatedBand
+        } catch (error) {
+          console.log('could not delete the data')
+        }
       }
     },
     async addPhoto() {

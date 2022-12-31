@@ -6,10 +6,7 @@
     <section class="container mx-auto px-4">
       <section class="my-2">
         <h2 id="showz" class="chedder text-2xl my-4">Showz</h2>
-        <div
-          v-if="events"
-          class="mx-auto flex flex-col justify-center items-center gap-10 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-10 my-4"
-        >
+        <div v-if="events" class="flex gap-4 overflow-y-scroll my-4">
           <CardsShowCard
             v-for="event in distro.events"
             :key="event.title"
@@ -21,10 +18,48 @@
         <h2 id="videos" class="chedder text-2xl">Videos</h2>
       </section>
       <section class="my-2">
-        <h2 id="bio" class="chedder text-2xl">Bio</h2>
+        <h2 id="bio" class="chedder text-2xl">Biography</h2>
+        <pre>{{ distro.description }}</pre>
       </section>
       <section class="my-2">
         <h2 id="Pictures" class="chedder text-2xl">Pictures</h2>
+        <div
+          v-if="permission"
+          @click="addPhotoModal"
+          class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-1/5"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            fill="currentColor"
+            class="bi bi-plus-circle"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+            />
+            <path
+              d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+            />
+          </svg>
+          <h3 class="text-3xl pl-2 text-center">Add Photos</h3>
+        </div>
+        <div
+          v-if="distro.distroImages"
+          class="flex gap-6 overflow-x-scroll my-6"
+        >
+          <div v-for="pic in distro.distroImages" :key="pic.id">
+            <NuxtImg :src="pic.url" height="300" width="300" />
+            <div
+              v-if="permission"
+              class="w-[300px] h-[40px] px-6 mb-6 flex items-center bg-black text-white"
+              @click="deleteData(pic.id, 'distroImages')"
+            >
+              <p class="chedder">Delete</p>
+            </div>
+          </div>
+        </div>
       </section>
       <section class="my-2">
         <h2 id="members" class="chedder text-2xl">Members</h2>
@@ -69,6 +104,9 @@ export default {
       postImage: '',
       finalPostImage: '',
       loading: false,
+      permission: false,
+      addPhotoBox: false,
+      photo: '',
     }
   },
   async mounted() {
@@ -86,6 +124,68 @@ export default {
     } catch (error) {
       console.log(error)
     }
+
+    try {
+      this.user = this.$strapi.user.id
+      if (this.user) {
+        // compare userid to userpermission in front
+        if (this.user === this.distro.users_permissions_user.id) {
+          console.log(this.user, 'this is the user')
+          this.permission = true
+        }
+      }
+    } catch (error) {
+      this.user = null
+    }
+  },
+  methods: {
+    addPhotoModal() {
+      this.addPhotoBox = !this.addPhotoBox
+    },
+    async addPhoto() {
+      try {
+        const formData = new FormData()
+        await formData.append('files', this.photo)
+        const [image] = await this.$strapi.create('upload', formData)
+        this.photo = image
+      } catch (error) {
+        this.errorMessage =
+          'Sorry we could not upload your profile image ... please try again '
+        this.loading = false
+      }
+      const updated = await this.$strapi.update('record-labels', this.band.id, {
+        pictures: [...this.band.pictures, this.photo],
+      })
+      this.band = updated
+      this.addPhotoBox = false
+    },
+    async deleteData(id, dataType) {
+      if (
+        dataType === 'distroImages' ||
+        dataType === 'releases' ||
+        dataType === 'members' ||
+        dataType === 'links' ||
+        dataType === 'events'
+      ) {
+        const updated = this.distro[dataType].filter((data) => {
+          return data.id !== id
+        })
+        console.log(updated, 'this is the updated and this is the id ', id)
+        try {
+          const updatedDistro = await this.$strapi.update(
+            'record-labels',
+            this.distro.id,
+            {
+              [dataType]: [...updated],
+            }
+          )
+          this.distro = updatedDistro
+          console.log(updatedDistro, ' this is the updated ')
+        } catch (error) {
+          console.log('could not delete the data')
+        }
+      }
+    },
   },
 }
 </script>
