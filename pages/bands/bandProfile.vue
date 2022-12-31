@@ -336,7 +336,10 @@
         <h2 id="links" class="chedder text-2xl my-6">Links</h2>
         <NuxtLink
           v-if="permission"
-          :to="{ path: '/links/create', query: { band: band.id } }"
+          :to="{
+            path: '/links/create',
+            query: { band: band.id, dataType: 'bands' },
+          }"
         >
           <div
             class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-1/5"
