@@ -85,9 +85,15 @@
             <div
               v-if="permission"
               class="w-[300px] h-[40px] px-6 mb-6 flex items-center bg-black text-white mt-4"
-              @click="deleteData(event.id, 'events')"
             >
-              <p class="chedder">Delete</p>
+              <p class="chedder mr-6" @click="deleteData(event.id, 'events')">
+                Delete
+              </p>
+              <NuxtLink
+                :to="{ path: '/events/edit', query: { event: event.id } }"
+              >
+                <p class="chedder">edit</p></NuxtLink
+              >
             </div>
           </div>
         </div>

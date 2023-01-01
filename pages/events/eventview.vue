@@ -3,6 +3,12 @@
     <section class="container">
       <CardsShowFullCard class="mx-auto" :event="event" />
     </section>
+    <NuxtLink
+      :to="{ path: '/events/edit', query: { event: event.id } }"
+      class="block mx-auto px-4 py-2 bg-black text-white chedder w-44 text-center my-4"
+    >
+      <p class="chedder">Edit Show</p>
+    </NuxtLink>
     <section class="container mx-auto px-4">
       <section class="my-2">
         <h2 id="showdetails" class="chedder text-2xl mt-4">Show Details</h2>
