@@ -2,7 +2,7 @@
   <div>
     <h2 class="text-center">Add Links</h2>
     <section
-      v-if="distro || band || event || venue"
+      v-if="distro || band || event || venue || tour"
       class="container mx-auto w-11/12 md:w-3/4 my-6"
     >
       <div
@@ -51,6 +51,7 @@ export default {
       distro: '',
       event: '',
       venue: '',
+      tour: '',
       links: [{ link: '' }],
     }
   },
@@ -58,6 +59,9 @@ export default {
     try {
       if (this.$route.query.dataType === 'bands') {
         this.band = await this.$strapi.findOne('bands', this.$route.query.band)
+      }
+      if (this.$route.query.dataType === 'tours') {
+        this.tour = await this.$strapi.findOne('tours', this.$route.query.tour)
       }
       if (this.$route.query.dataType === 'venues') {
         this.venue = await this.$strapi.findOne(
@@ -142,6 +146,21 @@ export default {
             this.$router.push({
               path: '/venues/venueprofile',
               query: { venue: this.venue.id },
+            })
+          }
+        } else if (this.tour) {
+          const updated = await this.$strapi.update(
+            'tours',
+            this.$route.query.tour,
+            {
+              links: [...this.tour.links, ...this.links],
+            }
+          )
+
+          if (updated) {
+            this.$router.push({
+              path: '/tours/tourview',
+              query: { tour: this.tour.id },
             })
           }
         }
