@@ -1,9 +1,9 @@
 <template>
   <div>
     <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
-    <h1 class="main_red_text text-center">Create Show</h1>
+    <h1 class="main_red_text text-center">Edit Show</h1>
 
-    <section class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
+    <section v-if="event" class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
       <div class="w-full mt-6 mb-6">
         <FormulateForm v-model="formValues" @submit="submitForm">
           <div class="flex-col sm:flex sm:flex-row">
@@ -14,6 +14,7 @@
                 wrapper-class="m-auto sm:w-4/5 "
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="event.title"
               />
               <div
                 v-for="(band, index) in bandsPlaying"
@@ -36,7 +37,7 @@
                   ></option>
                 </datalist>
                 <div
-                  v-if="index >= 1 && bandsPlaying[index].BandName"
+                  v-if="index >= 0"
                   @click="removeBand(index)"
                   class="px-4 py-2 bg-black text-red-600 my-4 w-full m-auto"
                 >
@@ -117,16 +118,17 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="event.date"
               />
               <FormulateInput
                 name="timeStarts"
                 type="time"
-                step="0.000"
                 label="Time Event Begins"
                 placeholder="5555 wolf ave"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="event.timeStarts"
                 @change="log($event.target.value)"
               />
             </div>
@@ -139,6 +141,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
                 type="select"
+                :value="event.country"
                 @change="formValues.country = $event.target.value"
               />
               <FormulateInput
@@ -149,6 +152,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="event.state"
                 type="select"
               />
 
@@ -160,6 +164,7 @@
                   list="city"
                   name="city"
                   placeholder="type or select the city"
+                  required
                 />
                 <datalist id="city">
                   <option
@@ -263,6 +268,7 @@
                 wrapper-class="sm:w-4/5 m-auto mb-4"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="event.streetAddress"
               />
               <FormulateInput
                 name="addmissionFee"
@@ -272,6 +278,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="event.addmissionFee"
               />
 
               <div class="sm:w-4/5 m-auto mb-[2rem]">
@@ -297,28 +304,6 @@
           </div>
 
           <section class="px-4 mt-10 sm:m-20">
-            <!-- <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
-              List Bands Playing
-            </h2> -->
-            <!-- list of bands playing optional  <FormulateInput
-              type="group"
-              name="bandsPlaying"
-              :repeatable="true"
-              label="Band Playing"
-              add-label="+ Add bands"
-              wrapper-class="w-full"
-              element-class="w-full"
-            >
-              <div>
-                <FormulateInput
-                  name="BandName"
-                  label="Add band name"
-                  required="true"
-                  wrapper-class="w-full"
-                  element-class="w-full"
-                />
-              </div>
-            </FormulateInput> -->
             <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
               Add Event Poster
             </h2>
@@ -343,6 +328,7 @@
                 input-class="w-full sm:w-96 h-72"
                 wrapper-class="w-full sm:w-96 h-72"
                 element-class="w-full sm:w-96 h-72"
+                :value="event.eventDescription"
               />
             </div>
           </section>
@@ -391,7 +377,7 @@ export default {
       ageRestriction: null,
       formValues: {},
       errorMessage: '',
-      event: {},
+      event: null,
       created: false,
       eventPosterFile: '',
       eventPosterFinal: '',
@@ -2868,6 +2854,16 @@ export default {
     },
   },
   async mounted() {
+    try {
+      const event = await this.$strapi.findOne(
+        'events',
+        this.$route.query.event
+      )
+      this.event = event
+      this.bandsPlaying = event.bandsPlaying
+    } catch (error) {
+      console.log(error)
+    }
     // finds all band to populate form
     try {
       const bands = await this.$strapi.find('bands', {
@@ -2952,26 +2948,30 @@ export default {
       this.loading = true
 
       if (this.formValues.timeStarts) {
-        this.formValues.timeStarts = this.formValues.timeStarts += ':00.000'
+        console.log('changing timestarts ', this.formValues.timeStarts)
+        this.formValues.timeStarts = this.formValues.timeStarts += ':00'
       }
       // upload event poster
-      try {
-        const formData = new FormData()
-        await formData.append('files', this.eventPosterFile)
-        const [eventPosterFinal] = await this.$strapi.create('upload', formData)
-        this.eventPosterFinal = eventPosterFinal
-        this.formValues.eventPoster = eventPosterFinal
-      } catch (error) {
-        console.log(error, '351: error in uploading event poster ')
-        this.loading = false
-        this.errorMessage =
-          'Could not upload the event poster ... please try again '
+      if (this.eventPosterFile) {
+        try {
+          const formData = new FormData()
+          await formData.append('files', this.eventPosterFile)
+          const [eventPosterFinal] = await this.$strapi.create(
+            'upload',
+            formData
+          )
+          this.eventPosterFinal = eventPosterFinal
+          this.formValues.eventPoster = eventPosterFinal
+        } catch (error) {
+          console.log(error, '351: error in uploading event poster ')
+          this.loading = false
+          this.errorMessage =
+            'Could not upload the event poster ... please try again '
+        }
       }
       try {
-        const event = await this.$strapi.create('events', {
+        const event = await this.$strapi.update('events', this.event.id, {
           ...this.formValues,
-          venues: this.$route.query.venue,
-          users_permissions_user: this.$strapi.user.id,
         })
 
         // check bands and update band if user owns
