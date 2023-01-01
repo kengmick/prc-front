@@ -17,6 +17,13 @@
         @startChat="startChatNow(band.users_permissions_user)"
       />
     </div>
+    <!-- edit band features  -->
+    <NuxtLink
+      :to="{ path: '/bands/edit', query: { band: band.id } }"
+      class="block mx-auto px-4 py-2 bg-black text-white chedder w-44 text-center"
+    >
+      Edit Band Details
+    </NuxtLink>
     <!-- button to remove featured card  -->
     <section class="container flex justify-center items-center mt-6 mx-auto">
       <div
@@ -42,6 +49,7 @@
       </div>
     </section>
     <!-- container for all information of profile  -->
+
     <section class="container mx-auto px-4">
       <!-- showz -->
       <section class="my-2">

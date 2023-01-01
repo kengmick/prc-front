@@ -1,8 +1,8 @@
 <template>
   <div>
     <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
-    <h1 class="text-center my-4">Create Your Band Profile</h1>
-    <section class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
+    <h1 class="text-center my-4">Edit Your Band Profile</h1>
+    <section v-if="band" class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
       <div class="w-full mt-6 mb-6">
         <FormulateForm v-model="formValues" @submit="submitForm">
           <div class="flex-col sm:flex sm:flex-row">
@@ -14,6 +14,7 @@
                 wrapper-class="m-auto sm:w-4/5 "
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="band.bandName"
               />
               <FormulateInput
                 name="genreAlt"
@@ -33,6 +34,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="band.genreAlt"
               />
               <FormulateInput
                 v-if="formValues.genreAlt === 'other'"
@@ -42,6 +44,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="band.genre"
               />
               <FormulateInput
                 name="dateStarted"
@@ -50,6 +53,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="band.dateStarted"
               />
               <FormulateInput
                 name="recordLabel"
@@ -57,6 +61,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="band.recordLabel"
               />
               <!-- <FormulateInput
                 name="bandEmail"
@@ -86,6 +91,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
                 type="select"
+                :value="band.country"
                 @change="formValues.country = $event.target.value"
               />
 
@@ -98,18 +104,22 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
                 type="select"
+                :value="band.state"
               />
               <!-- make select here -->
+
               <FormulateInput
                 v-if="formValues.country === 'United States'"
                 name="city"
                 label="City that the band is from?"
                 :options="cs[formValues.state] || ''"
                 type="select"
-                placeholder="City"
+                placeholder="city"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="band.city"
+                required
               />
 
               <FormulateInput
@@ -122,6 +132,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="band.city"
               />
 
               <FormulateInput
@@ -134,6 +145,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="band.city"
               />
 
               <FormulateInput
@@ -146,6 +158,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="band.city"
               />
 
               <FormulateInput
@@ -158,6 +171,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="band.city"
               />
 
               <FormulateInput
@@ -170,6 +184,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="band.city"
               />
 
               <FormulateInput
@@ -191,7 +206,14 @@
           </div>
           <section class="px-4 mt-10 sm:m-20">
             <div class="flex flex-col w-full justify-center items-center">
-              <h2 class="text-center mb-10 mt-4">Add Profile Image</h2>
+              <h2 class="text-center mb-10 mt-4">Edit Profile Image</h2>
+              <div v-if="band.bandProfileImg">
+                <NuxtImg
+                  :src="band.bandProfileImg.url"
+                  height="300"
+                  width="300"
+                />
+              </div>
               <FormulateInput
                 type="image"
                 name="bandProfileImg"
@@ -216,6 +238,7 @@
                 input-class="w-full sm:w-96 h-72"
                 wrapper-class="w-full sm:w-96 h-72"
                 element-class="w-full sm:w-96 h-72"
+                :value="band.bio"
               />
             </div>
           </section>
@@ -260,7 +283,7 @@ export default {
     return {
       formValues: {},
       errorMessage: null,
-      band: {},
+      band: null,
       created: false,
       profileImage: '',
       logoImage: '',
@@ -2736,6 +2759,11 @@ export default {
     } catch (error) {
       console.log(error)
     }
+    try {
+      this.band = await this.$strapi.findOne('bands', this.$route.query.band)
+    } catch (error) {
+      console.log(error)
+    }
   },
   methods: {
     log() {
@@ -2801,13 +2829,12 @@ export default {
           this.formValues.genre = null
         }
         console.log('creating the band now ... ')
-        const band = await this.$strapi.create('bands', {
+        const band = await this.$strapi.update('bands', this.band.id, {
           ...this.formValues,
           acc: this.acc,
           users_permissions_user: this.$strapi.user.id,
         })
         this.band = band
-        console.log(band, 'this is the new created band ', band.id)
         this.loading = false
       } catch (error) {
         this.errorMessage = 'Sorry ... please try again'
