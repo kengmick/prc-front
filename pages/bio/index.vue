@@ -15,13 +15,22 @@
           :value="data.bio"
         />
         <FormulateInput
-          v-else
+          v-if="!data.bio && !data.description"
           name="bio"
           label="History/Description"
           wrapper-class="mx-auto w-full "
           element-class="w-full"
           errors-class="w-full mx-auto"
           :value="data.bio"
+        />
+        <FormulateInput
+          v-if="data.description"
+          name="bio"
+          label="History/Description"
+          wrapper-class="mx-auto w-full "
+          element-class="w-full"
+          errors-class="w-full mx-auto"
+          :value="data.description"
         />
 
         <FormulateInput
@@ -62,6 +71,14 @@ export default {
         }
         this.data = data
       }
+      if (this.$route.query.dataType === 'tours') {
+        const data = await this.$strapi.findOne('tours', this.$route.query.tour)
+        console.log(data, 'this is the data')
+        if (this.$route.query.action === 'edit') {
+          this.bio = data.description
+        }
+        this.data = data
+      }
       this.loading = false
     } catch (error) {
       this.loading = false
@@ -84,6 +101,22 @@ export default {
           this.$router.push({
             path: '/distros/distroview',
             query: { distro: this.data.id },
+          })
+        }
+
+        if (this.$route.query.dataType === 'tours') {
+          console.log(
+            this.dataType.id,
+            'this is the id ',
+            this.formValues.bio,
+            'this is the form'
+          )
+          await this.$strapi.update('tours', this.data.id, {
+            description: this.formValues.bio,
+          })
+          this.$router.push({
+            path: '/tours/tourview',
+            query: { tour: this.data.id },
           })
         }
       } catch (error) {
