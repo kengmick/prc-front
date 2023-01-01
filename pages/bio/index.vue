@@ -6,7 +6,7 @@
     <section v-if="!loading" class="container mx-auto w-11/12 md:w-3/4 my-6">
       <FormulateForm v-model="formValues" @submit="submitForm">
         <FormulateInput
-          v-if="data.bio"
+          v-if="data.bio && !data.eventDescription"
           name="bio"
           label="History/Description"
           wrapper-class="mx-auto w-full "
@@ -15,7 +15,7 @@
           :value="data.bio"
         />
         <FormulateInput
-          v-if="!data.bio && !data.description"
+          v-if="!data.bio && !data.description && !data.eventDescription"
           name="bio"
           label="History/Description"
           wrapper-class="mx-auto w-full "
@@ -24,13 +24,22 @@
           :value="data.bio"
         />
         <FormulateInput
-          v-if="data.description"
+          v-if="data.description && !data.eventDescription"
           name="bio"
           label="History/Description"
           wrapper-class="mx-auto w-full "
           element-class="w-full"
           errors-class="w-full mx-auto"
           :value="data.description"
+        />
+        <FormulateInput
+          v-if="data.eventDescription"
+          name="bio"
+          label="History/Description"
+          wrapper-class="mx-auto w-full "
+          element-class="w-full"
+          errors-class="w-full mx-auto"
+          :value="data.eventDescription"
         />
 
         <FormulateInput
@@ -71,8 +80,40 @@ export default {
         }
         this.data = data
       }
+
+      if (this.$route.query.dataType === 'venue') {
+        const data = await this.$strapi.findOne(
+          'venues',
+          this.$route.query.venue
+        )
+        console.log(data, 'this is the data')
+        if (this.$route.query.action === 'edit') {
+          this.bio = data.bio
+        }
+        this.data = data
+      }
+
+      if (this.$route.query.dataType === 'event') {
+        const data = await this.$strapi.findOne(
+          'events',
+          this.$route.query.event
+        )
+        console.log(data, 'this is the data')
+        if (this.$route.query.action === 'edit') {
+          this.bio = data.bio
+        }
+        this.data = data
+      }
       if (this.$route.query.dataType === 'tours') {
         const data = await this.$strapi.findOne('tours', this.$route.query.tour)
+        console.log(data, 'this is the data')
+        if (this.$route.query.action === 'edit') {
+          this.bio = data.description
+        }
+        this.data = data
+      }
+      if (this.$route.query.dataType === 'band') {
+        const data = await this.$strapi.findOne('bands', this.$route.query.band)
         console.log(data, 'this is the data')
         if (this.$route.query.action === 'edit') {
           this.bio = data.description
@@ -101,6 +142,54 @@ export default {
           this.$router.push({
             path: '/distros/distroview',
             query: { distro: this.data.id },
+          })
+        }
+
+        if (this.$route.query.dataType === 'venue') {
+          console.log(
+            this.dataType.id,
+            'this is the id ',
+            this.formValues.bio,
+            'this is the form'
+          )
+          await this.$strapi.update('venue', this.data.id, {
+            description: this.formValues.bio,
+          })
+          this.$router.push({
+            path: '/venues/venueprofile',
+            query: { venue: this.data.id },
+          })
+        }
+
+        if (this.$route.query.dataType === 'event') {
+          console.log(
+            this.dataType.id,
+            'this is the id ',
+            this.formValues.bio,
+            'this is the form'
+          )
+          await this.$strapi.update('events', this.data.id, {
+            eventDescription: this.formValues.bio,
+          })
+          this.$router.push({
+            path: '/events/eventview',
+            query: { event: this.data.id },
+          })
+        }
+
+        if (this.$route.query.dataType === 'band') {
+          console.log(
+            this.dataType.id,
+            'this is the id ',
+            this.formValues.bio,
+            'this is the form'
+          )
+          await this.$strapi.update('bands', this.data.id, {
+            bio: this.formValues.bio,
+          })
+          this.$router.push({
+            path: '/bands/bandprofile',
+            query: { band: this.data.id },
           })
         }
 
