@@ -2970,6 +2970,7 @@ export default {
       try {
         const event = await this.$strapi.create('events', {
           ...this.formValues,
+          venues: this.$route.query.venue,
           users_permissions_user: this.$strapi.user.id,
         })
 
