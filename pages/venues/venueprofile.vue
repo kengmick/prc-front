@@ -9,6 +9,13 @@
     >
       Edit Venue Details
     </NuxtLink>
+    <div
+      v-if="permission"
+      class="block mx-auto px-4 py-2 bg-black text-white chedder w-44 text-center"
+      @click="deleteAll(venue.id)"
+    >
+      Delete Venue
+    </div>
     <section class="container mx-auto px-4">
       <section class="my-2">
         <h2 id="showz" class="chedder text-2xl mt-4">Showz</h2>
@@ -333,6 +340,12 @@ export default {
   },
   methods: {
     moment,
+    async deleteAll(id) {
+      const del = await this.$strapi.delete('venues', id)
+      if (del) {
+        this.$router.push('/profile')
+      }
+    },
     addPhotoModal() {
       this.addPhotoBox = !this.addPhotoBox
     },

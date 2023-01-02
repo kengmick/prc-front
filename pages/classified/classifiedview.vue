@@ -5,9 +5,7 @@
       v-if="permission"
       class="w-[300px] h-[40px] px-6 mb-6 flex items-center bg-black text-white mt-4 mx-auto"
     >
-      <p class="chedder mr-6" @click="deleteData(classified.id, 'classifieds')">
-        Delete
-      </p>
+      <p class="chedder mr-6" @click="deleteData(classified.id)">Delete</p>
       <NuxtLink
         :to="{ path: '/classified/edit', query: { article: classified.id } }"
       >
@@ -61,6 +59,12 @@ export default {
     moment,
     setVal: function (val) {
       this.postValue = val
+    },
+    async deleteData(id) {
+      const del = await this.$strapi.delete('classifieds', id)
+      if (del) {
+        this.$router.push('/profile')
+      }
     },
     popupToggle() {
       this.popup = !this.popup

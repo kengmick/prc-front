@@ -4,11 +4,19 @@
       <CardsShowFullCard class="mx-auto" :event="event" />
     </section>
     <NuxtLink
+      v-if="permission"
       :to="{ path: '/events/edit', query: { event: event.id } }"
       class="block mx-auto px-4 py-2 bg-black text-white chedder w-44 text-center my-4"
     >
       <p class="chedder">Edit Show</p>
     </NuxtLink>
+    <div
+      v-if="permission"
+      @click="deleteAll(event.id)"
+      class="block mx-auto px-4 py-2 bg-black text-white chedder w-44 text-center"
+    >
+      Delete Show
+    </div>
     <section class="container mx-auto px-4">
       <section class="my-2">
         <h2 id="showdetails" class="chedder text-2xl mt-4">Show Details</h2>
@@ -335,6 +343,12 @@ export default {
   },
   methods: {
     moment,
+    async deleteAll(id) {
+      const del = await this.$strapi.delete('events', id)
+      if (del) {
+        this.$router.push('/profile')
+      }
+    },
     addPhotoModal() {
       this.addPhotoBox = !this.addPhotoBox
     },

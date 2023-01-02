@@ -9,6 +9,13 @@
     >
       Edit Distro/Label Details
     </NuxtLink>
+    <div
+      v-if="permission"
+      @click="deleteAll(distro.id)"
+      class="block mx-auto px-4 py-2 bg-black text-white chedder w-44 text-center"
+    >
+      Delete Distro/Label
+    </div>
     <section class="container mx-auto px-4">
       <section class="my-2">
         <h2 id="showz" class="chedder text-2xl my-4">Showz</h2>
@@ -359,6 +366,12 @@ export default {
     })
   },
   methods: {
+    async deleteAll(id) {
+      const del = await this.$strapi.delete('record-labels', id)
+      if (del) {
+        this.$router.push('/profile')
+      }
+    },
     addPhotoModal() {
       this.addPhotoBox = !this.addPhotoBox
     },

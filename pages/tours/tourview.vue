@@ -9,6 +9,13 @@
     >
       Edit Tour Details
     </NuxtLink>
+    <div
+      v-if="permission"
+      class="block mx-auto px-4 py-2 bg-black text-white chedder w-44 text-center"
+      @click="deleteAll(tour.id)"
+    >
+      Delete Tour
+    </div>
     <section class="container mx-auto px-4">
       <section class="my-2">
         <h2 id="showz" class="chedder text-2xl my-4">Showz</h2>
@@ -702,6 +709,12 @@ export default {
     moment,
     addPhotoModal() {
       this.addPhotoBox = !this.addPhotoBox
+    },
+    async deleteAll(id) {
+      const del = await this.$strapi.delete('tours', id)
+      if (del) {
+        this.$router.push('/profile')
+      }
     },
     async addPhoto() {
       try {

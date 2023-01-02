@@ -24,6 +24,14 @@
     >
       Edit Band Details
     </NuxtLink>
+
+    <div
+      v-if="permission"
+      @click="deleteAll(band.id)"
+      class="block mx-auto px-4 py-2 bg-black text-white chedder w-44 text-center"
+    >
+      Delete Band
+    </div>
     <!-- button to remove featured card  -->
     <section class="container flex justify-center items-center mt-6 mx-auto">
       <div
@@ -615,6 +623,12 @@ export default {
     moment,
     addPhotoModal() {
       this.addPhotoBox = !this.addPhotoBox
+    },
+    async deleteAll(id) {
+      const del = await this.$strapi.delete('bands', id)
+      if (del) {
+        this.$router.push('/profile')
+      }
     },
     async deleteData(id, dataType) {
       if (
