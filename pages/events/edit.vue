@@ -300,6 +300,24 @@
                   ></option>
                 </datalist>
               </div>
+
+              <div class="sm:w-4/5 m-auto mb-[2rem]">
+                <label for="alcoholPolicy" class="label">Alcohol Policy </label>
+                <input
+                  v-model="alcoholPolicy"
+                  class="dropdown"
+                  list="alcoholPolicy"
+                  name="alcoholPolicy"
+                  placeholder="type or select alcohol policy"
+                />
+                <datalist id="alcoholPolicy">
+                  <option
+                    v-for="pol in policy"
+                    :key="pol"
+                    :value="pol"
+                  ></option>
+                </datalist>
+              </div>
             </div>
           </div>
 
@@ -374,6 +392,8 @@ export default {
     return {
       bandsPlaying: [{ BandName: '' }],
       restrictions: ['all ages', '17+', '18+', '21+'],
+      policy: ['BYOB', 'Sold on premises', 'No Alcohol'],
+      alcoholPolicy: null,
       ageRestriction: null,
       formValues: {},
       errorMessage: '',
@@ -2943,6 +2963,7 @@ export default {
 
       this.formValues.venueName = this.venue
       this.formValues.ageRestriction = this.ageRestriction
+      this.formValues.alcoholPolicy = this.alcoholPolicy
       this.formValues.bandsPlaying = this.bandsPlaying
       this.formValues.city = this.city
       this.loading = true
