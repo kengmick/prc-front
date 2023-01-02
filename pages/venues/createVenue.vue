@@ -66,21 +66,6 @@
             </div>
           </div>
           <section class="px-4 mt-10 sm:m-20">
-            <h2>Add Logo</h2>
-            <div>
-              <FormulateInput
-                type="image"
-                name="logo"
-                label="Select an logo to upload"
-                help="Select a png, jpg or gif to upload."
-                validation="mime:image/jpeg,image/png,image/gif,image/webp"
-                input-class="w-full sm:w-96 "
-                wrapper-class="w-full sm:w-96 "
-                element-class="w-full sm:w-96 "
-                @change="logoImgFile = $event.target.files[0]"
-              />
-            </div>
-            <!-- logo -->
             <h2 class="my-4">Add Venue Image</h2>
             <div>
               <FormulateInput
@@ -95,29 +80,6 @@
                 @change="venueImgFile = $event.target.files[0]"
               />
             </div>
-            <h2 class="my-4">Add Photos</h2>
-            <FormulateInput
-              type="group"
-              name="photos"
-              :repeatable="true"
-              label="Add Photos"
-              add-label="+ Add Photo"
-              wrapper-class="w-full"
-              element-class="w-full"
-            >
-              <div>
-                <FormulateInput
-                  type="image"
-                  name="pic"
-                  label="add photos"
-                  help="Select a png, jpg or gif to upload."
-                  validation="mime:image/jpeg,image/png,image/gif,image/webp"
-                  input-class="w-full sm:w-96 "
-                  wrapper-class="w-full sm:w-96 "
-                  element-class="w-full sm:w-96 "
-                />
-              </div>
-            </FormulateInput>
             <h2 class="my-4">Add Contacts</h2>
             <div>
               <FormulateInput
@@ -156,10 +118,7 @@
                 />
               </FormulateInput>
             </div>
-            <!-- end of links and contacts repeatable  -->
-            <!-- <div v-if="image">
-              <img :src="image[0].url" alt="fdsfadsf" />
-            </div> -->
+
             <div class="flex w-full justify-center">
               <FormulateInput
                 name="description"
@@ -214,10 +173,7 @@ export default {
       errorMessage: '',
       band: {},
       created: false,
-      logoImgFile: '',
       venueImgFile: '',
-      logoImageFinal: '',
-      venueImgFinal: '',
       showPosters: [],
       venue: {},
       acc: 1,
@@ -235,41 +191,6 @@ export default {
   methods: {
     async submitForm() {
       this.loading = true
-      const pictures = []
-      if (this.formValues.photos) {
-        try {
-          console.log('this is the photos condition')
-          for (let index = 0; index < this.formValues.photos.length; index++) {
-            const formData = new FormData()
-            formData.append(
-              'files',
-              this.formValues.photos[index].pic.files[0].file
-            )
-            const [image] = await this.$strapi.create('upload', formData)
-
-            pictures.push({ pic: image })
-            console.log('adding pictures ', pictures)
-          }
-          this.pictures = pictures
-          this.formValues.photos = pictures
-        } catch (error) {
-          console.log(error, 'there was an error ')
-        }
-      }
-      if (this.logoImgFile) {
-        console.log('logo image file ')
-        try {
-          console.log('logo file upload')
-          const formData = new FormData()
-          await formData.append('files', this.logoImgFile)
-          const [logoImageFinal] = await this.$strapi.create('upload', formData)
-          this.logoImageFinal = logoImageFinal
-          this.formValues.logo = logoImageFinal
-        } catch (error) {
-          console.log(error)
-          this.loading = false
-        }
-      }
 
       if (this.venueImgFile) {
         console.log('venue image file')

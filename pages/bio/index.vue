@@ -4,6 +4,7 @@
       {{ pageTitle }} Biography
     </h1>
     <section v-if="!loading" class="container mx-auto w-11/12 md:w-3/4 my-6">
+      <pre>{{ data.description }}</pre>
       <FormulateForm v-model="formValues" @submit="submitForm">
         <FormulateInput
           v-if="data.bio && !data.eventDescription"
@@ -14,6 +15,7 @@
           errors-class="w-full mx-auto"
           :value="data.bio"
         />
+
         <FormulateInput
           v-if="!data.bio && !data.description && !data.eventDescription"
           name="bio"
@@ -23,8 +25,9 @@
           errors-class="w-full mx-auto"
           :value="data.bio"
         />
+
         <FormulateInput
-          v-if="data.description && !data.eventDescription"
+          v-if="data.description && !data.eventDescription && !data.bio"
           name="bio"
           label="History/Description"
           wrapper-class="mx-auto w-full "
@@ -33,7 +36,7 @@
           :value="data.description"
         />
         <FormulateInput
-          v-if="data.eventDescription"
+          v-if="data.eventDescription && !data.bio"
           name="bio"
           label="History/Description"
           wrapper-class="mx-auto w-full "
@@ -136,9 +139,15 @@ export default {
             this.formValues.bio,
             'this is the form'
           )
-          await this.$strapi.update('record-labels', this.data.id, {
-            bio: this.formValues.bio,
-          })
+          console.log('formValues', this.formValues.bio)
+          const update = await this.$strapi.update(
+            'record-labels',
+            this.data.id,
+            {
+              bio: this.formValues.bio,
+            }
+          )
+          console.log('updated the bio ', update)
           this.$router.push({
             path: '/distros/distroview',
             query: { distro: this.data.id },

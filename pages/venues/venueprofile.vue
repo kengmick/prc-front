@@ -3,6 +3,12 @@
     <div v-if="venue" class="container mx-auto flex justify-center mt-6">
       <CardsFullVenueCard :venue="venue" />
     </div>
+    <NuxtLink
+      :to="{ path: '/venues/venueedit', query: { venue: venue.id } }"
+      class="block mx-auto px-4 py-2 bg-black text-white chedder w-44 text-center my-4"
+    >
+      Edit Venue Details
+    </NuxtLink>
     <section class="container mx-auto px-4">
       <section class="my-2">
         <h2 id="showz" class="chedder text-2xl mt-4">Showz</h2>
@@ -32,11 +38,23 @@
           </div>
         </NuxtLink>
         <div v-if="venue.events" class="flex gap-4 overflow-y-scroll my-4">
-          <CardsShowCard
-            v-for="event in venue.events"
-            :key="event.title"
-            :event="event"
-          />
+          <div v-for="event in venue.events" :key="event.title" class="my-6">
+            <CardsShowCard :event="event" />
+
+            <div
+              v-if="permission"
+              class="w-[300px] h-[40px] px-6 mb-6 flex items-center bg-black text-white mt-4"
+            >
+              <p class="chedder mr-6" @click="deleteData(event.id, 'events')">
+                Delete
+              </p>
+              <NuxtLink
+                :to="{ path: '/events/edit', query: { event: event.id } }"
+              >
+                <p class="chedder">edit</p></NuxtLink
+              >
+            </div>
+          </div>
         </div>
       </section>
       <section class="my-2">
@@ -75,8 +93,8 @@
             <h3 v-else class="text-3xl pl-2 text-center">Add Description</h3>
           </div>
         </NuxtLink>
-        <div v-if="venue.description">
-          <p>{{ venue.description }}</p>
+        <div v-if="venue.bio">
+          <p>{{ venue.bio }}</p>
         </div>
       </section>
       <section class="my-2">

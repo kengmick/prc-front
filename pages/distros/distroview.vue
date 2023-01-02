@@ -3,6 +3,12 @@
     <section v-if="distro" class="container mx-auto my-6">
       <CardsDistroFullCard class="mx-auto" :distro="distro" />
     </section>
+    <NuxtLink
+      :to="{ path: '/distros/edit', query: { distro: distro.id } }"
+      class="block mx-auto px-4 py-2 bg-black text-white chedder w-44 text-center my-4"
+    >
+      Edit Distro/Label Details
+    </NuxtLink>
     <section class="container mx-auto px-4">
       <section class="my-2">
         <h2 id="showz" class="chedder text-2xl my-4">Showz</h2>
@@ -37,9 +43,15 @@
             <div
               v-if="permission"
               class="w-[300px] h-[40px] px-6 mb-6 flex items-center bg-black text-white mt-4"
-              @click="deleteData(event.id, 'events')"
             >
-              <p class="chedder">Delete</p>
+              <p class="chedder mr-6" @click="deleteData(event.id, 'events')">
+                Delete
+              </p>
+              <NuxtLink
+                :to="{ path: '/events/edit', query: { event: event.id } }"
+              >
+                <p class="chedder">edit</p></NuxtLink
+              >
             </div>
           </div>
         </div>

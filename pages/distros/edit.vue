@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
+  <div v-if="distro">
     <h1 class="text-center my-4">Create Your Distro/label</h1>
     <section class="w-full sm:w-3/4 sm:m-auto 2xl:w-3/6">
       <div class="w-full mt-6 mb-6">
@@ -13,6 +12,7 @@
                 wrapper-class="m-auto sm:w-4/5 "
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="distro.name"
               />
 
               <FormulateInput
@@ -22,6 +22,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="distro.dateOpened"
               />
               <FormulateInput
                 name="contact"
@@ -29,6 +30,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="distro.contact"
               />
             </div>
             <div class="w-full px-4 sm:w-1/2">
@@ -41,23 +43,17 @@
                   wrapper-class="sm:w-4/5 m-auto"
                   element-class="w-full"
                   errors-class="sm:w-4/5 m-auto"
+                  :value="distro.link"
                 />
               </div>
 
-              <FormulateInput
-                v-if="acc < 2"
-                name="contact"
-                label="Band contact"
-                wrapper-class="m-auto sm:w-4/5 "
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              />
               <FormulateInput
                 name="country"
                 label="Country other than USA?"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="distro.country"
                 @change="formValues.country = $event.target.value"
               />
               <FormulateInput
@@ -66,6 +62,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="distro.city"
               />
               <FormulateInput
                 v-if="
@@ -76,6 +73,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="distro.state"
               />
               <FormulateInput
                 v-if="
@@ -88,6 +86,7 @@
                 wrapper-class="sm:w-4/5 m-auto mb-4"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
+                :value="distro.streetAddress"
               />
             </div>
           </div>
@@ -132,8 +131,8 @@
                 />
               </FormulateInput> -->
 
-            <div class="w-full justify-center">
-              <h3 class="mb-10 mt-4 text-3xl">Add Distro Image</h3>
+            <div v-if="acc === 2" class="w-full justify-center">
+              <h3 class="mb-10 mt-4 text-3xl">Add Cover Image</h3>
               <FormulateInput
                 type="image"
                 name="distroImage"
@@ -155,12 +154,13 @@
             </h2>
             <div v-if="acc === 2" class="flex w-full justify-center">
               <FormulateInput
-                name="bio"
+                name="description"
                 type="textarea"
                 label="History"
                 input-class="w-full sm:w-96 h-72"
                 wrapper-class="w-full sm:w-96 h-72"
                 element-class="w-full sm:w-96 h-72"
+                :value="distro.description"
               />
             </div>
           </section>
@@ -209,59 +209,27 @@ export default {
       band: {},
       created: false,
       profileImage: '',
-      logoImage: '',
-      logoImageFinal: '',
       image: '',
       showPosters: [],
-      pictures: [],
       acc: 1,
-      distro: {},
+      distro: null,
       loading: false,
     }
   },
   async mounted() {
     const user = await this.$strapi.findOne('users', this.$strapi.user.id)
     this.acc = user.acc
+    this.distro = await this.$strapi.findOne(
+      'record-labels',
+      this.$route.query.distro
+    )
   },
   methods: {
-    addPic(val) {
-      console.log(val)
-    },
     async submitForm() {
       // uploading bandProfileImg
       this.loading = true
       // getting pictures uploaded
 
-      const pictures = []
-      // this is where the photo gallery is created
-      if (this.formValues.distroImages) {
-        console.log('this is the photos condition')
-        for (
-          let index = 0;
-          index < this.formValues.distroImages.length;
-          index++
-        ) {
-          const formData = new FormData()
-          formData.append(
-            'files',
-            this.formValues.distroImages[index].pic.files[0].file
-          )
-          const [image] = await this.$strapi.create('upload', formData)
-
-          pictures.push({ image })
-          console.log('adding pictures ', pictures)
-        }
-        this.pictures = pictures
-        console.log('pictures', this.pictures)
-
-        this.formValues.distroImages = pictures.map((i) => {
-          return i.image
-        })
-        console.log(
-          this.formValues.distroImages,
-          'this is the formvalues distroImages !!!!!!!'
-        )
-      }
       if (this.profileImage) {
         try {
           console.log('profile image ')
@@ -279,29 +247,15 @@ export default {
             'Sorry .. we could not upload the cover image for the distro ... please try again'
         }
       }
-      if (this.logoImage) {
-        try {
-          console.log('logoImage')
-          const formData = new FormData()
-          await formData.append('files', this.logoImage)
-          const [logoImageFinal] = await this.$strapi.create('upload', formData)
-          this.logoImageFinal = logoImageFinal
-          this.formValues.logo = logoImageFinal
-        } catch (error) {
-          this.formValues.logo = ''
-          console.log(error)
-          this.loading = false
-          this.errorMessage =
-            'Sorry .. we could not upload the cover image for the distro ... please try again'
-        }
-      }
-      // old shows array
-      // making post band to strapi
+
       try {
-        const distro = await this.$strapi.create('record-labels', {
-          ...this.formValues,
-          users_permissions_user: this.$strapi.user.id,
-        })
+        const distro = await this.$strapi.update(
+          'record-labels',
+          this.distro.id,
+          {
+            ...this.formValues,
+          }
+        )
         this.distro = distro
         this.loading = false
       } catch (error) {

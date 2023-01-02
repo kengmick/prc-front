@@ -70,22 +70,8 @@
             </div>
           </div>
           <section class="px-4 mt-10 sm:m-20">
-            <h2>Add Logo</h2>
-            <div>
-              <FormulateInput
-                type="image"
-                name="logo"
-                label="Select an logo to upload"
-                help="Select a png, jpg or gif to upload."
-                validation="mime:image/jpeg,image/png,image/gif"
-                input-class="w-full sm:w-96 "
-                wrapper-class="w-full sm:w-96 "
-                element-class="w-full sm:w-96 "
-                @change="logoImgFile = $event.target.files[0]"
-              />
-            </div>
             <!-- logo -->
-            <h2 class="my-4">Add Venue Image</h2>
+            <h2 class="my-4">Edit Venue Image</h2>
             <div>
               <FormulateInput
                 type="image"
@@ -99,60 +85,7 @@
                 @change="venueImgFile = $event.target.files[0]"
               />
             </div>
-            <h2 class="my-4">Edit Photos</h2>
-            <!-- <pre>{{ venue.photos }}</pre> -->
-            <section
-              v-if="venue.photos"
-              class="flex flex-col gap-6 items-center lg:grid lg:grid-cols-3 lg:gap-6"
-            >
-              <div
-                v-for="photo in venue.photos"
-                :key="photo.url"
-                class="max-w-[260px] h-auto"
-              >
-                <img class="w-[260px] h-[260px]" :src="photo.pic.url" alt="" />
-                <div class="px-4 flex items-center bg-black text-white h-16">
-                  <p
-                    class="pr-6 font-bold cursor-pointer"
-                    @click="editPicToggle(photo.id, photo.pic.url)"
-                  >
-                    Edit
-                  </p>
-                  <DeletePhoto
-                    class="cursor-pointer"
-                    :data="venue"
-                    dataType="venues"
-                    name="photos"
-                    :photoId="photo.id"
-                    @removePhoto="deletedPhoto"
-                  />
-                </div>
-              </div>
-            </section>
-            <!-- <pre>{{ venue.photos }}</pre> -->
 
-            <!-- <FormulateInput
-              type="group"
-              name="photos"
-              :repeatable="true"
-              label="Add Photos"
-              add-label="+ Add Photo"
-              wrapper-class="w-full"
-              element-class="w-full"
-            >
-              <div>
-                <FormulateInput
-                  type="image"
-                  name="pic"
-                  label="add photos"
-                  help="Select a png, jpg or gif to upload."
-                  validation="mime:image/jpeg,image/png,image/gif"
-                  input-class="w-full sm:w-96 "
-                  wrapper-class="w-full sm:w-96 "
-                  element-class="w-full sm:w-96 "
-                />
-              </div>
-            </FormulateInput> -->
             <h2 class="my-4">Add Contacts</h2>
             <div v-if="acc === 2">
               <FormulateInput
@@ -172,29 +105,8 @@
                   errors-class="sm:w-4/5 m-auto"
                 />
               </FormulateInput>
-              <h2 class="my-4">Add Links</h2>
-              <FormulateInput
-                type="group"
-                name="links"
-                :repeatable="true"
-                label="Links"
-                add-label="+ Add link"
-                wrapper-class="w-full"
-                element-class="w-full"
-              >
-                <FormulateInput
-                  name="link"
-                  label="https://somelink.com"
-                  wrapper-class="sm:w-4/5 m-auto"
-                  element-class="w-full"
-                  errors-class="sm:w-4/5 m-auto"
-                />
-              </FormulateInput>
             </div>
-            <!-- end of links and contacts repeatable  -->
-            <!-- <div v-if="image">
-              <img :src="image[0].url" alt="fdsfadsf" />
-            </div> -->
+
             <div class="flex w-full justify-center">
               <FormulateInput
                 name="description"
@@ -238,54 +150,11 @@
         </h3>
       </div>
     </section>
-    <!-- edit form here -->
-    <section
-      style="z-index: 99999999"
-      v-if="editPic"
-      class="fixed top-0 left-0 w-screen h-screen bg-black/50 flex justify-center items-center"
-    >
-      <section class="w-11/12 min-h-[66vh] bg-white py-12">
-        <h2 class="text-center">Edit Photo</h2>
-        <img :src="photoEdited" alt="" class="max-w-full mx-auto" />
-
-        <div class="flex justify-center w-ful">
-          <div class="w-auto">
-            <FormulateInput
-              v-if="!loadingPic"
-              type="image"
-              name="pic"
-              label="Edit image"
-              help="Select a png, jpg or gif to upload."
-              validation="mime:image/jpeg,image/png,image/gif,image/webp"
-              input-class=""
-              @change="pic = $event.target.files[0]"
-            />
-            <div v-else class="flex justify-center items-center w-full">
-              <Spinner />
-            </div>
-          </div>
-        </div>
-        <div
-          @click="deletePhotoPopup"
-          class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black text-white"
-        >
-          Update
-        </div>
-        <div
-          @click="cancelEdit"
-          class="flex items-center justify-center p-[.8em] w-11/12 mx-auto sm:w-3/4 lg:w-1/2 mt-4 bg-black text-white"
-        >
-          Cancel
-        </div>
-      </section>
-    </section>
   </div>
 </template>
 
 <script>
-import DeletePhoto from '~/components/DeletePhoto.vue'
 export default {
-  components: { DeletePhoto },
   data() {
     return {
       formValues: {},
