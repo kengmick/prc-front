@@ -27,8 +27,8 @@
 
     <div
       v-if="permission"
-      @click="deleteAll(band.id)"
       class="block mx-auto px-4 py-2 bg-black text-white chedder w-44 text-center my-4"
+      @click="deleteAll(band.id)"
     >
       Delete Band
     </div>
@@ -268,8 +268,10 @@
                 d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
               />
             </svg>
-            <h3 v-if="band.bio" class="text-3xl pl-2 text-center">Edit Bio</h3>
-            <h3 v-else class="text-3xl pl-2 text-center">Add Bio</h3>
+            <h3 v-if="band.bio" class="text-3xl pl-2 text-center">
+              Edit Biography
+            </h3>
+            <h3 v-else class="text-3xl pl-2 text-center">Add Biography</h3>
           </div>
         </NuxtLink>
         <div v-if="band.bio">

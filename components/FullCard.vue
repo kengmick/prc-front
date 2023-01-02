@@ -123,7 +123,7 @@
             hash: '#bio',
             query: { band: band.id },
           }"
-          >Bio</NuxtLink
+          >Biography</NuxtLink
         >
         <NuxtLink
           class="chedder text-[15px] underline"
