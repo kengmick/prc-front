@@ -91,39 +91,50 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
                 type="select"
-                :value="band.country"
                 @change="formValues.country = $event.target.value"
               />
-
               <FormulateInput
                 v-if="formValues.country === 'United States'"
                 name="state"
-                label="Home state?"
+                label="State"
                 :options="Object.keys(cs)"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
                 type="select"
-                :value="band.state"
               />
-              <!-- make select here -->
 
-              <FormulateInput
+              <div class="sm:w-4/5 m-auto mb-[2rem]">
+                <label for="city" class="label">City</label>
+                <input
+                  v-model="city"
+                  class="dropdown"
+                  list="city"
+                  name="city"
+                  placeholder="type or select the city"
+                />
+                <datalist id="city">
+                  <option
+                    v-for="city in cs[formValues.state]"
+                    :key="city"
+                    :value="city"
+                  ></option>
+                </datalist>
+              </div>
+              <!-- 
+              <imput
                 v-if="formValues.country === 'United States'"
                 name="city"
-                label="City that the band is from?"
+                label="City"
                 :options="cs[formValues.state] || ''"
                 type="select"
-                placeholder="city"
+                placeholder="City"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-                :value="band.city"
-                required
-              />
-
+              /> -->
               <FormulateInput
-                v-else-if="formValues.country === 'Northern Ireland'"
+                v-if="formValues.country === 'Northern Ireland'"
                 name="city"
                 label="City that the band is from?"
                 :options="ni"
@@ -132,9 +143,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-                :value="band.city"
               />
-
               <FormulateInput
                 v-else-if="formValues.country === 'England'"
                 name="city"
@@ -145,9 +154,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-                :value="band.city"
               />
-
               <FormulateInput
                 v-else-if="formValues.country === 'Scotland'"
                 name="city"
@@ -158,9 +165,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-                :value="band.city"
               />
-
               <FormulateInput
                 v-else-if="formValues.country === 'Wales'"
                 name="city"
@@ -171,9 +176,7 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-                :value="band.city"
               />
-
               <FormulateInput
                 v-else-if="formValues.country === 'Ireland'"
                 name="city"
@@ -184,10 +187,8 @@
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-                :value="band.city"
               />
-
-              <FormulateInput
+              <!-- <FormulateInput
                 v-else-if="
                   formValues.country !== 'United States' ||
                   'England' ||
@@ -199,6 +200,19 @@
                 label="City that the band is from?"
                 placeholder="City"
                 wrapper-class="sm:w-4/5 m-auto"
+                element-class="w-full"
+                errors-class="sm:w-4/5 m-auto"
+              /> -->
+              <FormulateInput
+                v-if="
+                  !formValues.country || formValues.country === 'United States'
+                "
+                name="streetAddress"
+                validation="required"
+                type="text"
+                label="Street Address and Name"
+                placeholder="5555 wolf ave"
+                wrapper-class="sm:w-4/5 m-auto mb-4"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
@@ -294,6 +308,7 @@ export default {
       acc: 1,
       otherGen: '',
       loading: false,
+      city: '',
       test: {
         'New York': [
           'New York',
@@ -2781,7 +2796,7 @@ export default {
     },
     async submitForm() {
       this.loading = true
-
+      this.formValues.city = this.city
       if (this.profileImage) {
         try {
           console.log('profile image ')

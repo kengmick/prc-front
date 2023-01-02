@@ -28,7 +28,7 @@
     <div
       v-if="permission"
       @click="deleteAll(band.id)"
-      class="block mx-auto px-4 py-2 bg-black text-white chedder w-44 text-center"
+      class="block mx-auto px-4 py-2 bg-black text-white chedder w-44 text-center my-4"
     >
       Delete Band
     </div>
