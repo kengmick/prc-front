@@ -335,7 +335,7 @@
           Your Tours
         </h2>
         <div class="w-full">
-          <NuxtLink to="//tours/tourcreate">
+          <NuxtLink to="/tours/tourcreate">
             <div
               class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-2/5"
             >

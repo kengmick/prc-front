@@ -264,6 +264,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               />
+
               <FormulateInput
                 name="addmissionFee"
                 type="number"
