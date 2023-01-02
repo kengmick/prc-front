@@ -1,6 +1,19 @@
 <template>
   <div v-if="classified" class="container w-full mx-auto">
     <CardsClassifiedCard class="mx-auto" :article="classified" />
+    <div
+      v-if="permission"
+      class="w-[300px] h-[40px] px-6 mb-6 flex items-center bg-black text-white mt-4 mx-auto"
+    >
+      <p class="chedder mr-6" @click="deleteData(classified.id, 'classifieds')">
+        Delete
+      </p>
+      <NuxtLink
+        :to="{ path: '/classified/edit', query: { article: classified.id } }"
+      >
+        <p class="chedder">edit</p></NuxtLink
+      >
+    </div>
   </div>
 </template>
 
@@ -22,6 +35,7 @@ export default {
       message: 'type something here to share',
       postImage: '',
       finalPostImage: '',
+      permission: false,
     }
   },
   async mounted() {
@@ -35,6 +49,9 @@ export default {
       this.$route.query.article
     )
     this.classified = classified
+    if (classified.users_permissions_user.id === this.$strapi.user.id) {
+      this.permission = true
+    }
     const posts = await this.$strapi.find('posts', {
       classified: classified.id,
     })

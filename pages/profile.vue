@@ -475,7 +475,7 @@
       </section>
       <div class="container mx-auto my-6">
         <div class="w-full">
-          <NuxtLink to="/classifiedcreate">
+          <NuxtLink to="/classified/create">
             <div
               class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-2/5"
             >
