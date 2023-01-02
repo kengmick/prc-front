@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="px-2 sm:conatiner mx-auto my-6 sm:w-1/2">
+    <div v-if="tour" class="px-2 sm:conatiner mx-auto my-6 sm:w-1/2">
       <!-- add :  description for members, oldBandShows,, singles, merch somewhere, genre alt  -->
       <!-- <img
       id="barcode"
@@ -12,14 +12,15 @@
     /> -->
       <FormulateForm v-model="formValues" @submit="submitForm">
         <h1 class="main_red_text text-left text-3xl sm:w-4/5 mb-6">
-          Create Tour
+          Edit Tour
         </h1>
         <FormulateInput
           name="title"
-          label="Band Name"
+          label="Title"
           wrapper-class=" sm:w-4/5 mx-auto "
           element-class="w-full"
           errors-class="sm:w-4/5 "
+          :value="tour.title"
         />
         <FormulateInput
           name="dateStart"
@@ -28,6 +29,7 @@
           wrapper-class=" sm:w-4/5 mx-auto "
           element-class="w-full"
           errors-class="sm:w-4/5 "
+          :value="tour.dateStart"
           @change="log($event.target.value)"
         />
         <FormulateInput
@@ -37,6 +39,7 @@
           wrapper-class=" sm:w-4/5 mx-auto "
           element-class="w-full"
           errors-class="sm:w-4/5 "
+          :value="tour.dateEnd"
           @change="log($event.target.value)"
         />
 
@@ -62,8 +65,16 @@
             errors-class="sm:w-4/5 "
           />
         </FormulateInput>
+        <div v-if="tour.touringPoster">
+          <NuxtImg
+            :src="tour.touringPoster.url"
+            height="300"
+            width="300"
+            class="mx-auto"
+          />
+        </div>
         <h2 class="text-left main_red_text text-2xl mb-10 mt-4">
-          Add Tour Poster
+          Edit Tour Poster
         </h2>
         <FormulateInput
           type="image"
@@ -120,7 +131,7 @@ export default {
       formValuesEvent: {},
       errorMessage: '',
       event: {},
-      tour: {},
+      tour: null,
       created: false,
       tourPosterFile: '',
       tourPosterFinal: '',
@@ -135,6 +146,13 @@ export default {
     }
   },
   async mounted() {
+    try {
+      const tour = await this.$strapi.findOne('tours', this.$route.query.tour)
+      this.tour = tour
+    } catch (error) {
+      console.log(error)
+    }
+
     try {
       const bands = await this.$strapi.find('bands', {
         users_permissions_user: this.$strapi.user.id,
@@ -157,22 +175,27 @@ export default {
     },
 
     async submitForm() {
-      try {
-        const formData = new FormData()
-        await formData.append('files', this.tourPosterFile)
-        const [tourPosterFinal] = await this.$strapi.create('upload', formData)
-        this.tourPosterFinal = tourPosterFinal
-        this.formValues.touringPoster = tourPosterFinal
-      } catch (error) {
-        this.loading = false
-        this.errorMessage =
-          'Sorry, we could not upload the tour poster ... please try again'
-        console.log(error)
+      if (this.tourPosterFile) {
+        try {
+          const formData = new FormData()
+          await formData.append('files', this.tourPosterFile)
+          const [tourPosterFinal] = await this.$strapi.create(
+            'upload',
+            formData
+          )
+          this.tourPosterFinal = tourPosterFinal
+          this.formValues.touringPoster = tourPosterFinal
+          console.log(this.formValues, 'fdsfdsfdsfds')
+        } catch (error) {
+          this.loading = false
+          this.errorMessage =
+            'Sorry, we could not upload the tour poster ... please try again'
+          console.log(error)
+        }
       }
       try {
-        const tour = await this.$strapi.create('tours', {
+        const tour = await this.$strapi.update('tours', this.tour.id, {
           ...this.formValues,
-          users_permissions_user: this.$strapi.user.id,
         })
         this.tour = tour
         this.loading = false

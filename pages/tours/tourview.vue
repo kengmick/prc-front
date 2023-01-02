@@ -3,6 +3,12 @@
     <div v-if="tour" class="container mx-auto flex justify-center mt-6">
       <CardsFullTourCard :tour="tour" />
     </div>
+    <NuxtLink
+      :to="{ path: '/tours/edit', query: { tour: tour.id } }"
+      class="block mx-auto px-4 py-2 bg-black text-white chedder w-44 text-center my-4"
+    >
+      Edit Tour Details
+    </NuxtLink>
     <section class="container mx-auto px-4">
       <section class="my-2">
         <h2 id="showz" class="chedder text-2xl my-4">Showz</h2>
@@ -38,9 +44,15 @@
             <div
               v-if="permission"
               class="w-[300px] h-[40px] px-6 mb-6 flex items-center bg-black text-white mt-4"
-              @click="deleteData(event.id, 'events')"
             >
-              <p class="chedder">Delete</p>
+              <p class="chedder mr-6" @click="deleteData(event.id, 'events')">
+                Delete
+              </p>
+              <NuxtLink
+                :to="{ path: '/events/edit', query: { event: event.id } }"
+              >
+                <p class="chedder">edit</p></NuxtLink
+              >
             </div>
           </div>
         </div>
@@ -628,6 +640,7 @@ export default {
       permission: false,
       addPhotoBox: false,
       photo: '',
+      bioAction: 'create',
     }
   },
   async mounted() {
@@ -649,6 +662,7 @@ export default {
       this.loading = true
       const tour = await this.$strapi.findOne('tours', this.$route.query.tour)
       this.tour = tour
+
       const posts = await this.$strapi.find('posts', {
         tour: tour.id,
       })
