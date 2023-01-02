@@ -33,11 +33,7 @@
           <p class="chedder text-[16px] text-center">{{ band.dateStarted }}</p>
           <!-- maybe show interal chat featured if the user is not logged in and then prompt user to log in on click event -->
           <span v-if="$strapi.user">
-            <p
-              v-if="band.users_permissions_user.id !== $strapi.user.id"
-              class="text-[12px] chedder underline"
-              @click="startChat(user)"
-            >
+            <p class="text-[12px] chedder underline" @click="startChat(user)">
               Internal Message
             </p>
           </span>
