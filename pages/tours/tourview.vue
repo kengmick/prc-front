@@ -245,6 +245,7 @@
       </section>
       <section class="my-2">
         <h2 id="chatroom" class="chedder text-2xl">Chat Room</h2>
+        <PostsPost :postType="'tours'" :postId="tour.id" />
       </section>
     </section>
     <!-- events -->

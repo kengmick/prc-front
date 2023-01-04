@@ -16,7 +16,22 @@
           <p>{{ post.data }}</p>
         </div>
         <div class="flex items-center my-4">
-          <NuxtImg src="flag.svg" height="20" width="20" class="mr-4" />
+          <NuxtImg
+            v-if="post.flag"
+            @click="flag(post.id)"
+            src="redflag.svg"
+            height="20"
+            width="20"
+            class="mr-4"
+          />
+          <NuxtImg
+            v-else
+            @click="flag(post.id)"
+            src="flag.svg"
+            height="20"
+            width="20"
+            class="mr-4"
+          />
           <p>Flag as inappropriate</p>
         </div>
       </div>
@@ -116,6 +131,15 @@ export default {
   methods: {
     toggelAddPhoto() {
       this.addPhoto = !this.addPhoto
+    },
+
+    async flag(id) {
+      try {
+        await this.$strapi.update('posts', id, { flag: true })
+        this.posts = await this.$strapi.find('posts', {
+          [this.postType]: this.postId,
+        })
+      } catch (error) {}
     },
 
     async createPost() {
