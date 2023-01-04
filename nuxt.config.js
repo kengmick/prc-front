@@ -125,11 +125,13 @@ export default {
     // module options
     sockets: [
       {
-        // At least one entry is required
         name: 'chat',
         url: 'https://punkrockcompound-backend-lb57o.ondigitalocean.app',
-        // url: 'http://localhost:1337',
         default: true,
+      },
+      {
+        name: 'post',
+        url: 'https://punkrockcompound-backend-lb57o.ondigitalocean.app',
       },
     ],
   },

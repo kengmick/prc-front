@@ -427,6 +427,7 @@
       <!-- Chat Room -->
       <section class="my-2">
         <h2 id="chatroom" class="chedder text-2xl my-6">Chat Room</h2>
+        <PostsPost :postType="'bands'" :postId="band.id" />
       </section>
     </section>
     <Loading />
@@ -471,6 +472,7 @@
       </div>
     </div>
   </div>
+
   <div v-else></div>
 </template>
 <script>
@@ -605,6 +607,7 @@ export default {
       bands: this.band.id,
     })
     this.posts = posts
+    console.log(posts, 'this is the posts ', this.band.id)
   },
   created() {
     const backButtonRouteGuard = this.$router.beforeEach((to, from, next) => {
