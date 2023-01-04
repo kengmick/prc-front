@@ -9,7 +9,7 @@
       <div class="bg-gray-200 rounded-sm" @click="close">
         <img src="~/static/left.svg" class="h-[20px] w-[20px]" alt="" />
       </div>
-      <div class="flex-grow px-4 flex items-center">
+      <div v-if="chatInfo" class="flex-grow px-4 flex items-center">
         <img
           v-if="chatInfo.chatWith.profileImg"
           class="w-[50px] h-[50px] rounded-full mr-4"

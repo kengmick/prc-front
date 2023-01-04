@@ -51,6 +51,7 @@ export default {
       this.$emit('closeCreateChat')
     },
     startChat(user) {
+      console.log('this is the start chat in create Chat ', user)
       this.$emit('startChat', user)
     },
   },

@@ -2,7 +2,7 @@
   <div>
     <!-- messages created by user put on the right  -->
     <div
-      v-if="messageData.users_permissions_user === $strapi.user.id"
+      v-if="messageData.users_permissions_user === $strapi.user"
       class="flex justify-end"
     >
       <div>
