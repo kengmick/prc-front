@@ -2,15 +2,12 @@
   <div>
     <!-- messages created by user put on the right  -->
     <div
-      v-if="messageData.users_permissions_user === $strapi.user"
+      v-if="messageData.users_permissions_user === $strapi.user.id"
       class="flex justify-end"
     >
       <div>
         <div class="flex items-center pb-1">
-          <p class="chedder mr-2">
-            {{ $strapi.user.username }}
-            here
-          </p>
+          <p class="chedder mr-2">{{ $strapi.user.username }} fdsfdsf here</p>
           <p class="text-gray-500">
             {{ moment(String(messageData.published_at)).format('h:mm a') }}
           </p>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="w-full h-96 flex items-center justify-center bg-[#19332d]">
-      <h1 class="text-white">PunkRock Compompund</h1>
+      <h1 class="text-white">PunkRock Compound</h1>
     </section>
     <section v-if="bands.length > 0" class="overflow-x-hidden">
       <!-- container for poster cards -->
@@ -64,6 +64,7 @@ export default {
       chat: null,
       finalChat: null,
       hasChat: false,
+      chatSelf: false,
     }
   },
   async fetch() {
@@ -90,72 +91,33 @@ export default {
       console.log('this is the event emited ')
     },
     async startChatNow(val) {
-      console.log('this is the start chat ')
       try {
-        const hasChat = await this.$strapi.find('chats', {
-          users_permissions_users: this.$strapi.user.id,
+        // find all chat that you have
+        const [hasChat] = await this.$strapi.find('chats', {
+          users_permissions_user: val.id,
         })
+        console.log(hasChat)
+        // return { ...c, chatWith: this.chatWith }
 
-        hasChat.forEach((c) => {
-          const has = c.users_permissions_users.filter((user) => {
-            console.log('this is the band user ', val.id, user.id)
-            return val.id === user.id
-          })
-          if (has.length > 0) {
-            console.log('this has chat ', c)
-            this.hasChat = c
-          }
-        })
-        if (this.hasChat) {
-          console.log('we already have a chat ')
-          const c = []
-          // push the chat to the array so we can map over it
-          c.push(this.hasChat)
-          // map over the one item array to massage the data with the chatWith user
-          const mappedChats = c.map((c) => {
-            c.users_permissions_users.forEach((u) => {
-              if (u.id !== this.$strapi.user.id) {
-                this.chatWith = u
-              }
-            })
-            return { ...c, chatWith: this.chatWith }
-          })
-          // render the chat comp with the chat that we already have read y
+        // render the chat comp with the chat that we already have read y
 
-          this.renderChatComp(mappedChats[0])
+        if (hasChat) {
+          this.renderChatComp({
+            ...hasChat,
+            chatWith: hasChat.users_permissions_user,
+          })
         } else {
-          // if we don't already have a chat started ... then create one
-          // try and create a chat
-          const chat = await this.$strapi.create('chats', {
+          const chat = this.$strapi.create('chats', {
+            users_permissions_user: val.id,
             users_permissions_users: [this.$strapi.user.id, val.id],
           })
-          // after creating a chat we now get all chats and filter with the user's ids to map overthem
-          const chats = await this.$strapi.find('chats', {
-            users_permissions_users: this.$strapi.user.id,
+          this.renderChatComp({
+            ...chat,
+            chatWith: chat.users_permissions_user,
           })
-
-          // map over to create our data type to pass into the chat component
-          const mappedChats = chats.map((c) => {
-            c.users_permissions_users.forEach((u) => {
-              if (u.id !== this.$strapi.user.id) {
-                this.chatWith = u
-              }
-            })
-            return { ...c, chatWith: this.chatWith }
-          })
-          this.chats = mappedChats
-          // we get just the one chat that the user just attempted to create
-          const myChat = mappedChats.filter((c) => {
-            return c.id === chat.id
-          })
-          console.log(
-            myChat,
-            'this is where you need to render a chat component'
-          )
-          this.renderChatComp(myChat[0])
         }
       } catch (error) {
-        console.log('does not have a chat with this band error  ')
+        console.log('does not have a chat with this band error  ', error)
       }
     },
     route() {
