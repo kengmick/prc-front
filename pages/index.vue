@@ -87,9 +87,7 @@ export default {
         this.chatComp = false
       }
     },
-    log() {
-      console.log('this is the event emited ')
-    },
+
     async startChatNow(val) {
       try {
         // find all chat that you have

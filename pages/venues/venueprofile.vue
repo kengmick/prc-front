@@ -1,7 +1,10 @@
 <template>
-  <div>
+  <div v-if="venue">
     <div v-if="venue" class="container mx-auto flex justify-center mt-6">
-      <CardsFullVenueCard :venue="venue" />
+      <CardsFullVenueCard
+        :venue="venue"
+        @startChat="startChatNow(venue.users_permissions_user)"
+      />
     </div>
     <NuxtLink
       :to="{ path: '/venues/venueedit', query: { venue: venue.id } }"
@@ -239,7 +242,7 @@
           </li>
         </ul>
       </section>
-      <section class="my-2">
+      <section v-if="venue" class="my-2">
         <h2 id="chatroom" class="chedder text-2xl">Chat Room</h2>
         <PostsPost :postType="'venues'" :postId="venue.id" />
       </section>
@@ -282,6 +285,14 @@
         </div>
       </div>
     </div>
+    <section v-if="chat">
+      <Chat
+        :chatInfo="chat"
+        :chatWithId="chat.chatWith.id"
+        class="z-[9999999]"
+        @closeChat="renderChatComp"
+      />
+    </section>
   </div>
 </template>
 
@@ -290,7 +301,7 @@ import moment from 'moment'
 export default {
   data() {
     return {
-      venue: {},
+      venue: null,
       image: '',
       photo: '',
       venueImages: [],
@@ -310,6 +321,11 @@ export default {
       permission: false,
       addPhotoBox: false,
       bioAction: 'create',
+      chatComp: false,
+      chat: null,
+      finalChat: null,
+      hasChat: false,
+      chatSelf: false,
     }
   },
   async mounted() {
@@ -329,18 +345,58 @@ export default {
     } catch (error) {
       console.log(error)
     }
-    try {
-      console.log(this.$route.query.venue)
-      const posts = await this.$strapi.find('posts', {
-        venue: this.$route.query.venue,
-      })
-      this.posts = posts
-    } catch (error) {
-      console.log(error)
-    }
+    // try {
+    //   console.log(this.$route.query.venue)
+    //   const posts = await this.$strapi.find('posts', {
+    //     venue: this.$route.query.venue,
+    //   })
+    //   this.posts = posts
+    // } catch (error) {
+    //   console.log(error)
+    // }
   },
   methods: {
     moment,
+    async renderChatComp(chat) {
+      this.chatComp = false
+      if (this.chatComp === false) {
+        this.chat = await chat
+        this.chatComp = true
+      } else {
+        this.chatComp = false
+      }
+    },
+
+    async startChatNow(val) {
+      try {
+        // find all chat that you have
+        const [hasChat] = await this.$strapi.find('chats', {
+          users_permissions_user: val.id,
+        })
+        console.log(hasChat)
+        // return { ...c, chatWith: this.chatWith }
+
+        // render the chat comp with the chat that we already have read y
+
+        if (hasChat) {
+          this.renderChatComp({
+            ...hasChat,
+            chatWith: hasChat.users_permissions_user,
+          })
+        } else {
+          const chat = this.$strapi.create('chats', {
+            users_permissions_user: val.id,
+            users_permissions_users: [this.$strapi.user.id, val.id],
+          })
+          this.renderChatComp({
+            ...chat,
+            chatWith: chat.users_permissions_user,
+          })
+        }
+      } catch (error) {
+        console.log('does not have a chat with this band error  ', error)
+      }
+    },
     async deleteAll(id) {
       const del = await this.$strapi.delete('venues', id)
       if (del) {
