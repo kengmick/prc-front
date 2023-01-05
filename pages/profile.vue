@@ -743,10 +743,10 @@ export default {
       popUpTitle: '',
       dataType: '',
       dataId: '',
-      chats: [],
-      chatWith: {},
+      chats: null,
+      chatWith: null,
       chatComp: false,
-      chat: {},
+      chat: null,
       createChat: false,
     }
   },
@@ -764,14 +764,11 @@ export default {
       })
       // maps the user that messages are with to the chat
       const mappedChats = chats.map((c) => {
-        c.users_permissions_users.forEach((u) => {
-          if (u.id !== this.$strapi.user.id) {
-            this.chatWith = u
-          }
-        })
-        return { ...c, chatWith: this.chatWith }
+        console.log(c.users_permissions_user, 'the fetch hook')
+        return { ...c, chatWith: c.users_permissions_user }
       })
       this.chats = mappedChats
+      console.log(chats, ' the fetch hook')
     } catch (error) {
       console.log('error is user', error)
     }
@@ -881,14 +878,10 @@ export default {
       })
       // maps the user that messages are with to the chat
       const mappedChats = chats.map((c) => {
-        c.users_permissions_users.forEach((u) => {
-          if (u.id !== this.$strapi.user.id) {
-            this.chatWith = u
-          }
-        })
-        return { ...c, chatWith: this.chatWith }
+        return { ...c, chatWith: c.users_permissions_user }
       })
       this.chats = mappedChats
+      console.log(mappedChats)
     } catch (error) {
       console.log('error is user', error)
     }
@@ -899,52 +892,43 @@ export default {
       this.createChat = !this.createChat
     },
 
-    async startChatNow(val) {
-      // try and create a chat
-      const chat = await this.$strapi.create('chats', {
-        users_permissions_users: [this.$strapi.user.id, val.id],
-      })
-
-      const chats = await this.$strapi.find('chats', {
-        users_permissions_users: this.$strapi.user.id,
-      })
-      const mappedChats = chats.map((c) => {
-        c.users_permissions_users.forEach((u) => {
-          if (u.id !== this.$strapi.user.id) {
-            this.chatWith = u
-          }
-        })
-        return { ...c, chatWith: this.chatWith }
-      })
-      this.chats = mappedChats
-      this.createChat = !this.createChat
-      const myChat = mappedChats.filter((c) => {
-        console.log(c.id, chat.id)
-        return c.id === chat.id
-      })
-      this.renderChatComp(myChat[0])
-    },
     async renderChatComp(chat) {
       if (this.chatComp === false) {
         this.chat = await chat
+        this.chatComp = true
+      } else {
+        this.chatComp = false
+        this.chat = null
       }
-      this.chatComp = !this.chatComp
+    },
+    async startChatNow(val) {
       try {
-        const chats = await this.$strapi.find('chats', {
-          users_permissions_users: this.$strapi.user.id,
+        // find all chat that you have
+        const [hasChat] = await this.$strapi.find('chats', {
+          users_permissions_user: val.id,
         })
-        // maps the user that messages are with to the chat
-        const mappedChats = chats.map((c) => {
-          c.users_permissions_users.forEach((u) => {
-            if (u.id !== this.$strapi.user.id) {
-              this.chatWith = u
-            }
+        console.log(hasChat)
+        // return { ...c, chatWith: this.chatWith }
+
+        // render the chat comp with the chat that we already have read y
+
+        if (hasChat) {
+          this.renderChatComp({
+            ...hasChat,
+            chatWith: hasChat.users_permissions_user,
           })
-          return { ...c, chatWith: this.chatWith }
-        })
-        this.chats = mappedChats
+        } else {
+          const chat = this.$strapi.create('chats', {
+            users_permissions_user: val.id,
+            users_permissions_users: [this.$strapi.user.id, val.id],
+          })
+          this.renderChatComp({
+            ...chat,
+            chatWith: chat.users_permissions_user,
+          })
+        }
       } catch (error) {
-        console.log('error is user', error)
+        console.log('does not have a chat with this band error  ', error)
       }
     },
     openChat() {},
