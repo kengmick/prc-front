@@ -107,25 +107,28 @@ export default {
     const posts = await this.$strapi.find('posts', {
       [this.postType]: this.postId,
     })
+    console.log('posts ', posts)
     this.posts = posts
     this.socket = this.$nuxtSocket({
       name: 'post',
     })
     if (posts) {
       this.socket.emit('join', { room: posts.id })
-    }
 
-    this.socket.on('joinedRoom', (data) => {
-      this.joined = 'you joined '
-    })
-    this.socket.on('messageSent', async (data) => {
-      this.loading = true
-      this.posts = await this.$strapi.find('posts', {
-        [this.postType]: this.postId,
+      this.socket.on('joinedRoom', (data) => {
+        this.joined = 'you joined '
       })
+      this.socket.on('messageSent', async (data) => {
+        this.loading = true
+        this.posts = await this.$strapi.find('posts', {
+          [this.postType]: this.postId,
+        })
 
-      this.loading = false
-    })
+        this.loading = false
+      })
+    }
+    console.log('no posts ')
+
     // this.sc()
   },
   methods: {
@@ -160,7 +163,7 @@ export default {
       try {
         console.log('user id ', this.$strapi.user.id)
         const post = await this.$strapi.create('posts', {
-          events: this.postId,
+          [this.postType]: this.postId,
           data: this.postData,
           image: this.image,
           users_permissions_user: this.$strapi.user.id,

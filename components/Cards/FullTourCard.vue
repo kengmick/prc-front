@@ -48,19 +48,12 @@
             {{ moment(String(tour.dateStart)).format('Do') }}
           </p>
           <!-- maybe show interal chat featured if the user is not logged in and then prompt user to log in on click event -->
-          <span v-if="tour.users_permissions_user">
-            <span v-if="tour.users_permissions_user.id !== $strapi.user">
-              <p
-                v-if="4 !== $strapi.user.id"
-                class="text-[12px] chedder underline"
-                @click="startChat(user)"
-              >
+          <span>
+            <span>
+              <p class="text-[12px] chedder underline" @click="startChat(user)">
                 Internal Message
               </p>
             </span>
-          </span>
-          <span v-else>
-            <p class="text-[12px] chedder underline">Internal Message</p>
           </span>
         </div>
         <div class="w-[202px] h-[120px] mt-[8px] flex justify-around">
