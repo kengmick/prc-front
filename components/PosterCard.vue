@@ -342,6 +342,7 @@ export default {
       chatComp: false,
       addFeatured: false,
       showModal: false,
+      message: null,
     }
   },
   computed: {
@@ -355,17 +356,28 @@ export default {
 
   methods: {
     async favorite(type, data) {
-      try {
-        const curFavs = await this.$strapi.find('favs', {
-          users_permissions_user: this.$strapi.user.id,
-        })
-        console.log(curFavs, 'the current favs ')
-        if (curFavs.length > 0) {
-          const isSame = curFavs.filter((f) => {
-            return f.data.id === data.id && f.type === type
+      if (this.$strapi.user) {
+        try {
+          const curFavs = await this.$strapi.find('favs', {
+            users_permissions_user: this.$strapi.user.id,
           })
-          if (isSame.length === 0) {
-            console.log(isSame, ' this is same')
+          console.log(curFavs, 'the current favs ')
+          if (curFavs.length > 0) {
+            const isSame = curFavs.filter((f) => {
+              return f.data.id === data.id && f.type === type
+            })
+            if (isSame.length === 0) {
+              console.log(isSame, ' this is same')
+              const fav = await this.$strapi.create('favs', {
+                users_permissions_user: this.$strapi.user.id,
+                data: data,
+                type: type,
+              })
+              console.log(fav, 'this is the fav')
+              this.$router.push('/profile')
+            }
+            this.$router.push('/profile')
+          } else if (curFavs.length === 0) {
             const fav = await this.$strapi.create('favs', {
               users_permissions_user: this.$strapi.user.id,
               data: data,
@@ -374,20 +386,11 @@ export default {
             console.log(fav, 'this is the fav')
             this.$router.push('/profile')
           }
-          console.log('is same  ,', isSame)
-          return null
-        } else if (curFavs.length === 0) {
-          const fav = await this.$strapi.create('favs', {
-            users_permissions_user: this.$strapi.user.id,
-            data: data,
-            type: type,
-          })
-          console.log(fav, 'this is the fav')
-          this.$router.push('/profile')
+        } catch (error) {
+          console.log('there was an error in the create favs function')
         }
-      } catch (error) {
-        console.log('there was an error in the create favs function')
       }
+      this.message = 'You must be logged in '
     },
     goToAddCard(band) {
       if (this.$strapi.user) {
