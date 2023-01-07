@@ -146,7 +146,8 @@
       <div
         class="w-[66px] h-[24px] bg-[#ECDD2A] flex justify-center items-center text-[10px] chedder"
       >
-        <span class="flex items-center justify-between w-full px-2"
+        <span
+          class="flex items-center justify-between w-full px-2 cursor-pointer"
           ><img
             class="h-[12px] w-[12px]"
             src="/heart.svg"

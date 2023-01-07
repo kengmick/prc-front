@@ -177,7 +177,7 @@
         <span
           v-if="!unFollow"
           @click="favorite('record-labels', distro)"
-          class="flex items-center justify-between w-full px-2"
+          class="flex items-center justify-between w-full px-2 cursor-pointer"
           ><img
             class="h-[12px] w-[12px]"
             src="/heart.svg"
@@ -187,7 +187,7 @@
         <span
           v-else
           @click="unFollowFunc('record-labels', distro.id)"
-          class="flex items-center justify-between w-full px-2"
+          class="flex items-center justify-between w-full px-2 cursor-pointer"
           ><img
             class="h-[12px] w-[12px]"
             src="/heart.svg"
@@ -379,9 +379,9 @@ export default {
                 users_permissions_user: this.$strapi.user.id,
               })
               console.log('emit created hreer', fav, upFav)
-              this.$router.push({ path: '/profile', hash: '#favs' })
+              this.$router.push('/profile')
             }
-            this.$router.push({ path: '/profile', hash: '#favs' })
+            this.$router.push('/profile')
           } else if (curFavs.length === 0) {
             const fav = await this.$strapi.create('favs', {
               users_permissions_user: this.$strapi.user.id,
@@ -390,7 +390,7 @@ export default {
             })
             console.log('emit createdfdsfdsfs')
             console.log(curFavs, 'this is the fav', fav)
-            this.$router.push({ path: '/profile', hash: '#favs' })
+            this.$router.push('/profile')
           } else {
             await this.$strapi.find('favs', {
               users_permissions_user: this.$strapi.user.id,

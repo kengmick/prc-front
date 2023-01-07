@@ -187,7 +187,7 @@
         <span
           v-if="!unFollow"
           @click="favorite('venues', venue)"
-          class="flex items-center justify-between w-full px-2"
+          class="flex items-center justify-between w-full px-2 cursor-pointer"
           ><img
             class="h-[12px] w-[12px]"
             src="/heart.svg"
@@ -197,7 +197,7 @@
         <span
           v-else
           @click="unFollowFunc('venues', venue.id)"
-          class="flex items-center justify-between w-full px-2"
+          class="flex items-center justify-between w-full px-2 cursor-pointer"
           ><img
             class="h-[12px] w-[12px]"
             src="/heart.svg"
@@ -388,7 +388,7 @@ export default {
                 users_permissions_user: this.$strapi.user.id,
               })
               console.log('emit created hreer', fav, upFav)
-              this.$router.push({ path: '/profile', hash: '#favs' })
+              this.$router.push('/profile')
             }
             this.$router.push('/profile')
           } else if (curFavs.length === 0) {
@@ -399,7 +399,7 @@ export default {
             })
             console.log('emit createdfdsfdsfs')
             console.log(curFavs, 'this is the fav', fav)
-            this.$router.push({ path: '/profile', hash: '#favs' })
+            this.$router.push('/profile')
           } else {
             await this.$strapi.find('favs', {
               users_permissions_user: this.$strapi.user.id,
