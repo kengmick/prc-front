@@ -556,6 +556,7 @@
         <!-- distros -->
         <div class="container mx-auto my-6">
           <h2
+            id="favs"
             class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
           >
             Your Favorite Cards

@@ -427,9 +427,9 @@ export default {
                 users_permissions_user: this.$strapi.user.id,
               })
               console.log('emit created hreer', fav, upFav)
-              this.$router.push('/profile')
+              this.$router.push({ path: '/profile', hash: '#favs' })
             }
-            this.$router.push('/profile')
+            this.$router.push({ path: '/profile', hash: '#favs' })
           } else if (curFavs.length === 0) {
             const fav = await this.$strapi.create('favs', {
               users_permissions_user: this.$strapi.user.id,
@@ -438,7 +438,7 @@ export default {
             })
             console.log('emit createdfdsfdsfs')
             console.log(curFavs, 'this is the fav', fav)
-            this.$router.push('/profile')
+            this.$router.push({ path: '/profile', hash: '#favs' })
           } else {
             await this.$strapi.find('favs', {
               users_permissions_user: this.$strapi.user.id,
