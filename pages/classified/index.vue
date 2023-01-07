@@ -29,6 +29,7 @@ export default {
   },
   async mounted() {
     const classifieds = await this.$strapi.find('classifieds')
+    console.log(classifieds)
     this.classifieds = classifieds.sort(function (a, b) {
       return moment(b.created_at).format('X') - moment(a.created_at).format('X')
     })
