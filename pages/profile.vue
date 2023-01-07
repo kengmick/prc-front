@@ -555,8 +555,11 @@
           >
             Your Favorite Cards
           </h2>
-          <div class="w-full">
+          <div v-if="favs" class="w-full">
             <!-- Add favorite cards here -->
+            <div v-for="fav in favs" :key="fav.id">
+              <pre>{{ fav.type }}</pre>
+            </div>
           </div>
         </div>
 
@@ -759,6 +762,7 @@ export default {
       chatComp: false,
       chat: null,
       createChat: false,
+      favs: null,
     }
   },
   async fetch() {
@@ -770,6 +774,10 @@ export default {
     }
     // get all chats that the logged in user has
     try {
+      const favs = await this.$strapi.find('favs', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      this.favs = favs
       const chats = await this.$strapi.find('chats', {
         users_permissions_users: this.$strapi.user.id,
       })

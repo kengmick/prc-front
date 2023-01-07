@@ -1,6 +1,7 @@
 <template>
   <!-- :style="{ backgroundImage: `url(${band.bandProfileImg.url})` }" for background style tag replace regex replace(/\D/g, '')  -->
   <div
+    v-if="band"
     class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] relative overscroll-none"
   >
     <nuxt-img
@@ -25,7 +26,7 @@
         class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
       >
         <h2 class="chedder text-[36px] text-white leading-none">
-          <span v-if="band.bandName">{{ band.bandName }}</span>
+          <span v-if="band.bandName">{{ band.bandName }} </span>
         </h2>
       </section>
     </NuxtLink>
@@ -209,7 +210,9 @@
       <div
         class="w-[66px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"
       >
-        <span class="flex items-center justify-between w-full px-2"
+        <span
+          class="flex items-center justify-between w-full px-2"
+          @click="favorite('bands', band)"
           ><img
             class="h-[12px] w-[12px]"
             src="/heart.svg"
@@ -351,6 +354,41 @@ export default {
   },
 
   methods: {
+    async favorite(type, data) {
+      try {
+        const curFavs = await this.$strapi.find('favs', {
+          users_permissions_user: this.$strapi.user.id,
+        })
+        console.log(curFavs, 'the current favs ')
+        if (curFavs.length > 0) {
+          const isSame = curFavs.filter((f) => {
+            return f.data.id === data.id && f.type === type
+          })
+          if (isSame.length === 0) {
+            console.log(isSame, ' this is same')
+            const fav = await this.$strapi.create('favs', {
+              users_permissions_user: this.$strapi.user.id,
+              data: data,
+              type: type,
+            })
+            console.log(fav, 'this is the fav')
+            this.$router.push('/profile')
+          }
+          console.log('is same  ,', isSame)
+          return null
+        } else if (curFavs.length === 0) {
+          const fav = await this.$strapi.create('favs', {
+            users_permissions_user: this.$strapi.user.id,
+            data: data,
+            type: type,
+          })
+          console.log(fav, 'this is the fav')
+          this.$router.push('/profile')
+        }
+      } catch (error) {
+        console.log('there was an error in the create favs function')
+      }
+    },
     goToAddCard(band) {
       if (this.$strapi.user) {
         this.showModal = false
