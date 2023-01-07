@@ -38,12 +38,8 @@
           </p>
 
           <span v-if="distro.users_permissions_user">
-            <span v-if="distro.users_permissions_user.id !== $strapi.user">
-              <p
-                v-if="4 !== $strapi.user.id"
-                class="text-[12px] chedder underline"
-                @click="startChat(user)"
-              >
+            <span>
+              <p class="text-[12px] chedder underline" @click="startChat(user)">
                 Internal Message
               </p>
             </span>

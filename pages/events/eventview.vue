@@ -1,7 +1,11 @@
 <template>
   <div v-if="event" class="container mx-auto my-6">
     <section class="container">
-      <CardsShowFullCard class="mx-auto" :event="event" />
+      <CardsShowFullCard
+        class="mx-auto"
+        :event="event"
+        @startChat="startChatNow(event.users_permissions_user)"
+      />
     </section>
     <NuxtLink
       v-if="permission"
@@ -276,6 +280,14 @@
     >
       <Spinner />
     </section>
+    <section v-if="chat">
+      <Chat
+        :chatInfo="chat"
+        :chatWithId="chat.chatWith.id"
+        class="z-[9999999]"
+        @closeChat="renderChatComp"
+      />
+    </section>
   </div>
 </template>
 
@@ -301,6 +313,11 @@ export default {
       addPhotoBox: false,
       permission: false,
       bioAction: 'create',
+      chatComp: false,
+      chat: null,
+      finalChat: null,
+      hasChat: false,
+      chatSelf: false,
     }
   },
   async mounted() {
@@ -348,6 +365,87 @@ export default {
       const del = await this.$strapi.delete('events', id)
       if (del) {
         this.$router.push('/profile')
+      }
+    },
+    async renderChatComp(chat) {
+      this.chatComp = false
+      if (this.chatComp === false) {
+        this.chat = await chat
+        this.chatComp = true
+      } else {
+        this.chatComp = false
+      }
+    },
+
+    async startChatNow(val) {
+      try {
+        // find all chat that you have
+        const [hasChat] = await this.$strapi.find('chats', {
+          users_permissions_user: val.id,
+        })
+        console.log(hasChat)
+        // return { ...c, chatWith: this.chatWith }
+
+        // render the chat comp with the chat that we already have read y
+
+        if (hasChat) {
+          console.log('the start of has chat ')
+          if (
+            hasChat.users_permissions_user.id === this.$strapi.user.id &&
+            hasChat.users_permissions_users.length > 1
+          ) {
+            console.log('the start of has chat 1 ')
+            const [chatWith] = hasChat.users_permissions_users.filter((u) => {
+              return u.id !== this.$strapi.user.id
+            })
+            console.log('the start of has chat 1 render ')
+            this.renderChatComp({
+              ...hasChat,
+              chatWith: chatWith,
+            })
+          } else if (
+            hasChat.users_permissions_user.id !== this.$strapi.user.id
+          ) {
+            console.log('the start of has chat 2 ')
+            this.renderChatComp({
+              ...hasChat,
+              chatWith: hasChat.users_permissions_user,
+            })
+          } else if (
+            hasChat.users_permissions_user.id === this.$strapi.user.id &&
+            hasChat.users_permissions_users.length === 1
+          ) {
+            console.log('the start of has chat 2 ')
+            this.renderChatComp({
+              ...hasChat,
+              chatWith: hasChat.users_permissions_user,
+            })
+          }
+        } else if (this.$strapi.user.id !== val.id) {
+          console.log('the start of has chat 3 ')
+          const chat = await this.$strapi.create('chats', {
+            users_permissions_user: val.id,
+            users_permissions_users: [this.$strapi.user.id],
+          })
+          console.log(chat)
+          this.renderChatComp({
+            ...chat,
+            chatWith: chat.users_permissions_user,
+          })
+        } else {
+          console.log('the start of has chat 4 ')
+          const chat = await this.$strapi.create('chats', {
+            users_permissions_user: val.id,
+            users_permissions_users: [val.id, this.$strapi.user.id],
+          })
+          console.log('this is the chat now ', chat)
+          this.renderChatComp({
+            ...chat,
+            chatWith: chat.users_permissions_user,
+          })
+        }
+      } catch (error) {
+        console.log('does not have a chat with this band error  ', error)
       }
     },
     addPhotoModal() {

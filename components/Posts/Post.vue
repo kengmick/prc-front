@@ -160,7 +160,7 @@ export default {
       try {
         console.log('user id ', this.$strapi.user.id)
         const post = await this.$strapi.create('posts', {
-          bands: 84,
+          events: this.postId,
           data: this.postData,
           image: this.image,
           users_permissions_user: this.$strapi.user.id,
