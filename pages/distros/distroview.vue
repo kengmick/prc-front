@@ -244,7 +244,7 @@
           </li>
         </ul>
       </section>
-      <section class="my-2">
+      <section v-if="distro" class="my-2">
         <h2 id="chatroom" class="chedder text-2xl">Chat Room</h2>
         <PostsPost :postType="'record_labels'" :postId="distro.id" />
       </section>

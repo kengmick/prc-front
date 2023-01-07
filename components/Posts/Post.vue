@@ -104,6 +104,7 @@ export default {
     }
   },
   async mounted() {
+    console.log(this.postId)
     const posts = await this.$strapi.find('posts', {
       [this.postType]: this.postId,
     })
