@@ -77,8 +77,9 @@ export default {
       userImage: '',
     }
   },
-  async fetch() {
+  async mounted() {
     //  need to get user and band
+    console.log(this.route.query.band, 'first fetch hook in chat component')
     try {
       this.dataType = this.$route.query.dataType
       // gets all chats tied to logged in user

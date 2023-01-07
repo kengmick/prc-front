@@ -192,14 +192,24 @@
           </div>
           <!-- display chats if there are any  -->
           <div v-if="chats" class="mt-4">
-            <ChatCards
-              v-for="chat in chats"
-              :key="chat.id"
-              class="mb-8 border-b-[1px]"
-              :chatWithName="chat.chatWith.username"
-              :chatWithImg="chat.chatWith.profileImg.url"
-              @click.native="renderChatComp(chat)"
-            />
+            <div v-for="cha in chats" :key="cha.id">
+              <div v-if="cha.chatWith.id !== $strapi.user.id">
+                <ChatCards
+                  class="mb-8 border-b-[1px]"
+                  :chatWithName="cha.chatWith.username"
+                  :chatWithImg="cha.chatWith.profileImg.url"
+                  @click.native="renderChatComp(cha)"
+                />
+              </div>
+              <div v-if="cha.chatWith.id === $strapi.user.id">
+                <ChatCards
+                  class="mb-8 border-b-[1px]"
+                  :chatWithName="cha.users_permissions_users[0].username"
+                  :chatWithImg="cha.users_permissions_users[0].profileImg.url"
+                  @click.native="renderChatComp(cha)"
+                />
+              </div>
+            </div>
           </div>
           <div v-if="createChat" class="mt-4">
             <h1>There is something here</h1>
@@ -706,6 +716,7 @@
     <Chat
       v-else
       :chatInfo="chat"
+      :chat="chat"
       :chatWithId="chat.chatWith.id"
       class="z-[9999999]"
       @closeChat="renderChatComp"
@@ -913,14 +924,39 @@ export default {
         // render the chat comp with the chat that we already have read y
 
         if (hasChat) {
+          if (
+            hasChat.users_permissions_user.id === this.$strapi.user.id &&
+            hasChat.users_permissions_users.length > 1
+          ) {
+            const [chatWith] = hasChat.users_permissions_users.filter((u) => {
+              return u.id !== this.$strapi.user.id
+            })
+            this.renderChatComp({
+              ...hasChat,
+              chatWith: chatWith,
+            })
+          } else if (
+            hasChat.users_permissions_user.id !== this.$strapi.user.id
+          ) {
+            this.renderChatComp({
+              ...hasChat,
+              chatWith: hasChat.users_permissions_user,
+            })
+          }
+        } else if (this.$strapi.user.id === val.id) {
+          const chat = this.$strapi.create('chats', {
+            users_permissions_user: val.id,
+            users_permissions_users: [this.$strapi.user.id],
+          })
+
           this.renderChatComp({
-            ...hasChat,
-            chatWith: hasChat.users_permissions_user,
+            ...chat,
+            chatWith: chat.users_permissions_user,
           })
         } else {
           const chat = this.$strapi.create('chats', {
             users_permissions_user: val.id,
-            users_permissions_users: [this.$strapi.user.id, val.id],
+            users_permissions_users: [val.id, this.$strapi.user.id],
           })
           this.renderChatComp({
             ...chat,

@@ -102,17 +102,27 @@ export default {
         if (hasChat) {
           this.renderChatComp({
             ...hasChat,
-            chatWith: hasChat.users_permissions_user,
+            chatWith: hasChat.users_permissions_user[0],
           })
-        } else {
-          const chat = this.$strapi.create('chats', {
+        } else if (val.id !== this.$strapi.user.id) {
+          const chat = await this.$strapi.create('chats', {
             users_permissions_user: val.id,
             users_permissions_users: [this.$strapi.user.id, val.id],
           })
           this.renderChatComp({
             ...chat,
-            chatWith: chat.users_permissions_user,
+            chatWith: chat.users_permissions_users[1],
           })
+        } else if (val.id === this.$strapi.user.id) {
+          const chat = await this.$strapi.create('chats', {
+            users_permissions_user: val.id,
+            users_permissions_users: [this.$strapi.user.id],
+          })
+          this.renderChatComp({
+            ...chat,
+            chatWith: chat.users_permissions_users[0],
+          })
+          return null
         }
       } catch (error) {
         console.log('does not have a chat with this band error  ', error)

@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="chat"
     id="chat"
     class="w-screen h-screen bg-white fixed top-0 right-0 overflow-scroll pb-[100px]"
   >
@@ -9,7 +10,10 @@
       <div class="bg-gray-200 rounded-sm" @click="close">
         <img src="~/static/left.svg" class="h-[20px] w-[20px]" alt="" />
       </div>
-      <div v-if="chatInfo" class="flex-grow px-4 flex items-center">
+      <div
+        v-if="chatInfo && chatInfo.chatWith.id !== $strapi.user.id"
+        class="flex-grow px-4 flex items-center"
+      >
         <img
           v-if="chatInfo.chatWith.profileImg"
           class="w-[50px] h-[50px] rounded-full mr-4"
@@ -19,7 +23,33 @@
           <p class="chedder">{{ chatInfo.chatWith.username }}</p>
         </div>
       </div>
-      <div></div>
+      <div
+        v-else-if="
+          chatInfo &&
+          chatInfo.chatWith.id === $strapi.user.id &&
+          chat.users_permissions_users.length > 1
+        "
+        class="flex-grow px-4 flex items-center"
+      >
+        <img
+          v-if="chat.users_permissions_users[0].profileImg.url"
+          class="w-[50px] h-[50px] rounded-full mr-4"
+          :src="chat.users_permissions_users[0].profileImg.url"
+        />
+        <div class="flex-grow">
+          <p class="chedder">{{ chat.users_permissions_users[0].username }}</p>
+        </div>
+      </div>
+      <div v-else class="flex-grow px-4 flex items-center">
+        <img
+          v-if="chat.users_permissions_users[0].profileImg.url"
+          class="w-[50px] h-[50px] rounded-full mr-4"
+          :src="chat.users_permissions_users[0].profileImg.url"
+        />
+        <div class="flex-grow">
+          <p class="chedder">{{ chat.users_permissions_users[0].username }}</p>
+        </div>
+      </div>
     </div>
     <section
       v-if="!errorMessage && chat && chatInfo"
@@ -27,15 +57,25 @@
     >
       <!-- display the messages  -->
       <!-- <pre>{{ chat.messages }}</pre> -->
-      <Message
-        v-for="message in chat.messages"
-        :key="message.text"
-        :message="message.text"
-        :messageData="message"
-        :fromAvatar="chatInfo.chatWith.profileImg.url"
-        :username="chatInfo.chatWith.username"
-      />
-
+      <div v-for="message in chat.messages" :key="message.text">
+        <div v-if="chatInfo.chatWith.id !== $strapi.user.id">
+          <Message
+            :message="message.text"
+            :messageData="message"
+            :fromAvatar="chatInfo.chatWith.profileImg.url"
+            :username="chatInfo.chatWith.username"
+          />
+        </div>
+        <div v-else>
+          <pre>{{ message }}</pre>
+          <Message
+            :message="message.text"
+            :messageData="message"
+            :fromAvatar="chat.users_permissions_users[0].profileImg.url"
+            :username="chat.users_permissions_users[0].username"
+          />
+        </div>
+      </div>
       <div id="view" ref="view"></div>
     </section>
 
