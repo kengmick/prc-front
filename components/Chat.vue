@@ -67,7 +67,6 @@
           />
         </div>
         <div v-else>
-          <pre>{{ message }}</pre>
           <Message
             :message="message.text"
             :messageData="message"

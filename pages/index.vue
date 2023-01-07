@@ -100,29 +100,46 @@ export default {
         // render the chat comp with the chat that we already have read y
 
         if (hasChat) {
-          this.renderChatComp({
-            ...hasChat,
-            chatWith: hasChat.users_permissions_user[0],
-          })
-        } else if (val.id !== this.$strapi.user.id) {
-          const chat = await this.$strapi.create('chats', {
-            users_permissions_user: val.id,
-            users_permissions_users: [this.$strapi.user.id, val.id],
-          })
-          this.renderChatComp({
-            ...chat,
-            chatWith: chat.users_permissions_users[1],
-          })
-        } else if (val.id === this.$strapi.user.id) {
+          if (
+            hasChat.users_permissions_user.id === this.$strapi.user.id &&
+            hasChat.users_permissions_users.length > 1
+          ) {
+            const [chatWith] = hasChat.users_permissions_users.filter((u) => {
+              return u.id !== this.$strapi.user.id
+            })
+            this.renderChatComp({
+              ...hasChat,
+              chatWith: chatWith,
+            })
+          } else if (
+            hasChat.users_permissions_user.id !== this.$strapi.user.id
+          ) {
+            this.renderChatComp({
+              ...hasChat,
+              chatWith: hasChat.users_permissions_user,
+            })
+          }
+        } else if (this.$strapi.user.id === val.id) {
+          console.log('creating id  chat ')
           const chat = await this.$strapi.create('chats', {
             users_permissions_user: val.id,
             users_permissions_users: [this.$strapi.user.id],
           })
+          console.log(chat)
           this.renderChatComp({
             ...chat,
-            chatWith: chat.users_permissions_users[0],
+            chatWith: chat.users_permissions_user,
           })
-          return null
+        } else {
+          const chat = await this.$strapi.create('chats', {
+            users_permissions_user: val.id,
+            users_permissions_users: [val.id, this.$strapi.user.id],
+          })
+          console.log('this is the chat now ', chat)
+          this.renderChatComp({
+            ...chat,
+            chatWith: chat.users_permissions_user,
+          })
         }
       } catch (error) {
         console.log('does not have a chat with this band error  ', error)
