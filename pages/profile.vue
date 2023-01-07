@@ -560,10 +560,13 @@
           >
             Your Favorite Cards
           </h2>
-          <div v-if="favs && !loading" class="w-full flex-col flex">
+          <div v-if="favs && !loading" class="w-full flex flex-col pl-4">
             <!-- Add favorite cards here -->
-            <div class="flex gap-4 overflow-y-scroll pl-4">
-              <div v-for="fav in favs" :key="fav.id">
+            <div class="flex gap-4 overflow-y-scroll">
+              <span
+                v-for="fav in favs.filter((f) => f.type === 'bands')"
+                :key="fav.id"
+              >
                 <PosterCard
                   v-if="fav.type === 'bands'"
                   :band="fav.data"
@@ -571,17 +574,59 @@
                   :unFollow="true"
                   @updatedFavs="getFavs(fav.data.users_permissions_user)"
                 />
-              </div>
+              </span>
             </div>
             <div class="flex gap-4 overflow-y-scroll mt-4">
-              <div v-for="fav in favs" :key="fav.id">
+              <span
+                v-for="fav in favs.filter((f) => f.type === 'venues')"
+                :key="fav.id"
+              >
                 <CardsVenueCard
                   v-if="fav.type === 'venues'"
                   :venue="fav.data"
                   :unFollow="true"
                   @updatedFavs="getFavs(fav.data.users_permissions_user)"
                 />
-              </div>
+              </span>
+            </div>
+            <div class="flex gap-4 overflow-y-scroll mt-4">
+              <span
+                v-for="fav in favs.filter((f) => f.type === 'tours')"
+                :key="fav.id"
+              >
+                <CardsTourCard
+                  v-if="fav.type === 'tours'"
+                  :tour="fav.data"
+                  :unFollow="true"
+                  @updatedFavs="getFavs(fav.data.users_permissions_user)"
+                />
+              </span>
+            </div>
+            <div class="flex gap-4 overflow-y-scroll mt-4">
+              <span
+                v-for="fav in favs.filter((f) => f.type === 'events')"
+                :key="fav.id"
+              >
+                <CardsShowCard
+                  v-if="fav.type === 'events'"
+                  :event="fav.data"
+                  :unFollow="true"
+                  @updatedFavs="getFavs(fav.data.users_permissions_user)"
+                />
+              </span>
+            </div>
+            <div class="flex gap-4 overflow-y-scroll mt-4">
+              <span
+                v-for="fav in favs.filter((f) => f.type === 'record-labels')"
+                :key="fav.id"
+              >
+                <CardsDistroCard
+                  v-if="fav.type === 'record-labels'"
+                  :distro="fav.data"
+                  :unFollow="true"
+                  @updatedFavs="getFavs(fav.data.users_permissions_user)"
+                />
+              </span>
             </div>
           </div>
         </div>
@@ -786,6 +831,7 @@ export default {
       chat: null,
       createChat: false,
       favs: null,
+      bandFavs: null,
     }
   },
   async fetch() {
@@ -809,6 +855,7 @@ export default {
         }
         return 0
       })
+
       console.log(this.favs, ' this is sorted ')
       const chats = await this.$strapi.find('chats', {
         users_permissions_users: this.$strapi.user.id,
@@ -942,15 +989,32 @@ export default {
     async getFavs(userid) {
       console.log('get favs ')
       console.log('get favs ')
-      this.favs = await this.$strapi.find('favs', {
+      const f = await this.$strapi.find('favs', {
         users_permissions_user: this.$strapi.user.id,
+      })
+      this.favs = f.sort((a, b) => {
+        if (a.type < b.type) {
+          return -1
+        }
+        if (a.type > b.type) {
+          return 1
+        }
+        return 0
       })
       console.log(this.favs)
     },
-    async updateFavData(val) {
+    updateFavData(val) {
       console.log('anything')
       this.loading = true
-      this.favs = await val
+      this.favs = val.sort((a, b) => {
+        if (a.type < b.type) {
+          return -1
+        }
+        if (a.type > b.type) {
+          return 1
+        }
+        return 0
+      })
       this.loading = false
     },
 
