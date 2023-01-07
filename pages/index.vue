@@ -100,13 +100,16 @@ export default {
         // render the chat comp with the chat that we already have read y
 
         if (hasChat) {
+          console.log('the start of has chat ')
           if (
             hasChat.users_permissions_user.id === this.$strapi.user.id &&
             hasChat.users_permissions_users.length > 1
           ) {
+            console.log('the start of has chat 1 ')
             const [chatWith] = hasChat.users_permissions_users.filter((u) => {
               return u.id !== this.$strapi.user.id
             })
+            console.log('the start of has chat 1 render ')
             this.renderChatComp({
               ...hasChat,
               chatWith: chatWith,
@@ -114,13 +117,23 @@ export default {
           } else if (
             hasChat.users_permissions_user.id !== this.$strapi.user.id
           ) {
+            console.log('the start of has chat 2 ')
+            this.renderChatComp({
+              ...hasChat,
+              chatWith: hasChat.users_permissions_user,
+            })
+          } else if (
+            hasChat.users_permissions_user.id === this.$strapi.user.id &&
+            hasChat.users_permissions_users.length === 1
+          ) {
+            console.log('the start of has chat 2 ')
             this.renderChatComp({
               ...hasChat,
               chatWith: hasChat.users_permissions_user,
             })
           }
-        } else if (this.$strapi.user.id === val.id) {
-          console.log('creating id  chat ')
+        } else if (this.$strapi.user.id !== val.id) {
+          console.log('the start of has chat 3 ')
           const chat = await this.$strapi.create('chats', {
             users_permissions_user: val.id,
             users_permissions_users: [this.$strapi.user.id],
@@ -131,6 +144,7 @@ export default {
             chatWith: chat.users_permissions_user,
           })
         } else {
+          console.log('the start of has chat 4 ')
           const chat = await this.$strapi.create('chats', {
             users_permissions_user: val.id,
             users_permissions_users: [val.id, this.$strapi.user.id],
