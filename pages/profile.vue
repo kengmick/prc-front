@@ -629,6 +629,19 @@
                 />
               </span>
             </div>
+            <div class="flex gap-4 overflow-y-scroll mt-4">
+              <span
+                v-for="fav in favs.filter((f) => f.type === 'classifieds')"
+                :key="fav.id"
+              >
+                <CardsClassifiedCard
+                  v-if="fav.type === 'classifieds'"
+                  :article="fav.data"
+                  :unFollow="true"
+                  @updatedFavs="getFavs(fav.data.users_permissions_user)"
+                />
+              </span>
+            </div>
           </div>
         </div>
 
