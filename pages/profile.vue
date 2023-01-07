@@ -944,20 +944,22 @@ export default {
             })
           }
         } else if (this.$strapi.user.id === val.id) {
-          const chat = this.$strapi.create('chats', {
+          console.log('creating id  chat ')
+          const chat = await this.$strapi.create('chats', {
             users_permissions_user: val.id,
             users_permissions_users: [this.$strapi.user.id],
           })
-
+          console.log(chat)
           this.renderChatComp({
             ...chat,
             chatWith: chat.users_permissions_user,
           })
         } else {
-          const chat = this.$strapi.create('chats', {
+          const chat = await this.$strapi.create('chats', {
             users_permissions_user: val.id,
             users_permissions_users: [val.id, this.$strapi.user.id],
           })
+          console.log('this is the chat now ', chat)
           this.renderChatComp({
             ...chat,
             chatWith: chat.users_permissions_user,
