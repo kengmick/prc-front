@@ -279,6 +279,7 @@
             :key="band.bandName"
             :band="band"
             :user="band.users_permissions_user"
+            @createdFavs="updateFavData"
           />
           <!-- <ProfileBandCard
             v-for="(band, index) in bands"
@@ -332,6 +333,7 @@
             v-for="event in events"
             :key="event.title"
             :event="event"
+            @createdFavs="updateFavData"
           />
         </div>
       </section>
@@ -381,6 +383,7 @@
             v-for="tour in tours"
             :key="tour.title"
             :tour="tour"
+            @createdFavs="updateFavData"
           />
         </div>
       </section>
@@ -424,6 +427,7 @@
             v-for="distro in distros"
             :key="distro.name"
             :distro="distro"
+            @createdFavs="updateFavData"
           />
         </div>
       </div>
@@ -471,6 +475,7 @@
             :key="venue.name"
             :venue="venue"
             @removeVenue="openPopUp"
+            @createdFavs="updateFavData"
           />
           <div />
         </div>
@@ -555,10 +560,28 @@
           >
             Your Favorite Cards
           </h2>
-          <div v-if="favs" class="w-full">
+          <div v-if="favs && !loading" class="w-full flex-col flex">
             <!-- Add favorite cards here -->
-            <div v-for="fav in favs" :key="fav.id">
-              <pre>{{ fav.type }}</pre>
+            <div class="flex gap-4 overflow-y-scroll pl-4">
+              <div v-for="fav in favs" :key="fav.id">
+                <PosterCard
+                  v-if="fav.type === 'bands'"
+                  :band="fav.data"
+                  :user="fav.data.users_permissions_user"
+                  :unFollow="true"
+                  @updatedFavs="getFavs(fav.data.users_permissions_user)"
+                />
+              </div>
+            </div>
+            <div class="flex gap-4 overflow-y-scroll mt-4">
+              <div v-for="fav in favs" :key="fav.id">
+                <CardsVenueCard
+                  v-if="fav.type === 'venues'"
+                  :venue="fav.data"
+                  :unFollow="true"
+                  @updatedFavs="getFavs(fav.data.users_permissions_user)"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -777,7 +800,16 @@ export default {
       const favs = await this.$strapi.find('favs', {
         users_permissions_user: this.$strapi.user.id,
       })
-      this.favs = favs
+      this.favs = favs.sort((a, b) => {
+        if (a.type < b.type) {
+          return -1
+        }
+        if (a.type > b.type) {
+          return 1
+        }
+        return 0
+      })
+      console.log(this.favs, ' this is sorted ')
       const chats = await this.$strapi.find('chats', {
         users_permissions_users: this.$strapi.user.id,
       })
@@ -907,6 +939,21 @@ export default {
   },
   methods: {
     moment,
+    async getFavs(userid) {
+      console.log('get favs ')
+      console.log('get favs ')
+      this.favs = await this.$strapi.find('favs', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      console.log(this.favs)
+    },
+    async updateFavData(val) {
+      console.log('anything')
+      this.loading = true
+      this.favs = await val
+      this.loading = false
+    },
+
     openCreateChat() {
       this.createChat = !this.createChat
     },

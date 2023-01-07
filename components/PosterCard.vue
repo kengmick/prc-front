@@ -211,13 +211,24 @@
         class="w-[66px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"
       >
         <span
-          class="flex items-center justify-between w-full px-2"
+          v-if="!unFollow"
           @click="favorite('bands', band)"
+          class="flex items-center justify-between w-full px-2"
           ><img
             class="h-[12px] w-[12px]"
             src="/heart.svg"
             alt=""
           />Favorite</span
+        >
+        <span
+          v-if="unFollow"
+          @click="unFollowFunc('bands', band.id)"
+          class="flex items-center justify-between w-full px-2"
+          ><img
+            class="h-[12px] w-[12px]"
+            src="/heart.svg"
+            alt=""
+          />Unfollow</span
         >
       </div>
       <div
@@ -331,6 +342,12 @@ export default {
         return false
       },
     },
+    unFollow: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
   },
 
   data() {
@@ -373,6 +390,7 @@ export default {
                 data: data,
                 type: type,
               })
+              this.$emit('updatedFavs')
               console.log(fav, 'this is the fav')
               this.$router.push('/profile')
             }
@@ -383,14 +401,36 @@ export default {
               data: data,
               type: type,
             })
+            this.$emit('updatedFavs')
             console.log(fav, 'this is the fav')
             this.$router.push('/profile')
+          } else {
+            this.$emit('updatedFavs')
           }
+          const f = await this.$strapi.find('favs', {
+            users_permissions_user: this.$strapi.user.id,
+          })
+          this.$emit('createdFavs', f)
         } catch (error) {
           console.log('there was an error in the create favs function')
         }
       }
       this.message = 'You must be logged in '
+    },
+    async unFollowFunc(type, id) {
+      const curFavs = await this.$strapi.find('favs', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      console.log(curFavs, ' cur favs ')
+      const filtered = curFavs.filter((f) => {
+        console.log(f.data.id, ' the data id ', id)
+        return f.data.id === id
+      })
+
+      if (filtered) {
+        await this.$strapi.delete('favs', filtered[0].id)
+        this.$emit('updatedFavs')
+      }
     },
     goToAddCard(band) {
       if (this.$strapi.user) {
