@@ -15,6 +15,7 @@
         :user="band.users_permissions_user"
         :isFeatured="true"
         @startChat="startChatNow(band.users_permissions_user)"
+        :isFav="favCheck('bands', band.id)"
       />
     </section>
     <div v-else>{{ errorMessage }}</div>
@@ -39,9 +40,22 @@ export default {
       chat: null,
       finalChat: null,
       hasChat: false,
+      favs: null,
     }
   },
   async mounted() {
+    const f = await this.$strapi.find('favs', {
+      users_permissions_user: this.$strapi.user.id,
+    })
+    this.favs = f.sort((a, b) => {
+      if (a.type < b.type) {
+        return -1
+      }
+      if (a.type > b.type) {
+        return 1
+      }
+      return 0
+    })
     const e = document.getElementById('a')
     console.log(e, 'there whould ')
     try {
@@ -51,7 +65,18 @@ export default {
       this.errorMessage = 'Sorry ... there was a problem'
     }
   },
+
   methods: {
+    favCheck(type, id) {
+      const check = this.favs.filter((f) => {
+        console.log('fav checkc ')
+        return f.data.id === id
+      })
+      if (check.length > 0) {
+        return true
+      }
+      console.log(check, ' this is check ')
+    },
     async renderChatComp(chat) {
       console.log('this is the render chat comp')
       this.chatComp = false

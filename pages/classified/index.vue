@@ -12,6 +12,7 @@
         v-for="article in classifieds"
         :key="article.title"
         :article="article"
+        :isFav="favCheck('classifies', article.id)"
       />
     </section>
     <!-- <pre>{{ classifieds }}</pre> -->
@@ -25,17 +26,40 @@ export default {
   data() {
     return {
       classifieds: [],
+      favs: null,
     }
   },
   async mounted() {
     const classifieds = await this.$strapi.find('classifieds')
     console.log(classifieds)
+    const f = await this.$strapi.find('favs', {
+      users_permissions_user: this.$strapi.user.id,
+    })
+    this.favs = f.sort((a, b) => {
+      if (a.type < b.type) {
+        return -1
+      }
+      if (a.type > b.type) {
+        return 1
+      }
+      return 0
+    })
     this.classifieds = classifieds.sort(function (a, b) {
       return moment(b.created_at).format('X') - moment(a.created_at).format('X')
     })
   },
   methods: {
     moment,
+    favCheck(type, id) {
+      const check = this.favs.filter((f) => {
+        console.log('fav checkc ')
+        return f.data.id === id
+      })
+      if (check.length > 0) {
+        return true
+      }
+      console.log(check, ' this is check ')
+    },
   },
 }
 </script>

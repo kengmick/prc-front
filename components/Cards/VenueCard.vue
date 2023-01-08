@@ -189,8 +189,14 @@
           @click="favorite('venues', venue)"
           class="flex items-center justify-between w-full px-2 cursor-pointer"
           ><img
+            v-if="isFav"
             class="h-[12px] w-[12px]"
             src="/heart.svg"
+            alt=""
+          /><img
+            v-if="!isFav"
+            class="h-[12px] w-[12px]"
+            src="/notheart.svg"
             alt=""
           />Favorite</span
         >
@@ -199,8 +205,14 @@
           @click="unFollowFunc('venues', venue.id)"
           class="flex items-center justify-between w-full px-2 cursor-pointer"
           ><img
+            v-if="isFav"
             class="h-[12px] w-[12px]"
             src="/heart.svg"
+            alt=""
+          /><img
+            v-if="!isFav"
+            class="h-[12px] w-[12px]"
+            src="/notheart.svg"
             alt=""
           />Unfollow</span
         >
@@ -319,6 +331,12 @@ export default {
       },
     },
     unFollow: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    isFav: {
       type: Boolean,
       default() {
         return false

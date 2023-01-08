@@ -280,6 +280,7 @@
             :band="band"
             :user="band.users_permissions_user"
             @createdFavs="updateFavData"
+            :isFav="favCheck('bands', band.id)"
           />
           <!-- <ProfileBandCard
             v-for="(band, index) in bands"
@@ -334,6 +335,7 @@
             :key="event.title"
             :event="event"
             @createdFavs="updateFavData"
+            :isFav="favCheck('events', event.id)"
           />
         </div>
       </section>
@@ -384,6 +386,7 @@
             :key="tour.title"
             :tour="tour"
             @createdFavs="updateFavData"
+            :isFav="favCheck('tours', tour.id)"
           />
         </div>
       </section>
@@ -428,6 +431,7 @@
             :key="distro.name"
             :distro="distro"
             @createdFavs="updateFavData"
+            :isFav="favCheck('record-labels', distro.id)"
           />
         </div>
       </div>
@@ -476,6 +480,7 @@
             :venue="venue"
             @removeVenue="openPopUp"
             @createdFavs="updateFavData"
+            :isFav="favCheck('venues', venue.id)"
           />
           <div />
         </div>
@@ -524,6 +529,7 @@
             v-for="article in classifieds"
             :key="article.title"
             :article="article"
+            :isFav="favCheck('classifieds', article.id)"
           />
 
           <!-- <div
@@ -574,6 +580,7 @@
                   :user="fav.data.users_permissions_user"
                   :unFollow="true"
                   @updatedFavs="getFavs(fav.data.users_permissions_user)"
+                  :isFav="true"
                 />
               </span>
             </div>
@@ -587,6 +594,7 @@
                   :venue="fav.data"
                   :unFollow="true"
                   @updatedFavs="getFavs(fav.data.users_permissions_user)"
+                  :isFav="true"
                 />
               </span>
             </div>
@@ -600,6 +608,7 @@
                   :tour="fav.data"
                   :unFollow="true"
                   @updatedFavs="getFavs(fav.data.users_permissions_user)"
+                  :isFav="true"
                 />
               </span>
             </div>
@@ -613,6 +622,7 @@
                   :event="fav.data"
                   :unFollow="true"
                   @updatedFavs="getFavs(fav.data.users_permissions_user)"
+                  :isFav="true"
                 />
               </span>
             </div>
@@ -626,6 +636,7 @@
                   :distro="fav.data"
                   :unFollow="true"
                   @updatedFavs="getFavs(fav.data.users_permissions_user)"
+                  :isFav="true"
                 />
               </span>
             </div>
@@ -639,6 +650,7 @@
                   :article="fav.data"
                   :unFollow="true"
                   @updatedFavs="getFavs(fav.data.users_permissions_user)"
+                  :isFav="true"
                 />
               </span>
             </div>
@@ -1000,6 +1012,16 @@ export default {
   },
   methods: {
     moment,
+    favCheck(type, id) {
+      const check = this.favs.filter((f) => {
+        console.log('fav checkc ')
+        return f.data.id === id
+      })
+      if (check.length > 0) {
+        return true
+      }
+      console.log(check, ' this is check ')
+    },
     async getFavs(userid) {
       console.log('get favs ')
       console.log('get favs ')

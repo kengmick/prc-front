@@ -5,6 +5,7 @@
         class="mx-auto"
         :article="classified"
         @startChat="startChatNow(classified.users_permissions_user)"
+        :isFav="favCheck('classifieds', classified.id)"
       />
     </div>
     <div
@@ -53,9 +54,22 @@ export default {
       finalChat: null,
       hasChat: false,
       chatSelf: false,
+      favs: null,
     }
   },
   async mounted() {
+    const f = await this.$strapi.find('favs', {
+      users_permissions_user: this.$strapi.user.id,
+    })
+    this.favs = f.sort((a, b) => {
+      if (a.type < b.type) {
+        return -1
+      }
+      if (a.type > b.type) {
+        return 1
+      }
+      return 0
+    })
     try {
       this.user = this.$strapi.user.id
     } catch (error) {
@@ -77,6 +91,16 @@ export default {
   },
   methods: {
     moment,
+    favCheck(type, id) {
+      const check = this.favs.filter((f) => {
+        console.log('fav checkc ')
+        return f.data.id === id
+      })
+      if (check.length > 0) {
+        return true
+      }
+      console.log(check, ' this is check ')
+    },
     async renderChatComp(chat) {
       this.chatComp = false
       if (this.chatComp === false) {

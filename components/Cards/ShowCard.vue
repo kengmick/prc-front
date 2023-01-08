@@ -217,20 +217,32 @@
           <span
             v-if="!unFollow"
             @click="favorite('events', event)"
-            class="flex items-center justify-between w-full px-2"
+            class="flex items-center justify-between w-full px-2 cursor-pointer"
             ><img
+              v-if="isFav"
               class="h-[12px] w-[12px]"
               src="/heart.svg"
+              alt=""
+            /><img
+              v-if="!isFav"
+              class="h-[12px] w-[12px]"
+              src="/notheart.svg"
               alt=""
             />Favorite</span
           >
           <span
             v-else
             @click="unFollowFunc('events', event.id)"
-            class="flex items-center justify-between w-full px-2"
+            class="flex items-center justify-between w-full px-2 cursor-pointer"
             ><img
+              v-if="isFav"
               class="h-[12px] w-[12px]"
               src="/heart.svg"
+              alt=""
+            /><img
+              v-if="!isFav"
+              class="h-[12px] w-[12px]"
+              src="/notheart.svg"
               alt=""
             />Unfollow</span
           >
@@ -359,6 +371,12 @@ export default {
       },
     },
     unFollow: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    isFav: {
       type: Boolean,
       default() {
         return false
