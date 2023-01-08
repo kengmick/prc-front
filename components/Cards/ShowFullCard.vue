@@ -203,9 +203,16 @@
       >
         <span
           class="flex items-center justify-between w-full px-2 cursor-pointer"
+          @click="favorite('events', event)"
           ><img
+            v-if="isFav"
             class="h-[12px] w-[12px]"
             src="/heart.svg"
+            alt=""
+          /><img
+            v-if="!isFav"
+            class="h-[12px] w-[12px]"
+            src="/notheart.svg"
             alt=""
           />Favorite</span
         >
@@ -323,6 +330,12 @@ export default {
         return false
       },
     },
+    isFav: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
   },
 
   data() {
@@ -345,9 +358,88 @@ export default {
     //   return [{ title: 'hello', text: 'hello ' }]
     // },
   },
+  async mounted() {
+    const f = await this.$strapi.find('favs', {
+      users_permissions_user: this.$strapi.user.id,
+    })
+    this.favs = f.sort((a, b) => {
+      if (a.type < b.type) {
+        return -1
+      }
+      if (a.type > b.type) {
+        return 1
+      }
+      return 0
+    })
+  },
 
   methods: {
     moment,
+    async favorite(type, data) {
+      console.log('fav function')
+      if (this.$strapi.user) {
+        try {
+          const curFavs = await this.$strapi.find('favs', {
+            users_permissions_user: this.$strapi.user.id,
+          })
+          console.log(curFavs, 'the current favs ')
+
+          if (curFavs.length > 0) {
+            const isSame = curFavs.filter((f) => {
+              return f.data.id === data.id && f.type === type
+            })
+            if (isSame.length === 0) {
+              console.log(isSame, ' this is same')
+              const fav = await this.$strapi.create('favs', {
+                users_permissions_user: this.$strapi.user.id,
+                data: data,
+                type: type,
+              })
+              const upFav = await this.$strapi.find('favs', {
+                users_permissions_user: this.$strapi.user.id,
+              })
+              console.log('emit created hreer', fav, upFav)
+              this.$router.push('/profile')
+            }
+            this.$router.push('/profile')
+          } else if (curFavs.length === 0) {
+            const fav = await this.$strapi.create('favs', {
+              users_permissions_user: this.$strapi.user.id,
+              data: data,
+              type: type,
+            })
+            console.log('emit createdfdsfdsfs')
+            console.log(curFavs, 'this is the fav', fav)
+            this.$router.push('/profile')
+          } else {
+            await this.$strapi.find('favs', {
+              users_permissions_user: this.$strapi.user.id,
+            })
+          }
+          const f = await this.$strapi.find('favs', {
+            users_permissions_user: this.$strapi.user.id,
+          })
+          this.$emit('createdFavs', f)
+          console.log(
+            'emited create createdFavscreatedFavscreatedFavscreatedFavs',
+            f
+          )
+        } catch (error) {
+          console.log('there was an error in the create favs function', error)
+        }
+      }
+      this.message = 'You must be logged in '
+    },
+    favCheck(type, id) {
+      const check = this.favs.filter((f) => {
+        console.log('fav checkc ', f)
+        return f.data.id === id
+      })
+      if (check.length > 0) {
+        return true
+      }
+      console.log(check, ' this is check ')
+    },
     startChat(user) {
       console.log('user from the poster card ', user, ' the id ', user.id)
       this.$emit('startChat', user)

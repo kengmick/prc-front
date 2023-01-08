@@ -5,6 +5,7 @@
         class="mx-auto"
         :distro="distro"
         @startChat="startChatNow(distro.users_permissions_user)"
+        :isFav="favCheck('record-labels', distro.id)"
       />
     </section>
     <NuxtLink
@@ -334,9 +335,22 @@ export default {
       finalChat: null,
       hasChat: false,
       chatSelf: false,
+      favs: null,
     }
   },
   async mounted() {
+    const f = await this.$strapi.find('favs', {
+      users_permissions_user: this.$strapi.user.id,
+    })
+    this.favs = f.sort((a, b) => {
+      if (a.type < b.type) {
+        return -1
+      }
+      if (a.type > b.type) {
+        return 1
+      }
+      return 0
+    })
     try {
       const distro = await this.$strapi.findOne(
         'record-labels',
@@ -384,6 +398,16 @@ export default {
     })
   },
   methods: {
+    favCheck(type, id) {
+      const check = this.favs.filter((f) => {
+        console.log('fav checkc ')
+        return f.data.id === id
+      })
+      if (check.length > 0) {
+        return true
+      }
+      console.log(check, ' this is check ')
+    },
     async renderChatComp(chat) {
       this.chatComp = false
       if (this.chatComp === false) {

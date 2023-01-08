@@ -13,7 +13,7 @@
         v-for="event in events"
         :key="event.title"
         :event="event"
-        :isFav="favCheck('record-labels', distro.id)"
+        :isFav="favCheck('events', event.id)"
       />
     </section>
     <!-- <div v-if="events" class="container mx-auto">

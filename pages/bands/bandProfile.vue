@@ -15,6 +15,7 @@
         :isHome="true"
         @addFeaturedToBandCard="addCard"
         @startChat="startChatNow(band.users_permissions_user)"
+        :isFav="favCheck('bands', band.id)"
       />
     </div>
     <!-- edit band features  -->
@@ -539,6 +540,7 @@ export default {
       re: '',
       trackForm: false,
       bioAction: 'create',
+      favs: null,
     }
   },
   computed: {
@@ -551,6 +553,18 @@ export default {
   },
 
   async mounted() {
+    const f = await this.$strapi.find('favs', {
+      users_permissions_user: this.$strapi.user.id,
+    })
+    this.favs = f.sort((a, b) => {
+      if (a.type < b.type) {
+        return -1
+      }
+      if (a.type > b.type) {
+        return 1
+      }
+      return 0
+    })
     // get bands
     console.log('this is the query', this.$route.query.band)
     // check if user is logged in and owns the band
@@ -626,6 +640,16 @@ export default {
   },
   methods: {
     moment,
+    favCheck(type, id) {
+      const check = this.favs.filter((f) => {
+        console.log('fav checkc ')
+        return f.data.id === id
+      })
+      if (check.length > 0) {
+        return true
+      }
+      console.log(check, ' this is check ')
+    },
     addPhotoModal() {
       this.addPhotoBox = !this.addPhotoBox
     },

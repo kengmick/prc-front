@@ -5,6 +5,7 @@
         class="mx-auto"
         :event="event"
         @startChat="startChatNow(event.users_permissions_user)"
+        :isFav="favCheck('events', event.id)"
       />
     </section>
     <NuxtLink
@@ -318,9 +319,22 @@ export default {
       finalChat: null,
       hasChat: false,
       chatSelf: false,
+      favs: null,
     }
   },
   async mounted() {
+    const f = await this.$strapi.find('favs', {
+      users_permissions_user: this.$strapi.user.id,
+    })
+    this.favs = f.sort((a, b) => {
+      if (a.type < b.type) {
+        return -1
+      }
+      if (a.type > b.type) {
+        return 1
+      }
+      return 0
+    })
     try {
       const event = await this.$strapi.findOne(
         'events',
@@ -361,6 +375,26 @@ export default {
   },
   methods: {
     moment,
+    // favCheck(type, id) {
+    //   const check = this.favs.filter((f) => {
+    //     console.log('fav checkc ')
+    //     return f.data.id === id
+    //   })
+    //   if (check.length > 0) {
+    //     return true
+    //   }
+    //   console.log(check, ' this is check ')
+    // },
+    favCheck(type, id) {
+      const check = this.favs.filter((f) => {
+        console.log('fav checkc ')
+        return f.data.id === id
+      })
+      if (check.length > 0) {
+        return true
+      }
+      console.log(check, ' this is check ')
+    },
     async deleteAll(id) {
       const del = await this.$strapi.delete('events', id)
       if (del) {
