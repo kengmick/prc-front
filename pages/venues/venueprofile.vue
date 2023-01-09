@@ -4,6 +4,7 @@
       <CardsFullVenueCard
         :venue="venue"
         @startChat="startChatNow(venue.users_permissions_user)"
+        :isFav="favCheck('venues', venue.id)"
       />
     </div>
     <NuxtLink
@@ -326,9 +327,22 @@ export default {
       finalChat: null,
       hasChat: false,
       chatSelf: false,
+      favs: null,
     }
   },
   async mounted() {
+    const f = await this.$strapi.find('favs', {
+      users_permissions_user: this.$strapi.user.id,
+    })
+    this.favs = f.sort((a, b) => {
+      if (a.type < b.type) {
+        return -1
+      }
+      if (a.type > b.type) {
+        return 1
+      }
+      return 0
+    })
     try {
       const venue = await this.$strapi.findOne(
         'venues',
@@ -357,6 +371,16 @@ export default {
   },
   methods: {
     moment,
+    favCheck(type, id) {
+      const check = this.favs.filter((f) => {
+        console.log('fav checkc ')
+        return f.data.id === id
+      })
+      if (check.length > 0) {
+        return true
+      }
+      console.log(check, ' this is check ')
+    },
     async renderChatComp(chat) {
       this.chatComp = false
       if (this.chatComp === false) {

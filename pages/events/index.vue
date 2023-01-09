@@ -188,6 +188,7 @@ export default {
       events: '',
       oldEvents: '',
       errorMessage: '',
+      favs: null,
     }
   },
   async mounted() {
