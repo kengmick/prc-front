@@ -36,16 +36,10 @@
             {{ moment(String(venue.dateOpened)).format('MMM Do YYYY') }}
           </p>
 
-          <span v-if="venue.users_permissions_user">
-            <span v-if="venue.users_permissions_user.id !== $strapi.user">
-              <p
-                v-if="4 !== $strapi.user.id"
-                class="text-[12px] chedder underline"
-                @click="startChat(user)"
-              >
-                Internal Message
-              </p>
-            </span>
+          <span>
+            <p class="text-[12px] chedder underline" @click="startChat(user)">
+              Internal Message
+            </p>
           </span>
           <!-- <span v-else>
             <p class="text-[12px] chedder underline">Internal Message</p>
@@ -353,9 +347,11 @@ export default {
   },
   async mounted() {
     if (this.$strapi.user) {
+      console.log(' user herer ')
       const f = await this.$strapi.find('favs', {
         users_permissions_user: this.$strapi.user.id,
       })
+      console.log('f ', f)
       if (f) {
         this.favs = f.sort((a, b) => {
           if (a.type < b.type) {
@@ -367,6 +363,7 @@ export default {
           return 0
         })
       }
+      console.log('no user ')
     }
   },
 

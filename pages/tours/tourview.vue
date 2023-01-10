@@ -670,32 +670,21 @@ export default {
     }
   },
   async mounted() {
-    const f = await this.$strapi.find('favs', {
-      users_permissions_user: this.$strapi.user.id,
-    })
-    this.favs = f.sort((a, b) => {
-      if (a.type < b.type) {
-        return -1
-      }
-      if (a.type > b.type) {
-        return 1
-      }
-      return 0
-    })
-    // try {
-    //   const bands = await this.$strapi.find('bands', {
-    //     users_permissions_user: this.$strapi.user.id,
-    //   })
-    //   this.bands = bands
-    //   const o = {}
-    //   bands.forEach((b) => {
-    //     o[b.bandName] = b.bandName
-    //   })
-    //   this.userBands = o
-    // } catch (error) {
-    //   this.userBands = null
-    //   console.log(error)
-    // }
+    if (this.$strapi.user) {
+      const f = await this.$strapi.find('favs', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      this.favs = f.sort((a, b) => {
+        if (a.type < b.type) {
+          return -1
+        }
+        if (a.type > b.type) {
+          return 1
+        }
+        return 0
+      })
+    }
+
     try {
       this.loading = true
       const tour = await this.$strapi.findOne('tours', this.$route.query.tour)
