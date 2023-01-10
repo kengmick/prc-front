@@ -198,7 +198,9 @@
       <div
         class="w-[70px] h-[24px] bg-[#ECDD2A] flex justify-center items-center text-[10px] chedder"
       >
-        <span class="flex items-center justify-between w-full px-2"
+        <span
+          class="flex items-center justify-between w-full px-2 cursor-pointer"
+          @click="genCode"
           ><img class="h-[12px] w-[12px]" src="/qr1.svg" alt="" />QR Code</span
         >
       </div>
@@ -330,6 +332,15 @@ export default {
 
   methods: {
     moment,
+    async genCode() {
+      const id = await this.article.id
+      const temp = `classified/bandprofile/?band=${id}`
+      console.log(temp)
+      this.$router.push({
+        path: '/qr',
+        query: { type: temp, color: 'classifieds' },
+      })
+    },
     async favorite(type, data) {
       if (this.$strapi.user) {
         try {

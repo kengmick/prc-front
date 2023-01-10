@@ -264,6 +264,7 @@
       >
         <span
           class="flex items-center justify-between w-full px-2 cursor-pointer"
+          @click="genCode"
           ><img class="h-[12px] w-[12px]" src="/qr1.svg" alt="" />QR Code</span
         >
       </div>
@@ -391,6 +392,15 @@ export default {
   },
 
   methods: {
+    async genCode() {
+      const id = await this.band.id
+      const temp = `bands/bandprofile/?band=${id}`
+      console.log(temp)
+      this.$router.push({
+        path: '/qr',
+        query: { type: temp },
+      })
+    },
     async favorite(type, data) {
       if (this.$strapi.user) {
         try {

@@ -222,7 +222,9 @@
       <div
         class="w-[70px] h-[24px] bg-[#F81194] flex justify-center items-center text-[10px] chedder"
       >
-        <span class="flex items-center justify-between w-full px-2"
+        <span
+          class="flex items-center justify-between w-full px-2 cursor-pointer"
+          @click="genCode"
           ><img class="h-[12px] w-[12px]" src="/qr1.svg" alt="" />QR Code</span
         >
       </div>
@@ -369,6 +371,15 @@ export default {
 
   methods: {
     moment,
+    async genCode() {
+      const id = await this.venue.id
+      const temp = `venues/venueprofile/?venue=${id}`
+      console.log(temp)
+      this.$router.push({
+        path: '/qr',
+        query: { type: temp, color: 'venues' },
+      })
+    },
     async favorite(type, data) {
       console.log('fav function')
       if (this.$strapi.user) {

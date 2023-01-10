@@ -16,19 +16,19 @@ export default {
     width: {
       type: Number,
       default: () => {
-        return 300
+        return 500
       },
     },
     height: {
       type: Number,
       default: () => {
-        return 300
+        return 500
       },
     },
     data: {
       type: String,
       default: () => {
-        return 'https://punkrockcompound.com'
+        return null
       },
     },
   },
