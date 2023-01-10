@@ -323,37 +323,40 @@ export default {
     }
   },
   async mounted() {
-    const f = await this.$strapi.find('favs', {
-      users_permissions_user: this.$strapi.user.id,
-    })
-    this.favs = f.sort((a, b) => {
-      if (a.type < b.type) {
-        return -1
-      }
-      if (a.type > b.type) {
-        return 1
-      }
-      return 0
-    })
+    // if (this.$strapi.user) {
+    //   console.log('this is user')
+    //   const f = await this.$strapi.find('favs', {
+    //     users_permissions_user: this.$strapi.user.id,
+    //   })
+    //   if (f) {
+    //     this.favs = f.sort((a, b) => {
+    //       if (a.type < b.type) {
+    //         return -1
+    //       }
+    //       if (a.type > b.type) {
+    //         return 1
+    //       }
+    //       return 0
+    //     })
+    //   }
+    // }
     try {
       const event = await this.$strapi.findOne(
         'events',
         this.$route.query.event
       )
       this.event = event
-      this.user = this.$strapi.user.id
-      if (event.users_permissions_user.id === this.$strapi.user.id) {
-        console.log('the if conditions')
-        this.permission = true
+      if (event) {
+        const posts = await this.$strapi.find('posts', {
+          events: this.event.id,
+        })
+        this.posts = posts
+        console.log(posts, ' this is post ')
       }
+
       if (event.eventDescription) {
         this.bioAction = 'edit'
       }
-      const posts = await this.$strapi.find('posts', {
-        event: event.id,
-      })
-      this.posts = posts
-      this.image = event.eventPoster.url
     } catch (error) {
       console.log(error)
     }
@@ -386,14 +389,16 @@ export default {
     //   console.log(check, ' this is check ')
     // },
     favCheck(type, id) {
-      const check = this.favs.filter((f) => {
-        console.log('fav checkc ')
-        return f.data.id === id
-      })
-      if (check.length > 0) {
-        return true
+      if (this.favs) {
+        const check = this.favs.filter((f) => {
+          console.log('fav checkc ')
+          return f.data.id === id
+        })
+        if (check.length > 0) {
+          return true
+        }
+        console.log(check, ' this is check ')
       }
-      console.log(check, ' this is check ')
     },
     async deleteAll(id) {
       const del = await this.$strapi.delete('events', id)

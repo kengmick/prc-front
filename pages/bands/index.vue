@@ -19,14 +19,14 @@
       />
     </section>
     <div v-else>{{ errorMessage }}</div>
-    <section v-if="chat">
+    <!-- <section v-if="chat">
       <Chat
         :chatInfo="chat"
         :chatWithId="chat.chatWith.id"
         class="z-[9999999]"
         @closeChat="renderChatComp"
       />
-    </section>
+    </section> -->
   </div>
 </template>
 
@@ -44,22 +44,26 @@ export default {
     }
   },
   async mounted() {
-    const f = await this.$strapi.find('favs', {
-      users_permissions_user: this.$strapi.user.id,
-    })
-    this.favs = f.sort((a, b) => {
-      if (a.type < b.type) {
-        return -1
-      }
-      if (a.type > b.type) {
-        return 1
-      }
-      return 0
-    })
-    const e = document.getElementById('a')
-    console.log(e, 'there whould ')
+    if (this.$strapi.user) {
+      console.log('mounted user ', this)
+      const f = await this.$strapi.find('favs', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      this.favs = f.sort((a, b) => {
+        if (a.type < b.type) {
+          return -1
+        }
+        if (a.type > b.type) {
+          return 1
+        }
+        return 0
+      })
+    }
+
     try {
+      console.log('looking for bands')
       const bands = await this.$strapi.find('bands')
+      console.log(bands)
       this.bands = bands
     } catch (error) {
       this.errorMessage = 'Sorry ... there was a problem'
@@ -68,14 +72,16 @@ export default {
 
   methods: {
     favCheck(type, id) {
-      const check = this.favs.filter((f) => {
-        console.log('fav checkc ')
-        return f.data.id === id
-      })
-      if (check.length > 0) {
-        return true
+      if (this.favs !== null) {
+        const check = this.favs.filter((f) => {
+          console.log('fav checkc ')
+          return f.data.id === id
+        })
+        if (check.length > 0) {
+          return true
+        }
+        console.log(check, ' this is check ')
       }
-      console.log(check, ' this is check ')
     },
     async renderChatComp(chat) {
       console.log('this is the render chat comp')

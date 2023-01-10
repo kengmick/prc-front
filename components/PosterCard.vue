@@ -262,7 +262,8 @@
       <div
         class="w-[70px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"
       >
-        <span class="flex items-center justify-between w-full px-2"
+        <span
+          class="flex items-center justify-between w-full px-2 cursor-pointer"
           ><img class="h-[12px] w-[12px]" src="/qr1.svg" alt="" />QR Code</span
         >
       </div>
@@ -291,7 +292,7 @@ export default {
     band: {
       type: Object,
       default() {
-        return {}
+        return null
       },
     },
     addingCard: {

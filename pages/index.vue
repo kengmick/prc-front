@@ -65,18 +65,30 @@ export default {
       finalChat: null,
       hasChat: false,
       chatSelf: false,
+      qrCode: null,
     }
   },
   async fetch() {
     try {
       const allBands = await this.$strapi.find('bands')
       this.bands = allBands.slice(0, 3)
-      this.event = await this.$strapi.find('featured-event')
     } catch (error) {
       console.log(error, 'this is all bands ')
     }
   },
-
+  // mounted() {
+  //   this.qrCode = new QRCodeStyling({
+  //     width: 300,
+  //     height: 300,
+  //     type: 'svg',
+  //     data: 'https://www.google.com/',
+  //     dotsOptions: {
+  //       color: '#c10609',
+  //       type: 'squared',
+  //     },
+  //   })
+  //   this.qrCode.append(this.$refs.qrCode)
+  // },
   methods: {
     async renderChatComp(chat) {
       this.chatComp = false

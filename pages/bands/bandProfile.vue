@@ -15,7 +15,6 @@
         :isHome="true"
         @addFeaturedToBandCard="addCard"
         @startChat="startChatNow(band.users_permissions_user)"
-        :isFav="favCheck('bands', band.id)"
       />
     </div>
     <!-- edit band features  -->
@@ -553,59 +552,70 @@ export default {
   },
 
   async mounted() {
-    const f = await this.$strapi.find('favs', {
-      users_permissions_user: this.$strapi.user.id,
-    })
-    this.favs = f.sort((a, b) => {
-      if (a.type < b.type) {
-        return -1
-      }
-      if (a.type > b.type) {
-        return 1
-      }
-      return 0
-    })
+    if (this.$strapi.user) {
+      console.log('this is user')
+      const f = await this.$strapi.find('favs', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      this.favs = f.sort((a, b) => {
+        if (a.type < b.type) {
+          return -1
+        }
+        if (a.type > b.type) {
+          return 1
+        }
+        return 0
+      })
+    }
     // get bands
     console.log('this is the query', this.$route.query.band)
     // check if user is logged in and owns the band
     try {
-      const band = await this.$strapi.findOne('bands', this.$route.query.band)
-      this.band = band
+      this.band = await this.$strapi.findOne('bands', this.$route.query.band)
+
       // const id = [...this.band.events]
       // const ids = await id.map((e) => {
       //   return ['id', e.id]
       // })
+
+      const posts = await this.$strapi.find('posts', {
+        bands: this.band.id,
+      })
+      this.posts = posts
+      console.log(posts, ' this is post ')
       if (this.band.bio) {
         this.bioAction = 'edit'
       }
-      if (this.band.video1) {
-        this.video1 = band.video1
-        this.videos.push(this.band.video1)
-      }
-      if (this.band.video2) {
-        this.video2 = band.video2
-        this.videos.push(this.band.video2)
-      }
-      if (this.band.video3) {
-        this.video3 = band.video3
-        this.videos.push(this.band.video3)
-      }
+      // if (this.band.video1) {
+      //   this.video1 = band.video1
+      //   this.videos.push(this.band.video1)
+      // }
+      // if (this.band.video2) {
+      //   this.video2 = band.video2
+      //   this.videos.push(this.band.video2)
+      // }
+      // if (this.band.video3) {
+      //   this.video3 = band.video3
+      //   this.videos.push(this.band.video3)
+      // }
       const events = this.band.events
+      console.log(events, ' this is events ')
       // this means that the events are upcoming
-      const upcomingEvents = events.filter((e) => {
-        console.log(moment(e.date).toISOString())
-        return moment(e.date).toISOString() >= moment().toISOString()
-      })
+      // const upcomingEvents = events.filter((e) => {
+      //   console.log(moment(e.date).toISOString())
+      //   return moment(e.date).toISOString() >= moment().toISOString()
+      // })
 
-      this.events = upcomingEvents.sort((a, b) => {
-        return moment.utc(a.date).diff(moment.utc(b.date))
-      })
+      // this.events = upcomingEvents.sort((a, b) => {
+      //   return moment.utc(a.date).diff(moment.utc(b.date))
+      // })
     } catch (error) {
       console.log(error, 'there was an error ')
     }
     try {
-      this.user = this.$strapi.user.id
+      console.log('last try')
       if (this.user) {
+        console.log('this is user bottomt ')
         // compare userid to userpermission in front
         if (this.user === this.band.users_permissions_user.id) {
           console.log('do something herer')
@@ -613,15 +623,10 @@ export default {
         }
       }
     } catch (error) {
+      console.log(error, ' this is error ')
       this.user = null
     }
     // get events
-
-    const posts = await this.$strapi.find('posts', {
-      bands: this.band.id,
-    })
-    this.posts = posts
-    console.log(posts, 'this is the posts ', this.band.id)
   },
   created() {
     const backButtonRouteGuard = this.$router.beforeEach((to, from, next) => {
@@ -641,14 +646,16 @@ export default {
   methods: {
     moment,
     favCheck(type, id) {
-      const check = this.favs.filter((f) => {
-        console.log('fav checkc ')
-        return f.data.id === id
-      })
-      if (check.length > 0) {
-        return true
+      if (this.favs) {
+        const check = this.favs.filter((f) => {
+          console.log('fav checkc ')
+          return f.data.id === id
+        })
+        if (check.length > 0) {
+          return true
+        }
+        console.log(check, ' this is check ')
       }
-      console.log(check, ' this is check ')
     },
     addPhotoModal() {
       this.addPhotoBox = !this.addPhotoBox
