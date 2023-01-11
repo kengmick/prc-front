@@ -459,12 +459,12 @@ export default {
         // go to add card page
         if (band.users_permissions_user.id === this.$strapi.user.id) {
           this.$router.push({
-            path: 'addcardpage',
+            path: '/addcardpage',
             query: { band: band.id, usersCard: true },
           })
         } else {
           this.$router.push({
-            path: 'addcardpage',
+            path: '/addcardpage',
             query: { band: band.id, usersCard: false },
           })
         }

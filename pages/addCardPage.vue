@@ -90,11 +90,11 @@ export default {
       console.log('add a card to something')
     },
     async logCardPicked(card) {
-      console.log('loged card picked ')
+      console.log('loged card picked ', card)
       if (toString(this.band.id).indexOf('-')) {
         console.log('hello')
-        const idx = this.band.id.indexOf('-')
-        this.band.id = this.band.id.substring(idx + 1)
+        // const idx = this.band.id.indexOf('-')
+        // this.band.id = this.band.id.substring(idx + 1)
       }
       try {
         const updated = await this.$strapi.update('bands', this.band.id, {
