@@ -446,12 +446,12 @@ export default {
         if (distro.users_permissions_user.id === this.$strapi.user.id) {
           this.$router.push({
             path: 'addcardpage',
-            query: { distro: distro.id, usersCard: true },
+            query: { data: distro.id, type: 'distros', usersCard: true },
           })
         } else {
           this.$router.push({
             path: 'addcardpage',
-            query: { distro: distro.id, usersCard: false },
+            query: { data: distro.id, type: 'distros', usersCard: false },
           })
         }
       } else {
@@ -470,10 +470,6 @@ export default {
     startChat(user) {
       console.log('user from the poster card ', user, ' the id ', user.id)
       this.$emit('startChat', user)
-    },
-
-    logit() {
-      console.log('hey this is a double click')
     },
     async fav(bandId) {
       const stringId = bandId.toString()

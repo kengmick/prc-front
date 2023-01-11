@@ -3,7 +3,7 @@
     <section class="w-full h-96 flex items-center justify-center bg-[#19332d]">
       <h1 class="text-white">PunkRock Compound</h1>
     </section>
-    <section v-if="bands.length > 0" class="overflow-x-hidden">
+    <section v-if="bands" class="overflow-x-hidden">
       <!-- container for poster cards -->
       <div
         class="flex mt-6 flex-col justify-center items-center md:flex-row md:flex-wrap md:gap-6"
@@ -54,7 +54,7 @@
 export default {
   data() {
     return {
-      bands: [],
+      bands: null,
       event: null,
       video: '',
       liveStream: null,

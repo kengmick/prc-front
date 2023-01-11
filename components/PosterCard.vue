@@ -161,7 +161,8 @@
             :to="{
               path: '/addCardPage',
               query: {
-                band: band.id,
+                data: band.id,
+                type: 'bands',
               },
             }"
           >
@@ -264,7 +265,15 @@
       >
         <span
           class="flex items-center justify-between w-full px-2 cursor-pointer"
-          @click="genCode"
+          @click="
+            $router.push({
+              path: '/qr',
+              query: {
+                type: '/bands/bandprofile',
+                dataId: band.id,
+              },
+            })
+          "
           ><img class="h-[12px] w-[12px]" src="/qr1.svg" alt="" />QR Code</span
         >
       </div>
@@ -275,10 +284,10 @@
     >
       <div
         class="w-11/12 bg-black text-white flex justify-center items-center text-[14px] chedder mt-[4px] py-4 mb-6 cursor-pointer"
-        @click="$emit('selectUsersCard', band.id)"
+        @click="$emit('selectUsersCard', band)"
       >
-        <span v-if="usersCard">Add to this Card !!!</span>
-        <span v-else>Add this Card !!!</span>
+        <span v-if="usersCard">Add to this Card !!!fsdfdsfdsf</span>
+        <span v-else>Add this Card !!!fsdfdsfds</span>
       </div>
     </section>
     <Modal class="z-50" v-if="showModal" @close="showModal = false" />
@@ -392,15 +401,6 @@ export default {
   },
 
   methods: {
-    async genCode() {
-      const id = await this.band.id
-      const temp = `bands/bandprofile/?band=${id}`
-      console.log(temp)
-      this.$router.push({
-        path: '/qr',
-        query: { type: temp },
-      })
-    },
     async favorite(type, data) {
       if (this.$strapi.user) {
         try {
@@ -468,12 +468,12 @@ export default {
         if (band.users_permissions_user.id === this.$strapi.user.id) {
           this.$router.push({
             path: 'addcardpage',
-            query: { band: band.id, usersCard: true },
+            query: { data: band.id, type: 'bands', usersCard: true },
           })
         } else {
           this.$router.push({
             path: 'addcardpage',
-            query: { band: band.id, usersCard: false },
+            query: { data: band.id, type: 'bands', usersCard: false },
           })
         }
       } else {
