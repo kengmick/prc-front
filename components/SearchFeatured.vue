@@ -26,7 +26,7 @@
                 :selectUsersCard="true"
                 :addingCard="true"
                 :usersCard="usersCard"
-                @selectUsersCard="log(band)"
+                @selectUsersCard="featureData(band)"
               />
             </span>
           </template>
@@ -167,15 +167,13 @@ export default {
   },
   methods: {
     featureData(data) {
-      console.log('log is logger', data)
-      this.$emit('selectUsersCard', this.data.id)
-      // if (toString(this.data.id).indexOf('-')) {
-      //   console.log(this.data.id.indexOf('-'), 'this is the idx')
-      //   const idx = this.data.id.indexOf('-')
-      //   this.data.id = this.data.id.substring(idx + 1)
-      // }
+      console.log('log is logger', data.id)
 
-      // this.$emit('selectUsersCard', this.data.id)
+      if (data.id.includes('bands-')) {
+        console.log('hello bands ')
+      } else {
+        console.log('not bands ')
+      }
     },
   },
 }
