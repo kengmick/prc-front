@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="distro === !null"
     class="w-[300px] h-[400px] border-box border-[#22E8FF] border-[2px] relative overscroll-none text-black"
   >
     <nuxt-img
@@ -239,10 +240,10 @@
     >
       <div
         class="w-11/12 bg-black text-white flex justify-center items-center text-[14px] chedder mt-[4px] py-4 mb-6 cursor-pointer"
-        @click="$emit('selectUsersCard', distro.id)"
+        @click="$emit('selectUsersCard', distro)"
       >
         <span v-if="usersCard">Add to this Card !!!</span>
-        <span v-else>Add this Card !!!</span>
+        <span v-else>Add this Card !!! </span>
       </div>
     </section>
     <Modal class="z-50" v-if="showModal" @close="showModal = false" />
@@ -259,7 +260,7 @@ export default {
     distro: {
       type: Object,
       default() {
-        return {}
+        return null
       },
     },
     addingCard: {
@@ -329,6 +330,12 @@ export default {
       },
     },
     isFav: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    addFeat: {
       type: Boolean,
       default() {
         return false
@@ -439,33 +446,32 @@ export default {
       }
       this.message = 'You must be logged in '
     },
-    goToAddCard(distro) {
+    goToAddCard(data) {
       if (this.$strapi.user) {
         this.showModal = false
         // go to add card page
-        if (distro.users_permissions_user.id === this.$strapi.user.id) {
+        if (data.users_permissions_user.id === this.$strapi.user.id) {
           this.$router.push({
             path: 'addcardpage',
-            query: { data: distro.id, type: 'distros', usersCard: true },
+            query: { data: data.id, type: 'distro', usersCard: true },
           })
         } else {
           this.$router.push({
             path: 'addcardpage',
-            query: { data: distro.id, type: 'distros', usersCard: false },
+            query: { data: data.id, type: 'distro', usersCard: false },
           })
         }
       } else {
         return (this.showModal = true)
       }
     },
-    addCardToData(userBandToAddToo, distro) {
+    addCardToData(userBandToAddToo, band) {
       // Check if user is logged in
       if (this.$strapi.user) {
         this.showModal = false
       } else {
         return (this.showModal = true)
       }
-      console.log(distro.users_permissions_user.id, this.$strapi.user.id)
     },
     startChat(user) {
       console.log('user from the poster card ', user, ' the id ', user.id)

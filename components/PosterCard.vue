@@ -461,19 +461,19 @@ export default {
         this.$emit('updatedFavs')
       }
     },
-    goToAddCard(band) {
+    goToAddCard(data) {
       if (this.$strapi.user) {
         this.showModal = false
         // go to add card page
-        if (band.users_permissions_user.id === this.$strapi.user.id) {
+        if (data.users_permissions_user.id === this.$strapi.user.id) {
           this.$router.push({
             path: 'addcardpage',
-            query: { data: band.id, type: 'bands', usersCard: true },
+            query: { data: data.id, type: 'bands', usersCard: true },
           })
         } else {
           this.$router.push({
             path: 'addcardpage',
-            query: { data: band.id, type: 'bands', usersCard: false },
+            query: { data: data.id, type: 'bands', usersCard: false },
           })
         }
       } else {
@@ -487,49 +487,6 @@ export default {
       } else {
         return (this.showModal = true)
       }
-      console.log(band.users_permissions_user.id, this.$strapi.user.id)
-
-      // try {
-      //   // updating a band that the user picked to add too with the current bandid from the card
-      //   await console.log(userBandToAddToo, 'ad some featured card to band ')
-      //   // console.log('this is the band id that will be added ', this.band.id)
-      //   // if you selected a card to add to one of your cards
-      //   if (this.addToYourCard && userBandToAddToo) {
-      //     console.log(userBandToAddToo, 'the card to add', this.cardToAdd.id)
-      //     const updated = await this.$strapi.update('bands', userBandToAddToo, {
-      //       hasFeaturedCard: true,
-      //       cardType: 'band',
-      //       cardData: JSON.stringify(this.cardToAdd),
-      //     })
-      //     if (updated) {
-      //       // const stringId = this.band.id.split('').indexOf('-')
-      //       // const bandIdToPage = stringId + 1
-      //       this.$router.push({
-      //         path: '/bands/bandprofile',
-      //         query: { band: userBandToAddToo },
-      //       })
-      //     }
-      //   }
-      //   // const updated = await this.$strapi.update(
-      //   //   'bands',
-      //   //   this.userBandToAddToo,
-      //   //   {
-      //   //     hasFeaturedCard: true,
-      //   //     cardType: 'band',
-      //   //     cardData: JSON.stringify(this.band),
-      //   //   }
-      //   // )
-      //   // if (updated) {
-      //   //   const stringId = this.band.id.split('').indexOf('-')
-      //   //   const bandIdToPage = stringId + 1
-      //   //   this.$router.push({
-      //   //     path: '/bands/bandprofile',
-      //   //     query: { band: this.band.id.substring(bandIdToPage) },
-      //   //   })
-      //   // }
-      // } catch (error) {
-      //   console.log(error, 'three was an error when trying to make the update')
-      // }
     },
     startChat(user) {
       console.log('user from the poster card ', user, ' the id ', user.id)
