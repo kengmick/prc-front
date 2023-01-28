@@ -143,10 +143,15 @@
               query: { band: band.cardData.id },
             }"
           >
-            <BasicFeaturedCard
-              :cardData="band.cardData"
-              v-if="band.cardType === 'band'"
-            />
+            <div v-if="band.cardType === 'bands'">
+              <BasicFeaturedCard :band="band.cardData" />
+            </div>
+            <div v-if="band.cardType === 'distro'">
+              <CardsDistroFeatured :distro="band.cardData" />
+            </div>
+            <div v-if="band.cardType === 'event'">
+              <CardsShowFeatured :event="band.cardData" />
+            </div>
           </NuxtLink>
         </span>
 

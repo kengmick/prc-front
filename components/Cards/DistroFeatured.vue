@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="distro"
-    class="w-[300px] h-[400px] border-box border-[#22E8FF] border-[2px] relative overscroll-none text-black scaleDown"
+    class="w-[300px] h-[400px] border-box border-[#22E8FF] border-[2px] relative overscroll-none text-black scaleDownTwo"
   >
     <nuxt-img
       class="absolute top-0 negetive-index object-fill"

@@ -11,11 +11,6 @@
                 v-bind:is="card"
                 class="mb-10"
                 :[type]="cardData"
-                :isFeatured="true"
-                :isHome="true"
-                :isAddCardPage="false"
-                :disableAll="true"
-                :addingCard="false"
                 @selectUsersCard="featureData(cardData, dataType)"
               ></component>
             </div>
@@ -110,6 +105,7 @@ export default {
         users_permissions_user: this.$strapi.user.id,
       })
       this.bands = bands
+      this.card = 'PosterCard'
     } catch (error) {
       console.log(
         error,
@@ -214,6 +210,19 @@ export default {
           console.log('hello')
         }
         console.log(distro, ' this is final distro')
+      }
+      if (this.type === 'event') {
+        console.log('event ==================')
+        const event = await this.$strapi.findOne(
+          'events',
+          this.$route.query.data
+        )
+        this.cardData = event
+        this.card = 'CardsShowCard'
+
+        if (this.distro.users_permissions_user.id !== this.$strapi.user.id) {
+          console.log('hello')
+        }
       }
     } catch (error) {
       console.log(error)
