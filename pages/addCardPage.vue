@@ -1,181 +1,65 @@
 <template>
   <div v-if="$strapi.user">
-    <div v-if="band">
+    <div>
       <!-- not users card  -->
-      <section v-if="band.users_permissions_user.id !== $strapi.user.id">
+      <section>
         <section class="my-4">
-          <!-- when not equal to the user id ... does not belong to user -->
           <h2 class="text-2xl text-center my-6">Feature this card</h2>
           <div class="container-sm mx-auto flex justify-center items-center">
-            <PosterCard
-              class="mb-10"
-              :band="band"
-              :user="band.users_permissions_user"
-              :isFeatured="true"
-              :isHome="true"
-              :isAddCardPage="false"
-              :disableAll="true"
-              @startChat="startChatNow(band.users_permissions_user)"
-            />
+            <div v-if="cardData">
+              <component
+                v-bind:is="card"
+                class="mb-10"
+                :[type]="cardData"
+                :isFeatured="true"
+                :isHome="true"
+                :isAddCardPage="false"
+                :disableAll="true"
+                :addingCard="false"
+                @selectUsersCard="featureData(cardData, dataType)"
+              ></component>
+            </div>
           </div>
           <p class="text-xl text-center my-6 chedder">
             Pick one of your profiles to add this card too
           </p>
           <!-- list all cards  -->
-
-          <SearchFeatured
-            index="bands"
-            type="bands"
-            filter="yourBands"
-            @selectUsersCard="logUsersCard"
-          />
-        </section>
-      </section>
-      <section v-if="band.users_permissions_user.id === $strapi.user.id">
-        <section class="my-4">
-          <h2 class="text-xl text-center my-6 chedder">
-            Add Card to your <span>{{ 'band' }}</span>
-          </h2>
-          <div class="container-sm mx-auto flex justify-center items-center">
+          <h3 class="text-main text-2xl text-center">Bands</h3>
+          <div
+            v-if="bands"
+            class="container-sm mx-auto flex justify-center items-center mb-6"
+          >
             <PosterCard
               class="mb-10"
               :band="band"
-              :user="band.users_permissions_user"
               :isFeatured="true"
               :isHome="true"
-              :isAddCardPage="false"
-              @startChat="startChatNow(band.users_permissions_user)"
-            />
-          </div>
-          <h2 class="text-xl text-center my-6 chedder">
-            Pick a card to feature
-          </h2>
-          <SearchFeatured
-            index="bands"
-            filter="allBands"
-            :usersCard="false"
-            @selectUsersCard="logCardPicked"
-          />
-        </section>
-      </section>
-    </div>
-    <div v-if="distro">
-      <!-- not users card  -->
-      <section v-if="distro.users_permissions_user.id !== $strapi.user.id">
-        <section class="my-4">
-          <!-- when not equal to the user id ... does not belong to user -->
-          <h2 class="text-2xl text-center my-6">Feature this card distro</h2>
-          <div class="container-sm mx-auto flex justify-center items-center">
-            <CardsDistroCard
-              class="mb-10"
-              :distro="distro"
-              :user="distro.users_permissions_user"
-              :isFeatured="true"
-              :isHome="true"
-              :isAddCardPage="false"
+              :addingCard="true"
+              :isAddCardPage="true"
               :disableAll="true"
-              @startChat="startChatNow(distro.users_permissions_user)"
+              @selectUsersCard="featureData(cardData, 'bands', true)"
             />
           </div>
-          <p class="text-xl text-center my-6 chedder">
-            Pick one of your profiles to add this card too
-          </p>
-          <!-- list all cards  -->
-          <div v-if="userProfiles">{{ userProfiles }}</div>
-          <!-- <SearchFeatured
-            index="record-labels"
-            type="distro"
-            filter="yourDistros"
-            @selectUsersCard="logUsersCard"
-          /> -->
-        </section>
-      </section>
-
-      <section v-if="distro.users_permissions_user.id === $strapi.user.id">
-        <section class="my-4">
-          <h2 class="text-xl text-center my-6 chedder">
-            Add Card to your <span>distro</span>
-          </h2>
-          <div class="container-sm mx-auto flex justify-center items-center">
-            <CardsDistroCard
-              class="mb-10"
-              :distro="distro"
-              :user="distro.users_permissions_user"
-              :isFeatured="true"
-              :isHome="true"
-              :isAddCardPage="false"
-              @startChat="startChatNow(distro.users_permissions_user)"
-            />
+          <div
+            v-if="distros"
+            class="container-sm mx-auto flex justify-center items-center mb-6"
+          >
+            <div v-for="d in distros" :key="d.name">
+              <CardsDistroCard
+                v-if="d"
+                :distro="d"
+                :addingCard="true"
+                :isAddCardPage="true"
+                @selectUsersCard="
+                  featureData(cardData, 'record-labels', true, d.id)
+                "
+              />
+            </div>
           </div>
-          <h2 class="text-xl text-center my-6 chedder">
-            Pick a card to feature
-          </h2>
-          <section v-if="!userProfiles">
-            <div class="px-4 flex">
-              <h3 class="pr-2" @click="tabNav('bands', 'PosterCard')">Bands</h3>
-              <h3 class="pr-2" @click="tabNav('events', 'CardsShowCard')">
-                Events
-              </h3>
-              <h3
-                class="pr-2"
-                @click="tabNav('record-labels', 'CardsDistroCard')"
-              >
-                Distros/Labels
-              </h3>
-            </div>
-            <div>{{ tab }}</div>
-
-            <div class="container-sm mx-auto flex justify-center items-center">
-              <div v-if="tab === 'record-labels' && currentTabComponent">
-                <div v-for="distro in distros" :key="distro.id">
-                  <component
-                    v-bind:is="currentTabComponent"
-                    class="mb-10"
-                    :distro="distro"
-                    :isFeatured="true"
-                    :isHome="true"
-                    :isAddCardPage="false"
-                    @startChat="startChatNow(distro.users_permissions_user)"
-                    :disableAll="false"
-                    :addingCard="true"
-                    @selectUsersCard="featureData(distro)"
-                  ></component>
-                </div>
-              </div>
-            </div>
-            <div class="container-sm mx-auto flex justify-center items-center">
-              <div v-if="tab.type === 'bands' && currentTabComponent && bands">
-                <div v-for="band in bands" :key="band.id">
-                  <component
-                    v-bind:is="currentTabComponent"
-                    class="mb-10"
-                    :user="band.users_permissions_user"
-                    :isFeatured="true"
-                    :isHome="true"
-                    :addingCard="true"
-                    @startChat="startChatNow(band.users_permissions_user)"
-                  ></component>
-                </div>
-              </div>
-            </div>
-          </section>
-          <!-- <SearchFeatured
-            index="record-labels"
-            type="distro"
-            filter="allDistros"
-            :usersCard="false"
-            @selectUsersCard="logCardPicked"
-          /> -->
         </section>
       </section>
     </div>
   </div>
-  <!-- <div v-else>
-    <h2>Please sign in</h2>
-    <div class="bg-black text-white px-4 py-2 flex justify-center items-center">
-      Sign in
-    </div>
-  </div> -->
 </template>
 
 <script>
@@ -185,6 +69,10 @@ export default {
       band: null,
       distro: null,
       distros: null,
+      articles: null,
+      venues: null,
+      tours: null,
+      events: null,
       bands: null,
       profile: null,
       cardToBeAddedToo: null,
@@ -192,7 +80,8 @@ export default {
       data: null,
       userProfiles: null,
       tab: 'bands',
-      currentTabComponent: null,
+      card: null,
+      cardData: null,
     }
   },
   computed: {
@@ -213,14 +102,104 @@ export default {
   async mounted() {
     this.type = this.$route.query.type
     this.data = this.$route.query.data
+    try {
+      this.bands = await this.$strapi.find('bands', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      console.log(
+        'this is all the users bands that it owns in the whole wide world',
+        this.bands
+      )
+    } catch (error) {
+      console.log(
+        error,
+        'there and no bands that exist in the users whole wide world'
+      )
+    }
 
     try {
-      if (this.type === 'bands') {
+      this.distros = await this.$strapi.find('record-labels', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      console.log(
+        'this is all the users distros that it owns in the whole wide world',
+        this.distros
+      )
+    } catch (error) {
+      console.log(
+        error,
+        'there and no distros that exist in the users whole wide world'
+      )
+    }
+
+    try {
+      this.bands = await this.$strapi.find('events', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      console.log(
+        'this is all the users events that it owns in the whole wide world',
+        this.events
+      )
+    } catch (error) {
+      console.log(
+        error,
+        'there and no events that exist in the users whole wide world'
+      )
+    }
+
+    try {
+      this.bands = await this.$strapi.find('tours', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      console.log(
+        'this is all the users tours that it owns in the whole wide world',
+        this.tours
+      )
+    } catch (error) {
+      console.log(
+        error,
+        'there and no tours that exist in the users whole wide world'
+      )
+    }
+
+    try {
+      this.bands = await this.$strapi.find('venues', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      console.log(
+        'this is all the users venues that it owns in the whole wide world',
+        this.venues
+      )
+    } catch (error) {
+      console.log(
+        error,
+        'there and no venues that exist in the users whole wide world'
+      )
+    }
+
+    try {
+      this.classifieds = await this.$strapi.find('classifieds', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      console.log(
+        'this is all the users classifieds that it owns in the whole wide world',
+        this.classifieds
+      )
+    } catch (error) {
+      console.log(
+        error,
+        'there and no classifieds that exist in the users whole wide world'
+      )
+    }
+
+    // render card mounted hook
+    try {
+      if (this.type === 'band') {
+        console.log('this is the band ')
         const band = await this.$strapi.findOne('bands', this.$route.query.data)
         this.band = band
-        console.log(band)
-        this.type = this.$route.query.type
-        this.data = this.$route.query.data
+        this.cardData = band
+        this.card = 'PosterCard'
       }
       if (this.type === 'distro') {
         console.log('distros ==================')
@@ -228,8 +207,9 @@ export default {
           'record-labels',
           this.$route.query.data
         )
-        this.distro = distro
-        console.log(distro)
+        this.cardData = distro
+        this.card = 'CardsDistroCard'
+
         if (this.distro.users_permissions_user.id !== this.$strapi.user.id) {
           console.log('hello')
         }
@@ -248,8 +228,25 @@ export default {
       this.distros = distros
       console.log(distros, ' this is the last distro')
     },
-    featureData(data) {
-      console.log(data)
+    async featureData(data, dataType, featureBoolean, cardDataId) {
+      // update the data
+      console.log(dataType, data, 'this is type and data ', cardDataId)
+      try {
+        const updated = await this.$strapi.update(dataType, cardDataId, {
+          hasFeaturedCard: true,
+          cardType: this.type,
+          cardData: data,
+        })
+        if (updated) {
+          console.log(updated, 'this is the updated')
+          this.$router.push({ path: '/profile' })
+        }
+      } catch (error) {
+        console.log(
+          error,
+          ' there was an error in adding the card inside of another card'
+        )
+      }
     },
 
     async logCardPicked(card) {

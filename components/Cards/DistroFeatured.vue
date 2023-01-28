@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="distro"
-    class="w-[300px] h-[400px] border-box border-[#22E8FF] border-[2px] relative overscroll-none text-black"
+    class="w-[300px] h-[400px] border-box border-[#22E8FF] border-[2px] relative overscroll-none text-black scaleDown"
   >
     <nuxt-img
       class="absolute top-0 negetive-index object-fill"
@@ -119,9 +119,6 @@
             <div v-if="distro.cardType === 'bands'">
               <BasicFeaturedCard :cardData="distro.cardData" />
             </div>
-            <div v-if="distro.cardType === 'distro'">
-              <CardsDistroFeatured :distro="distro.cardData" />
-            </div>
           </NuxtLink>
         </span>
 
@@ -136,8 +133,7 @@
             :to="{
               path: '/addCardPage',
               query: {
-                data: distro.id,
-                type: 'distro',
+                distro: distro.id,
               },
             }"
           >
@@ -542,11 +538,6 @@ export default {
   font-size: 56px;
 }
 
-.negetive-index {
-  z-index: -999;
-  filter: blur(4px);
-}
-
 .error {
   position: fixed;
   top: 0;
@@ -567,5 +558,22 @@ export default {
   height: 100vh;
   width: 100vw;
   background: green;
+}
+
+.scaleDown {
+  transform: scale(47.4%);
+  margin-left: -79px;
+  margin-top: -108px;
+}
+
+.scaleDownTwo {
+  transform: scale(47.4%);
+  margin-left: -80px;
+  margin-top: -105px;
+}
+
+.negetive-index {
+  z-index: -999;
+  filter: blur(4px);
 }
 </style>

@@ -250,7 +250,7 @@
         <span
           v-if="!disableAll"
           class="flex items-center justify-between w-full px-2 cursor-pointer"
-          @click="goToAddCard(band)"
+          @click="goToAddCard(band, 'band', 'PosterCard')"
           ><img class="h-[12px] w-[12px]" src="/add.svg" alt="" />Feature</span
         >
         <span
@@ -284,10 +284,10 @@
     >
       <div
         class="w-11/12 bg-black text-white flex justify-center items-center text-[14px] chedder mt-[4px] py-4 mb-6 cursor-pointer"
-        @click="$emit('selectUsersCard', band)"
+        @click="$emit('selectUsersCard', band, 'bands')"
       >
-        <span v-if="usersCard">Add to this Card !!!fsdfdsfdsf</span>
-        <span v-else>Add this Card !!!fsdfdsfds</span>
+        <span v-if="usersCard">Add to this Card </span>
+        <span v-else>Add this Card </span>
       </div>
     </section>
     <Modal class="z-50" v-if="showModal" @close="showModal = false" />
@@ -461,21 +461,19 @@ export default {
         this.$emit('updatedFavs')
       }
     },
-    goToAddCard(data) {
+    goToAddCard(data, type, cardDataName) {
       if (this.$strapi.user) {
         this.showModal = false
         // go to add card page
-        if (data.users_permissions_user.id === this.$strapi.user.id) {
-          this.$router.push({
-            path: 'addcardpage',
-            query: { data: data.id, type: 'bands', usersCard: true },
-          })
-        } else {
-          this.$router.push({
-            path: 'addcardpage',
-            query: { data: data.id, type: 'bands', usersCard: false },
-          })
-        }
+        this.$router.push({
+          path: 'addcardpage',
+          query: {
+            data: data.id,
+            type,
+            usersCard: true,
+            cardDataName,
+          },
+        })
       } else {
         return (this.showModal = true)
       }
@@ -550,11 +548,6 @@ export default {
   font-size: 56px;
 }
 
-.negetive-index {
-  z-index: -999;
-  filter: blur(4px);
-}
-
 .error {
   position: fixed;
   top: 0;
@@ -587,5 +580,9 @@ export default {
   transform: scale(47.4%);
   margin-left: -80px;
   margin-top: -105px;
+}
+.negetive-index {
+  z-index: -999;
+  filter: blur(4px);
 }
 </style>
