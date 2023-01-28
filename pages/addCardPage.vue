@@ -25,20 +25,23 @@
           </p>
           <!-- list all cards  -->
           <h3 class="text-main text-2xl text-center">Bands</h3>
+
           <div
             v-if="bands"
             class="container-sm mx-auto flex justify-center items-center mb-6"
           >
-            <PosterCard
-              class="mb-10"
-              :band="band"
-              :isFeatured="true"
-              :isHome="true"
-              :addingCard="true"
-              :isAddCardPage="true"
-              :disableAll="true"
-              @selectUsersCard="featureData(cardData, 'bands', true)"
-            />
+            <div v-for="b in bands" :key="b.id">
+              <PosterCard
+                class="mb-10"
+                :band="b"
+                :isFeatured="true"
+                :isHome="true"
+                :addingCard="true"
+                :isAddCardPage="true"
+                :disableAll="true"
+                @selectUsersCard="featureData(cardData, 'bands', true, b.id)"
+              />
+            </div>
           </div>
           <div
             v-if="distros"
@@ -103,13 +106,10 @@ export default {
     this.type = this.$route.query.type
     this.data = this.$route.query.data
     try {
-      this.bands = await this.$strapi.find('bands', {
+      const bands = await this.$strapi.find('bands', {
         users_permissions_user: this.$strapi.user.id,
       })
-      console.log(
-        'this is all the users bands that it owns in the whole wide world',
-        this.bands
-      )
+      this.bands = bands
     } catch (error) {
       console.log(
         error,
@@ -133,7 +133,7 @@ export default {
     }
 
     try {
-      this.bands = await this.$strapi.find('events', {
+      this.events = await this.$strapi.find('events', {
         users_permissions_user: this.$strapi.user.id,
       })
       console.log(
@@ -148,7 +148,7 @@ export default {
     }
 
     try {
-      this.bands = await this.$strapi.find('tours', {
+      this.tours = await this.$strapi.find('tours', {
         users_permissions_user: this.$strapi.user.id,
       })
       console.log(
@@ -163,7 +163,7 @@ export default {
     }
 
     try {
-      this.bands = await this.$strapi.find('venues', {
+      this.venues = await this.$strapi.find('venues', {
         users_permissions_user: this.$strapi.user.id,
       })
       console.log(
