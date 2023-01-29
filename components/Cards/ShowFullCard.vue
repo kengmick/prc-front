@@ -98,7 +98,7 @@
                 <CardsShowFeatured :event="event.cardData" :fullCard="true" />
               </div>
               <div v-if="event.cardType === 'venue'">
-                <CardsVenueFeatured :venue="band.cardData" :fullCard="true" />
+                <CardsVenueFeatured :venue="event.cardData" :fullCard="true" />
               </div>
               <div v-if="event.cardType === 'tour'">
                 <CardsTourFeatured :tour="event.cardData" :fullCard="true" />

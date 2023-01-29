@@ -78,7 +78,27 @@
                 query: { tour: tour.cardData.id },
               }"
             >
-              <FeaturedCardFull :cardData="tour.cardData" />
+              <div v-if="tour.cardType === 'band'">
+                <BasicFeaturedCard :cardData="tour.cardData" :fullCard="true" />
+              </div>
+              <div v-if="tour.cardType === 'distro'">
+                <CardsDistroFeatured :distro="tour.cardData" :fullCard="true" />
+              </div>
+              <div v-if="tour.cardType === 'event'">
+                <CardsShowFeatured :event="tour.cardData" :fullCard="true" />
+              </div>
+              <div v-if="tour.cardType === 'venue'">
+                <CardsVenueFeatured :venue="tour.cardData" :fullCard="true" />
+              </div>
+              <div v-if="tour.cardType === 'tour'">
+                <CardsTourFeatured :tour="tour.cardData" :fullCard="true" />
+              </div>
+              <div v-if="tour.cardType === 'article'">
+                <CardsClassifiedFeatured
+                  :article="tour.cardData"
+                  :fullCard="true"
+                />
+              </div>
             </NuxtLink>
           </div>
           <div

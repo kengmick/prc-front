@@ -61,14 +61,27 @@
             v-if="venue.hasFeaturedCard"
             class="w-[90px] h-[120px] bg-[#F81194] shadow-2xl"
           >
-            <NuxtLink
-              :to="{
-                path: '/venues/venueprofile',
-                query: { venue: venue.cardData.id },
-              }"
-            >
-              <FeaturedCardFull :cardData="venue.cardData" />
-            </NuxtLink>
+            <div v-if="venue.cardType === 'band'">
+              <BasicFeaturedCard :cardData="venue.cardData" :fullCard="true" />
+            </div>
+            <div v-if="venue.cardType === 'distro'">
+              <CardsDistroFeatured :distro="venue.cardData" :fullCard="true" />
+            </div>
+            <div v-if="venue.cardType === 'event'">
+              <CardsShowFeatured :event="venue.cardData" :fullCard="true" />
+            </div>
+            <div v-if="venue.cardType === 'venue'">
+              <CardsVenueFeatured :venue="venue.cardData" :fullCard="true" />
+            </div>
+            <div v-if="venue.cardType === 'tour'">
+              <CardsTourFeatured :tour="venue.cardData" :fullCard="true" />
+            </div>
+            <div v-if="venue.cardType === 'article'">
+              <CardsClassifiedFeatured
+                :article="venue.cardData"
+                :fullCard="true"
+              />
+            </div>
           </div>
           <div
             v-else

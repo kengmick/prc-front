@@ -56,7 +56,7 @@
           </div>
           <div
             v-if="events"
-            class="container-sm mx-auto flex justify-center items-center mb-20"
+            class="container-sm mx-auto flex gap-10 justify-center items-center mb-20 h-auto"
           >
             <div v-for="e in events" :key="e.name">
               <CardsShowCard
@@ -76,6 +76,19 @@
                 :addingCard="true"
                 :isAddCardPage="true"
                 @selectUsersCard="featureData(cardData, 'tours', true, t.id)"
+              />
+            </div>
+          </div>
+          <div
+            v-if="venues"
+            class="container-sm mx-auto flex gap-10 justify-center items-center mb-20"
+          >
+            <div v-for="v in venues" :key="v.name">
+              <CardsVenueCard
+                :addingCard="true"
+                :venue="v"
+                :isAddCardPage="true"
+                @selectUsersCard="featureData(cardData, 'venues', true, v.id)"
               />
             </div>
           </div>
@@ -186,13 +199,10 @@ export default {
     }
 
     try {
-      this.venues = await this.$strapi.find('venues', {
+      const venues = await this.$strapi.find('venues', {
         users_permissions_user: this.$strapi.user.id,
       })
-      console.log(
-        'this is all the users venues that it owns in the whole wide world',
-        this.venues
-      )
+      this.venues = venues
     } catch (error) {
       console.log(
         error,
