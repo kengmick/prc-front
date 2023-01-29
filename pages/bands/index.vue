@@ -19,14 +19,14 @@
       />
     </section>
     <div v-else>{{ errorMessage }}</div>
-    <!-- <section v-if="chat">
+    <section v-if="chat">
       <Chat
         :chatInfo="chat"
         :chatWithId="chat.chatWith.id"
         class="z-[9999999]"
         @closeChat="renderChatComp"
       />
-    </section> -->
+    </section>
   </div>
 </template>
 

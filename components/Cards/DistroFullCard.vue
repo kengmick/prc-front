@@ -37,15 +37,12 @@
             {{ moment(String(distro.dateOpened)).format('MMM Do YYYY') }}
           </p>
 
-          <span v-if="distro.users_permissions_user">
+          <span>
             <span>
               <p class="text-[12px] chedder underline" @click="startChat(user)">
-                Internal Message
+                Internal Message {{ user }}
               </p>
             </span>
-          </span>
-          <span v-else>
-            <p class="text-[12px] chedder underline">Internal Message</p>
           </span>
         </div>
         <div class="w-[202px] h-[120px] mt-[8px] flex justify-around">
@@ -271,6 +268,14 @@
       </div>
     </section>
     <Modal class="z-50" v-if="showModal" @close="showModal = false" />
+    <section v-if="chat">
+      <Chat
+        :chatInfo="chat"
+        :chatWithId="chat.chatWith.id"
+        class="z-[9999999]"
+        @closeChat="renderChatComp"
+      />
+    </section>
   </div>
 </template>
 
@@ -364,6 +369,9 @@ export default {
       chatComp: false,
       showModal: false,
       favs: null,
+      chat: null,
+      finalChat: null,
+      hasChat: false,
     }
   },
   computed: {
@@ -396,6 +404,7 @@ export default {
   },
   methods: {
     moment,
+
     async genCode() {
       const id = await this.distro.id
       const temp = `distros/distroview/?distro=${id}`
@@ -473,8 +482,12 @@ export default {
       }
     },
     startChat(user) {
-      console.log('user from the poster card ', user, ' the id ', user.id)
-      this.$emit('startChat', user)
+      console.log('interanl messages ')
+      if (this.$strapi.user) {
+        this.$emit('startChat', user)
+      } else {
+        return (this.showModal = true)
+      }
     },
     addFeaturedToBandCard() {
       // this will emit an distro to add a card to the card that was clicked on .... the user owned card

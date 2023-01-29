@@ -427,6 +427,7 @@ export default {
     },
 
     async startChatNow(val) {
+      console.log('this is the start chat now function', val, val.id)
       try {
         // find all chat that you have
         const [hasChat] = await this.$strapi.find('chats', {
