@@ -1,13 +1,11 @@
 <template>
-  <!-- :style="{ backgroundImage: `url(${band.bandProfileImg.url})` }" for background style tag replace regex replace(/\D/g, '')  -->
   <div
-    v-if="band"
-    class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] relative overscroll-none"
+    class="w-[300px] h-[400px] border-box border-[#F81194] border-[2px] relative overscroll-none text-white scaleDown"
   >
     <nuxt-img
       class="absolute top-0 negetive-index object-fill"
       format="webp"
-      :src="`${band.bandProfileImg.url}`"
+      :src="`${venue.venueImg.url}`"
       width="600"
       height="600"
     />
@@ -15,9 +13,9 @@
       v-if="!addingCard && !disableAll"
       class=""
       :to="{
-        path: '/bands/bandprofile',
+        path: '/venues/venueprofile',
         query: {
-          band: band.id,
+          venue: venue.id,
         },
       }"
     >
@@ -26,76 +24,52 @@
         class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
       >
         <h2 class="chedder text-[36px] text-white leading-none">
-          <span v-if="band.bandName">{{ band.bandName }} </span>
+          <span v-if="venue.name">{{ venue.name }}</span>
         </h2>
       </section>
     </NuxtLink>
-    <section
-      v-else
-      class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
-    >
-      <h2 class="chedder text-[36px] text-white leading-none">
-        <span v-if="band.bandName">{{ band.bandName }}</span>
-      </h2>
-    </section>
+
     <!-- info box  -->
     <section class="w-full flex justify-between px-[8px] [bg-blue-500 mb-[8px]">
       <NuxtLink
         v-if="!addingCard && !disableAll"
         :to="{
-          path: '/bands/bandprofile',
+          path: '/venues/venueprofile',
           query: {
-            band: band.id,
+            venue: venue.id,
           },
         }"
       >
         <div
-          class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
+          class="bg-[#F81194] w-[132px] h-[36px] flex flex-col justify-center items-center"
         >
-          <p class="text-[12px] chedder">
-            Punk/<span v-if="band.genre">{{ band.genre }}</span>
+          <p class="text-[12px] chedder text-center">
+            {{ venue.city }}, {{ venue.state }}
           </p>
-          <p class="text-[12px] chedder">{{ band.dateStarted }}</p>
         </div>
       </NuxtLink>
       <div
         v-else
-        class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
+        class="bg-[#F81194] w-[132px] h-[36px] flex flex-col justify-center items-center"
       >
-        <p class="text-[12px] chedder">
-          Punk/<span v-if="band.genre">{{ band.genre }}</span>
-        </p>
-        <p class="text-[12px] chedder">{{ band.dateStarted }}</p>
+        <!-- <span v-if="venue.touringBands">
+          <span v-if="venue.touringBands.length > 0">
+            <p
+              class="text-[12px] chedder text-center"
+              v-for="band in venue.touringBands.slice(0, 2)"
+              :key="band.bandName"
+            >
+              {{ band.bandName }}
+            </p>
+          </span>
+        </span> -->
       </div>
       <div
-        class="bg-[#27ED5E] w-[132px] h-[36px] flex flex-col justify-center items-center"
+        class="bg-[#F81194] w-[132px] h-[36px] flex flex-col justify-center items-center"
       >
-        <NuxtLink
-          v-if="addingCard && !disableAll"
-          :to="{
-            path: '/bands/bandprofile',
-            query: {
-              band: band.id,
-            },
-          }"
-        >
-          <p class="text-[12px] chedder">{{ band.city }}, {{ band.state }}</p>
-        </NuxtLink>
-        <p v-else class="text-[12px] chedder">
-          {{ band.city }}, {{ band.state }}
-        </p>
-        <span v-if="$strapi.user && !addingCard">
-          <!-- add this  v-if="band.users_permissions_user.id !== $strapi.user.id" -->
-          <p
-            class="text-[12px] chedder text-blue-500 underline"
-            @click="startChat(user)"
-          >
-            Internal Message
-          </p>
-        </span>
-        <span v-else>
-          <p class="text-[12px] chedder text-blue-500 underline">
-            Internal Message
+        <span>
+          <p class="text-[12px] chedder text-center">
+            {{ moment(String(venue.dateOpened)).format('MMM Do YYYY') }}
           </p>
         </span>
       </div>
@@ -106,9 +80,9 @@
       <NuxtLink
         v-if="!addingCard && !addThisCard && !disableAll"
         :to="{
-          path: '/bands/bandprofile',
+          path: '/venues/venueprofile',
           query: {
-            band: band.id,
+            venue: venue.id,
           },
         }"
       >
@@ -116,7 +90,7 @@
           <nuxt-img
             class="h-full object-cover"
             format="webp"
-            :src="`${band.bandProfileImg.url}`"
+            :src="`${venue.venueImg.url}`"
             alt=""
             width="141"
             height="186"
@@ -127,7 +101,7 @@
         <nuxt-img
           format="webp"
           class="h-full object-cover"
-          :src="`${band.bandProfileImg.url}`"
+          :src="`${venue.venueImg.url}`"
           alt=""
           width="141"
           height="186"
@@ -135,31 +109,23 @@
       </div>
       <!-- first featured Card  -->
       <div class="w-[141px] h-[186px] bg-[#27ed5f25] cursor-pointer">
-        <span v-if="band.hasFeaturedCard && !addingCard && !disableAll">
+        <span v-if="venue.hasFeaturedCard && !addingCard && !disableAll">
           <NuxtLink
             v-if="!disableAll"
             :to="{
-              path: '/bands/bandprofile',
-              query: { band: band.cardData.id },
+              path: '/venues/venueprofile',
+              query: { venue: venue.cardData.id },
             }"
           >
-            <div v-if="band.cardType === 'band'">
-              <BasicFeaturedCard :cardData="band.cardData" />
-            </div>
-            <div v-if="band.cardType === 'distro'">
-              <CardsDistroFeatured :distro="band.cardData" />
-            </div>
-            <div v-if="band.cardType === 'event'">
-              <CardsShowFeatured :event="band.cardData" />
-            </div>
-            <div v-if="band.cardType === 'venue'">
-              <CardsVenueFeatured :venue="band.cardData" />
-            </div>
+            <!-- <BasicFeaturedCard
+              :cardData="band.cardData"
+              v-if="venue.cardType === 'band'"
+            /> -->
           </NuxtLink>
         </span>
 
         <div
-          v-if="!band.hasFeaturedCard && !addingCard"
+          v-if="!venue.hasFeaturedCard && !addingCard"
           class="flex justify-center items-center h-full w-full border-2"
         >
           <!--   v-if="band.users_permissions_user.id === $strapi.user.id" -->
@@ -169,8 +135,8 @@
             :to="{
               path: '/addCardPage',
               query: {
-                data: band.id,
-                type: 'bands',
+                data: venue.id,
+                type: 'venue',
               },
             }"
           >
@@ -210,18 +176,18 @@
     <!-- buttons  -->
     <section class="flex justify-around mt-[8px]">
       <div
-        class="w-[66px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-[#F81194] flex justify-center items-center text-[10px] chedder"
       >
         <span class="flex items-center justify-between w-full px-2"
           ><img class="h-[12px] w-[12px]" src="/share.svg" alt="" />Share</span
         >
       </div>
       <div
-        class="w-[66px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-[#F81194] flex justify-center items-center text-[10px] chedder"
       >
         <span
           v-if="!unFollow"
-          @click="favorite('bands', band)"
+          @click="favorite('venues', venue)"
           class="flex items-center justify-between w-full px-2 cursor-pointer"
           ><img
             v-if="isFav"
@@ -236,8 +202,8 @@
           />Favorite</span
         >
         <span
-          v-if="unFollow"
-          @click="unFollowFunc('bands', band.id)"
+          v-else
+          @click="unFollowFunc('venues', venue.id)"
           class="flex items-center justify-between w-full px-2 cursor-pointer"
           ><img
             v-if="isFav"
@@ -253,12 +219,12 @@
         >
       </div>
       <div
-        class="w-[66px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-[#F81194] flex justify-center items-center text-[10px] chedder"
       >
         <span
           v-if="!disableAll"
           class="flex items-center justify-between w-full px-2 cursor-pointer"
-          @click="goToAddCard(band, 'band', 'PosterCard')"
+          @click="goToAddCard(venue)"
           ><img class="h-[12px] w-[12px]" src="/add.svg" alt="" />Feature</span
         >
         <span
@@ -269,19 +235,9 @@
       </div>
 
       <div
-        class="w-[70px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"
+        class="w-[70px] h-[24px] bg-[#F81194] flex justify-center items-center text-[10px] chedder"
       >
-        <span
-          class="flex items-center justify-between w-full px-2 cursor-pointer"
-          @click="
-            $router.push({
-              path: '/qr',
-              query: {
-                type: '/bands/bandprofile',
-                dataId: band.id,
-              },
-            })
-          "
+        <span class="flex items-center justify-between w-full px-2"
           ><img class="h-[12px] w-[12px]" src="/qr1.svg" alt="" />QR Code</span
         >
       </div>
@@ -292,10 +248,10 @@
     >
       <div
         class="w-11/12 bg-black text-white flex justify-center items-center text-[14px] chedder mt-[4px] py-4 mb-6 cursor-pointer"
-        @click="$emit('selectUsersCard', band, 'bands')"
+        @click="$emit('selectUsersCard', venue.id)"
       >
-        <span v-if="usersCard">Add to this Card </span>
-        <span v-else>Add this Card </span>
+        <span v-if="usersCard">Add to this Card !!!</span>
+        <span v-else>Add this Card !!!</span>
       </div>
     </section>
     <Modal class="z-50" v-if="showModal" @close="showModal = false" />
@@ -303,14 +259,16 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 // import Button from './Button.vue'
 export default {
   // components: { Button },
   props: {
-    band: {
+    venue: {
       type: Object,
       default() {
-        return null
+        return {}
       },
     },
     addingCard: {
@@ -396,64 +354,20 @@ export default {
       chatComp: false,
       addFeatured: false,
       showModal: false,
-      message: null,
+      favs: null,
     }
   },
   computed: {
     announcement() {
-      return this.band.announcements[this.index] || ''
+      return this.venue.announcements[this.index] || ''
     },
     announcements() {
-      return this.band.announcements || ''
+      return this.venue.announcements || ''
     },
   },
 
   methods: {
-    async favorite(type, data) {
-      if (this.$strapi.user) {
-        try {
-          const curFavs = await this.$strapi.find('favs', {
-            users_permissions_user: this.$strapi.user.id,
-          })
-          console.log(curFavs, 'the current favs ')
-          if (curFavs.length > 0) {
-            const isSame = curFavs.filter((f) => {
-              return f.data.id === data.id && f.type === type
-            })
-            if (isSame.length === 0) {
-              console.log(isSame, ' this is same')
-              const fav = await this.$strapi.create('favs', {
-                users_permissions_user: this.$strapi.user.id,
-                data: data,
-                type: type,
-              })
-              this.$emit('updatedFavs')
-              console.log(fav, 'this is the fav')
-              this.$router.push('/profile')
-            }
-            this.$router.push('/profile')
-          } else if (curFavs.length === 0) {
-            const fav = await this.$strapi.create('favs', {
-              users_permissions_user: this.$strapi.user.id,
-              data: data,
-              type: type,
-            })
-            this.$emit('updatedFavs')
-            console.log(fav, 'this is the fav')
-            this.$router.push('/profile')
-          } else {
-            this.$emit('updatedFavs')
-          }
-          const f = await this.$strapi.find('favs', {
-            users_permissions_user: this.$strapi.user.id,
-          })
-          this.$emit('createdFavs', f)
-        } catch (error) {
-          console.log('there was an error in the create favs function')
-        }
-      }
-      this.message = 'You must be logged in '
-    },
+    moment,
     async unFollowFunc(type, id) {
       const curFavs = await this.$strapi.find('favs', {
         users_permissions_user: this.$strapi.user.id,
@@ -469,30 +383,80 @@ export default {
         this.$emit('updatedFavs')
       }
     },
-    goToAddCard(data, type, cardDataName) {
+    async favorite(type, data) {
+      console.log('fav function')
+      if (this.$strapi.user) {
+        try {
+          const curFavs = await this.$strapi.find('favs', {
+            users_permissions_user: this.$strapi.user.id,
+          })
+          console.log(curFavs, 'the current favs ')
+
+          if (curFavs.length > 0) {
+            const isSame = curFavs.filter((f) => {
+              return f.data.id === data.id && f.type === type
+            })
+            if (isSame.length === 0) {
+              console.log(isSame, ' this is same')
+              const fav = await this.$strapi.create('favs', {
+                users_permissions_user: this.$strapi.user.id,
+                data: data,
+                type: type,
+              })
+              const upFav = await this.$strapi.find('favs', {
+                users_permissions_user: this.$strapi.user.id,
+              })
+              console.log('emit created hreer', fav, upFav)
+              this.$router.push('/profile')
+            }
+            this.$router.push('/profile')
+          } else if (curFavs.length === 0) {
+            const fav = await this.$strapi.create('favs', {
+              users_permissions_user: this.$strapi.user.id,
+              data: data,
+              type: type,
+            })
+            console.log('emit createdfdsfdsfs')
+            console.log(curFavs, 'this is the fav', fav)
+            this.$router.push('/profile')
+          } else {
+            await this.$strapi.find('favs', {
+              users_permissions_user: this.$strapi.user.id,
+            })
+          }
+          const f = await this.$strapi.find('favs', {
+            users_permissions_user: this.$strapi.user.id,
+          })
+          this.$emit('createdFavs', f)
+          console.log(
+            'emited create createdFavscreatedFavscreatedFavscreatedFavs',
+            f
+          )
+        } catch (error) {
+          console.log('there was an error in the create favs function', error)
+        }
+      }
+      this.message = 'You must be logged in '
+    },
+    goToAddCard(venue) {
       if (this.$strapi.user) {
         this.showModal = false
-        // go to add card page
         this.$router.push({
           path: 'addcardpage',
-          query: {
-            data: data.id,
-            type,
-            usersCard: true,
-            cardDataName,
-          },
+          query: { data: venue.id, type: 'venue' },
         })
       } else {
         return (this.showModal = true)
       }
     },
-    addCardToData(userBandToAddToo, band) {
+    addCardToData(userBandToAddToo, venue) {
       // Check if user is logged in
       if (this.$strapi.user) {
         this.showModal = false
       } else {
         return (this.showModal = true)
       }
+      console.log(venue.users_permissions_user.id, this.$strapi.user.id)
     },
     startChat(user) {
       console.log('user from the poster card ', user, ' the id ', user.id)
@@ -556,6 +520,11 @@ export default {
   font-size: 56px;
 }
 
+.negetive-index {
+  z-index: -999;
+  filter: blur(4px);
+}
+
 .error {
   position: fixed;
   top: 0;
@@ -588,9 +557,5 @@ export default {
   transform: scale(47.4%);
   margin-left: -80px;
   margin-top: -105px;
-}
-.negetive-index {
-  z-index: -999;
-  filter: blur(4px);
 }
 </style>

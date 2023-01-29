@@ -2,15 +2,19 @@
   <!--  :style="{ backgroundImage: `url(${cardData.bandProfileImg.url})` }" -->
 
   <div
+    v-if="cardData.bandProfileImg"
     class="relative w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] scaleDown"
   >
-    <nuxt-img
-      class="absolute top-0 negetive-index object-fill"
-      format="webp"
-      :src="cardData.bandProfileImg.url"
-      width="300"
-      height="400"
-    />
+    <div>
+      <nuxt-img
+        class="absolute top-0 negetive-index object-fill"
+        format="webp"
+        :src="cardData.bandProfileImg.url"
+        width="300"
+        height="400"
+      />
+    </div>
+
     <!-- header -->
     <section
       class="h-[38px] bg-black flex items-center justify-center mb-[8px]"

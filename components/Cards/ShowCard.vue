@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="event"
-      class="w-[300px] h-[400px] border-box border-[#F5A01F] border-[2px] relative overscroll-none text-white scaleDown"
+      class="w-[300px] h-[400px] border-box border-[#F5A01F] border-[2px] relative overscroll-none text-white"
     >
       <nuxt-img
         v-if="event.eventPoster"

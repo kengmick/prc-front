@@ -224,6 +224,15 @@ export default {
           console.log('hello')
         }
       }
+      if (this.type === 'venue') {
+        console.log('venue ==================')
+        const venue = await this.$strapi.findOne(
+          'venues',
+          this.$route.query.data
+        )
+        this.cardData = venue
+        this.card = 'CardsVenueCard'
+      }
     } catch (error) {
       console.log(error)
     }

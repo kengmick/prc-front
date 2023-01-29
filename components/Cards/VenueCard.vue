@@ -135,7 +135,8 @@
             :to="{
               path: '/addCardPage',
               query: {
-                venue: venue.id,
+                data: venue.id,
+                type: 'venue',
               },
             }"
           >
@@ -440,18 +441,10 @@ export default {
     goToAddCard(venue) {
       if (this.$strapi.user) {
         this.showModal = false
-        // go to add card page
-        if (venue.users_permissions_user.id === this.$strapi.user.id) {
-          this.$router.push({
-            path: 'addcardpage',
-            query: { venue: venue.id, usersCard: true },
-          })
-        } else {
-          this.$router.push({
-            path: 'addcardpage',
-            query: { venue: venue.id, usersCard: false },
-          })
-        }
+        this.$router.push({
+          path: 'addcardpage',
+          query: { data: venue.id, type: 'venue' },
+        })
       } else {
         return (this.showModal = true)
       }
