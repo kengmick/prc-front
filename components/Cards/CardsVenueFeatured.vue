@@ -561,8 +561,8 @@ export default {
 }
 
 .scaleDownTwo {
-  transform: scale(47.4%);
-  margin-left: -80px;
-  margin-top: -105px;
+  transform: scale(31%);
+  margin-left: -105px;
+  margin-top: -140px;
 }
 </style>
