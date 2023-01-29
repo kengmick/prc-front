@@ -1,6 +1,7 @@
 <template>
   <div
     class="w-[300px] h-[400px] border-box border-[#F81194] border-[2px] relative overscroll-none text-white scaleDown"
+    :class="[fullCard ? 'scaleDownTwo' : 'scaleDown']"
   >
     <nuxt-img
       class="absolute top-0 negetive-index object-fill"
@@ -338,6 +339,12 @@ export default {
       },
     },
     isFav: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    fullCard: {
       type: Boolean,
       default() {
         return false

@@ -3,7 +3,8 @@
 
   <div
     v-if="cardData.bandProfileImg"
-    class="relative w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] scaleDown"
+    class="relative w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px]"
+    :class="[fullCard ? 'scaleDownTwo' : 'scaleDown']"
   >
     <div>
       <nuxt-img
@@ -177,6 +178,12 @@ export default {
         return {}
       },
     },
+    fullCard: {
+      type: Boolean,
+      default: () => {
+        return false
+      },
+    },
   },
 }
 </script>
@@ -188,9 +195,9 @@ export default {
 }
 
 .scaleDownTwo {
-  transform: scale(47.4%);
-  margin-left: -80px;
-  margin-top: -105px;
+  transform: scale(31%);
+  margin-left: -105px;
+  margin-top: -140px;
 }
 .negetive-index {
   z-index: -999;

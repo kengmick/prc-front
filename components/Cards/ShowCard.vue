@@ -161,7 +161,8 @@
               :to="{
                 path: '/addCardPage',
                 query: {
-                  event: event.id,
+                  data: event.id,
+                  type: 'event',
                 },
               }"
             >

@@ -1,7 +1,8 @@
 <template>
   <div
     v-if="distro"
-    class="w-[300px] h-[400px] border-box border-[#22E8FF] border-[2px] relative overscroll-none text-black scaleDownTwo"
+    class="w-[300px] h-[400px] border-box border-[#22E8FF] border-[2px] relative overscroll-none text-black"
+    :class="[fullCard ? 'scaleDownTwo' : 'scaleDown']"
   >
     <nuxt-img
       class="absolute top-0 negetive-index object-fill"
@@ -348,6 +349,12 @@ export default {
         return false
       },
     },
+    fullCard: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
   },
 
   data() {
@@ -567,9 +574,9 @@ export default {
 }
 
 .scaleDownTwo {
-  transform: scale(47.4%);
-  margin-left: -80px;
-  margin-top: -105px;
+  transform: scale(31%);
+  margin-left: -105px;
+  margin-top: -140px;
 }
 
 .negetive-index {
