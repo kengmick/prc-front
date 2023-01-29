@@ -70,7 +70,33 @@
                 query: { distro: distro.cardData.id },
               }"
             >
-              <FeaturedCardFull :cardData="distro.cardData" />
+              <div v-if="distro.cardType === 'band'">
+                <BasicFeaturedCard
+                  :cardData="distro.cardData"
+                  :fullCard="true"
+                />
+              </div>
+              <div v-if="distro.cardType === 'distro'">
+                <CardsDistroFeatured
+                  :distro="distro.cardData"
+                  :fullCard="true"
+                />
+              </div>
+              <div v-if="distro.cardType === 'event'">
+                <CardsShowFeatured :event="distro.cardData" :fullCard="true" />
+              </div>
+              <div v-if="distro.cardType === 'venue'">
+                <CardsVenueFeatured :venue="distro.cardData" :fullCard="true" />
+              </div>
+              <div v-if="distro.cardType === 'tour'">
+                <CardsTourFeatured :tour="distro.cardData" :fullCard="true" />
+              </div>
+              <div v-if="distro.cardType === 'article'">
+                <CardsClassifiedFeatured
+                  :article="distro.cardData"
+                  :fullCard="true"
+                />
+              </div>
             </NuxtLink>
           </div>
           <div

@@ -23,7 +23,7 @@
 
           <div
             v-if="bands"
-            class="container-sm mx-auto flex justify-center items-center mb-6"
+            class="container-sm mx-auto flex justify-center items-center mb-20"
           >
             <div v-for="b in bands" :key="b.id">
               <PosterCard
@@ -40,7 +40,7 @@
           </div>
           <div
             v-if="distros"
-            class="container-sm mx-auto flex justify-center items-center mb-6"
+            class="container-sm mx-auto flex justify-center items-center mb-20"
           >
             <div v-for="d in distros" :key="d.name">
               <CardsDistroCard
@@ -51,6 +51,31 @@
                 @selectUsersCard="
                   featureData(cardData, 'record-labels', true, d.id)
                 "
+              />
+            </div>
+          </div>
+          <div
+            v-if="events"
+            class="container-sm mx-auto flex justify-center items-center mb-20"
+          >
+            <div v-for="e in events" :key="e.name">
+              <CardsShowCard
+                :event="e"
+                :addingCard="true"
+                @selectUsersCard="featureData(cardData, 'events', true, e.id)"
+              />
+            </div>
+          </div>
+          <div
+            v-if="tours"
+            class="container-sm mx-auto flex justify-center items-center mb-20"
+          >
+            <div v-for="t in tours" :key="t.name">
+              <CardsTourCard
+                :tour="t"
+                :addingCard="true"
+                :isAddCardPage="true"
+                @selectUsersCard="featureData(cardData, 'tours', true, t.id)"
               />
             </div>
           </div>
@@ -131,13 +156,13 @@ export default {
     }
 
     try {
-      this.events = await this.$strapi.find('events', {
+      const events = await this.$strapi.find('events', {
         users_permissions_user: this.$strapi.user.id,
       })
       console.log(
-        'this is all the users events that it owns in the whole wide world',
-        this.events
+        'this is all the users events that it owns in the whole wide world'
       )
+      this.events = events
     } catch (error) {
       console.log(
         error,

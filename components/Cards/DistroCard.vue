@@ -116,11 +116,23 @@
               query: { distro: distro.cardData.id },
             }"
           >
-            <div v-if="distro.cardType === 'bands'">
+            <div v-if="distro.cardType === 'band'">
               <BasicFeaturedCard :cardData="distro.cardData" />
             </div>
             <div v-if="distro.cardType === 'distro'">
               <CardsDistroFeatured :distro="distro.cardData" />
+            </div>
+            <div v-if="distro.cardType === 'event'">
+              <CardsShowFeatured :event="distro.cardData" />
+            </div>
+            <div v-if="distro.cardType === 'venue'">
+              <CardsVenueFeatured :venue="distro.cardData" />
+            </div>
+            <div v-if="distro.cardType === 'tour'">
+              <CardsTourFeatured :tour="distro.cardData" />
+            </div>
+            <div v-if="distro.cardType === 'article'">
+              <CardsClassifiedFeatured :article="distro.cardData" />
             </div>
           </NuxtLink>
         </span>

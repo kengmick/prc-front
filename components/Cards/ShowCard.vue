@@ -13,7 +13,6 @@
         height="600"
       />
       <NuxtLink
-        v-if="!addingCard && !disableAll"
         class=""
         :to="{
           path: '/events/eventview',
@@ -143,10 +142,24 @@
                 query: { event: event.cardData.id },
               }"
             >
-              <!-- <BasicFeaturedCard
-              :cardData="band.cardData"
-              v-if="event.cardType === 'band'"
-            /> -->
+              <div v-if="event.cardType === 'band'">
+                <BasicFeaturedCard :cardData="event.cardData" />
+              </div>
+              <div v-if="event.cardType === 'distro'">
+                <CardsDistroFeatured :distro="event.cardData" />
+              </div>
+              <div v-if="event.cardType === 'event'">
+                <CardsShowFeatured :event="event.cardData" />
+              </div>
+              <div v-if="event.cardType === 'venue'">
+                <CardsVenueFeatured :venue="event.cardData" />
+              </div>
+              <div v-if="event.cardType === 'tour'">
+                <CardsTourFeatured :tour="event.cardData" />
+              </div>
+              <div v-if="event.cardType === 'article'">
+                <CardsClassifiedFeatured :article="event.cardData" />
+              </div>
             </NuxtLink>
           </span>
 
