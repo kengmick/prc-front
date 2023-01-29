@@ -84,10 +84,10 @@
         <p v-else class="text-[12px] chedder">
           {{ band.city }}, {{ band.state }}
         </p>
-        <span v-if="$strapi.user && !addingCard">
+        <span v-if="!addingCard">
           <!-- add this  v-if="band.users_permissions_user.id !== $strapi.user.id" -->
           <p
-            class="text-[12px] chedder text-blue-500 underline"
+            class="text-[12px] chedder text-blue-500 underline cursor-pointer"
             @click="startChat(user)"
           >
             Internal Message
@@ -415,7 +415,15 @@ export default {
   },
 
   methods: {
+    share() {
+      if (!this.$strapi.user) {
+        this.showModal = false
+      }
+    },
     async favorite(type, data) {
+      if (!this.$strapi.user) {
+        return (this.showModal = true)
+      }
       if (this.$strapi.user) {
         try {
           const curFavs = await this.$strapi.find('favs', {
@@ -501,8 +509,12 @@ export default {
       }
     },
     startChat(user) {
-      console.log('user from the poster card ', user, ' the id ', user.id)
-      this.$emit('startChat', user)
+      console.log('interanl messages ')
+      if (this.$strapi.user) {
+        this.$emit('startChat', user)
+      } else {
+        return (this.showModal = true)
+      }
     },
 
     logit() {
@@ -512,8 +524,6 @@ export default {
       const stringId = bandId.toString()
 
       if (!this.$strapi.user) {
-        alert('you must be logged in to favorite')
-        console.log('the user is not logged in ')
         return this.$emit('popup', 'this event logged ....')
       } else {
         // get all user favorite stuff ... if they have any ... add a new favorite to it ... then resave all favoites to the user favs then route to favorite page the userFavs is an array so you can iterate over it using an array method wich is really an object at the end of the day or it wouldn't be about to have a method attached to it. Thank you for coming ... please come again soon.

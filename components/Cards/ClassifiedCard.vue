@@ -137,7 +137,7 @@
     <!-- buttons  -->
     <section class="flex justify-around mt-[8px]">
       <div
-        class="w-[66px] h-[24px] bg-[#ECDD2A] flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-[#ECDD2A] flex justify-center items-center text-[10px] chedder cursor-pointer"
       >
         <span class="flex items-center justify-between w-full px-2"
           ><img class="h-[12px] w-[12px]" src="/share.svg" alt="" />Share</span
@@ -342,6 +342,9 @@ export default {
       })
     },
     async favorite(type, data) {
+      if (!this.$strapi.user) {
+        this.showModal = true
+      }
       if (this.$strapi.user) {
         try {
           const curFavs = await this.$strapi.find('favs', {
@@ -387,18 +390,23 @@ export default {
       this.message = 'You must be logged in '
     },
     async unFollowFunc(type, id) {
-      const curFavs = await this.$strapi.find('favs', {
-        users_permissions_user: this.$strapi.user.id,
-      })
-      console.log(curFavs, ' cur favs ')
-      const filtered = curFavs.filter((f) => {
-        console.log(f.data.id, ' the data id ', id)
-        return f.data.id === id
-      })
+      if (!this.$strapi.user) {
+        return (this.showModal = true)
+      }
+      if (this.$strapi.user) {
+        const curFavs = await this.$strapi.find('favs', {
+          users_permissions_user: this.$strapi.user.id,
+        })
+        console.log(curFavs, ' cur favs ')
+        const filtered = curFavs.filter((f) => {
+          console.log(f.data.id, ' the data id ', id)
+          return f.data.id === id
+        })
 
-      if (filtered) {
-        await this.$strapi.delete('favs', filtered[0].id)
-        this.$emit('updatedFavs')
+        if (filtered) {
+          await this.$strapi.delete('favs', filtered[0].id)
+          this.$emit('updatedFavs')
+        }
       }
     },
     goToAddCard(article) {
@@ -427,8 +435,13 @@ export default {
       console.log(article.users_permissions_user.id, this.$strapi.user.id)
     },
     startChat(user) {
-      console.log('user from the poster card ', user, ' the id ', user.id)
-      this.$emit('startChat', user)
+      if (this.$strapi.user) {
+        this.showModal = true
+      }
+      if (this.$strapi.user) {
+        console.log('user from the poster card ', user, ' the id ', user.id)
+        this.$emit('startChat', user)
+      }
     },
 
     logit() {

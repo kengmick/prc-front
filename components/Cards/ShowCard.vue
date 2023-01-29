@@ -448,6 +448,9 @@ export default {
     },
     async favorite(type, data) {
       console.log('fav function')
+      if (!this.$strapi.user) {
+        return (this.showModal = true)
+      }
       if (this.$strapi.user) {
         try {
           const curFavs = await this.$strapi.find('favs', {

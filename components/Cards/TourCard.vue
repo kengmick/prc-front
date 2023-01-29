@@ -418,6 +418,9 @@ export default {
       }
     },
     async favorite(type, data) {
+      if (!this.$strapi.user) {
+        this.showModal = true
+      }
       console.log('fav function')
       if (this.$strapi.user) {
         try {
