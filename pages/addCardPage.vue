@@ -90,6 +90,8 @@ export default {
         return 'tour'
       } else if (this.type === 'events') {
         return 'event'
+      } else if (this.type === 'article') {
+        return 'classified'
       } else if (this.type === 'classifieds') {
         return 'classifieds'
       } else {
@@ -224,6 +226,19 @@ export default {
           console.log('hello')
         }
       }
+      if (this.type === 'article') {
+        console.log('article ==================')
+        const article = await this.$strapi.findOne(
+          'classifieds',
+          this.$route.query.data
+        )
+        this.cardData = article
+        this.card = 'CardsClassifiedCard'
+
+        if (this.distro.users_permissions_user.id !== this.$strapi.user.id) {
+          console.log('hello')
+        }
+      }
       if (this.type === 'venue') {
         console.log('venue ==================')
         const venue = await this.$strapi.findOne(
@@ -232,6 +247,12 @@ export default {
         )
         this.cardData = venue
         this.card = 'CardsVenueCard'
+      }
+      if (this.type === 'tour') {
+        console.log('tour ==================')
+        const tour = await this.$strapi.findOne('tours', this.$route.query.data)
+        this.cardData = tour
+        this.card = 'CardsTourCard'
       }
     } catch (error) {
       console.log(error)

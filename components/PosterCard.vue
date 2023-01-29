@@ -155,6 +155,12 @@
             <div v-if="band.cardType === 'venue'">
               <CardsVenueFeatured :venue="band.cardData" />
             </div>
+            <div v-if="band.cardType === 'tour'">
+              <CardsTourFeatured :tour="band.cardData" />
+            </div>
+            <div v-if="band.cardType === 'article'">
+              <CardsClassifiedFeatured :article="band.cardData" />
+            </div>
           </NuxtLink>
         </span>
 

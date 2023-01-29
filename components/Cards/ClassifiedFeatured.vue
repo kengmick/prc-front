@@ -1,21 +1,22 @@
 <template>
   <div
-    class="w-[300px] h-[400px] border-box border-[#BA39A4] border-[2px] relative overscroll-none text-white"
+    class="w-[300px] h-[400px] border-box border-[#ECDD2A] border-[2px] relative overscroll-none text-black scaleDown"
   >
-    <nuxt-img
+    <!-- <nuxt-img
       class="absolute top-0 negetive-index object-fill"
       format="webp"
-      :src="`${tour.touringPoster.url}`"
+      :src="`${article.articleImage.url}`"
       width="600"
       height="600"
-    />
+    /> -->
+
     <NuxtLink
       v-if="!addingCard && !disableAll"
       class=""
       :to="{
-        path: '/tours/tourview',
+        path: '/classified/classifiedview',
         query: {
-          tour: tour.id,
+          article: article.id,
         },
       }"
     >
@@ -24,7 +25,7 @@
         class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
       >
         <h2 class="chedder text-[36px] text-white leading-none">
-          <span v-if="tour.title">{{ tour.title }}</span>
+          <span>{{ article.title }} </span>
         </h2>
       </section>
     </NuxtLink>
@@ -34,170 +35,120 @@
       <NuxtLink
         v-if="!addingCard && !disableAll"
         :to="{
-          path: '/tour',
+          path: '/classified/classifiedview',
           query: {
-            band: tour.id,
+            article: article.id,
           },
         }"
       >
         <div
-          class="bg-[#BA39A4] w-[132px] h-[36px] flex flex-col justify-center items-center"
+          class="bg-[#ECDD2A] w-[132px] h-[36px] flex flex-col justify-center items-center"
         >
-          <span v-if="tour.touringBands">
-            <span v-if="tour.touringBands.length > 0">
-              <p
-                class="text-[12px] chedder text-center"
-                v-for="band in tour.touringBands.slice(0, 2)"
-                :key="band.bandName"
-              >
-                {{ band.bandName }}
-              </p>
-            </span>
+          <span v-if="$strapi.user && !addingCard">
+            <!-- add this  v-if="band.users_permissions_user.id !== $strapi.user.id" -->
+            <p
+              class="text-[12px] chedder text-black underline"
+              @click="startChat(user)"
+            >
+              Internal Message
+            </p>
+          </span>
+          <span v-else>
+            <p class="text-[12px] chedder text-black underline">
+              Internal Message
+            </p>
           </span>
         </div>
       </NuxtLink>
       <div
         v-else
-        class="bg-[#BA39A4] w-[132px] h-[36px] flex flex-col justify-center items-center"
+        class="bg-[#ECDD2A] w-[132px] h-[36px] flex flex-col justify-center items-center"
       >
-        <span v-if="tour.touringBands">
-          <span v-if="tour.touringBands.length > 0">
-            <p
-              class="text-[12px] chedder text-center"
-              v-for="band in tour.touringBands.slice(0, 2)"
-              :key="band.bandName"
-            >
-              {{ band.bandName }}
-            </p>
-          </span>
-        </span>
+        <p class="text-[12px] chedder text-center">something here</p>
       </div>
       <div
-        class="bg-[#BA39A4] w-[132px] h-[36px] flex flex-col justify-center items-center"
+        class="bg-[#ECDD2A] w-[132px] h-[36px] flex flex-col justify-center items-center"
       >
         <span>
-          <p class="text-[12px] chedder text-center">
-            {{ moment(String(tour.dateStart)).format('MMM Do YYYY') }}
-          </p>
-          <p class="text-[12px] chedder text-center">
-            {{ moment(String(tour.dateEnd)).format('MMM Do YYYY') }}
-          </p>
+          <p class="text-[12px] chedder text-center">ChatRoom</p>
         </span>
       </div>
     </section>
 
     <!-- logo and card  -->
-    <section class="w-full flex justify-between px-[4px] mb-[8px]">
-      <NuxtLink
-        v-if="!addingCard && !addThisCard && !disableAll"
-        :to="{
-          path: '/tours/tourview',
-          query: {
-            tour: tour.id,
-          },
-        }"
+    <NuxtLink
+      v-if="!addingCard && !disableAll"
+      class=""
+      :to="{
+        path: '/classified/classifiedview',
+        query: {
+          article: article.id,
+        },
+      }"
+    >
+      <section
+        class="w-full flex justify-between mb-[8px] h-[186px] py-[4px] px-[4px]"
       >
-        <div class="w-[141px] h-[186px]">
-          <nuxt-img
-            class="h-full object-cover"
-            format="webp"
-            :src="`${tour.touringPoster.url}`"
-            alt=""
-            width="141"
-            height="186"
-          />
+        <div class="bg-white w-full h-full p-[8px] overflow-scroll">
+          <p>{{ article.description }}</p>
         </div>
-      </NuxtLink>
-      <div v-else class="w-[141px] h-[186px]">
-        <nuxt-img
-          format="webp"
-          class="h-full object-cover"
-          :src="`${tour.touringPoster.url}`"
-          alt=""
-          width="141"
-          height="186"
-        />
-      </div>
-      <!-- first featured Card  -->
-      <div class="w-[141px] h-[186px] bg-[#27ed5f25] cursor-pointer">
-        <span v-if="tour.hasFeaturedCard && !addingCard && !disableAll">
-          <NuxtLink
-            v-if="!disableAll"
-            :to="{
-              path: '/tours/tourview',
-              query: { tour: tour.cardData.id },
-            }"
-          >
-            <!-- <BasicFeaturedCard
-              :cardData="band.cardData"
-              v-if="tour.cardType === 'band'"
-            /> -->
-          </NuxtLink>
-        </span>
-
-        <div
-          v-if="!tour.hasFeaturedCard && !addingCard"
-          class="flex justify-center items-center h-full w-full border-2"
-        >
-          <!--   v-if="band.users_permissions_user.id === $strapi.user.id" -->
-          <NuxtLink
-            v-if="$strapi.user && !addThisCard && !disableAll"
-            class="h-full w-full flex justify-center items-center"
-            :to="{
-              path: '/addCardPage',
-              query: {
-                tour: tour.id,
-              },
-            }"
-          >
-            <div>
-              <p class="chedder text-center">
-                <span v-if="addThisCard" class="block">Add this</span>Featured
-                Card
-              </p>
-            </div>
-          </NuxtLink>
-          <div v-else class="h-full w-full flex justify-center items-center">
-            <p class="chedder text-center">
-              <span v-if="addThisCard" class="block">Add this</span>Featured
-              Card
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </NuxtLink>
 
     <!-- announcment box  -->
-    <section
-      v-if="!announcement"
-      class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
+    <NuxtLink
+      v-if="!addingCard && !disableAll"
+      class=""
+      :to="{
+        path: '/classified/classifiedview',
+        query: {
+          article: article.id,
+        },
+      }"
     >
-      <h2 class="text-[18px]">Announcement</h2>
-      <p class="text-[12px]">This is the body of the text ...</p>
-    </section>
-    <section
-      v-if="announcement"
-      class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
+      <section
+        v-if="!announcement"
+        class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
+      >
+        <h2 class="text-[18px]">Announcement</h2>
+        <p class="text-[12px]">This is the body of the text ...</p>
+      </section>
+    </NuxtLink>
+
+    <NuxtLink
+      v-if="!addingCard && !disableAll"
+      class=""
+      :to="{
+        path: '/classified/classifiedview',
+        query: {
+          article: article.id,
+        },
+      }"
     >
-      <h2 class="text-[18px]">{{ announcement.title }}</h2>
-      <p class="text-[12px]">{{ announcement.text }}</p>
-    </section>
+      <section
+        v-if="announcement"
+        class="bg-white text-black w-[288px] h-[76px] mx-auto px-[4px] py-[4px]"
+      >
+        <h2 class="text-[18px]">{{ announcement[0].title }}</h2>
+        <p class="text-[12px]">{{ announcement[0].text }}</p>
+      </section>
+    </NuxtLink>
 
     <!-- buttons  -->
     <section class="flex justify-around mt-[8px]">
       <div
-        class="w-[66px] h-[24px] bg-[#BA39A4] flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-[#ECDD2A] flex justify-center items-center text-[10px] chedder"
       >
         <span class="flex items-center justify-between w-full px-2"
           ><img class="h-[12px] w-[12px]" src="/share.svg" alt="" />Share</span
         >
       </div>
       <div
-        class="w-[66px] h-[24px] bg-[#BA39A4] flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-[#ECDD2A] flex justify-center items-center text-[10px] chedder"
       >
         <span
           v-if="!unFollow"
-          @click="favorite('tours', tour)"
+          @click="favorite('classifieds', article)"
           class="flex items-center justify-between w-full px-2 cursor-pointer"
           ><img
             v-if="isFav"
@@ -212,8 +163,8 @@
           />Favorite</span
         >
         <span
-          v-else
-          @click="unFollowFunc('tours', tour.id)"
+          v-if="unFollow"
+          @click="unFollowFunc('classifieds', article.id)"
           class="flex items-center justify-between w-full px-2 cursor-pointer"
           ><img
             v-if="isFav"
@@ -229,12 +180,12 @@
         >
       </div>
       <div
-        class="w-[66px] h-[24px] bg-[#BA39A4] flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-[#ECDD2A] flex justify-center items-center text-[10px] chedder"
       >
         <span
           v-if="!disableAll"
           class="flex items-center justify-between w-full px-2 cursor-pointer"
-          @click="goToAddCard(tour)"
+          @click="goToAddCard(article)"
           ><img class="h-[12px] w-[12px]" src="/add.svg" alt="" />Feature</span
         >
         <span
@@ -245,7 +196,7 @@
       </div>
 
       <div
-        class="w-[70px] h-[24px] bg-[#BA39A4] flex justify-center items-center text-[10px] chedder"
+        class="w-[70px] h-[24px] bg-[#ECDD2A] flex justify-center items-center text-[10px] chedder"
       >
         <span
           class="flex items-center justify-between w-full px-2 cursor-pointer"
@@ -260,7 +211,7 @@
     >
       <div
         class="w-11/12 bg-black text-white flex justify-center items-center text-[14px] chedder mt-[4px] py-4 mb-6 cursor-pointer"
-        @click="$emit('selectUsersCard', tour.id)"
+        @click="$emit('selectUsersCard', article.id)"
       >
         <span v-if="usersCard">Add to this Card !!!</span>
         <span v-else>Add this Card !!!</span>
@@ -277,7 +228,7 @@ import moment from 'moment'
 export default {
   // components: { Button },
   props: {
-    tour: {
+    article: {
       type: Object,
       default() {
         return {}
@@ -370,23 +321,70 @@ export default {
   },
   computed: {
     announcement() {
-      return this.tour.announcements[this.index] || ''
+      // return this.article.announcements[this.index] || ''
+      return [{ title: 'title', text: 'some text ' }]
     },
     announcements() {
-      return this.tour.announcements || ''
+      // return this.article.announcements || ''
+      return [{ title: 'title', text: 'some text ' }]
     },
   },
 
   methods: {
     moment,
     async genCode() {
-      const id = await this.tour.id
-      const temp = `tours/tourview/?tour=${id}`
+      const id = await this.article.id
+      const temp = `classified/bandprofile/?band=${id}`
       console.log(temp)
       this.$router.push({
         path: '/qr',
-        query: { type: temp, color: 'tours' },
+        query: { type: temp, color: 'classifieds' },
       })
+    },
+    async favorite(type, data) {
+      if (this.$strapi.user) {
+        try {
+          const curFavs = await this.$strapi.find('favs', {
+            users_permissions_user: this.$strapi.user.id,
+          })
+          console.log(curFavs, 'the current favs ')
+          if (curFavs.length > 0) {
+            const isSame = curFavs.filter((f) => {
+              return f.data.id === data.id && f.type === type
+            })
+            if (isSame.length === 0) {
+              console.log(isSame, ' this is same')
+              const fav = await this.$strapi.create('favs', {
+                users_permissions_user: this.$strapi.user.id,
+                data: data,
+                type: type,
+              })
+              this.$emit('updatedFavs')
+              console.log(fav, 'this is the fav')
+              this.$router.push('/profile')
+            }
+            this.$router.push('/profile')
+          } else if (curFavs.length === 0) {
+            const fav = await this.$strapi.create('favs', {
+              users_permissions_user: this.$strapi.user.id,
+              data: data,
+              type: type,
+            })
+            this.$emit('updatedFavs')
+            console.log(fav, 'this is the fav')
+            this.$router.push('/profile')
+          } else {
+            this.$emit('updatedFavs')
+          }
+          const f = await this.$strapi.find('favs', {
+            users_permissions_user: this.$strapi.user.id,
+          })
+          this.$emit('createdFavs', f)
+        } catch (error) {
+          console.log('there was an error in the create favs function')
+        }
+      }
+      this.message = 'You must be logged in '
     },
     async unFollowFunc(type, id) {
       const curFavs = await this.$strapi.find('favs', {
@@ -403,81 +401,30 @@ export default {
         this.$emit('updatedFavs')
       }
     },
-    async favorite(type, data) {
-      console.log('fav function')
-      if (this.$strapi.user) {
-        try {
-          const curFavs = await this.$strapi.find('favs', {
-            users_permissions_user: this.$strapi.user.id,
-          })
-          console.log(curFavs, 'the current favs ')
-
-          if (curFavs.length > 0) {
-            const isSame = curFavs.filter((f) => {
-              return f.data.id === data.id && f.type === type
-            })
-            if (isSame.length === 0) {
-              console.log(isSame, ' this is same')
-              const fav = await this.$strapi.create('favs', {
-                users_permissions_user: this.$strapi.user.id,
-                data: data,
-                type: type,
-              })
-              const upFav = await this.$strapi.find('favs', {
-                users_permissions_user: this.$strapi.user.id,
-              })
-              console.log('emit created hreer', fav, upFav)
-              this.$router.push('/profile')
-            }
-            this.$router.push('/profile')
-          } else if (curFavs.length === 0) {
-            const fav = await this.$strapi.create('favs', {
-              users_permissions_user: this.$strapi.user.id,
-              data: data,
-              type: type,
-            })
-            console.log('emit createdfdsfdsfs')
-            console.log(curFavs, 'this is the fav', fav)
-            this.$router.push('/profile')
-          } else {
-            await this.$strapi.find('favs', {
-              users_permissions_user: this.$strapi.user.id,
-            })
-          }
-          const f = await this.$strapi.find('favs', {
-            users_permissions_user: this.$strapi.user.id,
-          })
-          this.$emit('createdFavs', f)
-          console.log(
-            'emited create createdFavscreatedFavscreatedFavscreatedFavs',
-            f
-          )
-        } catch (error) {
-          console.log('there was an error in the create favs function', error)
-        }
-      }
-      this.message = 'You must be logged in '
-    },
-    goToAddCard(tour) {
+    goToAddCard(article) {
       if (this.$strapi.user) {
         this.showModal = false
         // go to add card page
         this.$router.push({
           path: 'addcardpage',
-          query: { data: tour.id, usersCard: true, type: 'tour' },
+          query: {
+            data: article.id,
+            usersCard: true,
+            type: 'article',
+          },
         })
       } else {
         return (this.showModal = true)
       }
     },
-    addCardToData(userBandToAddToo, tour) {
+    addCardToData(userBandToAddToo, article) {
       // Check if user is logged in
       if (this.$strapi.user) {
         this.showModal = false
       } else {
         return (this.showModal = true)
       }
-      console.log(tour.users_permissions_user.id, this.$strapi.user.id)
+      console.log(article.users_permissions_user.id, this.$strapi.user.id)
     },
     startChat(user) {
       console.log('user from the poster card ', user, ' the id ', user.id)

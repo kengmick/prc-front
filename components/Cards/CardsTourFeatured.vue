@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-[300px] h-[400px] border-box border-[#BA39A4] border-[2px] relative overscroll-none text-white"
+    class="w-[300px] h-[400px] border-box border-[#BA39A4] border-[2px] relative overscroll-none text-white scaleDown"
   >
     <nuxt-img
       class="absolute top-0 negetive-index object-fill"

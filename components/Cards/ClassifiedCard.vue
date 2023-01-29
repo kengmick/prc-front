@@ -405,17 +405,14 @@ export default {
       if (this.$strapi.user) {
         this.showModal = false
         // go to add card page
-        if (article.users_permissions_user.id === this.$strapi.user.id) {
-          this.$router.push({
-            path: 'addcardpage',
-            query: { article: article.id, usersCard: true },
-          })
-        } else {
-          this.$router.push({
-            path: 'addcardpage',
-            query: { article: article.id, usersCard: false },
-          })
-        }
+        this.$router.push({
+          path: 'addcardpage',
+          query: {
+            data: article.id,
+            usersCard: true,
+            type: 'article',
+          },
+        })
       } else {
         return (this.showModal = true)
       }
