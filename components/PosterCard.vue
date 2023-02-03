@@ -84,20 +84,6 @@
         <p v-else class="text-[12px] chedder">
           {{ band.city }}, {{ band.state }}
         </p>
-        <span v-if="!addingCard">
-          <!-- add this  v-if="band.users_permissions_user.id !== $strapi.user.id" -->
-          <p
-            class="text-[12px] chedder text-blue-500 underline cursor-pointer"
-            @click="startChat(user)"
-          >
-            Internal Message
-          </p>
-        </span>
-        <span v-else>
-          <p class="text-[12px] chedder text-blue-500 underline">
-            Internal Message
-          </p>
-        </span>
       </div>
     </section>
 

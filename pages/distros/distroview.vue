@@ -2,10 +2,10 @@
   <div>
     <section v-if="distro" class="container mx-auto my-6">
       <CardsDistroFullCard
+        :isFav="favCheck('record-labels', distro.id)"
         class="mx-auto"
         :distro="distro"
         @startChat="startChatNow(distro.users_permissions_user)"
-        :isFav="favCheck('record-labels', distro.id)"
       />
     </section>
     <NuxtLink
@@ -427,16 +427,16 @@ export default {
     },
 
     async startChatNow(val) {
-      console.log('this is the start chat now function', val, val.id)
+      console.log(
+        'this is the start chat now function =============================================================================',
+        val,
+        val.id
+      )
       try {
         // find all chat that you have
         const [hasChat] = await this.$strapi.find('chats', {
           users_permissions_user: val.id,
         })
-        console.log(hasChat)
-        // return { ...c, chatWith: this.chatWith }
-
-        // render the chat comp with the chat that we already have read y
 
         if (hasChat) {
           console.log('the start of has chat ')

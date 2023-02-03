@@ -91,8 +91,8 @@
         />
       </div>
       <div
+        class="flex items-center justify-center min-w-[50px] cursor-pointer"
         @click="sendMessage()"
-        class="flex items-center justify-center min-w-[50px]"
       >
         send
       </div>

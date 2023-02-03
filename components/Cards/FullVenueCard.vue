@@ -37,7 +37,10 @@
           </p>
 
           <span>
-            <p class="text-[12px] chedder underline" @click="startChat(user)">
+            <p
+              class="text-[12px] chedder underline cursor-pointer"
+              @click="startChat(user)"
+            >
               Internal Message
             </p>
           </span>

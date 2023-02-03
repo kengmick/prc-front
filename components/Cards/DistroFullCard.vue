@@ -40,7 +40,7 @@
           <span>
             <span>
               <p class="text-[12px] chedder underline" @click="startChat(user)">
-                Internal Message {{ user }}
+                Internal Message
               </p>
             </span>
           </span>
@@ -484,6 +484,7 @@ export default {
     startChat(user) {
       console.log('interanl messages ')
       if (this.$strapi.user) {
+        this.showModal = false
         this.$emit('startChat', user)
       } else {
         return (this.showModal = true)

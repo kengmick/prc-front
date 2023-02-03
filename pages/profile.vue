@@ -204,10 +204,16 @@
               <div v-if="cha.chatWith.id === $strapi.user.id">
                 <ChatCards
                   class="mb-8 border-b-[1px]"
+                  :chatWithName="cha.chatWith.username"
+                  :chatWithImg="cha.chatWith.profileImg.url"
+                  @click.native="renderChatComp(cha)"
+                />
+                <!-- <ChatCards
+                  class="mb-8 border-b-[1px]"
                   :chatWithName="cha.users_permissions_users[0].username"
                   :chatWithImg="cha.users_permissions_users[0].profileImg.url"
                   @click.native="renderChatComp(cha)"
-                />
+                /> -->
               </div>
             </div>
           </div>

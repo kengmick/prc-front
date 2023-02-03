@@ -435,7 +435,7 @@ export default {
       console.log(article.users_permissions_user.id, this.$strapi.user.id)
     },
     startChat(user) {
-      if (this.$strapi.user) {
+      if (!this.$strapi.user) {
         this.showModal = true
       }
       if (this.$strapi.user) {
