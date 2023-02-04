@@ -436,14 +436,17 @@ export default {
       this.message = 'You must be logged in '
     },
     async unFollowFunc(type, id) {
+      console.log('hello world')
       const curFavs = await this.$strapi.find('favs', {
         users_permissions_user: this.$strapi.user.id,
       })
       console.log(curFavs, ' cur favs ')
       this.$emit('updatedFavs')
       const filtered = curFavs.filter((f) => {
+        console.log(f.data.id, ' the data id ', id)
         return f.data.id === id
       })
+      console.log('============================= unfollow function " ')
       this.$emit('updatedFavs')
 
       if (filtered) {
