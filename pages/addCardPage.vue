@@ -21,13 +21,10 @@
           <!-- list all cards  -->
           <h3 class="text-main text-2xl text-center">Bands</h3>
 
-          <div
-            v-if="bands"
-            class="container-sm mx-auto flex justify-center items-center mb-20"
-          >
+          <div v-if="bands" class="flex gap-6 overflow-x-scroll h-[500px]">
             <div v-for="b in bands" :key="b.id">
               <PosterCard
-                class="mb-10"
+                class="mb-20"
                 :band="b"
                 :isFeatured="true"
                 :isHome="true"
@@ -38,10 +35,7 @@
               />
             </div>
           </div>
-          <div
-            v-if="distros"
-            class="container-sm mx-auto flex justify-center items-center mb-20"
-          >
+          <div v-if="distros" class="flex gap-6 overflow-x-scroll h-[500px]">
             <div v-for="d in distros" :key="d.name">
               <CardsDistroCard
                 v-if="d"
@@ -54,10 +48,7 @@
               />
             </div>
           </div>
-          <div
-            v-if="events"
-            class="container-sm mx-auto flex gap-10 justify-center items-center mb-20 h-auto"
-          >
+          <div v-if="events" class="flex gap-6 overflow-x-scroll h-[500px]">
             <div v-for="e in events" :key="e.name">
               <CardsShowCard
                 :event="e"
@@ -66,10 +57,7 @@
               />
             </div>
           </div>
-          <div
-            v-if="tours"
-            class="container-sm mx-auto flex justify-center items-center mb-20"
-          >
+          <div v-if="tours" class="flex gap-6 overflow-x-scroll h-[500px]">
             <div v-for="t in tours" :key="t.name">
               <CardsTourCard
                 :tour="t"
@@ -79,10 +67,7 @@
               />
             </div>
           </div>
-          <div
-            v-if="venues"
-            class="container-sm mx-auto flex gap-10 justify-center items-center mb-20"
-          >
+          <div v-if="venues" class="flex gap-6 overflow-x-scroll h-[500px]">
             <div v-for="v in venues" :key="v.name">
               <CardsVenueCard
                 :addingCard="true"
