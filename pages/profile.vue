@@ -340,7 +340,7 @@
             v-for="event in events"
             :key="event.title"
             :event="event"
-            @createdFavs="updateFavData"
+            @updatedFavs="updatedFavs('events', event.id)"
             :isFav="favCheck('events', event.id)"
           />
         </div>
@@ -391,7 +391,7 @@
             v-for="tour in tours"
             :key="tour.title"
             :tour="tour"
-            @createdFavs="updateFavData"
+            @updatedFavs="updatedFavs('tours', tour.id)"
             :isFav="favCheck('tours', tour.id)"
           />
         </div>
@@ -436,8 +436,8 @@
             v-for="distro in distros"
             :key="distro.name"
             :distro="distro"
-            @createdFavs="updateFavData"
-            :isFav="favCheck('record-labels', distro.id)"
+            @updatedFavs="updatedFavs('distros', distro.id)"
+            :isFav="favCheck('distros', distro.id)"
           />
         </div>
       </div>
@@ -485,7 +485,7 @@
             :key="venue.name"
             :venue="venue"
             @removeVenue="openPopUp"
-            @createdFavs="updateFavData"
+            @updatedFavs="updatedFavs('venues', venue.id)"
             :isFav="favCheck('venues', venue.id)"
           />
           <div />
@@ -535,6 +535,7 @@
             v-for="article in classifieds"
             :key="article.title"
             :article="article"
+            @updatedFavs="updatedFavs('classifieds', article.id)"
             :isFav="favCheck('classifieds', article.id)"
           />
 
@@ -585,8 +586,8 @@
                   :band="fav.data"
                   :user="fav.data.users_permissions_user"
                   :unFollow="true"
-                  @updatedFavs="getFavs(fav.data.users_permissions_user)"
-                  :isFav="true"
+                  @updatedFavs="updatedFavs('bands', fav.data.id)"
+                  :isFav="favCheck('bands', fav.data.id)"
                 />
               </span>
             </div>
@@ -599,8 +600,8 @@
                   v-if="fav.type === 'venues'"
                   :venue="fav.data"
                   :unFollow="true"
-                  @updatedFavs="getFavs(fav.data.users_permissions_user)"
-                  :isFav="true"
+                  @updatedFavs="updatedFavs('venues', fav.data.id)"
+                  :isFav="favCheck('venues', fav.data.id)"
                 />
               </span>
             </div>
@@ -609,13 +610,13 @@
                 v-for="fav in favs.filter((f) => f.type === 'tours')"
                 :key="fav.id"
               >
-                <CardsTourCard
+                <!-- <CardsTourCard
                   v-if="fav.type === 'tours'"
                   :tour="fav.data"
                   :unFollow="true"
-                  @updatedFavs="getFavs(fav.data.users_permissions_user)"
-                  :isFav="true"
-                />
+                  @updatedFavs="updatedFavs('tours', fav.data.id)"
+                  :isFav="favCheck('tours', fav.data.id)"
+                /> -->
               </span>
             </div>
             <div class="flex gap-4 overflow-y-scroll mt-4">
@@ -627,8 +628,8 @@
                   v-if="fav.type === 'events'"
                   :event="fav.data"
                   :unFollow="true"
-                  @updatedFavs="getFavs(fav.data.users_permissions_user)"
-                  :isFav="true"
+                  @updatedFavs="updatedFavs('events', fav.data.id)"
+                  :isFav="favCheck('events', fav.data.id)"
                 />
               </span>
             </div>
@@ -641,8 +642,8 @@
                   v-if="fav.type === 'record-labels'"
                   :distro="fav.data"
                   :unFollow="true"
-                  @updatedFavs="getFavs(fav.data.users_permissions_user)"
-                  :isFav="true"
+                  @updatedFavs="updatedFavs('record-labels', fav.data.id)"
+                  :isFav="favCheck('record-labels', fav.data.id)"
                 />
               </span>
             </div>
@@ -655,8 +656,8 @@
                   v-if="fav.type === 'classifieds'"
                   :article="fav.data"
                   :unFollow="true"
-                  @updatedFavs="getFavs(fav.data.users_permissions_user)"
-                  :isFav="true"
+                  @updatedFavs="updatedFavs('classifieds', fav.data.id)"
+                  :isFav="favCheck('classifieds', fav.data.id)"
                 />
               </span>
             </div>
@@ -867,6 +868,22 @@ export default {
     }
   },
   async fetch() {
+    // adding for test to fix profile page
+    if (this.$strapi.user) {
+      const f = await this.$strapi.find('favs', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      this.favs = f.sort((a, b) => {
+        if (a.type < b.type) {
+          return -1
+        }
+        if (a.type > b.type) {
+          return 1
+        }
+        return 0
+      })
+    }
+    // end of test functions
     try {
       const user = await this.$strapi.findOne('users', this.$strapi.user.id)
       this.user = user
@@ -1018,47 +1035,82 @@ export default {
   },
   methods: {
     moment,
-    favCheck(type, id) {
-      const check = this.favs.filter((f) => {
-        console.log('fav checkc ')
-        return f.data.id === id
-      })
-      if (check.length > 0) {
-        return true
+    // this is the test functions added now ===============
+    async updatedFavs(type, id) {
+      console.log(
+        'this is the updated favs event emited from the parent component'
+      )
+      if (this.$strapi.user) {
+        const f = await this.$strapi.find('favs', {
+          users_permissions_user: this.$strapi.user.id,
+        })
+        this.favs = f.sort((a, b) => {
+          if (a.type < b.type) {
+            return -1
+          }
+          if (a.type > b.type) {
+            return 1
+          }
+          return 0
+        })
+
+        if (this.favs !== null) {
+          const check = this.favs.filter((f) => {
+            console.log('fav checkc ')
+            return f.data.id === id
+          })
+          if (check.length > 0) {
+            return true
+          }
+          console.log(check, ' this is check ')
+        }
       }
-      console.log(check, ' this is check ')
     },
-    async getFavs(userid) {
-      console.log('get favs ')
-      console.log('get favs ')
-      const f = await this.$strapi.find('favs', {
-        users_permissions_user: this.$strapi.user.id,
-      })
-      this.favs = f.sort((a, b) => {
-        if (a.type < b.type) {
-          return -1
+    favCheck(type, id) {
+      console.log('emited from the child component')
+      if (this.favs !== null) {
+        const check = this.favs.filter((f) => {
+          console.log('fav checkc ')
+          return f.data.id === id
+        })
+        if (check.length > 0) {
+          return true
         }
-        if (a.type > b.type) {
-          return 1
-        }
-        return 0
-      })
-      console.log(this.favs)
+        console.log(check, ' this is check ')
+      }
     },
-    updateFavData(val) {
-      console.log('anything')
-      this.loading = true
-      this.favs = val.sort((a, b) => {
-        if (a.type < b.type) {
-          return -1
-        }
-        if (a.type > b.type) {
-          return 1
-        }
-        return 0
-      })
-      this.loading = false
-    },
+    // end of test functions added now ===================
+    // async getFavs(userid) {
+    //   console.log('get favs ')
+    //   console.log('get favs ')
+    //   const f = await this.$strapi.find('favs', {
+    //     users_permissions_user: this.$strapi.user.id,
+    //   })
+    //   this.favs = f.sort((a, b) => {
+    //     if (a.type < b.type) {
+    //       return -1
+    //     }
+    //     if (a.type > b.type) {
+    //       return 1
+    //     }
+    //     return 0
+    //   })
+    //   console.log(this.favs)
+    // },
+    // updateFavData(val) {
+    //   console.log('anything')
+    //   this.loading = true
+    //   this.favs = val.sort((a, b) => {
+    //     if (a.type < b.type) {
+    //       return -1
+    //     }
+    //     if (a.type > b.type) {
+    //       return 1
+    //     }
+    //     return 0
+    //   })
+    //   this.loading = false
+    // },
 
     openCreateChat() {
       this.createChat = !this.createChat
