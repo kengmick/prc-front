@@ -234,7 +234,16 @@
       <div
         class="w-[70px] h-[24px] bg-[#F81194] flex justify-center items-center text-[10px] chedder"
       >
-        <span class="flex items-center justify-between w-full px-2"
+        <span
+          class="flex items-center justify-between w-full px-2 cursor-pointer"
+          @click="
+            $router.push({
+              path: '/qr',
+              query: {
+                route: `https://punkrockcompound.com/venues/venueprofile?venue=${venue.id}`,
+              },
+            })
+          "
           ><img class="h-[12px] w-[12px]" src="/qr1.svg" alt="" />QR Code</span
         >
       </div>

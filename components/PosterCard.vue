@@ -252,8 +252,7 @@
             $router.push({
               path: '/qr',
               query: {
-                type: '/bands/bandprofile',
-                dataId: band.id,
+                route: `https://punkrockcompound.com/bands/bandprofile?band=${band.id}`,
               },
             })
           "

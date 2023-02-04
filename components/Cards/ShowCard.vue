@@ -290,7 +290,14 @@
         >
           <span
             class="flex items-center justify-between w-full px-2 cursor-pointer"
-            @click="genCode"
+            @click="
+              $router.push({
+                path: '/qr',
+                query: {
+                  route: `https://punkrockcompound.com/events/eventview?event=${event.id}`,
+                },
+              })
+            "
             ><img class="h-[12px] w-[12px]" src="/qr1.svg" alt="" />QR
             Code</span
           >

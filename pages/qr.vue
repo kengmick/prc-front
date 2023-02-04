@@ -1,11 +1,6 @@
 <template>
-  <div v-if="type" class="my-10 mx-4">
-    <Qrcode
-      :width="300"
-      :height="300"
-      :color="colors.bands"
-      :data="`https://punkrockcompound.com/${type}`"
-    />
+  <div v-if="route" class="my-10 mx-4">
+    <Qrcode :width="300" :height="300" :color="colors.bands" :data="route" />
   </div>
 </template>
 
@@ -13,14 +8,14 @@
 export default {
   data() {
     return {
-      type: null,
+      route: null,
       colors: {
         bands: '#27ED5E',
       },
     }
   },
   mounted() {
-    this.type = this.$route.query.type
+    this.route = this.$route.query.route
   },
 }
 </script>
