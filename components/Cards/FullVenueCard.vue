@@ -365,23 +365,18 @@ export default {
   },
   async mounted() {
     if (this.$strapi.user) {
-      console.log(' user herer ')
       const f = await this.$strapi.find('favs', {
         users_permissions_user: this.$strapi.user.id,
       })
-      console.log('f ', f)
-      if (f) {
-        this.favs = f.sort((a, b) => {
-          if (a.type < b.type) {
-            return -1
-          }
-          if (a.type > b.type) {
-            return 1
-          }
-          return 0
-        })
-      }
-      console.log('no user ')
+      this.favs = f.sort((a, b) => {
+        if (a.type < b.type) {
+          return -1
+        }
+        if (a.type > b.type) {
+          return 1
+        }
+        return 0
+      })
     }
   },
 
@@ -397,59 +392,73 @@ export default {
       })
     },
     async favorite(type, data) {
-      console.log('fav function')
+      this.$emit('updatedFavs')
+      if (!this.$strapi.user) {
+        return (this.showModal = true)
+      }
       if (this.$strapi.user) {
         try {
           const curFavs = await this.$strapi.find('favs', {
             users_permissions_user: this.$strapi.user.id,
           })
-          console.log(curFavs, 'the current favs ')
-
           if (curFavs.length > 0) {
             const isSame = curFavs.filter((f) => {
               return f.data.id === data.id && f.type === type
             })
+            if (isSame) {
+              this.unFollowFunc(type, data.id)
+            }
             if (isSame.length === 0) {
-              console.log(isSame, ' this is same')
               const fav = await this.$strapi.create('favs', {
                 users_permissions_user: this.$strapi.user.id,
                 data: data,
                 type: type,
               })
-              const upFav = await this.$strapi.find('favs', {
-                users_permissions_user: this.$strapi.user.id,
-              })
-              console.log('emit created hreer', fav, upFav)
-              this.$router.push('/profile')
+              this.$emit('updatedFavs')
+              console.log(fav, 'this is the fav')
             }
-            this.$router.push('/profile')
+            this.$emit('updatedFavs')
           } else if (curFavs.length === 0) {
             const fav = await this.$strapi.create('favs', {
               users_permissions_user: this.$strapi.user.id,
               data: data,
               type: type,
             })
-            console.log('emit createdfdsfdsfs')
-            console.log(curFavs, 'this is the fav', fav)
-            this.$router.push('/profile')
+            this.$emit('updatedFavs')
+            console.log(fav, 'this is the fav')
           } else {
-            await this.$strapi.find('favs', {
-              users_permissions_user: this.$strapi.user.id,
-            })
+            this.$emit('updatedFavs')
           }
           const f = await this.$strapi.find('favs', {
             users_permissions_user: this.$strapi.user.id,
           })
           this.$emit('createdFavs', f)
-          console.log(
-            'emited create createdFavscreatedFavscreatedFavscreatedFavs',
-            f
-          )
+          this.$emit('updatedFavs')
         } catch (error) {
-          console.log('there was an error in the create favs function', error)
+          console.log('there was an error in the create favs function')
         }
       }
       this.message = 'You must be logged in '
+    },
+    async unFollowFunc(type, id) {
+      console.log('hello world')
+      const curFavs = await this.$strapi.find('favs', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      console.log(curFavs, ' cur favs ')
+      this.$emit('updatedFavs')
+      const filtered = curFavs.filter((f) => {
+        console.log(f.data.id, ' the data id ', id)
+        return f.data.id === id
+      })
+      console.log('============================= unfollow function " ')
+      this.$emit('updatedFavs')
+
+      if (filtered) {
+        await this.$strapi.delete('favs', filtered[0].id)
+        this.$emit('updatedFavs')
+      }
+      this.$emit('updatedFavs')
     },
     favCheck(type, id) {
       if (this.favs) {
