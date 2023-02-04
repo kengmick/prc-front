@@ -12,6 +12,7 @@
         v-for="distro in distros"
         :key="distro.name"
         :distro="distro"
+        @updatedFavs="updatedFavs('record-labels', distro.id)"
         :isFav="favCheck('record-labels', distro.id)"
       />
     </section>
@@ -25,6 +26,7 @@ export default {
     return {
       distros: [],
       errorMessage: '',
+      favs: null,
     }
   },
   async mounted() {
@@ -50,8 +52,39 @@ export default {
     }
   },
   methods: {
+    async updatedFavs(type, id) {
+      console.log(
+        'this is the updated favs event emited from the parent component'
+      )
+      if (this.$strapi.user) {
+        const f = await this.$strapi.find('favs', {
+          users_permissions_user: this.$strapi.user.id,
+        })
+        this.favs = f.sort((a, b) => {
+          if (a.type < b.type) {
+            return -1
+          }
+          if (a.type > b.type) {
+            return 1
+          }
+          return 0
+        })
+
+        if (this.favs !== null) {
+          const check = this.favs.filter((f) => {
+            console.log('fav checkc ')
+            return f.data.id === id
+          })
+          if (check.length > 0) {
+            return true
+          }
+          console.log(check, ' this is check ')
+        }
+      }
+    },
     favCheck(type, id) {
-      if (this.favs) {
+      console.log('emited from the child component')
+      if (this.favs !== null) {
         const check = this.favs.filter((f) => {
           console.log('fav checkc ')
           return f.data.id === id
@@ -60,8 +93,6 @@ export default {
           return true
         }
         console.log(check, ' this is check ')
-      } else {
-        return false
       }
     },
   },
