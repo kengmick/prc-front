@@ -46,6 +46,7 @@ export default {
   },
   async mounted() {
     if (this.$strapi.user) {
+      console.log('mounted user ', this)
       const f = await this.$strapi.find('favs', {
         users_permissions_user: this.$strapi.user.id,
       })
