@@ -13,6 +13,8 @@
         :user="band.users_permissions_user"
         :isFeatured="true"
         :isHome="true"
+        @updatedFavs="updatedFavs('bands', band.id)"
+        :isFav="favCheck('bands', band.id)"
         @addFeaturedToBandCard="addCard"
         @startChat="startChatNow(band.users_permissions_user)"
       />
@@ -655,8 +657,39 @@ export default {
   },
   methods: {
     moment,
+    async updatedFavs(type, id) {
+      console.log(
+        'this is the updated favs event emited from the parent component'
+      )
+      if (this.$strapi.user) {
+        const f = await this.$strapi.find('favs', {
+          users_permissions_user: this.$strapi.user.id,
+        })
+        this.favs = f.sort((a, b) => {
+          if (a.type < b.type) {
+            return -1
+          }
+          if (a.type > b.type) {
+            return 1
+          }
+          return 0
+        })
+
+        if (this.favs !== null) {
+          const check = this.favs.filter((f) => {
+            console.log('fav checkc ')
+            return f.data.id === id
+          })
+          if (check.length > 0) {
+            return true
+          }
+          console.log(check, ' this is check ')
+        }
+      }
+    },
     favCheck(type, id) {
-      if (this.favs) {
+      console.log('emited from the child component')
+      if (this.favs !== null) {
         const check = this.favs.filter((f) => {
           console.log('fav checkc ')
           return f.data.id === id
