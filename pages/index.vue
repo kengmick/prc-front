@@ -16,6 +16,8 @@
           :user="band.users_permissions_user"
           :isFeatured="true"
           :isHome="true"
+          @updatedFavs="updatedFavs('bands', band.id)"
+          :isFav="favCheck('bands', band.id)"
           @startChat="startChatNow(band.users_permissions_user)"
         />
       </div>
@@ -66,6 +68,7 @@ export default {
       hasChat: false,
       chatSelf: false,
       qrCode: null,
+      favs: null,
     }
   },
   async fetch() {
@@ -76,19 +79,33 @@ export default {
       console.log(error, 'this is all bands ')
     }
   },
-  // mounted() {
-  //   this.qrCode = new QRCodeStyling({
-  //     width: 300,
-  //     height: 300,
-  //     type: 'svg',
-  //     data: 'https://www.google.com/',
-  //     dotsOptions: {
-  //       color: '#c10609',
-  //       type: 'squared',
-  //     },
-  //   })
-  //   this.qrCode.append(this.$refs.qrCode)
-  // },
+  async mounted() {
+    if (this.$strapi.user) {
+      const f = await this.$strapi.find('favs', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      this.favs = f.sort((a, b) => {
+        if (a.type < b.type) {
+          return -1
+        }
+        if (a.type > b.type) {
+          return 1
+        }
+        return 0
+      })
+    }
+    // this.qrCode = new QRCodeStyling({
+    //   width: 300,
+    //   height: 300,
+    //   type: 'svg',
+    //   data: 'https://www.google.com/',
+    //   dotsOptions: {
+    //     color: '#c10609',
+    //     type: 'squared',
+    //   },
+    // })
+    // this.qrCode.append(this.$refs.qrCode)
+  },
   methods: {
     async renderChatComp(chat) {
       this.chatComp = false
@@ -99,7 +116,49 @@ export default {
         this.chatComp = false
       }
     },
+    async updatedFavs(type, id) {
+      console.log(
+        'this is the updated favs event emited from the parent component'
+      )
+      if (this.$strapi.user) {
+        const f = await this.$strapi.find('favs', {
+          users_permissions_user: this.$strapi.user.id,
+        })
+        this.favs = f.sort((a, b) => {
+          if (a.type < b.type) {
+            return -1
+          }
+          if (a.type > b.type) {
+            return 1
+          }
+          return 0
+        })
 
+        if (this.favs !== null) {
+          const check = this.favs.filter((f) => {
+            console.log('fav checkc ')
+            return f.data.id === id
+          })
+          if (check.length > 0) {
+            return true
+          }
+          console.log(check, ' this is check ')
+        }
+      }
+    },
+    favCheck(type, id) {
+      console.log('emited from the child component')
+      if (this.favs !== null) {
+        const check = this.favs.filter((f) => {
+          console.log('fav checkc ')
+          return f.data.id === id
+        })
+        if (check.length > 0) {
+          return true
+        }
+        console.log(check, ' this is check ')
+      }
+    },
     async startChatNow(val) {
       try {
         // find all chat that you have

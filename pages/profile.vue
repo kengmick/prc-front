@@ -184,12 +184,12 @@
         <!-- <pre>{{ chats }}</pre> -->
         <div class="px-4">
           <!-- header of internal message on the profile page  -->
-          <div @click="openCreateChat" class="flex items-center">
+          <!-- <div @click="openCreateChat" class="flex items-center">
             <Subtitle text="direct messages" />
             <div class="flex-grow">
               <p class="text-[12px] text-right">+</p>
             </div>
-          </div>
+          </div> -->
           <!-- display chats if there are any  -->
           <div v-if="chats" class="mt-4">
             <div v-for="cha in chats" :key="cha.id">
