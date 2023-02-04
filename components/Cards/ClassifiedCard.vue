@@ -147,7 +147,6 @@
         class="w-[66px] h-[24px] bg-[#ECDD2A] flex justify-center items-center text-[10px] chedder"
       >
         <span
-          v-if="!unFollow"
           @click="favorite('classifieds', article)"
           class="flex items-center justify-between w-full px-2 cursor-pointer"
           ><img
@@ -161,22 +160,6 @@
             src="/notheart.svg"
             alt=""
           />Favorite</span
-        >
-        <span
-          v-if="unFollow"
-          @click="unFollowFunc('classifieds', article.id)"
-          class="flex items-center justify-between w-full px-2 cursor-pointer"
-          ><img
-            v-if="isFav"
-            class="h-[12px] w-[12px]"
-            src="/heart.svg"
-            alt=""
-          /><img
-            v-if="!isFav"
-            class="h-[12px] w-[12px]"
-            src="/notheart.svg"
-            alt=""
-          />Unfollow</span
         >
       </div>
       <div
@@ -342,21 +325,23 @@ export default {
       })
     },
     async favorite(type, data) {
+      this.$emit('updatedFavs')
       if (!this.$strapi.user) {
-        this.showModal = true
+        return (this.showModal = true)
       }
       if (this.$strapi.user) {
         try {
           const curFavs = await this.$strapi.find('favs', {
             users_permissions_user: this.$strapi.user.id,
           })
-          console.log(curFavs, 'the current favs ')
           if (curFavs.length > 0) {
             const isSame = curFavs.filter((f) => {
               return f.data.id === data.id && f.type === type
             })
+            if (isSame) {
+              this.unFollowFunc(type, data.id)
+            }
             if (isSame.length === 0) {
-              console.log(isSame, ' this is same')
               const fav = await this.$strapi.create('favs', {
                 users_permissions_user: this.$strapi.user.id,
                 data: data,
@@ -364,9 +349,8 @@ export default {
               })
               this.$emit('updatedFavs')
               console.log(fav, 'this is the fav')
-              this.$router.push('/profile')
             }
-            this.$router.push('/profile')
+            this.$emit('updatedFavs')
           } else if (curFavs.length === 0) {
             const fav = await this.$strapi.create('favs', {
               users_permissions_user: this.$strapi.user.id,
@@ -375,7 +359,6 @@ export default {
             })
             this.$emit('updatedFavs')
             console.log(fav, 'this is the fav')
-            this.$router.push('/profile')
           } else {
             this.$emit('updatedFavs')
           }
@@ -383,6 +366,7 @@ export default {
             users_permissions_user: this.$strapi.user.id,
           })
           this.$emit('createdFavs', f)
+          this.$emit('updatedFavs')
         } catch (error) {
           console.log('there was an error in the create favs function')
         }
@@ -390,24 +374,24 @@ export default {
       this.message = 'You must be logged in '
     },
     async unFollowFunc(type, id) {
-      if (!this.$strapi.user) {
-        return (this.showModal = true)
-      }
-      if (this.$strapi.user) {
-        const curFavs = await this.$strapi.find('favs', {
-          users_permissions_user: this.$strapi.user.id,
-        })
-        console.log(curFavs, ' cur favs ')
-        const filtered = curFavs.filter((f) => {
-          console.log(f.data.id, ' the data id ', id)
-          return f.data.id === id
-        })
+      console.log('hello world')
+      const curFavs = await this.$strapi.find('favs', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      console.log(curFavs, ' cur favs ')
+      this.$emit('updatedFavs')
+      const filtered = curFavs.filter((f) => {
+        console.log(f.data.id, ' the data id ', id)
+        return f.data.id === id
+      })
+      console.log('============================= unfollow function " ')
+      this.$emit('updatedFavs')
 
-        if (filtered) {
-          await this.$strapi.delete('favs', filtered[0].id)
-          this.$emit('updatedFavs')
-        }
+      if (filtered) {
+        await this.$strapi.delete('favs', filtered[0].id)
+        this.$emit('updatedFavs')
       }
+      this.$emit('updatedFavs')
     },
     goToAddCard(article) {
       if (this.$strapi.user) {

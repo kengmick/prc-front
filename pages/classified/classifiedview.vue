@@ -4,8 +4,9 @@
       <CardsClassifiedCard
         class="mx-auto"
         :article="classified"
-        @startChat="startChatNow(classified.users_permissions_user)"
         :isFav="favCheck('classifieds', classified.id)"
+        @startChat="startChatNow(classified.users_permissions_user)"
+        @updatedFavs="updatedFavs('classifieds', classified.id)"
       />
     </div>
     <div
@@ -104,6 +105,75 @@ export default {
         }
         console.log(check, ' this is check ')
       }
+    },
+    async favorite(type, data) {
+      this.$emit('updatedFavs')
+      if (!this.$strapi.user) {
+        return (this.showModal = true)
+      }
+      if (this.$strapi.user) {
+        try {
+          const curFavs = await this.$strapi.find('favs', {
+            users_permissions_user: this.$strapi.user.id,
+          })
+          if (curFavs.length > 0) {
+            const isSame = curFavs.filter((f) => {
+              return f.data.id === data.id && f.type === type
+            })
+            if (isSame) {
+              this.unFollowFunc(type, data.id)
+            }
+            if (isSame.length === 0) {
+              const fav = await this.$strapi.create('favs', {
+                users_permissions_user: this.$strapi.user.id,
+                data: data,
+                type: type,
+              })
+              this.$emit('updatedFavs')
+              console.log(fav, 'this is the fav')
+            }
+            this.$emit('updatedFavs')
+          } else if (curFavs.length === 0) {
+            const fav = await this.$strapi.create('favs', {
+              users_permissions_user: this.$strapi.user.id,
+              data: data,
+              type: type,
+            })
+            this.$emit('updatedFavs')
+            console.log(fav, 'this is the fav')
+          } else {
+            this.$emit('updatedFavs')
+          }
+          const f = await this.$strapi.find('favs', {
+            users_permissions_user: this.$strapi.user.id,
+          })
+          this.$emit('createdFavs', f)
+          this.$emit('updatedFavs')
+        } catch (error) {
+          console.log('there was an error in the create favs function')
+        }
+      }
+      this.message = 'You must be logged in '
+    },
+    async unFollowFunc(type, id) {
+      console.log('hello world')
+      const curFavs = await this.$strapi.find('favs', {
+        users_permissions_user: this.$strapi.user.id,
+      })
+      console.log(curFavs, ' cur favs ')
+      this.$emit('updatedFavs')
+      const filtered = curFavs.filter((f) => {
+        console.log(f.data.id, ' the data id ', id)
+        return f.data.id === id
+      })
+      console.log('============================= unfollow function " ')
+      this.$emit('updatedFavs')
+
+      if (filtered) {
+        await this.$strapi.delete('favs', filtered[0].id)
+        this.$emit('updatedFavs')
+      }
+      this.$emit('updatedFavs')
     },
     async renderChatComp(chat) {
       this.chatComp = false
