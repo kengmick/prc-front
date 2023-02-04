@@ -226,22 +226,6 @@
             alt=""
           />Favorite</span
         >
-        <!-- <span
-          v-if="unFollow"
-          @click="unFollowFunc('bands', band.id)"
-          class="flex items-center justify-between w-full px-2 cursor-pointer"
-          ><img
-            v-if="isFav"
-            class="h-[12px] w-[12px]"
-            src="/heart.svg"
-            alt=""
-          /><img
-            v-if="!isFav"
-            class="h-[12px] w-[12px]"
-            src="/notheart.svg"
-            alt=""
-          />Unfollow</span
-        > -->
       </div>
       <div
         class="w-[66px] h-[24px] bg-[#27ED5E] flex justify-center items-center text-[10px] chedder"

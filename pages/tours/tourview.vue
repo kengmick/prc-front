@@ -3,8 +3,9 @@
     <div v-if="tour" class="container mx-auto flex justify-center mt-6">
       <CardsFullTourCard
         :tour="tour"
-        @startChat="startChatNow(tour.users_permissions_user)"
         :isFav="favCheck('tours', tour.id)"
+        @startChat="startChatNow(tour.users_permissions_user)"
+        @updatedFavs="updatedFavs('tours', tour.id)"
       />
     </div>
     <NuxtLink
@@ -727,19 +728,50 @@ export default {
   },
   methods: {
     moment,
-    favCheck(type, id) {
-      if (!this.favs) {
-        return false
+    async updatedFavs(type, id) {
+      console.log(
+        'this is the updated favs event emited from the parent component'
+      )
+      if (this.$strapi.user) {
+        const f = await this.$strapi.find('favs', {
+          users_permissions_user: this.$strapi.user.id,
+        })
+        this.favs = f.sort((a, b) => {
+          if (a.type < b.type) {
+            return -1
+          }
+          if (a.type > b.type) {
+            return 1
+          }
+          return 0
+        })
+
+        if (this.favs !== null) {
+          const check = this.favs.filter((f) => {
+            console.log('fav checkc ')
+            return f.data.id === id
+          })
+          if (check.length > 0) {
+            return true
+          }
+          console.log(check, ' this is check ')
+        }
       }
-      const check = this.favs.filter((f) => {
-        console.log('fav checkc ')
-        return f.data.id === id
-      })
-      if (check.length > 0) {
-        return true
-      }
-      console.log(check, ' this is check ')
     },
+    favCheck(type, id) {
+      console.log('emited from the child component')
+      if (this.favs !== null) {
+        const check = this.favs.filter((f) => {
+          console.log('fav checkc ')
+          return f.data.id === id
+        })
+        if (check.length > 0) {
+          return true
+        }
+        console.log(check, ' this is check ')
+      }
+    },
+
     async renderChatComp(chat) {
       this.chatComp = false
       if (this.chatComp === false) {
