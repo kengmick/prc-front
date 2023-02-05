@@ -52,7 +52,7 @@
         <h2
           :class="{ isActive: classifiedActive }"
           class="text-xl"
-          @click="changeIndex('classifieds')"
+          @click="changeIndex('classified')"
         >
           Classified
         </h2>
@@ -112,7 +112,7 @@
                   </section>
 
                   <NuxtLink
-                    v-if="index === 'distros'"
+                    v-if="index === 'record-labels'"
                     :to="{
                       path: '/distros/distroview',
                       query: {
@@ -125,7 +125,48 @@
                   </NuxtLink>
 
                   <NuxtLink
-                    v-if="index === 'classifieds'"
+                    v-if="index === 'events'"
+                    :to="{
+                      path: '/events/eventview',
+                      query: {
+                        event: item.id.substring(item.id.indexOf('-') + 1),
+                      },
+                    }"
+                    class="text-xl chedder z-20"
+                    style="z-index: 9999"
+                  >
+                    <CardsShowCard
+                      class="mb-10"
+                      style="z-index: -9999"
+                      :event="item"
+                      :user="item.users_permissions_user"
+                      :isFeatured="true"
+                      :isHome="true"
+                      @startChat="startChatNow(item.users_permissions_user)"
+                    />
+                  </NuxtLink>
+
+                  <NuxtLink
+                    v-if="index === 'venue'"
+                    :to="{
+                      path: '/events/eventview',
+                      query: {
+                        event: item.id.substring(item.id.indexOf('-') + 1),
+                      },
+                    }"
+                    class="text-xl chedder z-20"
+                    style="z-index: 9999"
+                  >
+                    <CardsVenueCard
+                      class="mb-10"
+                      style="z-index: -9999"
+                      :venue="item"
+                      @startChat="startChatNow(item.users_permissions_user)"
+                    />
+                  </NuxtLink>
+
+                  <NuxtLink
+                    v-if="index === 'classified'"
                     :to="{
                       path: '/classified/classifiedview',
                       query: {
@@ -230,9 +271,9 @@ export default {
         'bands',
         'distros',
         'shows',
-        'venues',
+        'venue',
         'tours',
-        'classifieds',
+        'classified',
       ]
       for (let i = 0; i < indexes.length; i++) {
         if (selectedIndex === 'bands') {
@@ -279,10 +320,10 @@ export default {
           this.showActive = false
           this.toursActive = false
           this.classifiedActive = false
-          this.index = selectedIndex
+          this.index = 'venue'
           return (this.venueActive = true)
         }
-        if (selectedIndex === 'classifieds') {
+        if (selectedIndex === 'classified') {
           this.bandActive = false
           this.tourActive = false
           this.distroActive = false
