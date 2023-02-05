@@ -11,6 +11,52 @@
         class="ml-auto mb-[20px]"
       />
     </div>
+    <section class="px-4 mb-6">
+      <div class="flex justify-between mt-4">
+        <h2
+          :class="{ isActive: bandActive }"
+          class="text-xl"
+          @click="changeIndex('bands')"
+        >
+          Bands
+        </h2>
+        <h2
+          :class="{ isActive: distroActive }"
+          class="text-xl"
+          @click="changeIndex('record-labels')"
+        >
+          Distros
+        </h2>
+        <h2
+          :class="{ isActive: showActive }"
+          class="text-xl"
+          @click="changeIndex('events')"
+        >
+          Showz
+        </h2>
+        <h2
+          :class="{ isActive: venueActive }"
+          class="text-xl"
+          @click="changeIndex('venues')"
+        >
+          Venue
+        </h2>
+        <h2
+          :class="{ isActive: tourActive }"
+          class="text-xl"
+          @click="changeIndex('tours')"
+        >
+          Tour
+        </h2>
+        <h2
+          :class="{ isActive: classifiedActive }"
+          class="text-xl"
+          @click="changeIndex('classifieds')"
+        >
+          Classified
+        </h2>
+      </div>
+    </section>
     <ais-instant-search :search-client="searchClient" :index-name="index">
       <section class="flex justify-center items-center w-auto">
         <ais-search-box
@@ -18,7 +64,7 @@
           id="a"
           :class-names="{
             'ais-SearchBox': 'searchBox',
-            'ais-SearchBox-submitIcon': 'searchFormCustom',
+            'ais-SearchBox-input': 'searchFormCustom',
           }"
         >
           <template v-slot:submit-icon
@@ -30,23 +76,39 @@
           /></template>
         </ais-search-box>
       </section>
-      <!-- <ais-state-results>
+      <ais-state-results>
         <template v-slot="{ state: { query } }">
           <ais-hits v-if="query.length >= 0">
             <template v-slot="{ items }">
-              <ul>
-                <li v-for="item in items" :key="item.objectID">
-                  <NuxtLink
-                    v-if="index === 'bands'"
-                    :to="{
-                      path: '/bands/bandprofile',
-                      query: {
-                        band: item.id.substring(item.id.indexOf('-') + 1),
-                      },
-                    }"
-                    class="text-xl chedder text-blue-700"
-                    >{{ item.bandName }}</NuxtLink
-                  >
+              <ul class="container flex flex-col items-center mt-10">
+                <li
+                  v-for="item in items"
+                  :key="item.objectID"
+                  @click="toggleSearch"
+                >
+                  <section>
+                    <NuxtLink
+                      v-if="index === 'bands'"
+                      :to="{
+                        path: '/bands/bandprofile',
+                        query: {
+                          band: item.id.substring(item.id.indexOf('-') + 1),
+                        },
+                      }"
+                      class="text-xl chedder z-20"
+                      style="z-index: 9999"
+                    >
+                      <PosterCard
+                        class="mb-10"
+                        style="z-index: -9999"
+                        :band="item"
+                        :user="item.users_permissions_user"
+                        :isFeatured="true"
+                        :isHome="true"
+                        @startChat="startChatNow(band.users_permissions_user)"
+                      />
+                    </NuxtLink>
+                  </section>
                   <NuxtLink
                     v-if="index === 'classified'"
                     :to="{
@@ -88,7 +150,7 @@
           </ais-hits>
           <div class="hidden" v-else></div>
         </template>
-      </ais-state-results> -->
+      </ais-state-results>
     </ais-instant-search>
   </div>
 </template>
@@ -97,23 +159,15 @@ import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 import {
   AisInstantSearch,
   AisSearchBox,
-  // AisHits,
-  // AisStateResults,
+  AisHits,
+  AisStateResults,
 } from 'vue-instantsearch'
 export default {
   components: {
     AisInstantSearch,
     AisSearchBox,
-    // AisHits,
-    // AisStateResults,
-  },
-  props: {
-    index: {
-      type: String,
-      default: () => {
-        return 'bands'
-      },
-    },
+    AisHits,
+    AisStateResults,
   },
 
   data() {
@@ -123,12 +177,91 @@ export default {
         // 'https://punkrockcompound.com',
         'OTRmM2M3MGE3NGJlN2FlMGIxYWMwN2E2'
       ),
+      index: 'bands',
+      bandActive: true,
+      distroActive: false,
+      showActive: false,
+      venueActive: false,
+      tourActive: false,
+      classifiedActive: false,
     }
   },
   methods: {
+    // path: '/bands/bandprofile',
+    //                   query: {
+    //                     band: item.id.substring(item.id.indexOf('-') + 1),
+    //                   }
+    log() {
+      console.log('logs')
+    },
     toggleSearch() {
+      console.log('toggleSearch')
       this.$emit('toggleSearch')
       console.log('has emited')
+    },
+    changeIndex(selectedIndex) {
+      const indexes = [
+        'bands',
+        'distros',
+        'shows',
+        'venues',
+        'tours',
+        'classifieds',
+      ]
+      for (let i = 0; i < indexes.length; i++) {
+        if (selectedIndex === 'bands') {
+          console.log('this is the index from the change index function')
+          this.distroActive = false
+          this.showActive = false
+          this.venueActive = false
+          this.classifiedActive = false
+          this.tourActive = false
+          return (this.bandActive = true)
+        }
+        if (selectedIndex === 'record-labels') {
+          console.log('record labels')
+          this.bandActive = false
+          this.showActive = false
+          this.venueActive = false
+          this.classifiedActive = false
+          this.tourActive = false
+          return (this.distroActive = true)
+        }
+        if (selectedIndex === 'events') {
+          this.bandActive = false
+          this.distroActive = false
+          this.venueActive = false
+          this.classifiedActive = false
+          this.tourActive = false
+          return (this.showActive = true)
+        }
+        if (selectedIndex === 'tours') {
+          this.bandActive = false
+          this.distroActive = false
+          this.showActive = false
+          this.venueActive = false
+          this.classifiedActive = false
+          return (this.tourActive = true)
+        }
+        if (selectedIndex === 'venues') {
+          this.bandActive = false
+          this.distroActive = false
+          this.showActive = false
+          this.toursActive = false
+          this.classifiedActive = false
+          return (this.venueActive = true)
+        }
+        if (selectedIndex === 'classifieds') {
+          this.bandActive = false
+          this.tourActive = false
+          this.distroActive = false
+          this.showActive = false
+          this.venueActive = false
+          this.classifiedActive = false
+          return (this.classifiedActive = true)
+        }
+      }
+      this.index = selectedIndex
     },
   },
 }
@@ -139,8 +272,17 @@ export default {
   width: 90% !important;
   border: 1px solid black;
 }
-.searchFormCustom {
-  display: none !important;
-  margin-left: 120px;
+
+.ais-SearchBox-input {
+  width: 300px !important;
+  background: red;
+  display: none;
+}
+
+input {
+  display: none;
+}
+.isActive {
+  color: red !important;
 }
 </style>
