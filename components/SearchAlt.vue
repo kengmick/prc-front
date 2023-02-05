@@ -1,8 +1,9 @@
 <template>
   <div
-    style="z-index: 9999999"
-    class="h-screen w-screen absolute bg-white top-0"
+    style="z-index: 9999999; overflow: scroll"
+    class="h-screen w-screen fixed bg-white top-0"
   >
+    {{ index }}
     <div class="pt-[20px] pr-[20px]" @click="toggleSearch">
       <nuxt-img
         src="close_black.svg"
@@ -109,8 +110,22 @@
                       />
                     </NuxtLink>
                   </section>
+
                   <NuxtLink
-                    v-if="index === 'classified'"
+                    v-if="index === 'distros'"
+                    :to="{
+                      path: '/distros/distroview',
+                      query: {
+                        article: item.id.substring(item.id.indexOf('-') + 1),
+                      },
+                    }"
+                    class="text-xl chedder text-blue-700"
+                  >
+                    <CardsDistroCard :distro="item" />
+                  </NuxtLink>
+
+                  <NuxtLink
+                    v-if="index === 'classifieds'"
                     :to="{
                       path: '/classified/classifiedview',
                       query: {
@@ -118,19 +133,29 @@
                       },
                     }"
                     class="text-xl chedder text-blue-700"
-                    >{{ item.title }}
+                  >
+                    <CardsClassifiedCard
+                      style="z-index: -9999"
+                      class="mx-auto"
+                      :article="item"
+                    />
                   </NuxtLink>
 
                   <NuxtLink
-                    v-if="index === 'venues'"
+                    v-if="index === 'classifieds'"
                     :to="{
-                      path: '/venues',
+                      path: '/classified/classifiedview',
                       query: {
                         article: item.id.substring(item.id.indexOf('-') + 1),
                       },
                     }"
                     class="text-xl chedder text-blue-700"
-                    >{{ item.name }}
+                  >
+                    <CardsClassifiedCard
+                      style="z-index: -9999"
+                      class="mx-auto"
+                      :article="item"
+                    />
                   </NuxtLink>
 
                   <NuxtLink
@@ -142,7 +167,8 @@
                       },
                     }"
                     class="text-xl chedder text-blue-700"
-                    >{{ item.title }}
+                  >
+                    <CardsTourCard :tour="item" :key="item.name" />
                   </NuxtLink>
                 </li>
               </ul>
@@ -216,6 +242,7 @@ export default {
           this.venueActive = false
           this.classifiedActive = false
           this.tourActive = false
+          this.index = selectedIndex
           return (this.bandActive = true)
         }
         if (selectedIndex === 'record-labels') {
@@ -225,6 +252,7 @@ export default {
           this.venueActive = false
           this.classifiedActive = false
           this.tourActive = false
+          this.index = 'record-labels'
           return (this.distroActive = true)
         }
         if (selectedIndex === 'events') {
@@ -233,6 +261,7 @@ export default {
           this.venueActive = false
           this.classifiedActive = false
           this.tourActive = false
+          this.index = selectedIndex
           return (this.showActive = true)
         }
         if (selectedIndex === 'tours') {
@@ -241,6 +270,7 @@ export default {
           this.showActive = false
           this.venueActive = false
           this.classifiedActive = false
+          this.index = selectedIndex
           return (this.tourActive = true)
         }
         if (selectedIndex === 'venues') {
@@ -249,6 +279,7 @@ export default {
           this.showActive = false
           this.toursActive = false
           this.classifiedActive = false
+          this.index = selectedIndex
           return (this.venueActive = true)
         }
         if (selectedIndex === 'classifieds') {
@@ -258,6 +289,7 @@ export default {
           this.showActive = false
           this.venueActive = false
           this.classifiedActive = false
+          this.index = selectedIndex
           return (this.classifiedActive = true)
         }
       }
