@@ -1,54 +1,58 @@
 <template>
   <div>
-    <section class="w-full h-96 flex items-center justify-center bg-[#19332d]">
-      <h1 class="text-white">PunkRock Compound</h1>
-    </section>
-    <section v-if="bands" class="overflow-x-hidden">
-      <!-- container for poster cards -->
-      <div
-        class="flex mt-6 flex-col justify-center items-center md:flex-row md:flex-wrap md:gap-6"
+    <div>
+      <section
+        class="w-full h-96 flex items-center justify-center bg-[#19332d]"
       >
-        <PosterCard
-          class="mb-10"
-          v-for="(band, index) in bands"
-          :key="band.bandName + index"
-          :band="band"
-          :user="band.users_permissions_user"
-          :isFeatured="true"
-          :isHome="true"
-          @updatedFavs="updatedFavs('bands', band.id)"
-          :isFav="favCheck('bands', band.id)"
-          @startChat="startChatNow(band.users_permissions_user)"
-        />
-      </div>
-    </section>
-    <section v-else>
-      <div id="content">
-        <div class="skeleton">
-          <div class="skeleton-wrapper">
-            <div class="skeleton-wrapper-inner">
-              <div class="skeleton-wrapper-body">
-                <div class="skeleton-avatar"></div>
-                <div class="skeleton-author"></div>
-                <div class="skeleton-label"></div>
-                <div class="skeleton-content-1"></div>
-                <div class="skeleton-content-2"></div>
-                <div class="skeleton-content-3"></div>
+        <h1 class="text-white">PunkRock Compound</h1>
+      </section>
+      <section v-if="bands" class="overflow-x-hidden">
+        <!-- container for poster cards -->
+        <div
+          class="flex mt-6 flex-col justify-center items-center md:flex-row md:flex-wrap md:gap-6"
+        >
+          <PosterCard
+            class="mb-10"
+            v-for="(band, index) in bands"
+            :key="band.bandName + index"
+            :band="band"
+            :user="band.users_permissions_user"
+            :isFeatured="true"
+            :isHome="true"
+            @updatedFavs="updatedFavs('bands', band.id)"
+            :isFav="favCheck('bands', band.id)"
+            @startChat="startChatNow(band.users_permissions_user)"
+          />
+        </div>
+      </section>
+      <section v-else>
+        <div id="content">
+          <div class="skeleton">
+            <div class="skeleton-wrapper">
+              <div class="skeleton-wrapper-inner">
+                <div class="skeleton-wrapper-body">
+                  <div class="skeleton-avatar"></div>
+                  <div class="skeleton-author"></div>
+                  <div class="skeleton-label"></div>
+                  <div class="skeleton-content-1"></div>
+                  <div class="skeleton-content-2"></div>
+                  <div class="skeleton-content-3"></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section v-if="chat">
-      <Chat
-        :chatInfo="chat"
-        :chatWithId="chat.chatWith.id"
-        class="z-[9999999]"
-        @closeChat="renderChatComp"
-      />
-    </section>
+      <section v-if="chat">
+        <Chat
+          :chatInfo="chat"
+          :chatWithId="chat.chatWith.id"
+          class="z-[9999999]"
+          @closeChat="renderChatComp"
+        />
+      </section>
+    </div>
   </div>
 </template>
 
@@ -69,6 +73,7 @@ export default {
       chatSelf: false,
       qrCode: null,
       favs: null,
+      isSearchOpen: true,
     }
   },
   async fetch() {

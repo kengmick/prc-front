@@ -1,5 +1,9 @@
 <template>
   <section>
+    <SearchAlt
+      :class="[isSearchOpen ? 'block' : 'hidden']"
+      @toggleSearch="toggleSearch"
+    />
     <!-- top bar -->
     <div
       id="deskNav"
@@ -148,16 +152,15 @@
       </div>
       <!-- mobile menu icon  -->
       <div class="flex flex-grow w-full justify-end">
-        <NuxtLink to="/search">
-          <nuxt-img
-            :class="{ scroll: hasScrolled, hidden: isOpen }"
-            class="menu fixed z-50 transition-all duration-200 ease-linear top-[110px] right-[60px]"
-            :src="`/search.svg`"
-            alt="search icon"
-            width="30"
-            height="30"
-          />
-        </NuxtLink>
+        <nuxt-img
+          :class="{ scroll: hasScrolled, hidden: isOpen }"
+          class="menu fixed z-50 transition-all duration-200 ease-linear top-[110px] right-[60px]"
+          :src="`/search.svg`"
+          alt="search icon"
+          width="30"
+          height="30"
+          @click="toggleSearch"
+        />
         <nuxt-img
           :class="{ open: isOpen, scroll: hasScrolled }"
           class="menu fixed z-50 transition-all duration-200 ease-linear top-[110px]"
@@ -261,6 +264,7 @@ export default {
       isOpen: false,
       menuIcon: 'menu.svg',
       hasScrolled: false,
+      isSearchOpen: false,
     }
   },
   beforeMount() {
@@ -271,6 +275,9 @@ export default {
   },
 
   methods: {
+    toggleSearch() {
+      this.isSearchOpen = !this.isSearchOpen
+    },
     handleScroll() {
       // if (window.scrollY >= 80) {
       //   const ele = document.getElementById('deskNav')
