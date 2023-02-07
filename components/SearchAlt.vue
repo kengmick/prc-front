@@ -37,7 +37,7 @@
         <h2
           :class="{ isActive: venueActive }"
           class="text-xl"
-          @click="changeIndex('venues')"
+          @click="changeIndex('venue')"
         >
           Venue
         </h2>
@@ -57,7 +57,7 @@
         </h2>
       </div>
     </section>
-    <!-- <ais-instant-search :search-client="searchClient" :index-name="index">
+    <ais-instant-search :search-client="searchClient" :index-name="index">
       <ais-refinement-list attribute="city" />
       <section class="flex justify-center items-center w-auto">
         <ais-search-box
@@ -99,7 +99,6 @@
                       class="text-xl chedder z-20"
                       style="z-index: 9999"
                     >
-                      <pre>{{ trimId(item) }}</pre>
                       <PosterCard
                         class="mb-10"
                         style="z-index: -9999"
@@ -107,6 +106,7 @@
                         :user="item.users_permissions_user"
                         :isFeatured="true"
                         :isHome="true"
+                        disableAll
                         @startChat="startChatNow(band.users_permissions_user)"
                       />
                     </NuxtLink>
@@ -117,12 +117,12 @@
                     :to="{
                       path: '/distros/distroview',
                       query: {
-                        article: item.id.substring(item.id.indexOf('-') + 1),
+                        distro: item.id.replace('record-labels-', ''),
                       },
                     }"
                     class="text-xl chedder text-blue-700"
                   >
-                    <CardsDistroCard :distro="item" />
+                    <CardsDistroCard disableAll :distro="trimId(item)" />
                   </NuxtLink>
 
                   <NuxtLink
@@ -130,7 +130,7 @@
                     :to="{
                       path: '/events/eventview',
                       query: {
-                        event: item.id.substring(item.id.indexOf('-') + 1),
+                        event: item.id.replace('events-', ''),
                       },
                     }"
                     class="text-xl chedder z-20"
@@ -150,9 +150,9 @@
                   <NuxtLink
                     v-if="index === 'venue'"
                     :to="{
-                      path: '/events/eventview',
+                      path: '/venues/venueprofile',
                       query: {
-                        event: item.id.substring(item.id.indexOf('-') + 1),
+                        venues: item.id.replace('venues-', ''),
                       },
                     }"
                     class="text-xl chedder z-20"
@@ -161,7 +161,7 @@
                     <CardsVenueCard
                       class="mb-10"
                       style="z-index: -9999"
-                      :venue="item"
+                      :venue="trimId(item)"
                       @startChat="startChatNow(item.users_permissions_user)"
                     />
                   </NuxtLink>
@@ -171,7 +171,7 @@
                     :to="{
                       path: '/classified/classifiedview',
                       query: {
-                        article: item.id.substring(item.id.indexOf('-') + 1),
+                        article: item.id.replace('classifieds-', ''),
                       },
                     }"
                     class="text-xl chedder text-blue-700"
@@ -179,24 +179,7 @@
                     <CardsClassifiedCard
                       style="z-index: -9999"
                       class="mx-auto"
-                      :article="item"
-                    />
-                  </NuxtLink>
-
-                  <NuxtLink
-                    v-if="index === 'classifieds'"
-                    :to="{
-                      path: '/classified/classifiedview',
-                      query: {
-                        article: item.id.substring(item.id.indexOf('-') + 1),
-                      },
-                    }"
-                    class="text-xl chedder text-blue-700"
-                  >
-                    <CardsClassifiedCard
-                      style="z-index: -9999"
-                      class="mx-auto"
-                      :article="item"
+                      :article="trimId(item)"
                     />
                   </NuxtLink>
 
@@ -205,12 +188,12 @@
                     :to="{
                       path: '/tours',
                       query: {
-                        article: item.id.substring(item.id.indexOf('-') + 1),
+                        tours: item.id.replace('tours-', ''),
                       },
                     }"
                     class="text-xl chedder text-blue-700"
                   >
-                    <CardsTourCard :tour="item" :key="item.name" />
+                    <CardsTourCard :tour="trimId(item)" :key="item.name" />
                   </NuxtLink>
                 </li>
               </ul>
@@ -219,24 +202,25 @@
           <div class="hidden" v-else></div>
         </template>
       </ais-state-results>
-    </ais-instant-search> -->
+    </ais-instant-search>
   </div>
 </template>
 <script>
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
-import // AisInstantSearch,
-// AisSearchBox,
-// AisHits,
-// AisStateResults,
-// AisRefinementList,
-'vue-instantsearch'
+import {
+  AisInstantSearch,
+  AisSearchBox,
+  AisHits,
+  AisStateResults,
+  AisRefinementList,
+} from 'vue-instantsearch'
 export default {
   components: {
-    // AisRefinementList,
-    // AisInstantSearch,
-    // AisSearchBox,
-    // AisHits,
-    // AisStateResults,
+    AisRefinementList,
+    AisInstantSearch,
+    AisSearchBox,
+    AisHits,
+    AisStateResults,
   },
 
   data() {
@@ -258,7 +242,15 @@ export default {
   },
   methods: {
     trimId(meiliItem) {
+      if (this.index === 'record-labels') {
+        const id = meiliItem.id.replace('record-labels-', '')
+        return {
+          ...meiliItem,
+          id: id,
+        }
+      }
       const [type, id] = meiliItem.id.split('-')
+      console.log('destructured ================', type, id)
       return {
         ...meiliItem,
         id,
@@ -294,7 +286,6 @@ export default {
           return (this.bandActive = true)
         }
         if (selectedIndex === 'record-labels') {
-          console.log('record labels')
           this.bandActive = false
           this.showActive = false
           this.venueActive = false
@@ -321,7 +312,7 @@ export default {
           this.index = selectedIndex
           return (this.tourActive = true)
         }
-        if (selectedIndex === 'venues') {
+        if (selectedIndex === 'venue') {
           this.bandActive = false
           this.distroActive = false
           this.showActive = false

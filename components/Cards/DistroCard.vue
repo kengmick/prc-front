@@ -1,17 +1,17 @@
 <template>
   <div
-    v-if="distro"
+    v-if="distro && distro.distroImage"
     class="w-[300px] h-[400px] border-box border-[#22E8FF] border-[2px] relative overscroll-none text-black"
   >
     <nuxt-img
       class="absolute top-0 negetive-index object-fill"
       format="webp"
-      :src="`${distro.distroImage.url}`"
+      :src="distro.distroImage.url"
       width="600"
       height="600"
     />
     <NuxtLink
-      v-if="!addingCard && !disableAll"
+      v-if="!addingCard"
       class=""
       :to="{
         path: '/distros/distroview',
@@ -25,7 +25,7 @@
         class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
       >
         <h2 class="chedder text-[36px] text-white leading-none">
-          <span v-if="distro.name">{{ distro.name }}</span>
+          <span v-if="distro.name">{{ distro.name }} url is here </span>
         </h2>
       </section>
     </NuxtLink>
@@ -61,7 +61,9 @@
         v-else
         class="bg-[#22E8FF] w-[132px] h-[36px] flex flex-col justify-center items-center"
       >
-        <p class="text-[12px] chedder text-center">something here</p>
+        <p class="text-[12px] chedder text-center">
+          {{ distro.city }}, {{ distro.state }}
+        </p>
       </div>
       <div
         class="bg-[#22E8FF] w-[132px] h-[36px] flex flex-col justify-center items-center"
@@ -141,7 +143,6 @@
           v-if="!distro.hasFeaturedCard && !addingCard"
           class="flex justify-center items-center h-full w-full border-2"
         >
-          <!--   v-if="band.users_permissions_user.id === $strapi.user.id" -->
           <NuxtLink
             v-if="$strapi.user && !addThisCard && !disableAll"
             class="h-full w-full flex justify-center items-center"

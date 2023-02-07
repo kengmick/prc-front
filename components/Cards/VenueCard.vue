@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="venue && venue.venueImg"
     class="w-[300px] h-[400px] border-box border-[#F81194] border-[2px] relative overscroll-none text-white"
   >
     <nuxt-img

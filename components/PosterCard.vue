@@ -1,7 +1,7 @@
 <template>
   <!-- :style="{ backgroundImage: `url(${band.bandProfileImg.url})` }" for background style tag replace regex replace(/\D/g, '')  -->
   <div
-    v-if="band"
+    v-if="band && band.bandProfileImg"
     class="w-[300px] h-[400px] border-box border-[#27ED5E] border-[2px] relative overscroll-none"
   >
     <nuxt-img

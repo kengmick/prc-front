@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="tour && tour.touringPoster"
     class="w-[300px] h-[400px] border-box border-[#BA39A4] border-[2px] relative overscroll-none text-white"
   >
     <nuxt-img
