@@ -3,7 +3,6 @@
     style="z-index: 9999999; overflow: scroll"
     class="h-screen w-screen fixed bg-white top-0"
   >
-    {{ index }}
     <div class="pt-[20px] pr-[20px]" @click="toggleSearch">
       <nuxt-img
         src="close_black.svg"
@@ -59,11 +58,12 @@
       </div>
     </section>
     <ais-instant-search :search-client="searchClient" :index-name="index">
+      <ais-refinement-list attribute="city" />
       <section class="flex justify-center items-center w-auto">
         <ais-search-box
           class="relative"
           id="a"
-          :class-names="{
+          :classNames="{
             'ais-SearchBox': 'searchBox',
             'ais-SearchBox-input': 'searchFormCustom',
           }"
@@ -93,7 +93,7 @@
                       :to="{
                         path: '/bands/bandprofile',
                         query: {
-                          band: item.id.substring(item.id.indexOf('-') + 1),
+                          band: item.id.replace('bands-', ''),
                         },
                       }"
                       class="text-xl chedder z-20"
@@ -102,7 +102,7 @@
                       <PosterCard
                         class="mb-10"
                         style="z-index: -9999"
-                        :band="item"
+                        :band="trimId(item)"
                         :user="item.users_permissions_user"
                         :isFeatured="true"
                         :isHome="true"
@@ -228,9 +228,11 @@ import {
   AisSearchBox,
   AisHits,
   AisStateResults,
+  AisRefinementList,
 } from 'vue-instantsearch'
 export default {
   components: {
+    AisRefinementList,
     AisInstantSearch,
     AisSearchBox,
     AisHits,
@@ -240,6 +242,7 @@ export default {
   data() {
     return {
       searchClient: instantMeiliSearch(
+        // 'http://localhost:1337',
         'https://prcsearch.net',
         // 'https://punkrockcompound.com',
         'OTRmM2M3MGE3NGJlN2FlMGIxYWMwN2E2'
@@ -254,10 +257,14 @@ export default {
     }
   },
   methods: {
-    // path: '/bands/bandprofile',
-    //                   query: {
-    //                     band: item.id.substring(item.id.indexOf('-') + 1),
-    //                   }
+    trimId(meiliItem) {
+      const [type, id] = meiliItem.id.split('-')
+      return {
+        ...meiliItem,
+        id,
+        type,
+      }
+    },
     log() {
       console.log('logs')
     },
