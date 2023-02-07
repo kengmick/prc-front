@@ -57,7 +57,7 @@
         </h2>
       </div>
     </section>
-    <ais-instant-search :search-client="searchClient" :index-name="index">
+    <!-- <ais-instant-search :search-client="searchClient" :index-name="index">
       <ais-refinement-list attribute="city" />
       <section class="flex justify-center items-center w-auto">
         <ais-search-box
@@ -99,6 +99,7 @@
                       class="text-xl chedder z-20"
                       style="z-index: 9999"
                     >
+                      <pre>{{ trimId(item) }}</pre>
                       <PosterCard
                         class="mb-10"
                         style="z-index: -9999"
@@ -218,25 +219,24 @@
           <div class="hidden" v-else></div>
         </template>
       </ais-state-results>
-    </ais-instant-search>
+    </ais-instant-search> -->
   </div>
 </template>
 <script>
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
-import {
-  AisInstantSearch,
-  AisSearchBox,
-  AisHits,
-  AisStateResults,
-  AisRefinementList,
-} from 'vue-instantsearch'
+import // AisInstantSearch,
+// AisSearchBox,
+// AisHits,
+// AisStateResults,
+// AisRefinementList,
+'vue-instantsearch'
 export default {
   components: {
-    AisRefinementList,
-    AisInstantSearch,
-    AisSearchBox,
-    AisHits,
-    AisStateResults,
+    // AisRefinementList,
+    // AisInstantSearch,
+    // AisSearchBox,
+    // AisHits,
+    // AisStateResults,
   },
 
   data() {
