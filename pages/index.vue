@@ -6,6 +6,7 @@
       >
         <h1 class="text-white">PunkRock Compound</h1>
       </section>
+
       <section v-if="bands" class="overflow-x-hidden">
         <!-- container for poster cards -->
         <div

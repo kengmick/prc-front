@@ -116,18 +116,7 @@
                   ></option>
                 </datalist>
               </div>
-              <!-- 
-              <imput
-                v-if="formValues.country === 'United States'"
-                name="city"
-                label="City"
-                :options="cs[formValues.state] || ''"
-                type="select"
-                placeholder="City"
-                wrapper-class="sm:w-4/5 m-auto"
-                element-class="w-full"
-                errors-class="sm:w-4/5 m-auto"
-              /> -->
+
               <FormulateInput
                 v-if="formValues.country === 'Northern Ireland'"
                 name="city"
