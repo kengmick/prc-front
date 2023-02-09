@@ -108,7 +108,7 @@
           </FormulateForm>
         </div>
 
-        <div v-if="index !== 'classified'" class="flex items-center">
+        <div class="flex items-center">
           <h3 class="mr-4">Filter By Location</h3>
           <FormulateInput v-model="locationFilter" type="checkbox" />
         </div>
