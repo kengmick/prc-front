@@ -90,6 +90,7 @@
             label="country"
             wrapper-class="sm:w-4/5 m-auto"
             :options="ct"
+            placeholder="select a country"
             element-class="w-full"
             errors-class="sm:w-4/5 m-auto"
             type="select"
@@ -100,6 +101,7 @@
             name="state"
             label="State"
             :options="Object.keys(cs)"
+            placeholder="select a state"
             wrapper-class="sm:w-4/5 m-auto"
             element-class="w-full"
             errors-class="sm:w-4/5 m-auto"
@@ -131,13 +133,20 @@
         <template v-slot="{ state: { query } }">
           <ais-hits v-if="query.length >= 0">
             <template v-slot="{ items }">
-              <ul class="container flex flex-col items-center mt-10">
+              <ul
+                v-if="locationFilter"
+                class="container flex flex-col items-center mt-10"
+              >
                 <li
                   v-for="item in items.filter((i) => {
                     if (formValues.country && !formValues.state) {
                       return i.country === formValues.country
                     }
-                    if (formValues.country && formValues.state) {
+                    if (
+                      formValues.country &&
+                      formValues.state &&
+                      !formValues.city
+                    ) {
                       return (
                         i.country === formValues.country &&
                         i.state === formValues.state
@@ -146,12 +155,12 @@
                     if (
                       formValues.country &&
                       formValues.state &&
-                      formvalues.city
+                      formValues.city
                     ) {
                       return (
                         i.country === formValues.country &&
                         i.state === formValues.state &&
-                        i.state === formValues.state
+                        i.city === formValues.city
                       )
                     }
                   })"
@@ -159,8 +168,126 @@
                   @click="toggleSearch"
                 >
                   <!-- add location filter if user choses and show the filter selection  -->
-                  <section v-if="locationFilter">
-                    <pre>{{ formValues }}</pre>
+                  <div>
+                    <NuxtLink
+                      v-if="index === 'bands'"
+                      :to="{
+                        path: '/bands/bandprofile',
+                        query: {
+                          band: item.id.replace('bands-', ''),
+                        },
+                      }"
+                      class="text-xl chedder z-20"
+                      style="z-index: 9999"
+                    >
+                      <!-- write condition for location filter -->
+                      <div>
+                        {{ item }}
+                        <!-- <PosterCard
+                          class="mb-10"
+                          style="z-index: -9999"
+                          :band="trimId(item)"
+                          :isFeatured="true"
+                          :isHome="true"
+                          disableAll
+                        /> -->
+                      </div>
+                    </NuxtLink>
+                  </div>
+
+                  <NuxtLink
+                    v-if="index === 'record-labels'"
+                    :to="{
+                      path: '/distros/distroview',
+                      query: {
+                        distro: item.id.replace('record-labels-', ''),
+                      },
+                    }"
+                    class="text-xl chedder text-blue-700"
+                  >
+                    <CardsDistroCard disableAll :distro="trimId(item)" />
+                  </NuxtLink>
+
+                  <NuxtLink
+                    v-if="index === 'events'"
+                    :to="{
+                      path: '/events/eventview',
+                      query: {
+                        event: item.id.replace('events-', ''),
+                      },
+                    }"
+                    class="text-xl chedder z-20"
+                    style="z-index: 9999"
+                  >
+                    <CardsShowCard
+                      class="mb-10"
+                      style="z-index: -9999"
+                      :event="trimId(item)"
+                      :isFeatured="true"
+                      :isHome="true"
+                    />
+                  </NuxtLink>
+
+                  <NuxtLink
+                    v-if="index === 'venue'"
+                    :to="{
+                      path: '/venues/venueprofile',
+                      query: {
+                        venues: item.id.replace('venues-', ''),
+                      },
+                    }"
+                    class="text-xl chedder z-20"
+                    style="z-index: 9999"
+                  >
+                    <CardsVenueCard
+                      class="mb-10"
+                      style="z-index: -9999"
+                      :venue="trimId(item)"
+                    />
+                  </NuxtLink>
+
+                  <NuxtLink
+                    v-if="index === 'classified'"
+                    :to="{
+                      path: '/classified/classifiedview',
+                      query: {
+                        article: item.id.replace('classifieds-', ''),
+                      },
+                    }"
+                    class="text-xl chedder text-blue-700"
+                  >
+                    <CardsClassifiedCard
+                      style="z-index: -9999"
+                      class="mx-auto"
+                      :article="trimId(item)"
+                    />
+                  </NuxtLink>
+
+                  <NuxtLink
+                    v-if="index === 'tours'"
+                    :to="{
+                      path: '/tours',
+                      query: {
+                        tours: item.id.replace('tours-', ''),
+                      },
+                    }"
+                    class="text-xl chedder text-blue-700"
+                  >
+                    <CardsTourCard :tour="trimId(item)" :key="item.name" />
+                  </NuxtLink>
+                </li>
+              </ul>
+              <ul
+                v-if="!locationFilter"
+                class="container flex flex-col items-center mt-10"
+              >
+                <li
+                  v-for="item in items"
+                  :key="item.objectID"
+                  @click="toggleSearch"
+                >
+                  <!-- add location filter if user choses and show the filter selection  -->
+                  <div>
                     <NuxtLink
                       v-if="index === 'bands'"
                       :to="{
@@ -184,32 +311,7 @@
                         />
                       </div>
                     </NuxtLink>
-                  </section>
-                  <section v-else>
-                    <NuxtLink
-                      v-if="index === 'bands'"
-                      :to="{
-                        path: '/bands/bandprofile',
-                        query: {
-                          band: item.id.replace('bands-', ''),
-                        },
-                      }"
-                      class="text-xl chedder z-20"
-                      style="z-index: 9999"
-                    >
-                      <!-- write condition for location filter -->
-                      <div>
-                        <PosterCard
-                          class="mb-10"
-                          style="z-index: -9999"
-                          :band="trimId(item)"
-                          :isFeatured="true"
-                          :isHome="true"
-                          disableAll
-                        />
-                      </div>
-                    </NuxtLink>
-                  </section>
+                  </div>
 
                   <NuxtLink
                     v-if="index === 'record-labels'"
