@@ -182,15 +182,14 @@
                     >
                       <!-- write condition for location filter -->
                       <div>
-                        {{ item }}
-                        <!-- <PosterCard
+                        <PosterCard
                           class="mb-10"
                           style="z-index: -9999"
                           :band="trimId(item)"
                           :isFeatured="true"
                           :isHome="true"
                           disableAll
-                        /> -->
+                        />
                       </div>
                     </NuxtLink>
                   </div>
@@ -205,6 +204,7 @@
                     }"
                     class="text-xl chedder text-blue-700"
                   >
+                    fdsfdsfdsfdsfdsfsdf
                     <CardsDistroCard disableAll :distro="trimId(item)" />
                   </NuxtLink>
 
