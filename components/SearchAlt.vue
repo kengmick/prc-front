@@ -79,7 +79,39 @@
         </ais-search-box>
       </section>
       <section class="w-[90vw] mx-auto mb-6">
-        <div class="flex items-center">
+        <div v-if="index == 'bands'">
+          <!-- Genre filters -->
+          <div class="flex items-center mb-4">
+            <h3 class="mr-4">Filter By Genre</h3>
+            <FormulateInput v-model="genre" type="checkbox" />
+          </div>
+          <FormulateForm v-if="genre" v-model="genreSelected" class="mb-4">
+            <FormulateInput
+              name="genre"
+              :options="{
+                oldPunk: 'Old Punk',
+                hardCore: 'HardCore',
+                streetSkate: 'Street/Skate',
+                oi: 'Oi!',
+                crust: 'Crust',
+                skaSurf: 'Ska/Surf',
+                melodicPop: 'Melodic/Pop',
+                anarchoPeace: 'Anarcho/Peace',
+                other: 'Other',
+              }"
+              type="select"
+              label="What is the genre"
+              wrapper-class="sm:w-4/5 m-auto"
+              element-class="w-full"
+              errors-class="sm:w-4/5 m-auto"
+            />
+          </FormulateForm>
+        </div>
+
+        <div
+          v-if="index !== 'tours' && index !== 'classified'"
+          class="flex items-center"
+        >
           <h3 class="mr-4">Filter By Location</h3>
           <FormulateInput v-model="locationFilter" type="checkbox" />
         </div>
@@ -142,6 +174,9 @@
                     if (formValues.country && !formValues.state) {
                       return i.country === formValues.country
                     }
+                    if (formValues.country && !formValues.state) {
+                      return i.country === formValues.country
+                    }
                     if (
                       formValues.country &&
                       formValues.state &&
@@ -181,7 +216,18 @@
                       style="z-index: 9999"
                     >
                       <!-- write condition for location filter -->
-                      <div>
+                      <div v-if="genreSelected">
+                        <PosterCard
+                          v-if="item.genreAlt === genreSelected.genre"
+                          class="mb-10"
+                          style="z-index: -9999"
+                          :band="trimId(item)"
+                          :isFeatured="true"
+                          :isHome="true"
+                          disableAll
+                        />
+                      </div>
+                      <div v-if="!genreSelected">
                         <PosterCard
                           class="mb-10"
                           style="z-index: -9999"
@@ -204,7 +250,6 @@
                     }"
                     class="text-xl chedder text-blue-700"
                   >
-                    fdsfdsfdsfdsfdsfsdf
                     <CardsDistroCard disableAll :distro="trimId(item)" />
                   </NuxtLink>
 
@@ -277,6 +322,7 @@
                   </NuxtLink>
                 </li>
               </ul>
+
               <ul
                 v-if="!locationFilter"
                 class="container flex flex-col items-center mt-10"
@@ -300,7 +346,18 @@
                       style="z-index: 9999"
                     >
                       <!-- write condition for location filter -->
-                      <div>
+                      <div v-if="genreSelected">
+                        <PosterCard
+                          v-if="item.genreAlt === genreSelected.genre"
+                          class="mb-10"
+                          style="z-index: -9999"
+                          :band="trimId(item)"
+                          :isFeatured="true"
+                          :isHome="true"
+                          disableAll
+                        />
+                      </div>
+                      <div v-if="!genreSelected">
                         <PosterCard
                           class="mb-10"
                           style="z-index: -9999"
@@ -427,6 +484,8 @@ export default {
       formValues: {},
       city: '',
       country: '',
+      genre: false,
+      genreSelected: '',
       searchClient: instantMeiliSearch(
         // 'http://localhost:1337',
         'https://prcsearch.net',
@@ -1706,6 +1765,8 @@ export default {
           this.showActive = false
           this.venueActive = false
           this.classifiedActive = false
+          this.locationFilter = false
+          this.formValues = {}
           this.index = selectedIndex
           return (this.tourActive = true)
         }
@@ -1725,6 +1786,8 @@ export default {
           this.showActive = false
           this.venueActive = false
           this.classifiedActive = false
+          this.locationFilter = false
+          this.formValues = {}
           this.index = selectedIndex
           return (this.classifiedActive = true)
         }
