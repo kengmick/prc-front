@@ -108,10 +108,7 @@
           </FormulateForm>
         </div>
 
-        <div
-          v-if="index !== 'tours' && index !== 'classified'"
-          class="flex items-center"
-        >
+        <div v-if="index !== 'classified'" class="flex items-center">
           <h3 class="mr-4">Filter By Location</h3>
           <FormulateInput v-model="locationFilter" type="checkbox" />
         </div>
@@ -165,8 +162,67 @@
         <template v-slot="{ state: { query } }">
           <ais-hits v-if="query.length >= 0">
             <template v-slot="{ items }">
+              <!-- tours  -->
+
               <ul
-                v-if="locationFilter"
+                v-if="locationFilter && index === 'tours'"
+                class="container flex flex-col items-center mt-10"
+              >
+                <li
+                  v-for="item in items"
+                  :key="item.objectID"
+                  @click="toggleSearch"
+                >
+                  <!-- add location filter if user choses and show the filter selection  -->
+                  <!-- need to know what are the location filters .... is it city state so on  -->
+                  <div>
+                    <div
+                      v-for="show in item.events.filter((i) => {
+                        if (formValues.country && !formValues.state) {
+                          return i.country === formValues.country
+                        }
+                        if (
+                          formValues.country &&
+                          formValues.state &&
+                          !formValues.city
+                        ) {
+                          return (
+                            i.country === formValues.country &&
+                            i.state === formValues.state
+                          )
+                        }
+                        if (
+                          formValues.country &&
+                          formValues.state &&
+                          formValues.city
+                        ) {
+                          return (
+                            i.country === formValues.country &&
+                            i.state === formValues.state &&
+                            i.city === formValues.city
+                          )
+                        }
+                      })"
+                      :key="show.title"
+                    >
+                      <NuxtLink
+                        :to="{
+                          path: '/tours',
+                          query: {
+                            tours: item.id.replace('tours-', ''),
+                          },
+                        }"
+                        class="text-xl chedder text-blue-700"
+                      >
+                        <CardsTourCard :tour="trimId(item)" :key="item.name" />
+                      </NuxtLink>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <!-- regular filter function -->
+              <ul
+                v-if="locationFilter && index !== 'tours'"
                 class="container flex flex-col items-center mt-10"
               >
                 <li
@@ -1765,7 +1821,6 @@ export default {
           this.showActive = false
           this.venueActive = false
           this.classifiedActive = false
-          this.locationFilter = false
           this.formValues = {}
           this.index = selectedIndex
           return (this.tourActive = true)
