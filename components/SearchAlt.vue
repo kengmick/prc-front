@@ -11,7 +11,7 @@
         class="ml-auto mb-[20px]"
       />
     </div>
-
+    <!-- index tabs  -->
     <section class="px-4 mb-6">
       <div class="flex justify-between mt-4">
         <h2
@@ -104,12 +104,12 @@
             element-class="w-full"
             errors-class="sm:w-4/5 m-auto"
             type="select"
-            @change="city = ''"
+            @change="formValues.city = ''"
           />
           <div class="sm:w-4/5 m-auto mb-[2rem]">
             <label for="city" class="label">City</label>
             <input
-              v-model="city"
+              v-model="formValues.city"
               class="dropdown"
               list="city"
               name="city"
@@ -126,17 +126,41 @@
         </FormulateForm>
       </section>
       <!-- <ais-refinement-list attribute="country" /> -->
+      <!-- data results  -->
       <ais-state-results>
         <template v-slot="{ state: { query } }">
           <ais-hits v-if="query.length >= 0">
             <template v-slot="{ items }">
               <ul class="container flex flex-col items-center mt-10">
                 <li
-                  v-for="item in items"
+                  v-for="item in items.filter((i) => {
+                    if (formValues.country && !formValues.state) {
+                      return i.country === formValues.country
+                    }
+                    if (formValues.country && formValues.state) {
+                      return (
+                        i.country === formValues.country &&
+                        i.state === formValues.state
+                      )
+                    }
+                    if (
+                      formValues.country &&
+                      formValues.state &&
+                      formvalues.city
+                    ) {
+                      return (
+                        i.country === formValues.country &&
+                        i.state === formValues.state &&
+                        i.state === formValues.state
+                      )
+                    }
+                  })"
                   :key="item.objectID"
                   @click="toggleSearch"
                 >
-                  <section>
+                  <!-- add location filter if user choses and show the filter selection  -->
+                  <section v-if="locationFilter">
+                    <pre>{{ formValues }}</pre>
                     <NuxtLink
                       v-if="index === 'bands'"
                       :to="{
@@ -148,16 +172,42 @@
                       class="text-xl chedder z-20"
                       style="z-index: 9999"
                     >
-                      <PosterCard
-                        class="mb-10"
-                        style="z-index: -9999"
-                        :band="trimId(item)"
-                        :user="item.users_permissions_user"
-                        :isFeatured="true"
-                        :isHome="true"
-                        disableAll
-                        @startChat="startChatNow(band.users_permissions_user)"
-                      />
+                      <!-- write condition for location filter -->
+                      <div>
+                        <PosterCard
+                          class="mb-10"
+                          style="z-index: -9999"
+                          :band="trimId(item)"
+                          :isFeatured="true"
+                          :isHome="true"
+                          disableAll
+                        />
+                      </div>
+                    </NuxtLink>
+                  </section>
+                  <section v-else>
+                    <NuxtLink
+                      v-if="index === 'bands'"
+                      :to="{
+                        path: '/bands/bandprofile',
+                        query: {
+                          band: item.id.replace('bands-', ''),
+                        },
+                      }"
+                      class="text-xl chedder z-20"
+                      style="z-index: 9999"
+                    >
+                      <!-- write condition for location filter -->
+                      <div>
+                        <PosterCard
+                          class="mb-10"
+                          style="z-index: -9999"
+                          :band="trimId(item)"
+                          :isFeatured="true"
+                          :isHome="true"
+                          disableAll
+                        />
+                      </div>
                     </NuxtLink>
                   </section>
 
@@ -188,11 +238,9 @@
                     <CardsShowCard
                       class="mb-10"
                       style="z-index: -9999"
-                      :event="item"
-                      :user="item.users_permissions_user"
+                      :event="trimId(item)"
                       :isFeatured="true"
                       :isHome="true"
-                      @startChat="startChatNow(item.users_permissions_user)"
                     />
                   </NuxtLink>
 
@@ -211,7 +259,6 @@
                       class="mb-10"
                       style="z-index: -9999"
                       :venue="trimId(item)"
-                      @startChat="startChatNow(item.users_permissions_user)"
                     />
                   </NuxtLink>
 
@@ -1564,9 +1611,9 @@ export default {
           this.bandActive = false
           this.distroActive = false
           this.showActive = false
-          this.toursActive = false
+          this.tourActive = false
           this.classifiedActive = false
-          this.index = 'venue'
+          this.index = selectedIndex
           return (this.venueActive = true)
         }
         if (selectedIndex === 'classified') {

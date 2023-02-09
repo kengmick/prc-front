@@ -25,7 +25,7 @@
         class="h-[38px] bg-black flex items-center justify-center mb-[8px]"
       >
         <h2 class="chedder text-[36px] text-white leading-none">
-          <span v-if="distro.name">{{ distro.name }} url is here </span>
+          <span v-if="distro.name">{{ distro.name }} </span>
         </h2>
       </section>
     </NuxtLink>
