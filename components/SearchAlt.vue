@@ -80,7 +80,6 @@
       </section>
       <section class="w-[90vw] mx-auto mb-6">
         <div v-if="index == 'bands'">
-          <!-- Genre filters -->
           <div class="flex items-center mb-4">
             <h3 class="mr-4">Filter By Genre</h3>
             <FormulateInput v-model="genre" type="checkbox" />
@@ -156,7 +155,6 @@
           </div>
         </FormulateForm>
       </section>
-      <!-- <ais-refinement-list attribute="country" /> -->
       <!-- data results  -->
       <ais-state-results>
         <template v-slot="{ state: { query } }">
@@ -523,11 +521,9 @@ import {
   AisSearchBox,
   AisHits,
   AisStateResults,
-  // AisRefinementList,
 } from 'vue-instantsearch'
 export default {
   components: {
-    // AisRefinementList,
     AisInstantSearch,
     AisSearchBox,
     AisHits,
