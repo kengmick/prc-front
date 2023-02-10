@@ -63,7 +63,7 @@
       <section class="flex justify-center items-center w-auto mb-6">
         <ais-search-box id="a" />
       </section>
-      <section class="w-[90vw] mx-auto mb-6">
+      <!-- <section class="w-[90vw] mx-auto mb-6">
         <div v-if="index === 'bands'">
           <div class="flex items-center mb-4">
             <h3 class="mr-4">Filter By Genre</h3>
@@ -138,8 +138,72 @@
             </datalist>
           </div>
         </FormulateForm>
-      </section>
+      </section> -->
+
+      <!-- The old one  -->
       <ais-state-results>
+        <template v-slot="{ state: { query } }">
+          <ais-hits v-if="query.length >= 0">
+            <template v-slot="{ items }">
+              <ul>
+                <li v-for="item in items" :key="item.objectID">
+                  <NuxtLink
+                    v-if="index === 'bands'"
+                    :to="{
+                      path: '/bands/bandprofile',
+                      query: {
+                        band: item.id.substring(item.id.indexOf('-') + 1),
+                      },
+                    }"
+                    class="text-xl chedder text-blue-700"
+                    >{{ item.bandName }}</NuxtLink
+                  >
+                  <NuxtLink
+                    v-if="index === 'classified'"
+                    :to="{
+                      path: '/classified/classifiedview',
+                      query: {
+                        article: item.id.substring(item.id.indexOf('-') + 1),
+                      },
+                    }"
+                    class="text-xl chedder text-blue-700"
+                    >{{ item.title }}
+                  </NuxtLink>
+
+                  <NuxtLink
+                    v-if="index === 'venues'"
+                    :to="{
+                      path: '/venues',
+                      query: {
+                        article: item.id.substring(item.id.indexOf('-') + 1),
+                      },
+                    }"
+                    class="text-xl chedder text-blue-700"
+                    >{{ item.name }}
+                  </NuxtLink>
+
+                  <NuxtLink
+                    v-if="index === 'tours'"
+                    :to="{
+                      path: '/tours',
+                      query: {
+                        article: item.id.substring(item.id.indexOf('-') + 1),
+                      },
+                    }"
+                    class="text-xl chedder text-blue-700"
+                    >{{ item.title }}
+                  </NuxtLink>
+                </li>
+              </ul>
+            </template>
+          </ais-hits>
+          <div class="hidden" v-else></div>
+        </template>
+      </ais-state-results>
+      <!-- this is the old one  -->
+
+      <!-- the one i need to work  -->
+      <!-- <ais-state-results>
         <template v-slot="{ state: { query } }">
           <ais-hits v-if="query.length >= 0">
             <template v-slot="{ items }">
@@ -483,7 +547,7 @@
             </template>
           </ais-hits>
         </template>
-      </ais-state-results>
+      </ais-state-results> -->
     </ais-instant-search>
   </div>
 </template>
@@ -492,15 +556,15 @@ import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 import {
   AisInstantSearch,
   AisSearchBox,
-  // AisHits,
-  // AisStateResults,
+  AisHits,
+  AisStateResults,
 } from 'vue-instantsearch'
 export default {
   components: {
     AisInstantSearch,
     AisSearchBox,
-    // AisHits,
-    // AisStateResults,
+    AisHits,
+    AisStateResults,
   },
 
   data() {
