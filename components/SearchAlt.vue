@@ -61,14 +61,7 @@
 
     <div>
       <section class="flex justify-center items-center w-auto mb-6">
-        <ais-search-box
-          class="relative"
-          id="a"
-          :classNames="{
-            'ais-SearchBox': 'searchBox',
-            'ais-SearchBox-input': 'searchFormCustom',
-          }"
-        >
+        <ais-search-box class="relative" id="a">
           <template v-slot:submit-icon
             ><nuxt-img
               src="search.svg"
