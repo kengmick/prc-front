@@ -68,41 +68,202 @@
           <template v-slot="{ state: { query } }">
             <ais-hits v-if="query.length >= 0">
               <template v-slot="{ items }">
-                <ul>
-                  <li v-for="item in items" :key="item.objectID">
+                <ul
+                  v-if="locationFilter && index === 'tours'"
+                  class="container flex flex-col items-center mt-10"
+                >
+                  <li
+                    v-for="item in items"
+                    :key="item.objectID"
+                    @click="toggleSearch"
+                  >
+                    <div>
+                      <div
+                        v-for="show in item.events.filter((i) => {
+                          if (formValues.country && !formValues.state) {
+                            return i.country === formValues.country
+                          }
+                          if (
+                            formValues.country &&
+                            formValues.state &&
+                            !formValues.city
+                          ) {
+                            return (
+                              i.country === formValues.country &&
+                              i.state === formValues.state
+                            )
+                          }
+                          if (
+                            formValues.country &&
+                            formValues.state &&
+                            formValues.city
+                          ) {
+                            return (
+                              i.country === formValues.country &&
+                              i.state === formValues.state &&
+                              i.city === formValues.city
+                            )
+                          }
+                        })"
+                        :key="show.title"
+                      >
+                        <NuxtLink
+                          :to="{
+                            path: '/tours',
+                            query: {
+                              tours: item.id.replace('tours-', ''),
+                            },
+                          }"
+                          class="text-xl chedder text-blue-700"
+                        >
+                          <CardsTourCard
+                            :tour="trimId(item)"
+                            :key="item.name"
+                          />
+                        </NuxtLink>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                <ul
+                  v-if="locationFilter && index !== 'tours'"
+                  class="container flex flex-col items-center mt-10"
+                >
+                  <li
+                    v-for="item in items.filter((i) => {
+                      if (formValues.country && !formValues.state) {
+                        return i.country === formValues.country
+                      }
+                      if (formValues.country && !formValues.state) {
+                        return i.country === formValues.country
+                      }
+                      if (
+                        formValues.country &&
+                        formValues.state &&
+                        !formValues.city
+                      ) {
+                        return (
+                          i.country === formValues.country &&
+                          i.state === formValues.state
+                        )
+                      }
+                      if (
+                        formValues.country &&
+                        formValues.state &&
+                        formValues.city
+                      ) {
+                        return (
+                          i.country === formValues.country &&
+                          i.state === formValues.state &&
+                          i.city === formValues.city
+                        )
+                      }
+                    })"
+                    :key="item.objectID"
+                    @click="toggleSearch"
+                  >
+                    <div>
+                      <NuxtLink
+                        v-if="index === 'bands'"
+                        :to="{
+                          path: '/bands/bandprofile',
+                          query: {
+                            band: item.id.replace('bands-', ''),
+                          },
+                        }"
+                        class="text-xl chedder z-20"
+                        style="z-index: 9999"
+                      >
+                        <div v-if="genreSelected">
+                          <PosterCard
+                            v-if="item.genreAlt === genreSelected.genre"
+                            class="mb-10"
+                            style="z-index: -9999"
+                            :band="trimId(item)"
+                            :isFeatured="true"
+                            :isHome="true"
+                            disableAll
+                          />
+                        </div>
+                        <div v-if="!genreSelected">
+                          <PosterCard
+                            class="mb-10"
+                            style="z-index: -9999"
+                            :band="trimId(item)"
+                            :isFeatured="true"
+                            :isHome="true"
+                            disableAll
+                          />
+                        </div>
+                      </NuxtLink>
+                    </div>
+
                     <NuxtLink
-                      v-if="index === 'bands'"
+                      v-if="index === 'record-labels'"
                       :to="{
-                        path: '/bands/bandprofile',
+                        path: '/distros/distroview',
                         query: {
-                          band: item.id.substring(item.id.indexOf('-') + 1),
+                          distro: item.id.replace('record-labels-', ''),
                         },
                       }"
                       class="text-xl chedder text-blue-700"
-                      >{{ item.bandName }}</NuxtLink
                     >
+                      <CardsDistroCard disableAll :distro="trimId(item)" />
+                    </NuxtLink>
+
+                    <NuxtLink
+                      v-if="index === 'events'"
+                      :to="{
+                        path: '/events/eventview',
+                        query: {
+                          event: item.id.replace('events-', ''),
+                        },
+                      }"
+                      class="text-xl chedder z-20"
+                      style="z-index: 9999"
+                    >
+                      <CardsShowCard
+                        class="mb-10"
+                        style="z-index: -9999"
+                        :event="trimId(item)"
+                        :isFeatured="true"
+                        :isHome="true"
+                      />
+                    </NuxtLink>
+
+                    <NuxtLink
+                      v-if="index === 'venue'"
+                      :to="{
+                        path: '/venues/venueprofile',
+                        query: {
+                          venues: item.id.replace('venues-', ''),
+                        },
+                      }"
+                      class="text-xl chedder z-20"
+                      style="z-index: 9999"
+                    >
+                      <CardsVenueCard
+                        class="mb-10"
+                        style="z-index: -9999"
+                        :venue="trimId(item)"
+                      />
+                    </NuxtLink>
+
                     <NuxtLink
                       v-if="index === 'classified'"
                       :to="{
                         path: '/classified/classifiedview',
                         query: {
-                          article: item.id.substring(item.id.indexOf('-') + 1),
+                          article: item.id.replace('classifieds-', ''),
                         },
                       }"
                       class="text-xl chedder text-blue-700"
-                      >{{ item.title }}
-                    </NuxtLink>
-
-                    <NuxtLink
-                      v-if="index === 'venues'"
-                      :to="{
-                        path: '/venues',
-                        query: {
-                          article: item.id.substring(item.id.indexOf('-') + 1),
-                        },
-                      }"
-                      class="text-xl chedder text-blue-700"
-                      >{{ item.name }}
+                    >
+                      <CardsClassifiedCard
+                        style="z-index: -9999"
+                        class="mx-auto"
+                        :article="trimId(item)"
+                      />
                     </NuxtLink>
 
                     <NuxtLink
@@ -110,17 +271,145 @@
                       :to="{
                         path: '/tours',
                         query: {
-                          article: item.id.substring(item.id.indexOf('-') + 1),
+                          tours: item.id.replace('tours-', ''),
                         },
                       }"
                       class="text-xl chedder text-blue-700"
-                      >{{ item.title }}
+                    >
+                      <CardsTourCard :tour="trimId(item)" :key="item.name" />
+                    </NuxtLink>
+                  </li>
+                </ul>
+
+                <ul
+                  v-if="!locationFilter"
+                  class="container flex flex-col items-center mt-10"
+                >
+                  <li
+                    v-for="item in items"
+                    :key="item.objectID"
+                    @click="toggleSearch"
+                  >
+                    <div>
+                      <NuxtLink
+                        v-if="index === 'bands'"
+                        :to="{
+                          path: '/bands/bandprofile',
+                          query: {
+                            band: item.id.replace('bands-', ''),
+                          },
+                        }"
+                        class="text-xl chedder z-20"
+                        style="z-index: 9999"
+                      >
+                        <div v-if="genreSelected">
+                          <PosterCard
+                            v-if="item.genreAlt === genreSelected.genre"
+                            class="mb-10"
+                            style="z-index: -9999"
+                            :band="trimId(item)"
+                            :isFeatured="true"
+                            :isHome="true"
+                            disableAll
+                          />
+                        </div>
+                        <div v-if="!genreSelected">
+                          <PosterCard
+                            class="mb-10"
+                            style="z-index: -9999"
+                            :band="trimId(item)"
+                            :isFeatured="true"
+                            :isHome="true"
+                            disableAll
+                          />
+                        </div>
+                      </NuxtLink>
+                    </div>
+
+                    <NuxtLink
+                      v-if="index === 'record-labels'"
+                      :to="{
+                        path: '/distros/distroview',
+                        query: {
+                          distro: item.id.replace('record-labels-', ''),
+                        },
+                      }"
+                      class="text-xl chedder text-blue-700"
+                    >
+                      <CardsDistroCard disableAll :distro="trimId(item)" />
+                    </NuxtLink>
+
+                    <NuxtLink
+                      v-if="index === 'events'"
+                      :to="{
+                        path: '/events/eventview',
+                        query: {
+                          event: item.id.replace('events-', ''),
+                        },
+                      }"
+                      class="text-xl chedder z-20"
+                      style="z-index: 9999"
+                    >
+                      <CardsShowCard
+                        class="mb-10"
+                        style="z-index: -9999"
+                        :event="trimId(item)"
+                        :isFeatured="true"
+                        :isHome="true"
+                      />
+                    </NuxtLink>
+
+                    <NuxtLink
+                      v-if="index === 'venue'"
+                      :to="{
+                        path: '/venues/venueprofile',
+                        query: {
+                          venues: item.id.replace('venues-', ''),
+                        },
+                      }"
+                      class="text-xl chedder z-20"
+                      style="z-index: 9999"
+                    >
+                      <CardsVenueCard
+                        class="mb-10"
+                        style="z-index: -9999"
+                        :venue="trimId(item)"
+                      />
+                    </NuxtLink>
+
+                    <NuxtLink
+                      v-if="index === 'classified'"
+                      :to="{
+                        path: '/classified/classifiedview',
+                        query: {
+                          article: item.id.replace('classifieds-', ''),
+                        },
+                      }"
+                      class="text-xl chedder text-blue-700"
+                    >
+                      <CardsClassifiedCard
+                        style="z-index: -9999"
+                        class="mx-auto"
+                        :article="trimId(item)"
+                      />
+                    </NuxtLink>
+
+                    <NuxtLink
+                      v-if="index === 'tours'"
+                      :to="{
+                        path: '/tours',
+                        query: {
+                          tours: item.id.replace('tours-', ''),
+                        },
+                      }"
+                      class="text-xl chedder text-blue-700"
+                    >
+                      <CardsTourCard :tour="trimId(item)" :key="item.name" />
                     </NuxtLink>
                   </li>
                 </ul>
               </template>
             </ais-hits>
-            <div class="hidden" v-else></div>
           </template>
         </ais-state-results>
       </ais-instant-search>
@@ -1460,17 +1749,6 @@ export default {
 </script>
 
 <style scoped>
-.searchBox {
-  width: 90% !important;
-  border: 1px solid black;
-}
-
-/* .ais-SearchBox-input {
-  width: 300px !important;
-  background: red;
-  display: none;
-} */
-
 .isActive {
   color: red !important;
 }
