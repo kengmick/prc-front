@@ -59,7 +59,7 @@
       </div>
     </section>
 
-    <ais-instant-search :search-client="searchClient" :index-name="index">
+    <!-- <ais-instant-search :search-client="searchClient" :index-name="index">
       <section class="flex justify-center items-center w-auto mb-6">
         <ais-search-box id="a" show-loading-indicator />
       </section>
@@ -122,23 +122,22 @@
           <div class="hidden" v-else></div>
         </template>
       </ais-state-results>
-    </ais-instant-search>
+    </ais-instant-search> -->
   </div>
 </template>
 <script>
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
-import {
-  AisInstantSearch,
-  AisSearchBox,
-  AisHits,
-  AisStateResults,
-} from 'vue-instantsearch'
+import // AisInstantSearch,
+// AisSearchBox,
+// AisHits,
+// AisStateResults,
+'vue-instantsearch'
 export default {
   components: {
-    AisInstantSearch,
-    AisSearchBox,
-    AisHits,
-    AisStateResults,
+    // AisInstantSearch,
+    // AisSearchBox,
+    // AisHits,
+    // AisStateResults,
   },
 
   data() {
