@@ -63,7 +63,7 @@
       <section class="flex justify-center items-center w-auto mb-6">
         <ais-search-box id="a" />
       </section>
-      <!-- <section class="w-[90vw] mx-auto mb-6">
+      <section class="w-[90vw] mx-auto mb-6">
         <div v-if="index === 'bands'">
           <div class="flex items-center mb-4">
             <h3 class="mr-4">Filter By Genre</h3>
@@ -138,8 +138,8 @@
             </datalist>
           </div>
         </FormulateForm>
-      </section> -->
-      <!-- <ais-state-results>
+      </section>
+      <ais-state-results>
         <template v-slot="{ state: { query } }">
           <ais-hits v-if="query.length >= 0">
             <template v-slot="{ items }">
@@ -483,7 +483,7 @@
             </template>
           </ais-hits>
         </template>
-      </ais-state-results> -->
+      </ais-state-results>
     </ais-instant-search>
   </div>
 </template>
