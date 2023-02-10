@@ -112,7 +112,7 @@
           <FormulateInput v-model="locationFilter" type="checkbox" />
         </div>
 
-        <FormulateForm v-if="locationFilter" v-model="formValues">
+        <!-- <FormulateForm v-if="locationFilter" v-model="formValues">
           <FormulateInput
             name="country"
             label="country"
@@ -153,7 +153,7 @@
               ></option>
             </datalist>
           </div>
-        </FormulateForm>
+        </FormulateForm> -->
       </section>
       <!-- data results  -->
       <ais-state-results>
