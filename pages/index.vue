@@ -80,7 +80,7 @@ export default {
   async fetch() {
     try {
       const allBands = await this.$strapi.find('bands')
-      this.bands = allBands.slice(0, 3)
+      this.bands = allBands
     } catch (error) {
       console.log(error, 'this is all bands ')
     }
