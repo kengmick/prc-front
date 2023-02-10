@@ -154,7 +154,7 @@
           </div>
         </FormulateForm>
       </section>
-      <ais-state-results>
+      <!-- <ais-state-results>
         <template v-slot="{ state: { query } }">
           <ais-hits v-if="query.length >= 0">
             <template v-slot="{ items }">
@@ -261,7 +261,6 @@
                       class="text-xl chedder z-20"
                       style="z-index: 9999"
                     >
-                      <!-- write condition for location filter -->
                       <div v-if="genreSelected">
                         <PosterCard
                           v-if="item.genreAlt === genreSelected.genre"
@@ -499,7 +498,7 @@
             </template>
           </ais-hits>
         </template>
-      </ais-state-results>
+      </ais-state-results> -->
     </ais-instant-search>
   </div>
 </template>
@@ -508,15 +507,15 @@ import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 import {
   AisInstantSearch,
   AisSearchBox,
-  AisHits,
-  AisStateResults,
+  // AisHits,
+  // AisStateResults,
 } from 'vue-instantsearch'
 export default {
   components: {
     AisInstantSearch,
     AisSearchBox,
-    AisHits,
-    AisStateResults,
+    // AisHits,
+    // AisStateResults,
   },
 
   data() {
