@@ -1,9 +1,9 @@
 <template>
   <section>
-    <SearchAlt
+    <!-- <SearchAlt
       :class="[isSearchOpen ? 'block' : 'hidden']"
       @toggleSearch="toggleSearch"
-    />
+    /> -->
     <!-- top bar -->
     <div
       id="deskNav"
