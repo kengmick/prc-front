@@ -122,86 +122,9 @@
           <div class="hidden" v-else></div>
         </template>
       </ais-state-results>
+    </ais-instant-search>
 
-      <!-- <section class="w-[90vw] mx-auto mb-6">
-        <div v-if="index === 'bands'">
-          <div class="flex items-center mb-4">
-            <h3 class="mr-4">Filter By Genre</h3>
-            <FormulateInput v-model="genre" type="checkbox" />
-          </div>
-          <FormulateForm v-if="genre" v-model="genreSelected" class="mb-4">
-            <FormulateInput
-              name="genre"
-              :options="{
-                oldPunk: 'Old Punk',
-                hardCore: 'HardCore',
-                streetSkate: 'Street/Skate',
-                oi: 'Oi!',
-                crust: 'Crust',
-                skaSurf: 'Ska/Surf',
-                melodicPop: 'Melodic/Pop',
-                anarchoPeace: 'Anarcho/Peace',
-                other: 'Other',
-              }"
-              type="select"
-              label="What is the genre"
-              wrapper-class="sm:w-4/5 m-auto"
-              element-class="w-full"
-              errors-class="sm:w-4/5 m-auto"
-            />
-          </FormulateForm>
-        </div>
-
-        <div class="flex items-center">
-          <h3 class="mr-4">Filter By Location</h3>
-          <FormulateInput v-model="locationFilter" type="checkbox" />
-        </div>
-        <FormulateForm v-if="locationFilter" v-model="formValues">
-          <FormulateInput
-            name="country"
-            label="country"
-            wrapper-class="sm:w-4/5 m-auto"
-            :options="ct"
-            placeholder="select a country"
-            element-class="w-full"
-            errors-class="sm:w-4/5 m-auto"
-            type="select"
-            @change="formValues.country = $event.target.value"
-          />
-          <FormulateInput
-            v-if="formValues.country === 'United States'"
-            name="state"
-            label="State"
-            :options="Object.keys(cs)"
-            placeholder="select a state"
-            wrapper-class="sm:w-4/5 m-auto"
-            element-class="w-full"
-            errors-class="sm:w-4/5 m-auto"
-            type="select"
-            @change="formValues.city = ''"
-          />
-          <div class="sm:w-4/5 m-auto mb-[2rem]">
-            <label for="city" class="label">City</label>
-            <input
-              v-model="formValues.city"
-              class="dropdown"
-              list="city"
-              name="city"
-              placeholder="type or select the city"
-            />
-            <datalist id="city">
-              <option
-                v-for="city in cs[formValues.state]"
-                :key="city"
-                :value="city"
-              ></option>
-            </datalist>
-          </div>
-        </FormulateForm>
-      </section> -->
-
-      <!-- the one i need to work  -->
-      <!-- <ais-state-results>
+    <!-- <ais-state-results>
         <template v-slot="{ state: { query } }">
           <ais-hits v-if="query.length >= 0">
             <template v-slot="{ items }">
@@ -546,7 +469,6 @@
           </ais-hits>
         </template>
       </ais-state-results> -->
-    </ais-instant-search>
   </div>
 </template>
 <script>
