@@ -3,16 +3,16 @@
     style="z-index: 9999999; overflow: scroll"
     class="h-screen w-screen fixed bg-gray-50 top-0"
   >
-    <div class="pt-[20px] pr-[20px]" @click="toggleSearch">
+    <!-- <div class="pt-[20px] pr-[20px]" @click="toggleSearch">
       <nuxt-img
         src="close_black.svg"
         width="20"
         height="20"
         class="ml-auto mb-[20px]"
       />
-    </div>
+    </div> -->
     <!-- index tabs  -->
-    <section class="px-4 mb-6">
+    <!-- <section class="px-4 mb-6">
       <div class="flex justify-between mt-4">
         <h2
           :class="{ isActive: bandActive }"
@@ -57,10 +57,10 @@
           Classified
         </h2>
       </div>
-    </section>
+    </section> -->
 
     <ais-instant-search :search-client="searchClient" :index-name="index">
-      <section class="flex justify-center items-center w-auto mb-6">
+      <!-- <section class="flex justify-center items-center w-auto mb-6">
         <ais-search-box class="relative" id="a">
           <template v-slot:submit-icon
             ><nuxt-img
@@ -70,8 +70,8 @@
               class="absolute right-[20px] top-[3px]"
           /></template>
         </ais-search-box>
-      </section>
-      <section class="w-[90vw] mx-auto mb-6">
+      </section> -->
+      <!-- <section class="w-[90vw] mx-auto mb-6">
         <div v-if="index === 'bands'">
           <div class="flex items-center mb-4">
             <h3 class="mr-4">Filter By Genre</h3>
@@ -146,7 +146,7 @@
             </datalist>
           </div>
         </FormulateForm>
-      </section>
+      </section> -->
       <!-- <ais-state-results>
         <template v-slot="{ state: { query } }">
           <ais-hits v-if="query.length >= 0">
@@ -499,14 +499,14 @@
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 import {
   AisInstantSearch,
-  AisSearchBox,
+  // AisSearchBox,
   // AisHits,
   // AisStateResults,
 } from 'vue-instantsearch'
 export default {
   components: {
     AisInstantSearch,
-    AisSearchBox,
+    // AisSearchBox,
     // AisHits,
     // AisStateResults,
   },
@@ -1836,11 +1836,11 @@ export default {
   border: 1px solid black;
 }
 
-.ais-SearchBox-input {
+/* .ais-SearchBox-input {
   width: 300px !important;
   background: red;
   display: none;
-}
+} */
 
 .isActive {
   color: red !important;
