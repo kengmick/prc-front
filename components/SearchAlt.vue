@@ -3,16 +3,16 @@
     style="z-index: 9999999; overflow: scroll"
     class="h-screen w-screen fixed bg-gray-50 top-0"
   >
-    <!-- <div class="pt-[20px] pr-[20px]" @click="toggleSearch">
+    <div class="pt-[20px] pr-[20px]" @click="toggleSearch">
       <nuxt-img
         src="close_black.svg"
         width="20"
         height="20"
         class="ml-auto mb-[20px]"
       />
-    </div> -->
+    </div>
     <!-- index tabs  -->
-    <!-- <section class="px-4 mb-6">
+    <section class="px-4 mb-6">
       <div class="flex justify-between mt-4">
         <h2
           :class="{ isActive: bandActive }"
@@ -57,7 +57,7 @@
           Classified
         </h2>
       </div>
-    </section> -->
+    </section>
 
     <ais-instant-search :search-client="searchClient" :index-name="index">
       <!-- <section class="flex justify-center items-center w-auto mb-6">
