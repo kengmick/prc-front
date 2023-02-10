@@ -77,15 +77,14 @@ export default {
       isSearchOpen: true,
     }
   },
-  async fetch() {
+
+  async mounted() {
     try {
       const allBands = await this.$strapi.find('bands')
       this.bands = allBands
     } catch (error) {
       console.log(error, 'this is all bands ')
     }
-  },
-  async mounted() {
     if (this.$strapi.user) {
       const f = await this.$strapi.find('favs', {
         users_permissions_user: this.$strapi.user.id,
@@ -100,17 +99,6 @@ export default {
         return 0
       })
     }
-    // this.qrCode = new QRCodeStyling({
-    //   width: 300,
-    //   height: 300,
-    //   type: 'svg',
-    //   data: 'https://www.google.com/',
-    //   dotsOptions: {
-    //     color: '#c10609',
-    //     type: 'squared',
-    //   },
-    // })
-    // this.qrCode.append(this.$refs.qrCode)
   },
   methods: {
     async renderChatComp(chat) {
