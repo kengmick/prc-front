@@ -508,7 +508,6 @@
               </ul>
             </template>
           </ais-hits>
-          <div class="hidden" v-else></div>
         </template>
       </ais-state-results>
     </ais-instant-search>
