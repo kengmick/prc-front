@@ -79,7 +79,7 @@
         </ais-search-box>
       </section>
       <section class="w-[90vw] mx-auto mb-6">
-        <div v-if="index == 'bands'">
+        <div v-if="index === 'bands'">
           <div class="flex items-center mb-4">
             <h3 class="mr-4">Filter By Genre</h3>
             <FormulateInput v-model="genre" type="checkbox" />
@@ -111,8 +111,7 @@
           <h3 class="mr-4">Filter By Location</h3>
           <FormulateInput v-model="locationFilter" type="checkbox" />
         </div>
-
-        <!-- <FormulateForm v-if="locationFilter" v-model="formValues">
+        <FormulateForm v-if="locationFilter" v-model="formValues">
           <FormulateInput
             name="country"
             label="country"
@@ -153,15 +152,12 @@
               ></option>
             </datalist>
           </div>
-        </FormulateForm> -->
+        </FormulateForm>
       </section>
-      <!-- data results  -->
       <ais-state-results>
         <template v-slot="{ state: { query } }">
           <ais-hits v-if="query.length >= 0">
             <template v-slot="{ items }">
-              <!-- tours  -->
-
               <ul
                 v-if="locationFilter && index === 'tours'"
                 class="container flex flex-col items-center mt-10"
@@ -171,8 +167,6 @@
                   :key="item.objectID"
                   @click="toggleSearch"
                 >
-                  <!-- add location filter if user choses and show the filter selection  -->
-                  <!-- need to know what are the location filters .... is it city state so on  -->
                   <div>
                     <div
                       v-for="show in item.events.filter((i) => {
@@ -218,7 +212,6 @@
                   </div>
                 </li>
               </ul>
-              <!-- regular filter function -->
               <ul
                 v-if="locationFilter && index !== 'tours'"
                 class="container flex flex-col items-center mt-10"
@@ -256,7 +249,6 @@
                   :key="item.objectID"
                   @click="toggleSearch"
                 >
-                  <!-- add location filter if user choses and show the filter selection  -->
                   <div>
                     <NuxtLink
                       v-if="index === 'bands'"
@@ -386,7 +378,6 @@
                   :key="item.objectID"
                   @click="toggleSearch"
                 >
-                  <!-- add location filter if user choses and show the filter selection  -->
                   <div>
                     <NuxtLink
                       v-if="index === 'bands'"
@@ -399,7 +390,6 @@
                       class="text-xl chedder z-20"
                       style="z-index: 9999"
                     >
-                      <!-- write condition for location filter -->
                       <div v-if="genreSelected">
                         <PosterCard
                           v-if="item.genreAlt === genreSelected.genre"
