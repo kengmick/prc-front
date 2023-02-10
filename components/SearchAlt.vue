@@ -59,134 +59,72 @@
       </div>
     </section>
 
-    <ais-instant-search :search-client="searchClient" :index-name="index">
-      <section class="flex justify-center items-center">
-        <ais-search-box id="a" show-loading-indicator />
-      </section>
-      <ais-state-results>
-        <template v-slot="{ state: { query } }">
-          <ais-hits v-if="query.length >= 0">
-            <template v-slot="{ items }">
-              <ul>
-                <li v-for="item in items" :key="item.objectID">
-                  <NuxtLink
-                    v-if="index === 'bands'"
-                    :to="{
-                      path: '/bands/bandprofile',
-                      query: {
-                        band: item.id.substring(item.id.indexOf('-') + 1),
-                      },
-                    }"
-                    class="text-xl chedder text-blue-700"
-                    >{{ item.bandName }}</NuxtLink
-                  >
-                  <NuxtLink
-                    v-if="index === 'classified'"
-                    :to="{
-                      path: '/classified/classifiedview',
-                      query: {
-                        article: item.id.substring(item.id.indexOf('-') + 1),
-                      },
-                    }"
-                    class="text-xl chedder text-blue-700"
-                    >{{ item.title }}
-                  </NuxtLink>
+    <div>
+      <ais-instant-search :search-client="searchClient" :index-name="index">
+        <section class="flex justify-center items-center">
+          <ais-search-box id="a" show-loading-indicator />
+        </section>
+        <ais-state-results>
+          <template v-slot="{ state: { query } }">
+            <ais-hits v-if="query.length >= 0">
+              <template v-slot="{ items }">
+                <ul>
+                  <li v-for="item in items" :key="item.objectID">
+                    <NuxtLink
+                      v-if="index === 'bands'"
+                      :to="{
+                        path: '/bands/bandprofile',
+                        query: {
+                          band: item.id.substring(item.id.indexOf('-') + 1),
+                        },
+                      }"
+                      class="text-xl chedder text-blue-700"
+                      >{{ item.bandName }}</NuxtLink
+                    >
+                    <NuxtLink
+                      v-if="index === 'classified'"
+                      :to="{
+                        path: '/classified/classifiedview',
+                        query: {
+                          article: item.id.substring(item.id.indexOf('-') + 1),
+                        },
+                      }"
+                      class="text-xl chedder text-blue-700"
+                      >{{ item.title }}
+                    </NuxtLink>
 
-                  <NuxtLink
-                    v-if="index === 'venues'"
-                    :to="{
-                      path: '/venues',
-                      query: {
-                        article: item.id.substring(item.id.indexOf('-') + 1),
-                      },
-                    }"
-                    class="text-xl chedder text-blue-700"
-                    >{{ item.name }}
-                  </NuxtLink>
+                    <NuxtLink
+                      v-if="index === 'venues'"
+                      :to="{
+                        path: '/venues',
+                        query: {
+                          article: item.id.substring(item.id.indexOf('-') + 1),
+                        },
+                      }"
+                      class="text-xl chedder text-blue-700"
+                      >{{ item.name }}
+                    </NuxtLink>
 
-                  <NuxtLink
-                    v-if="index === 'tours'"
-                    :to="{
-                      path: '/tours',
-                      query: {
-                        article: item.id.substring(item.id.indexOf('-') + 1),
-                      },
-                    }"
-                    class="text-xl chedder text-blue-700"
-                    >{{ item.title }}
-                  </NuxtLink>
-                </li>
-              </ul>
-            </template>
-          </ais-hits>
-        </template>
-      </ais-state-results>
-    </ais-instant-search>
-
-    <!-- <ais-instant-search :search-client="searchClient" :index-name="index">
-      <section class="flex justify-center items-center w-auto mb-6">
-        <ais-search-box id="a" show-loading-indicator />
-      </section>
-      <ais-state-results>
-        <template v-slot="{ state: { query } }">
-          <ais-hits v-if="query.length >= 0">
-            <template v-slot="{ items }">
-              <ul>
-                <li v-for="item in items" :key="item.objectID">
-                  <NuxtLink
-                    v-if="index === 'bands'"
-                    :to="{
-                      path: '/bands/bandprofile',
-                      query: {
-                        band: item.id.substring(item.id.indexOf('-') + 1),
-                      },
-                    }"
-                    class="text-xl chedder text-blue-700"
-                    >{{ item.bandName }}</NuxtLink
-                  >
-                  <NuxtLink
-                    v-if="index === 'classified'"
-                    :to="{
-                      path: '/classified/classifiedview',
-                      query: {
-                        article: item.id.substring(item.id.indexOf('-') + 1),
-                      },
-                    }"
-                    class="text-xl chedder text-blue-700"
-                    >{{ item.title }}
-                  </NuxtLink>
-
-                  <NuxtLink
-                    v-if="index === 'venues'"
-                    :to="{
-                      path: '/venues',
-                      query: {
-                        article: item.id.substring(item.id.indexOf('-') + 1),
-                      },
-                    }"
-                    class="text-xl chedder text-blue-700"
-                    >{{ item.name }}
-                  </NuxtLink>
-
-                  <NuxtLink
-                    v-if="index === 'tours'"
-                    :to="{
-                      path: '/tours',
-                      query: {
-                        article: item.id.substring(item.id.indexOf('-') + 1),
-                      },
-                    }"
-                    class="text-xl chedder text-blue-700"
-                    >{{ item.title }}
-                  </NuxtLink>
-                </li>
-              </ul>
-            </template>
-          </ais-hits>
-          <div class="hidden" v-else></div>
-        </template>
-      </ais-state-results>
-    </ais-instant-search> -->
+                    <NuxtLink
+                      v-if="index === 'tours'"
+                      :to="{
+                        path: '/tours',
+                        query: {
+                          article: item.id.substring(item.id.indexOf('-') + 1),
+                        },
+                      }"
+                      class="text-xl chedder text-blue-700"
+                      >{{ item.title }}
+                    </NuxtLink>
+                  </li>
+                </ul>
+              </template>
+            </ais-hits>
+            <div class="hidden" v-else></div>
+          </template>
+        </ais-state-results>
+      </ais-instant-search>
+    </div>
   </div>
 </template>
 <script>
@@ -204,7 +142,6 @@ export default {
     AisHits,
     AisStateResults,
   },
-
   data() {
     return {
       locationFilter: false,
@@ -214,9 +151,7 @@ export default {
       genre: false,
       genreSelected: '',
       searchClient: instantMeiliSearch(
-        // 'http://localhost:1337',
         'https://prcsearch.net',
-        // 'https://punkrockcompound.com',
         'OTRmM2M3MGE3NGJlN2FlMGIxYWMwN2E2'
       ),
       index: 'bands',
