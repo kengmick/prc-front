@@ -61,15 +61,7 @@
 
     <ais-instant-search :search-client="searchClient" :index-name="index">
       <section class="flex justify-center items-center w-auto mb-6">
-        <ais-search-box class="relative" id="a">
-          <!-- <template v-slot:submit-icon
-            ><nuxt-img
-              src="search.svg"
-              width="20"
-              height="20"
-              class="absolute right-[20px] top-[3px]"
-          /></template> -->
-        </ais-search-box>
+        <ais-search-box id="a" />
       </section>
       <!-- <section class="w-[90vw] mx-auto mb-6">
         <div v-if="index === 'bands'">
