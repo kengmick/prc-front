@@ -2,10 +2,10 @@
   <div>
     <section v-if="superman">
       <h1 class="text-center text-main-red">Admin</h1>
-      <section class="flex justify-center mt-8">
+      <section class="container mx-auto mt-8">
         <h3 class="text-2xl">current video {{ liveStream }}</h3>
       </section>
-      <section class="flex justify-center items-center w-full my-10">
+      <section class="flex container mx-auto items-center w-full my-10">
         <FormulateForm v-model="formValues" @submit="submit">
           <FormulateInput
             name="live"
@@ -27,6 +27,14 @@
         </FormulateForm>
 
         <p v-if="updated">Your video has been updated</p>
+      </section>
+      <section class="container flex-col items-center justify-center mx-auto">
+        <h3>Members</h3>
+        <div v-if="users">
+          <p v-for="user in users" :key="user.username">
+            {{ user.username }} : member id : {{ user.id }}
+          </p>
+        </div>
       </section>
     </section>
     <section
@@ -62,6 +70,7 @@ export default {
       errorMessage: '',
       liveStream: 'default',
       updated: false,
+      users: null,
     }
   },
   async mounted() {
@@ -73,6 +82,9 @@ export default {
         this.$router.push('/')
       }
     }
+    const allUsers = await this.$strapi.find('users')
+    console.log(allUsers)
+    this.users = allUsers
   },
   methods: {
     async submit() {

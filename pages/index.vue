@@ -4,7 +4,7 @@
       <section
         class="w-full h-96 flex items-center justify-center bg-[#19332d]"
       >
-        <h1 class="text-white">PunkRock Compound</h1>
+        <Hero />
       </section>
 
       <section v-if="bands" class="overflow-x-hidden">

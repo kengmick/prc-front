@@ -1,18 +1,15 @@
 <template>
   <section>
     <h1 class="main_page_padding_left_right text-2xl text-center pt-6">
-      24/7 Video Stream
+      24/7 Video Stream id:
     </h1>
     <div class="flex justify-center mb-10">
-      <iframe
-        width="1280"
-        height="720"
-        :src="`https://www.youtube.com/embed/${id}`"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
+      <div v-if="videoFile">
+        <video width="320" height="240" controls>
+          <source :src="videoFile" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
     </div>
   </section>
 </template>
@@ -21,12 +18,14 @@
 export default {
   data() {
     return {
-      id: '',
+      videoFile: null,
     }
   },
   async mounted() {
-    const id = await this.$strapi.find('intro-home-page')
-    this.id = id.liveId
+    const video = await this.$strapi.find('singleVideo', {
+      id: this.$route.query.liveId,
+    })
+    this.videoFile = video.video.url
   },
 }
 </script>

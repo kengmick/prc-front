@@ -1,58 +1,44 @@
 <template>
-  <div class="grid_half main-container mt-4">
-    <div>
-      <!-- <NuxtLink :to="{ name: 'LiveStream', params: { liveId: liveId } }"> -->
-      <NuxtLink to="livestream">
-        <div class="shadow-lg live-placeholder-container">
-          <img class="image-height" src="~/static/live_background.png" alt="" />
-          <div class="live-image-bottom-bar flex items-center pr-4">
-            <p class="chedder text-white pl-5 bottom-bar-text">
-              24/7 Video Stream
-            </p>
-            <div class="share">
-              <img class="share_btn" src="~/static/share.svg" alt="" />
-            </div>
-            <div class="play-btn-home">
+  <div>
+    <NuxtLink
+      :to="{
+        path: '/livestream',
+        query: {
+          liveId: liveId,
+        },
+      }"
+    >
+      <div>
+        <div>
+          <Nuxt-img
+            src="live_background.png"
+            sizes="sm:100vw md:50vw lg:400px"
+          />
+          <div class="h-12 w-full bg-black">
+            <div class="play-btn-home flex items-center h-full px-4">
+              <h3 class="text-white flex-grow">24/7 Live Stream</h3>
               <img class="play" src="~/static/play.svg" alt="" />
             </div>
           </div>
         </div>
-      </NuxtLink>
-    </div>
-    <!-- <div class="message-container flex flex-col">
-      <h1 class="title pb-10">{{ title }}</h1>
-      <p class="message">{{ message }}</p>
-      <p class="hidden lg:block pt-4 message">
-        This is some more text about what the app provides for it's users
-      </p>
-      <div
-        v-if="!$strapi.user"
-        class="flex flex-grow items-end pb-8 justify-around"
-      >
-        <NuxtLink class="shadow-lg btn-home text-center" to="signUp"
-          >Signup</NuxtLink
-        >
-        <NuxtLink class="shadow-lg btn-home text-center" to="loginUser"
-          >Login</NuxtLink
-        >
       </div>
-      <div
-        v-if="$strapi.user"
-        class="flex flex-grow items-end pb-8 justify-around"
-      >
-        <div
-          class="shadow-lg btn-home text-center cursor-pointer"
-          @click="logout"
-        >
-          Logout
+    </NuxtLink>
+    <!-- <NuxtLink to="/livestream">
+      <div>
+        <img src="~/static/live_background.png" alt="" />
+        <div class="live-image-bottom-bar flex items-center pr-4">
+          <p class="chedder text-white pl-5 bottom-bar-text">
+            24/7 Video Stream
+          </p>
+          <div class="share">
+            <img class="share_btn" src="~/static/share.svg" alt="" />
+          </div>
+          <div class="play-btn-home">
+            <img class="play" src="~/static/play.svg" alt="" />
+          </div>
         </div>
-        <NuxtLink
-          class="shadow-lg btn-home text-center"
-          :to="{ path: 'profile' }"
-          >View Profile</NuxtLink
-        >
       </div>
-    </div> -->
+    </NuxtLink> -->
   </div>
 </template>
 
@@ -69,15 +55,16 @@ export default {
     }
   },
   async mounted() {
-    const data = await this.$strapi.find('intro-home-page')
-    const { title, message, hasLiveStream, hasFeatVideo, liveId, videoId } =
-      data
-    this.title = title
-    this.message = message
-    this.liveId = liveId
-    this.videoId = videoId
-    this.hasLiveStream = hasLiveStream
-    this.hasFeatVideo = hasFeatVideo
+    const data = await this.$strapi.find('singleVideo')
+    this.liveId = data.id
+    //   const { title, message, hasLiveStream, hasFeatVideo, liveId, videoId } =
+    //     data
+    //   this.title = title
+    //   this.message = message
+    //   this.liveId = liveId
+    //   this.videoId = videoId
+    //   this.hasLiveStream = hasLiveStream
+    //   this.hasFeatVideo = hasFeatVideo
   },
   methods: {
     logout() {
