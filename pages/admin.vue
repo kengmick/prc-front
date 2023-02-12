@@ -7,7 +7,22 @@
       </section>
       <section class="flex container mx-auto items-center w-full my-10">
         <FormulateForm v-model="formValues" @submit="submit">
-          <FormulateInput
+          <div class="flex flex-col w-full justify-center items-center">
+            <h2 class="text-center mb-10 mt-4">Add Weekly video</h2>
+            <FormulateInput
+              type="file"
+              name="weeklyVideo"
+              label="Select an image to upload"
+              help="Select a mp4"
+              validation="mime:video/mp4"
+              input-class="w-full sm:w-96 "
+              wrapper-class="w-full sm:w-96 "
+              element-class="w-full sm:w-96 "
+              @change="weeklyVideoFile = $event.target.files[0]"
+            />
+          </div>
+
+          <!-- <FormulateInput
             name="live"
             type="text"
             outer="w-full"
@@ -23,6 +38,13 @@
             type="submit"
             label="Create Live Stream"
             wrapper-class="flex justify-center mt-6"
+          /> -->
+          <FormulateInput
+            type="submit"
+            label="Next"
+            wrapper-class="w-full mt-10 px-4 sm:mx-10"
+            grouping-class="bg-black"
+            element-class="w-full"
           />
         </FormulateForm>
 
@@ -71,6 +93,8 @@ export default {
       liveStream: 'default',
       updated: false,
       users: null,
+      weeklyVideoFile: null,
+      video: null,
     }
   },
   async mounted() {
@@ -89,20 +113,34 @@ export default {
   methods: {
     async submit() {
       this.loading = true
-
       try {
-        const liveStream = await this.$strapi.update('live-stream', {
-          streamLink: this.formValues.live,
-        })
-        this.liveStream = liveStream.streamLink
-        if (liveStream) {
-          this.updated = true
-        }
-        this.loading = false
+        const formData = new FormData()
+        await formData.append('files', this.weeklyVideoFile)
+        const [video] = await this.$strapi.update('singlevideo', formData)
+        this.video = video
+        console.log(video)
+        this.formValues.singlevideo = video
+        console.log(this.formValues.singlevideo, 'this is the singeVideo file ')
       } catch (error) {
+        console.log(error)
+        this.errorMessage =
+          'Sorry we could not upload your video ... please try again '
         this.loading = false
-        this.errorMessage = 'Sorry there was an error'
       }
+
+      // try {
+      //   const liveStream = await this.$strapi.update('live-stream', {
+      //     streamLink: this.formValues.live,
+      //   })
+      //   this.liveStream = liveStream.streamLink
+      //   if (liveStream) {
+      //     this.updated = true
+      //   }
+      //   this.loading = false
+      // } catch (error) {
+      //   this.loading = false
+      //   this.errorMessage = 'Sorry there was an error'
+      // }
     },
   },
 }
