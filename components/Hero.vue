@@ -1,13 +1,6 @@
 <template>
   <div>
-    <NuxtLink
-      :to="{
-        path: '/livestream',
-        query: {
-          liveId: liveId,
-        },
-      }"
-    >
+    <NuxtLink to="/livestream">
       <div>
         <div>
           <Nuxt-img
@@ -55,8 +48,8 @@ export default {
     }
   },
   async mounted() {
-    const data = await this.$strapi.find('singleVideo')
-    this.liveId = data.id
+    // const data = await this.$strapi.find('singleVideo')
+    // this.liveId = data.id
     //   const { title, message, hasLiveStream, hasFeatVideo, liveId, videoId } =
     //     data
     //   this.title = title

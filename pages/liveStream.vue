@@ -22,10 +22,12 @@ export default {
     }
   },
   async mounted() {
-    const video = await this.$strapi.find('singleVideo', {
-      id: this.$route.query.liveId,
-    })
-    this.videoFile = video.video.url
+    try {
+      const video = await this.$strapi.find('singleVideo')
+      this.videoFile = video.video.url
+    } catch (error) {
+      console.log(error) // eslint-disable-line no-console
+    }
   },
 }
 </script>
