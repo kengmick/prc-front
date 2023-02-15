@@ -59,12 +59,17 @@
               errors-class="sm:w-4/5 m-auto"
             />
           </div>
+          <div class="flex items-center justify-center mt-6 sm:w-4/5 mx-auto">
+            <p class="mr-4">Receive emails to all our exclusive events</p>
+            <FormulateInput v-model="subscribe" type="checkbox" />
+          </div>
         </FormulateForm>
         <div v-if="errorMessage">
           {{ errorMessage }}
         </div>
       </div>
     </section>
+
     <section
       v-if="loading"
       class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
@@ -82,6 +87,8 @@ export default {
       errorMessage: '',
       profileImage: '',
       loading: false,
+      subscribe: true,
+      subscriptionResponse: null,
     }
   },
   methods: {
@@ -106,10 +113,32 @@ export default {
           acc: 2,
         })
         if (user) {
-          this.loading = false
-          this.$router.push({ path: 'profile', query: { user: user.id } })
+          if (this.subscribe) {
+            const formdata = new FormData()
+            formdata.append('email', this.formValues.email)
+
+            const requestOptions = {
+              method: 'POST',
+              body: formdata,
+            }
+
+            fetch('http://localhost:1337/subscribe', requestOptions)
+              .then((response) => response.text())
+              .then((result) => {
+                console.log('this is the fetch request ', result)
+              })
+              .catch((error) => {
+                console.log(error, 'error in subscription')
+              })
+            this.loading = false
+            this.$router.push({ path: 'profile', query: { user: user.id } })
+          } else {
+            this.loading = false
+            this.$router.push({ path: 'profile', query: { user: user.id } })
+          }
         }
       } catch (error) {
+        console.log('error in signup ')
         this.errorMessage = 'Sorry ... something went wrong '
       }
     },
