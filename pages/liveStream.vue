@@ -24,7 +24,8 @@ export default {
   async mounted() {
     try {
       const video = await this.$strapi.find('singleVideo')
-      this.videoFile = video.video.url
+      this.videoFile = video.url
+      console.log(this.videoFile)
     } catch (error) {
       console.log(error) // eslint-disable-line no-console
     }

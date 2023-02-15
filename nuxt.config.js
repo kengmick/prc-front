@@ -83,7 +83,23 @@ export default {
     '@nuxt/image',
     'nuxt-compress',
     '@nuxtjs/pwa',
+    '@nuxtjs/firebase',
   ],
+
+  firebase: {
+    config: {
+      apiKey: 'AIzaSyAeQtPg6N2Nnfj8j_XOAaXENpCgRZfxKz0',
+      authDomain: 'punk-64434.firebaseapp.com',
+      projectId: 'punk-64434',
+      storageBucket: 'punk-64434.appspot.com',
+      messagingSenderId: '47047508047',
+      appId: '1:47047508047:web:d084476a2802dbfcfaea3a',
+    },
+    services: {
+      storage: true, // Just as example. Can be any other service.
+    },
+  },
+
   // compression nuxt-compress
   // 'nuxt-compress': {
   //   gzip: {

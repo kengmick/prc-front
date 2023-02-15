@@ -114,13 +114,28 @@ export default {
     async submit() {
       this.loading = true
       try {
-        const formData = new FormData()
-        await formData.append('files', this.weeklyVideoFile)
-        const [video] = await this.$strapi.update('singlevideo', formData)
-        this.video = video
-        console.log(video)
-        this.formValues.singlevideo = video
-        console.log(this.formValues.singlevideo, 'this is the singeVideo file ')
+        const storageRef = this.$fireModule.storage().ref()
+        const videoRef = storageRef.child(`videos/${this.weeklyVideoFile.name}`)
+        console.log(videoRef, ' this is the reference')
+        let videoUrl = null
+        await videoRef.put(this.weeklyVideoFile).then((snapshot) => {
+          return snapshot.ref.getDownloadURL().then((url) => {
+            videoUrl = url
+            this.loading = false
+            return url
+          })
+        })
+        console.log(videoUrl)
+        if (videoUrl) {
+          const vid = await this.$strapi.update('vid', {
+            id: 1,
+            url: videoUrl,
+          })
+
+          console.log('this is the video', vid)
+        }
+        this.loading = false
+        // console.log(formData)
       } catch (error) {
         console.log(error)
         this.errorMessage =
