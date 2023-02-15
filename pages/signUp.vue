@@ -122,7 +122,10 @@ export default {
               body: formdata,
             }
 
-            fetch('http://localhost:1337/subscribe', requestOptions)
+            fetch(
+              'https://punkrockcompound-backend-lb57o.ondigitalocean.app/subscribe',
+              requestOptions
+            )
               .then((response) => response.text())
               .then((result) => {
                 console.log('this is the fetch request ', result)
