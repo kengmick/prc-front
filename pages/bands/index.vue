@@ -1,9 +1,5 @@
 <template>
   <div class="container md:container mx-auto">
-    <Title title="All Bands" />
-    <!-- <section class="px-4">
-      <Search index="bands" />
-    </section> -->
     <section class="w-[90vw] mx-auto mb-6">
       <div>
         <!-- Genre filters -->
