@@ -125,7 +125,7 @@ export default {
             return url
           })
         })
-        console.log(videoUrl)
+        console.log(videoUrl, 'this is video url')
         if (videoUrl) {
           const vid = await this.$strapi.update('vid', {
             id: 1,

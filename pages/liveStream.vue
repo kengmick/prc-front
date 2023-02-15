@@ -25,7 +25,6 @@ export default {
     try {
       const video = await this.$strapi.find('singleVideo')
       this.videoFile = video.url
-      console.log(this.videoFile)
     } catch (error) {
       console.log(error) // eslint-disable-line no-console
     }
