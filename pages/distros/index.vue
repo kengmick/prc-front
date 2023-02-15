@@ -1,17 +1,11 @@
 <template>
   <div class="container mx-auto">
-    <h1 class="text-center text-3xl main_red_text mt-10">Distros/Labels</h1>
-
-    <section
-      v-if="distros"
-      class="mx-6 flex flex-col gap-10 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-10"
-    >
+    <section class="w-[90vw] mx-auto mb-6">
       <section class="w-[90vw] mx-auto mb-6">
         <div class="flex items-center mt-6">
           <h3 class="mr-4">Filter By Location</h3>
           <FormulateInput v-model="locationFilter" type="checkbox" />
         </div>
-
         <FormulateForm v-if="locationFilter" v-model="formValues">
           <FormulateInput
             name="country"
@@ -55,7 +49,13 @@
           </div>
         </FormulateForm>
       </section>
-      <div v-if="locationFilter">
+    </section>
+    <section
+      v-if="distros"
+      class="flex items-center min-h-[60vh]"
+      :class="{ 'pb-[80px]': locationFilter }"
+    >
+      <div v-if="locationFilter" class="flex gap-2 overflow-y-scroll mb-2">
         <div
           v-for="distro in distros.filter((i) => {
             if (formValues.country && !formValues.state) {
@@ -86,7 +86,7 @@
           />
         </div>
       </div>
-      <div v-if="!locationFilter">
+      <div v-if="!locationFilter" class="flex gap-2 overflow-y-scroll mb-2">
         <CardsDistroCard
           v-for="distro in distros"
           :key="distro.name"
