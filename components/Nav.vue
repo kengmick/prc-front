@@ -1,5 +1,5 @@
 <template>
-  <section class="mb-[80px]">
+  <section class="mb-[60px]">
     <SearchAlt
       :class="[isSearchOpen ? 'block' : 'hidden']"
       @toggleSearch="toggleSearch"

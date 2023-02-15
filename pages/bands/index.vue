@@ -3,7 +3,7 @@
     <section class="w-[90vw] mx-auto mb-6">
       <div>
         <!-- Genre filters -->
-        <div class="flex items-center mb-4">
+        <div class="flex items-center mb-1">
           <h3 class="mr-4">Filter By Genre</h3>
           <FormulateInput v-model="genre" type="checkbox" />
         </div>
@@ -35,7 +35,7 @@
         <FormulateInput v-model="locationFilter" type="checkbox" />
       </div>
 
-      <FormulateForm v-if="locationFilter" v-model="formValues">
+      <FormulateForm v-if="locationFilter" v-model="formValues" class="mt-1">
         <FormulateInput
           name="country"
           label="country"
@@ -59,7 +59,7 @@
           type="select"
           @change="formValues.city = ''"
         />
-        <div class="sm:w-4/5 m-auto mb-[2rem]">
+        <div class="sm:w-4/5 m-auto mb-1">
           <label for="city" class="label">City</label>
           <input
             v-model="formValues.city"
@@ -80,9 +80,13 @@
     </section>
     <section
       v-if="bands"
-      class="mx-6 flex flex-col gap-10 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-10"
+      class="flex items-center min-h-[60vh]"
+      :class="{ 'pb-[80px]': locationFilter }"
     >
-      <div v-if="genre && locationFilter">
+      <div
+        v-if="genre && locationFilter"
+        class="flex gap-2 overflow-y-scroll mb-2"
+      >
         <div
           v-for="band in bands.filter((i) => {
             if (formValues.country && !formValues.state) {
@@ -117,7 +121,10 @@
           />
         </div>
       </div>
-      <div v-if="genre && !locationFilter">
+      <div
+        v-if="genre && !locationFilter"
+        class="flex gap-2 overflow-y-scroll mb-2"
+      >
         <div v-for="band in bands" :key="band.bandName">
           <PosterCard
             v-if="band.genreAlt === genreSelected.genre"
@@ -130,7 +137,10 @@
           />
         </div>
       </div>
-      <div v-if="!genre && locationFilter">
+      <div
+        v-if="!genre && locationFilter"
+        class="flex gap-2 overflow-y-scroll mb-2"
+      >
         <div
           v-for="band in bands.filter((i) => {
             if (formValues.country && !formValues.state) {
@@ -164,7 +174,10 @@
           />
         </div>
       </div>
-      <div v-if="!genre && !locationFilter">
+      <div
+        v-if="!genre && !locationFilter"
+        class="flex gap-2 overflow-y-scroll mb-2"
+      >
         <PosterCard
           v-for="(band, index) in bands"
           :key="band.bandName + index"
