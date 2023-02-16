@@ -1,10 +1,6 @@
 <template>
   <div v-if="tours">
-    <Title title="Tours" />
     <section class="px-4">
-      <!-- <Search index="tours" /> -->
-    </section>
-    <section class="container mx-auto">
       <section class="w-[90vw] mx-auto mb-6">
         <div class="flex items-center mt-6">
           <h3 class="mr-4">Filter By Location</h3>
@@ -54,10 +50,20 @@
           </div>
         </FormulateForm>
       </section>
+    </section>
+    <section class="container mx-auto">
       <section
-        class="mx-6 flex flex-col gap-10 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-10"
+        class="flex items-center min-h-[60vh]"
+        :class="{
+          'pb-[80px]': locationFilter,
+          'justify-center': tours.length <= 1,
+        }"
       >
-        <div v-if="!locationFilter">
+        <div
+          v-if="!locationFilter"
+          class="flex gap-2 overflow-y-scroll mb-2"
+          :class="{ 'justify-center': tours.length <= 1 }"
+        >
           <CardsTourCard
             v-for="tour in tours"
             :tour="tour"
@@ -66,7 +72,11 @@
             :isFav="favCheck('tours', tour.id)"
           />
         </div>
-        <div v-if="locationFilter">
+        <div
+          v-if="locationFilter"
+          class="flex gap-2 overflow-y-scroll mb-2"
+          :class="{ 'justify-center': tours.length <= 1 }"
+        >
           <div v-for="tour in tours" :key="tour.name">
             <div
               v-for="show in tour.events.filter((i) => {

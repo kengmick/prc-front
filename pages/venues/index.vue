@@ -1,10 +1,6 @@
 <template>
-  <div>
-    <Title title="Venues" />
-    <section class="px-4">
-      <Search index="venue" />
-    </section>
-    <section v-if="venues" class="container mx-auto w-full">
+  <div class="container mx-auto w-full">
+    <section v-if="venues">
       <section class="w-[90vw] mx-auto mb-6">
         <div class="flex items-center mt-6">
           <h3 class="mr-4">Filter By Location</h3>
@@ -54,8 +50,11 @@
           </div>
         </FormulateForm>
       </section>
-      <section class="flex flex-col items-center">
-        <div v-if="locationFilter">
+      <section
+        class="flex items-center min-h-[60vh]"
+        :class="{ 'pb-[80px]': locationFilter }"
+      >
+        <div v-if="locationFilter" class="flex gap-2 overflow-y-scroll mb-2">
           <div
             v-for="venue in venues.filter((i) => {
               if (formValues.country && !formValues.state) {
@@ -88,7 +87,7 @@
             />
           </div>
         </div>
-        <div v-if="!locationFilter" class="flex flex-col items-center gap-6">
+        <div v-if="!locationFilter" class="flex gap-2 overflow-y-scroll mb-2">
           <CardsVenueCard
             v-for="venue in venues"
             :key="venue.name"

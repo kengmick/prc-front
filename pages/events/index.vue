@@ -1,6 +1,5 @@
 <template>
   <section class="container mx-auto">
-    <Title title="Showz" />
     <section class="px-4">
       <section class="w-[90vw] mx-auto mb-6">
         <div class="flex items-center mt-6">
@@ -53,9 +52,10 @@
     </section>
     <section
       v-if="events"
-      class="mx-6 flex flex-col gap-10 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-10"
+      class="flex items-center min-h-[60vh]"
+      :class="{ 'pb-[80px]': locationFilter }"
     >
-      <div v-if="locationFilter">
+      <div v-if="locationFilter" class="flex gap-2 overflow-y-scroll mb-2">
         <div
           v-for="event in events.filter((i) => {
             if (formValues.country && !formValues.state) {
@@ -87,7 +87,7 @@
           />
         </div>
       </div>
-      <div v-if="!locationFilter">
+      <div v-if="!locationFilter" class="flex gap-2 overflow-y-scroll mb-2">
         <CardsShowCard
           v-for="event in events"
           :key="event.title"

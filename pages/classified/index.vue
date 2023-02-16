@@ -1,61 +1,70 @@
 <template>
   <div>
-    <Title title="Classified" />
     <section class="px-4 mt-6">
       <div class="flex items-center mt-6">
         <h3 class="mr-4">Filter By Location</h3>
         <FormulateInput v-model="locationFilter" type="checkbox" />
       </div>
     </section>
+    <section class="w-[90vw] mx-auto mb-6">
+      <FormulateForm v-if="locationFilter" v-model="formValues">
+        <FormulateInput
+          name="country"
+          label="country"
+          wrapper-class="sm:w-4/5 m-auto"
+          :options="ct"
+          placeholder="select a country"
+          element-class="w-full"
+          errors-class="sm:w-4/5 m-auto"
+          type="select"
+          @change="formValues.country = $event.target.value"
+        />
+        <FormulateInput
+          v-if="formValues.country === 'United States'"
+          name="state"
+          label="State"
+          :options="Object.keys(cs)"
+          placeholder="select a state"
+          wrapper-class="sm:w-4/5 m-auto"
+          element-class="w-full"
+          errors-class="sm:w-4/5 m-auto"
+          type="select"
+          @change="formValues.city = ''"
+        />
+        <div class="sm:w-4/5 m-auto mb-[2rem]">
+          <label for="city" class="label">City</label>
+          <input
+            v-model="formValues.city"
+            class="dropdown"
+            list="city"
+            name="city"
+            placeholder="type or select the city"
+          />
+          <datalist id="city">
+            <option
+              v-for="city in cs[formValues.state]"
+              :key="city"
+              :value="city"
+            ></option>
+          </datalist>
+        </div>
+      </FormulateForm>
+    </section>
     <section
       v-if="classifieds"
-      class="mx-6 flex flex-col gap-10 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-10"
+      class="flex items-center min-h-[60vh]"
+      :class="{
+        'pb-[80px]': locationFilter,
+        'justify-center': classifieds.length <= 1,
+      }"
     >
-      <section class="w-[90vw] mx-auto mb-6">
-        <FormulateForm v-if="locationFilter" v-model="formValues">
-          <FormulateInput
-            name="country"
-            label="country"
-            wrapper-class="sm:w-4/5 m-auto"
-            :options="ct"
-            placeholder="select a country"
-            element-class="w-full"
-            errors-class="sm:w-4/5 m-auto"
-            type="select"
-            @change="formValues.country = $event.target.value"
-          />
-          <FormulateInput
-            v-if="formValues.country === 'United States'"
-            name="state"
-            label="State"
-            :options="Object.keys(cs)"
-            placeholder="select a state"
-            wrapper-class="sm:w-4/5 m-auto"
-            element-class="w-full"
-            errors-class="sm:w-4/5 m-auto"
-            type="select"
-            @change="formValues.city = ''"
-          />
-          <div class="sm:w-4/5 m-auto mb-[2rem]">
-            <label for="city" class="label">City</label>
-            <input
-              v-model="formValues.city"
-              class="dropdown"
-              list="city"
-              name="city"
-              placeholder="type or select the city"
-            />
-            <datalist id="city">
-              <option
-                v-for="city in cs[formValues.state]"
-                :key="city"
-                :value="city"
-              ></option>
-            </datalist>
-          </div>
-        </FormulateForm>
-      </section>
-      <div v-if="locationFilter">
+      <div
+        v-if="locationFilter"
+        class="flex gap-2 overflow-y-scroll mb-2"
+        :class="{
+          'justify-center': classifieds.length <= 1,
+        }"
+      >
         <div
           v-for="article in classifieds.filter((i) => {
             if (formValues.country && !formValues.state) {
@@ -86,7 +95,13 @@
           />
         </div>
       </div>
-      <div v-if="!locationFilter">
+      <div
+        v-if="!locationFilter"
+        class="flex gap-2 overflow-y-scroll mb-2"
+        :class="{
+          'justify-center': classifieds.length <= 1,
+        }"
+      >
         <CardsClassifiedCard
           v-for="article in classifieds"
           :key="article.title"
