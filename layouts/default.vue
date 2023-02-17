@@ -1,8 +1,16 @@
 <template>
   <div>
     <Nav />
-    <Nuxt />
-    <Footer />
+    <Nuxt
+      :class="{
+        'h-[calc(100vh-88px)]': isProfilePage,
+      }"
+    />
+    <Footer
+      :class="{
+        hidden: isProfilePage,
+      }"
+    />
   </div>
 </template>
 
@@ -11,6 +19,12 @@ export default {
   data() {
     return {
       modal: false,
+      isProfilePage: false,
+    }
+  },
+  mounted() {
+    if (this.$route.name === 'bands-bandProfile') {
+      this.isProfilePage = true
     }
   },
 }

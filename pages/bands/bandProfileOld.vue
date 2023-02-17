@@ -1,21 +1,500 @@
 <template>
-  <div v-if="band" class="absolute top-[48px]">
-    <MobileBand
-      :band="band"
-      :user="band.users_permissions_user"
-      :isFeatured="true"
-      :isHome="true"
-      @updatedFavs="updatedFavs('bands', band.id)"
-      :isFav="favCheck('bands', band.id)"
-      @addFeaturedToBandCard="addCard"
-      @startChat="startChatNow(band.users_permissions_user)"
-    />
+  <div v-if="band">
+    <style v-if="addPhotoBox">
+      html {
+        overflow: hidden;
+      }
+    </style>
+    <!-- <pre>{{ JSON.stringify(band) }}</pre> -->
+    <div class="container flex justify-center items-center mt-6 mx-auto">
+      <FullCard
+        class="mb-10"
+        :band="band"
+        :user="band.users_permissions_user"
+        :isFeatured="true"
+        :isHome="true"
+        @updatedFavs="updatedFavs('bands', band.id)"
+        :isFav="favCheck('bands', band.id)"
+        @addFeaturedToBandCard="addCard"
+        @startChat="startChatNow(band.users_permissions_user)"
+      />
+    </div>
+    <!-- edit band features  -->
+    <NuxtLink
+      :to="{ path: '/bands/edit', query: { band: band.id } }"
+      class="block mx-auto px-4 py-2 bg-black text-white chedder w-44 text-center"
+    >
+      Edit Band Details
+    </NuxtLink>
+
+    <div
+      v-if="permission"
+      class="block mx-auto px-4 py-2 bg-black text-white chedder w-44 text-center my-4"
+      @click="deleteAll(band.id)"
+    >
+      Delete Band
+    </div>
+    <!-- button to remove featured card  -->
+    <section class="container flex justify-center items-center mt-6 mx-auto">
+      <div
+        v-if="band.hasFeaturedCard"
+        @click="removeCard(band)"
+        class="px-4 py-2 bg-black text-white chedder"
+      >
+        Remove Featured Card
+      </div>
+    </section>
+    <section
+      v-if="allBands"
+      class="container mx-auto flex flex-col md:flex-row justify-center items-center"
+    >
+      <h2>Pick a card to feature</h2>
+      <div>
+        <ais-instant-search :search-client="searchClient" index-name="bands">
+          <section class="flex justify-center items-center">
+            <ais-search-box id="a" />
+          </section>
+          <ais-hits> </ais-hits>
+        </ais-instant-search>
+      </div>
+    </section>
+    <!-- container for all information of profile  -->
+
+    <section class="container mx-auto px-4">
+      <!-- showz -->
+      <section class="my-2">
+        <h2 id="showz" class="chedder text-2xl my-4">Showz</h2>
+        <NuxtLink
+          v-if="permission"
+          :to="{ path: '/events/createevent', query: { band: band.id } }"
+        >
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-1/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Add Showz</h3>
+          </div>
+        </NuxtLink>
+        <div v-if="band.events.length > 0" class="flex gap-4 overflow-y-scroll">
+          <div v-for="event in band.events" :key="event.title" class="my-6">
+            <CardsShowCard :event="event" />
+            <div
+              v-if="permission"
+              class="w-[300px] h-[40px] px-6 mb-6 flex items-center bg-black text-white mt-4"
+            >
+              <p class="chedder mr-6" @click="deleteData(event.id, 'events')">
+                Delete
+              </p>
+              <NuxtLink
+                :to="{ path: '/events/edit', query: { event: event.id } }"
+              >
+                <p class="chedder">edit</p></NuxtLink
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- discography -->
+      <section class="my-4">
+        <h2 id="releases" class="chedder text-2xl my-4">Discography</h2>
+        <!-- add releases button  -->
+        <NuxtLink
+          v-if="permission"
+          :to="{ path: '/releases/create', query: { band: band.id } }"
+        >
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-1/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Add to discography</h3>
+          </div>
+        </NuxtLink>
+        <div>
+          <div v-if="band.releases" class="flex gap-4 overflow-y-scroll">
+            <!-- <pre>{{ band.releases }}</pre> -->
+            <div v-for="release in band.releases" :key="release.title">
+              <NuxtLink
+                :to="{
+                  path: '/releases',
+                  query: { releaseId: release.id, bandId: band.id },
+                }"
+              >
+                <div class="my-6 w-[300px]">
+                  <div>
+                    <NuxtImg
+                      class=""
+                      :src="release.mainImage.url"
+                      alt=""
+                      height="300"
+                      width="300"
+                    />
+                  </div>
+                  <div
+                    class="w-full bg-black text-white px-2 py-4 flex items-center"
+                  >
+                    <div>
+                      <p>{{ release.title }} ({{ release.date }})</p>
+                    </div>
+                  </div>
+                </div>
+              </NuxtLink>
+              <div
+                v-if="permission"
+                class="w-[300px] h-[40px] px-6 mb-6 flex items-center bg-black text-white"
+                @click="deleteData(release.id, 'releases')"
+              >
+                <p class="chedder">Delete</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- songs -->
+      <section class="my-2">
+        <h2 id="songs" class="chedder text-2xl my-6">Songs</h2>
+        <NuxtLink
+          v-if="permission"
+          :to="{ path: '/songs/create', query: { band: band.id } }"
+        >
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-1/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Add a song</h3>
+          </div>
+        </NuxtLink>
+        <div class="my-6">
+          <ul v-if="band.bandSongs">
+            <li v-for="song in band.bandSongs" :key="song.id" class="mt-6">
+              <div class="flex items-center">
+                <h3 class="pr-4">{{ song.title }}</h3>
+                <p>({{ song.date }})</p>
+                <div class="grow">
+                  <p
+                    class="text-right"
+                    @click="deleteData(song.id, 'bandSongs')"
+                  >
+                    X Delete Song
+                  </p>
+                </div>
+              </div>
+              <h4 class="my-2">Song Writers</h4>
+              <ul v-if="song.songWriters">
+                <li v-for="writer in song.songWriters" :key="writer.id">
+                  <p>{{ writer.name }}</p>
+                </li>
+              </ul>
+              <h4 v-if="song.lyricWriter.length > 0" class="my-2">
+                Lyric Writers
+              </h4>
+              <ul v-if="song.lyricWriter.length > 0">
+                <li v-for="writer in song.lyricWriter" :key="writer.id">
+                  <p>{{ writer.name }}</p>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <!-- videos -->
+      <section class="my-2">
+        <h2 id="videos" class="chedder text-2xl">Videos</h2>
+      </section>
+      <!-- bio -->
+      <section class="my-2">
+        <h2 id="bio" class="chedder text-2xl">Biography</h2>
+        <NuxtLink
+          v-if="permission"
+          :to="{
+            path: '/bio',
+            query: { band: band.id, action: bioAction, dataType: 'band' },
+          }"
+        >
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-1/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 v-if="band.bio" class="text-3xl pl-2 text-center">
+              Edit Biography
+            </h3>
+            <h3 v-else class="text-3xl pl-2 text-center">Add Biography</h3>
+          </div>
+        </NuxtLink>
+        <div v-if="band.bio">
+          {{ band.bio }}
+        </div>
+      </section>
+      <!-- Members -->
+      <section class="my-2">
+        <h2 id="members" class="chedder text-2xl my-6">Performers</h2>
+        <NuxtLink
+          v-if="permission"
+          :to="{ path: '/performer/create', query: { band: band.id } }"
+        >
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-1/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Add a performer</h3>
+          </div>
+        </NuxtLink>
+        <div class="my-6">
+          <ul>
+            <li v-for="performer in band.members" :key="performer.id">
+              <NuxtImg
+                v-if="performer.image"
+                :src="performer.image.url"
+                alt=""
+                height="200"
+                width="200"
+              />
+              <p>
+                <span class="text-xl"> {{ performer.name }}</span>
+                <span class="text-sm">
+                  ( {{ performer.dateStart }} - {{ performer.dateEnd }})</span
+                >
+              </p>
+              <ul>
+                <li
+                  v-for="instrument in performer.instruments"
+                  :key="instrument.id"
+                >
+                  <p>{{ instrument.name }}</p>
+                </li>
+              </ul>
+              <div
+                v-if="permission"
+                class="w-[200px] h-[40px] px-6 mb-6 flex items-center bg-black text-white"
+                @click="deleteData(performer.id, 'members')"
+              >
+                <p class="chedder">Delete</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <!-- Pictures -->
+      <section class="my-2">
+        <h2 id="pictures" class="chedder text-2xl my-6">Pictures</h2>
+        <!-- add photo button  -->
+        <div
+          v-if="permission"
+          @click="addPhotoModal"
+          class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-1/5"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            fill="currentColor"
+            class="bi bi-plus-circle"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+            />
+            <path
+              d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+            />
+          </svg>
+          <h3 class="text-3xl pl-2 text-center">Add Photos</h3>
+        </div>
+        <div v-if="band.pictures" class="flex gap-6 overflow-x-scroll my-6">
+          <div v-for="pic in band.pictures" :key="pic.id">
+            <NuxtImg :src="pic.url" height="300" width="300" />
+            <div
+              v-if="permission"
+              class="w-[300px] h-[40px] px-6 mb-6 flex items-center bg-black text-white"
+              @click="deleteData(pic.id, 'pictures')"
+            >
+              <p class="chedder">Delete</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Merch -->
+      <section class="my-2">
+        <h2 id="merch" class="chedder text-2xl my-6">Merch</h2>
+      </section>
+      <!-- Links -->
+      <section class="my-2">
+        <h2 id="links" class="chedder text-2xl my-6">Links</h2>
+        <NuxtLink
+          v-if="permission"
+          :to="{
+            path: '/links/create',
+            query: { band: band.id, dataType: 'bands' },
+          }"
+        >
+          <div
+            class="inline-flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full sm:w-3/5 md:w-1/5"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-plus-circle"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            <h3 class="text-3xl pl-2 text-center">Add Links</h3>
+          </div>
+        </NuxtLink>
+        <div v-if="band.links">
+          <ul>
+            <li v-for="link in band.links" :key="link.id" class="my-4">
+              <a :href="link.link">{{ link.link }} </a>
+              <p class="mt-4" @click="deleteData(link.id, 'links')">X Delete</p>
+            </li>
+          </ul>
+        </div>
+      </section>
+      <!-- Chat Room -->
+      <section class="my-2">
+        <h2 id="chatroom" class="chedder text-2xl my-6">Chat Room</h2>
+        <PostsPost :postType="'bands'" :postId="band.id" />
+      </section>
+    </section>
+    <Loading />
+    <!-- addPhotoBox -->
+    <div
+      v-if="addPhotoBox"
+      class="fixed top-0 w-full h-full flex justify-center items-center bg-black bg-opacity-30"
+      style="z-index: 999"
+    >
+      <div
+        class="w-full h-full bg-white flex flex-col justify-center items-center"
+        style="z-index: 9999999999999999999"
+      >
+        <p
+          class="absolute top-[20px] left-[20px] chedder"
+          @click="addPhotoModal"
+        >
+          x
+        </p>
+        <h3 class="text-3xl text-center">Add A Photo</h3>
+        <div class="my-6">
+          <FormulateInput
+            v-model="imageAdd"
+            type="image"
+            name="photo"
+            label="Select an image to upload"
+            help="Select a png, jpg or gif to upload."
+            validation="mime:image/jpeg,image/png,image/gif,image/webp"
+            input-class="w-full sm:w-96 "
+            wrapper-class="w-full sm:w-96 "
+            element-class="w-full sm:w-96 "
+            @change="photo = $event.target.files[0]"
+          />
+          <div
+            v-if="photo"
+            class="flex items-center justify-center border-2 border-black px-4 py-2 cursor-pointer w-full"
+            @click="addPhoto"
+          >
+            <h3 class="text-3xl pl-2 text-center">Add Image</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section v-if="chat">
+      <Chat
+        :chatInfo="chat"
+        :chatWithId="chat.chatWith.id"
+        class="z-[9999999]"
+        @closeChat="renderChatComp"
+      />
+    </section>
   </div>
+
+  <div v-else></div>
 </template>
 <script>
 import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
+import { AisInstantSearch, AisSearchBox, AisHits } from 'vue-instantsearch'
 export default {
+  components: {
+    AisInstantSearch,
+    AisSearchBox,
+    AisHits,
+  },
   data() {
     return {
       // band and events
@@ -719,7 +1198,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style land="scss" scoped>
 .btn_custom {
   padding: 0.5em 1.5em;
   border: 2px solid black;
