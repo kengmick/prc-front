@@ -15,6 +15,12 @@
    url(~assets/chedder.ttf) format("truetype");
 }
 
+@font-face {
+  font-family: "lato";
+  src: local("lato"),
+   url(~assets/lato.ttf) format("truetype");
+}
+
 html {
   /* @apply overscroll-none overflow-hidden; */
   background: #f5f5f5;
@@ -188,7 +194,7 @@ html, body {
 /* typography */
 /* stylelint-disable */
 p, li {
-  font-family: "ptmono";
+  font-family: "lato";
 }
 
 

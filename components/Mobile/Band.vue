@@ -204,55 +204,85 @@
       <p class="text-[12px]">{{ announcement.text }}</p>
     </section>
     <!-- scrollable content here -->
+    <!-- band info  -->
+
+    <section class="container mx-auto mt-2">
+      <section v-if="band.bio" class="mx-auto w-full z-50">
+        <div
+          class="px-1 w-11/12 sm:w-3/4 xl:w-3/4 bg-black lg:px-16 py-10 mx-auto"
+        >
+          <h2
+            class="text-white text-2xl sm:text-4xl text-center sm:text-left mb-14"
+          >
+            History/Bio/Message
+          </h2>
+          <div>
+            <p class="text-white text-base sm:text-xl">{{ band.bio }}</p>
+          </div>
+          <!-- <div v-if="band.logo" class="m-4 max-w-[200px]">
+            <img :src="band.logo.url" alt="" />
+          </div> -->
+        </div>
+      </section>
+    </section>
+
     <section class="container mx-auto">
       <h3 class="text-white text-2xl text-center mt-5"><span>Showz</span></h3>
-      <div v-if="band.events.length > 0" class="flex gap-4 overflow-y-scroll">
+      <div
+        v-if="band.events.length > 0"
+        class="flex gap-4 overflow-y-scroll ml-2"
+      >
         <div v-for="event in band.events" :key="event.title" class="my-6">
-          <CardsShowCard :event="event" />
+          <!-- <CardsShowCard :event="event" /> -->
+          <div class="w-[230px] h-auto">
+            <NuxtLink
+              :to="{ path: '/events/eventview', query: { event: event.id } }"
+            >
+              <MobileSimpleCardsEvent :event="event" />
+            </NuxtLink>
+          </div>
         </div>
       </div>
+      <!-- releases -->
       <section class="my-5 ml-2">
         <h2 id="releases" class="chedder text-2xl text-white text-center my-4">
           Discography
         </h2>
         <!-- add releases button  -->
         <div>
-          <div
-            v-if="band.releases"
-            class="flex gap-4 overflow-y-scroll justify-center"
-          >
+          <div v-if="band.releases" class="flex gap-4 overflow-y-scroll">
             <!-- <pre>{{ band.releases }}</pre> -->
             <div
               v-for="release in band.releases"
               :key="release.title"
-              :class="{ 'justify-center': band.releases.length === 1 }"
+              :class="{ 'pl-2': band.releases.length === 1 }"
             >
-              <NuxtLink
-                :to="{
-                  path: '/releases',
-                  query: { releaseId: release.id, bandId: band.id },
-                }"
-              >
-                <div class="my-6 w-[300px]">
-                  <div>
-                    <NuxtImg
-                      class=""
-                      :src="release.mainImage.url"
-                      alt=""
-                      height="300"
-                      width="300"
-                    />
-                  </div>
-                  <div
-                    class="w-full bg-black text-white px-2 py-4 flex items-center"
-                  >
-                    <div>
-                      <p>{{ release.title }} ({{ release.date }})</p>
-                    </div>
-                  </div>
-                </div>
-              </NuxtLink>
+              <div class="w-[230px] h-auto">
+                <NuxtLink
+                  :to="{
+                    path: '/releases',
+                    query: { releaseId: release.id, bandId: band.id },
+                  }"
+                >
+                  <MobileReleases :release="release" />
+                </NuxtLink>
+              </div>
             </div>
+          </div>
+        </div>
+      </section>
+      <!-- songs -->
+      <section class="my-5 mx-2 bg-white">
+        <MobileSongs :band="band" />
+      </section>
+      <!-- photos -->
+      <h2 id="releases" class="chedder text-2xl text-white text-center my-4">
+        Photos
+      </h2>
+      <section v-if="band.photos" class="flex gap-4 overflow-y-scroll">
+        <div v-for="(pic, index) in band.photos" :key="pic + index">
+          <div class="w-[150px] h-[150px]">
+            <img :src="pic.pic.url" alt="" class="h-full w-full" />
           </div>
         </div>
       </section>

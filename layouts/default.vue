@@ -22,7 +22,7 @@ export default {
       isProfilePage: false,
     }
   },
-  mounted() {
+  created() {
     if (this.$route.name === 'bands-bandProfile') {
       this.isProfilePage = true
     }
