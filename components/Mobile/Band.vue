@@ -21,7 +21,7 @@
     </section>
     <!-- info box  -->
     <section
-      class="w-[95%] mx-auto flex gap-2 justify-around mt-[38px] h-[65vh]"
+      class="w-[95%] mx-auto flex gap-2 justify-around mt-[40px] h-[65vh]"
     >
       <section class="w-[95%] flex-grow flex flex-col">
         <!-- info box -->

@@ -3,12 +3,12 @@
     <Nav />
     <Nuxt
       :class="{
-        'h-[calc(100vh-88px)]': isProfilePage,
+        'h-[calc(100vh-88px)]': $route.name === 'bands-bandProfile',
       }"
     />
     <Footer
       :class="{
-        hidden: isProfilePage,
+        hidden: $route.name === 'bands-bandProfile',
       }"
     />
   </div>
@@ -22,11 +22,11 @@ export default {
       isProfilePage: false,
     }
   },
-  created() {
-    if (this.$route.name === 'bands-bandProfile') {
-      this.isProfilePage = true
-    }
-  },
+  // mounted() {
+  //   if (this.$route.name === 'bands-bandProfile') {
+  //     this.isProfilePage = true
+  //   }
+  // },
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="band" class="absolute top-[48px]">
+  <div v-if="band" class="absolute top-[48px] h-auto">
     <MobileBand
       :band="band"
       :user="band.users_permissions_user"
