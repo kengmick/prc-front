@@ -238,7 +238,7 @@
             <NuxtLink
               :to="{ path: '/events/eventview', query: { event: event.id } }"
             >
-              <MobileSimpleCardsEvent :event="event" />
+              <SimpleCardsEvent :event="event" />
             </NuxtLink>
           </div>
         </div>

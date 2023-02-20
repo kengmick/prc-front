@@ -3,9 +3,9 @@
     <NuxtLink to="/livestream">
       <div>
         <div>
-          <Nuxt-img
+          <nuxt-img
             src="live_background.png"
-            sizes="sm:100vw md:50vw lg:400px"
+            class="w-full object-cover h-[33vh]"
           />
           <div class="h-12 w-full bg-black">
             <div class="play-btn-home flex items-center h-full px-4">

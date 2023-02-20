@@ -1,18 +1,20 @@
 <template>
   <div>
     <div>
-      <section
-        class="w-full h-96 flex items-center justify-center bg-[#19332d]"
-      >
-        <Hero />
-      </section>
+      <Hero />
 
-      <section v-if="bands" class="overflow-x-hidden">
+      <section class="my-10 ml-4 overflow-x-auto" v-if="bands">
         <!-- container for poster cards -->
-        <div
-          class="flex mt-6 flex-col justify-center items-center md:flex-row md:flex-wrap md:gap-6"
-        >
-          <PosterCard
+
+        <div class="flex gap-4 w-min md:w-full md:justify-center">
+          <SimpleCardsBand
+            class="w-[250px]"
+            v-for="(band, index) in bands"
+            :key="band.bandName + index"
+            :band="band"
+          />
+        </div>
+        <!-- <PosterCard
             class="mb-10"
             v-for="(band, index) in bands"
             :key="band.bandName + index"
@@ -23,10 +25,9 @@
             @updatedFavs="updatedFavs('bands', band.id)"
             :isFav="favCheck('bands', band.id)"
             @startChat="startChatNow(band.users_permissions_user)"
-          />
-        </div>
+          /> -->
       </section>
-      <section v-else>
+      <section v-else class="my-10">
         <div id="content">
           <div class="skeleton">
             <div class="skeleton-wrapper">
