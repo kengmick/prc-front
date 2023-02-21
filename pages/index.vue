@@ -8,7 +8,7 @@
 
         <div class="flex gap-4 w-min md:w-full md:justify-center">
           <SimpleCardsBand
-            class="w-[250px]"
+            class="w-[220px]"
             v-for="(band, index) in bands"
             :key="band.bandName + index"
             :band="band"

@@ -219,8 +219,8 @@
       </div>
       <!-- releases -->
       <section class="my-5 ml-2">
-        <h2 id="releases" class="chedder text-2xl text-white text-center my-4">
-          Discography
+        <h2 id="members" class="chedder text-2xl my-6 text-center">
+          <span class="bg-black text-white px-4 py-2">Disography</span>
         </h2>
         <!-- add releases button  -->
         <div>
@@ -250,8 +250,8 @@
         <MobileSongs :band="band" />
       </section>
       <!-- photos -->
-      <h2 id="releases" class="chedder text-2xl text-white text-center my-4">
-        Photos
+      <h2 id="members" class="chedder text-2xl my-6 text-center">
+        <span class="bg-black text-white px-4 py-2">Photos</span>
       </h2>
       <section v-if="band.photos" class="flex gap-4 overflow-y-scroll mb-10">
         <div v-for="(pic, index) in band.photos" :key="pic + index">
@@ -261,6 +261,20 @@
         </div>
       </section>
     </section>
+    <div v-if="band.links">
+      <h2 id="members" class="chedder text-2xl my-6 text-center">
+        <span class="bg-black text-white px-4 py-2">Links</span>
+      </h2>
+      <ul class="px-4">
+        <li v-for="link in band.links" :key="link.id" class="my-4">
+          <a :href="link.link" class="text-white">
+            <span class="bg-black text-white px-4 py-2">{{
+              link.link
+            }}</span></a
+          >
+        </li>
+      </ul>
+    </div>
     <!-- buttons  -->
     <section
       class="flex justify-around items-center fixed bottom-0 left-0 bg-black w-screen h-[40px]"

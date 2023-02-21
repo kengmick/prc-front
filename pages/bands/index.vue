@@ -1,6 +1,6 @@
 <template>
   <div class="container md:container mx-auto">
-    <section class="w-[90vw] mx-auto mb-6">
+    <section class="w-[90vw] mx-auto mb-6 overflow-x-auto">
       <div>
         <!-- Genre filters -->
         <div class="flex items-center mb-1">
@@ -85,7 +85,7 @@
     >
       <div
         v-if="genre && locationFilter"
-        class="flex gap-2 overflow-y-scroll mb-2"
+        class="flex gap-2 overflow-y-scroll mb-2 overflow-x-auto w-min"
       >
         <div
           v-for="band in bands.filter((i) => {
@@ -110,7 +110,13 @@
           })"
           :key="band.bandName"
         >
-          <PosterCard
+          <SimpleCardsBand
+            class="w-[220px]"
+            v-for="(band, index) in bands"
+            :key="band.bandName + index"
+            :band="band"
+          />
+          <!-- <PosterCard
             v-if="band.genreAlt === genreSelected.genre"
             :band="band"
             :user="band.users_permissions_user"
@@ -118,7 +124,7 @@
             @startChat="startChatNow(band.users_permissions_user)"
             @updatedFavs="updatedFavs('bands', band.id)"
             :isFav="favCheck('bands', band.id)"
-          />
+          /> -->
         </div>
       </div>
       <div
@@ -126,7 +132,14 @@
         class="flex gap-2 overflow-y-scroll mb-2"
       >
         <div v-for="band in bands" :key="band.bandName">
-          <PosterCard
+          <SimpleCardsBand
+            class="w-[220px]"
+            v-for="(band, index) in bands"
+            :key="band.bandName + index"
+            :band="band"
+          />
+
+          <!-- <PosterCard
             v-if="band.genreAlt === genreSelected.genre"
             :band="band"
             :user="band.users_permissions_user"
@@ -134,7 +147,7 @@
             @startChat="startChatNow(band.users_permissions_user)"
             @updatedFavs="updatedFavs('bands', band.id)"
             :isFav="favCheck('bands', band.id)"
-          />
+          /> -->
         </div>
       </div>
       <div
@@ -176,9 +189,15 @@
       </div>
       <div
         v-if="!genre && !locationFilter"
-        class="flex gap-2 overflow-y-scroll mb-2"
+        class="flex gap-2 overflow-x-scroll mb-2 w-min"
       >
-        <PosterCard
+        <SimpleCardsBand
+          class="w-[220px]"
+          v-for="(band, index) in bands"
+          :key="band.bandName + index"
+          :band="band"
+        />
+        <!-- <PosterCard
           v-for="(band, index) in bands"
           :key="band.bandName + index"
           :band="band"
@@ -187,7 +206,7 @@
           @startChat="startChatNow(band.users_permissions_user)"
           @updatedFavs="updatedFavs('bands', band.id)"
           :isFav="favCheck('bands', band.id)"
-        />
+        /> -->
       </div>
     </section>
     <div v-else>{{ errorMessage }}</div>
