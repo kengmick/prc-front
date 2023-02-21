@@ -1,7 +1,7 @@
 <template>
   <!--  :style="{ backgroundImage: `url(/punk-background.png)` }"  -->
   <div
-    class="relative w-screen h-[100%] border-box border-black border-[2px] overflow-y-scroll"
+    class="relative w-screen h-[100%] border-box border-[#9DFCBA] border-[2px] overflow-y-scroll"
   >
     <nuxt-img
       class="custom_b"
@@ -13,17 +13,91 @@
     />
     <!-- header -->
     <section
-      class="h-[38px] w-screen bg-black flex items-center justify-center fixed l-0 top-[48px] border-box border-black border-[2px] z-50"
+      class="h-[38px] w-screen bg-black flex items-center justify-center fixed l-0 top-[48px] ml-[-2px] border-[#9DFCBA] border-[2px] z-50"
     >
       <h2 class="chedder text-[36px] text-white leading-none">
         {{ band.bandName }}
       </h2>
     </section>
     <!-- info box  -->
-    <section class="w-auto mt-[45px] mx-2">
-      <section class="w-full bg-black text-white p-2">
+    <section
+      class="w-[95%] mx-auto flex gap-2 justify-around mt-[40px] h-[65vh]"
+    >
+      <section class="w-[95%] flex-grow flex flex-col">
+        <!-- info box -->
+        <div
+          class="w-[full] h-full bg-main-green bg-opacity-50 flex flex-col p-[10px] shadow-2xl"
+        >
+          <p class="chedder text-[16px]">Punk/{{ band.genre }}</p>
+          <p class="chedder text-[16px]">{{ band.city }}, {{ band.state }}</p>
+          <p class="chedder text-[16px]">{{ band.dateStarted }}</p>
+          <!-- maybe show interal chat featured if the user is not logged in and then prompt user to log in on click event -->
+          <span v-if="$strapi.user">
+            <p
+              class="text-[12px] chedder underline cursor-pointer"
+              @click="startChat(user)"
+            >
+              Internal Message
+            </p>
+          </span>
+        </div>
+        <div
+          class="w-full h-[65vh] mt-[8px] flex justify-around items-end gap-2"
+        >
+          <!-- logo -->
+          <div class="w-[50%] h-[200px] shadow-2xl">
+            <nuxt-img
+              class="object-cover h-[200px]"
+              :src="band.bandProfileImg.url"
+              alt=""
+              height="200"
+            />
+          </div>
+          <!-- first featured card  -->
+          <!-- <div v-if="band.hasFeaturedCard" class="w-[50%] h-[120px] shadow-2xl">
+            <NuxtLink
+              :to="{
+                path: '/bands/bandprofile',
+                query: { band: band.cardData.id },
+              }"
+            >
+              <div v-if="band.cardType === 'band'">
+                <MobileBand :band="band.cardData" :fullCard="true" />
+              </div>
+              <div v-if="band.cardType === 'distro'">
+                <CardsDistroFeatured :distro="band.cardData" :fullCard="true" />
+              </div>
+              <div v-if="band.cardType === 'event'">
+                <CardsShowFeatured :event="band.cardData" :fullCard="true" />
+              </div>
+              <div v-if="band.cardType === 'venue'">
+                <CardsVenueFeatured :venue="band.cardData" :fullCard="true" />
+              </div>
+              <div v-if="band.cardType === 'tour'">
+                <CardsTourFeatured :tour="band.cardData" :fullCard="true" />
+              </div>
+              <div v-if="band.cardType === 'article'">
+                <CardsClassifiedFeatured
+                  :article="band.cardData"
+                  :fullCard="true"
+                />
+              </div>
+            </NuxtLink>
+          </div> -->
+          <div
+            class="h-[200px] w-1/2 bg-main-green flex flex-col justify-center items-center"
+            @click="addFeaturedToBandCard(band)"
+          >
+            <p class="chedder text-lg text-center">+ Add</p>
+            <p class="chedder text-lg text-center">Featured Card</p>
+          </div>
+        </div>
+      </section>
+      <section
+        class="w-[30%] h-auto bg-main-green flex flex-col justify-between items-center pt-[3px] shadow-2xl"
+      >
         <NuxtLink
-          class="chedder underline pb-3 inline-block"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bands/bandprofile',
             hash: '#showz',
@@ -32,7 +106,7 @@
           >Showz</NuxtLink
         >
         <NuxtLink
-          class="chedder underline pb-2"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bands/bandprofile',
             hash: '#releases',
@@ -41,7 +115,7 @@
           >Releases</NuxtLink
         >
         <NuxtLink
-          class="chedder underline pb-2"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bands/bandprofile',
             hash: '#songs',
@@ -50,7 +124,7 @@
           >Songs</NuxtLink
         >
         <NuxtLink
-          class="chedder underline pb-2"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bands/bandprofile',
             hash: '#videos',
@@ -59,7 +133,7 @@
           >Videos</NuxtLink
         >
         <NuxtLink
-          class="chedder underline pb-2"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bands/bandprofile',
             hash: '#bio',
@@ -68,7 +142,7 @@
           >Biography</NuxtLink
         >
         <NuxtLink
-          class="chedder underline pb-2"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bands/bandprofile',
             hash: '#members',
@@ -77,7 +151,7 @@
           >Members</NuxtLink
         >
         <NuxtLink
-          class="chedder underline pb-2"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bands/bandprofile',
             hash: '#pictures',
@@ -86,7 +160,7 @@
           >Pictures</NuxtLink
         >
         <NuxtLink
-          class="chedder underline pb-2"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bands/bandprofile',
             hash: '#merch',
@@ -95,7 +169,7 @@
           >Merch</NuxtLink
         >
         <NuxtLink
-          class="chedder underline pb-2"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bands/bandprofile',
             hash: '#links',
@@ -104,7 +178,7 @@
           >Links</NuxtLink
         >
         <NuxtLink
-          class="chedder underline pb-2"
+          class="chedder text-[15px] underline"
           :to="{
             path: '/bands/bandprofile',
             hash: '#chatroom',
@@ -113,35 +187,6 @@
           >Chat Room</NuxtLink
         >
       </section>
-      <section class="my-4 mx-2">
-        <div class="bg-black flex flex-col justify-center items-center p-4">
-          <p v-if="band.genre" class="chedder text-[16px] text-white">
-            {{ band.genre }}
-          </p>
-          <p v-if="band.genreAlt" class="chedder text-[16px] text-white">
-            {{ band.genreAlt }}
-          </p>
-          <p v-else class="chedder text-[16px] text-white">PUNK</p>
-          <p class="chedder text-[16px] text-white">
-            {{ band.city }}, {{ band.state }}
-          </p>
-          <p class="chedder text-[16px] text-white">{{ band.dateStarted }}</p>
-        </div>
-      </section>
-    </section>
-    <section class="container mx-auto h-[45vh]">
-      <div class="grid grid-cols-2 gap-4 h-[40vh]">
-        <div class="bg-black h-[40vh]">
-          <nuxt-img
-            class="object-cover w-full h-full grayscale"
-            :src="band.bandProfileImg.url"
-            alt=""
-          />
-        </div>
-        <div class="bg-black flex justify-center items-center">
-          <p class="text-white chedder">+ Add Featured Card</p>
-        </div>
-      </div>
     </section>
 
     <section
@@ -167,11 +212,11 @@
           class="px-1 w-11/12 sm:w-3/4 xl:w-3/4 bg-black lg:px-16 py-10 mx-auto"
         >
           <h2
-            class="text-white text-2xl sm:text-4xl text-center sm:text-left mb-8"
+            class="text-white text-2xl sm:text-4xl text-center sm:text-left mb-14"
           >
             History/Bio/Message
           </h2>
-          <div class="px-2">
+          <div>
             <p class="text-white text-base sm:text-xl">{{ band.bio }}</p>
           </div>
           <!-- <div v-if="band.logo" class="m-4 max-w-[200px]">
@@ -182,9 +227,7 @@
     </section>
 
     <section class="container mx-auto">
-      <h3 class="text-white text-2xl text-center mt-5">
-        <span class="bg-black text-white px-4 py-2">Showz</span>
-      </h3>
+      <h3 class="text-white text-2xl text-center mt-5"><span>Showz</span></h3>
       <div
         v-if="band.events.length > 0"
         class="flex gap-4 overflow-y-scroll ml-2"
@@ -246,7 +289,7 @@
     </section>
     <!-- buttons  -->
     <section
-      class="flex justify-around items-center fixed bottom-0 left-0 bg-black w-screen h-[40px]"
+      class="flex justify-around items-center fixed bottom-0 bg-black w-screen h-[40px]"
     >
       <div
         class="w-[18%] h-[24px] bg-main-green flex justify-center items-center text-[10px] chedder"
@@ -651,9 +694,5 @@ export default {
   width: 100vw;
   object-fit: cover;
   filter: blur(4px);
-  filter: grayscale(1);
-}
-img {
-  filter: grayscale(1);
 }
 </style>
