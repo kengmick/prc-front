@@ -181,6 +181,23 @@
       </section>
     </section>
 
+    <section v-if="band.members" class="my-2">
+      <h2 id="members" class="chedder text-2xl my-6 text-center">
+        <span class="bg-black text-white px-4 py-2">Performers</span>
+      </h2>
+      <div class="flex gap-4 overflow-y-scroll ml-2">
+        <div
+          v-for="performer in band.members"
+          :key="performer.name"
+          class="my-6"
+        >
+          <div class="w-[230px]">
+            <SimpleCardsPerformers :performer="performer" />
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="container mx-auto">
       <h3 class="text-white text-2xl text-center mt-5">
         <span class="bg-black text-white px-4 py-2">Showz</span>
@@ -236,7 +253,7 @@
       <h2 id="releases" class="chedder text-2xl text-white text-center my-4">
         Photos
       </h2>
-      <section v-if="band.photos" class="flex gap-4 overflow-y-scroll">
+      <section v-if="band.photos" class="flex gap-4 overflow-y-scroll mb-10">
         <div v-for="(pic, index) in band.photos" :key="pic + index">
           <div class="w-[150px] h-[150px]">
             <img :src="pic.pic.url" alt="" class="h-full w-full" />
@@ -249,17 +266,17 @@
       class="flex justify-around items-center fixed bottom-0 left-0 bg-black w-screen h-[40px]"
     >
       <div
-        class="w-[18%] h-[24px] bg-main-green flex justify-center items-center text-[10px] chedder"
+        class="w-[18%] h-[24px] bg-black flex justify-center items-center text-[14px] chedder text-white"
       >
-        <span class="flex items-center justify-between w-full px-2"
+        <span class="flex items-center justify-between w-full px-2 text-[14px]"
           ><img class="h-[12px] w-[12px]" src="/share.svg" alt="" />Share</span
         >
       </div>
       <div
-        class="w-[66px] h-[24px] bg-main-green flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-black flex justify-center items-center text-[10px] chedder"
       >
         <span
-          class="flex items-center justify-between w-full px-2 cursor-pointer"
+          class="flex items-center justify-between w-full px-2 cursor-pointer text-white text-[14px]"
           @click="favorite('bands', band)"
           ><img
             v-if="isFav"
@@ -275,11 +292,11 @@
         >
       </div>
       <div
-        class="w-[66px] h-[24px] bg-main-green flex justify-center items-center text-[10px] chedder"
+        class="w-[66px] h-[24px] bg-black flex justify-center items-center text-[14px] chedder"
       >
         <span
           v-if="!disableAll"
-          class="flex items-center justify-between w-full px-2 cursor-pointer"
+          class="flex items-center justify-between w-full px-2 cursor-pointer text-white text-[14px]"
           @click="goToAddCard(band)"
           ><img class="h-[12px] w-[12px]" src="/add.svg" alt="" />Feature</span
         >
@@ -291,10 +308,10 @@
       </div>
 
       <div
-        class="w-[70px] h-[24px] bg-main-green flex justify-center items-center text-[10px] chedder"
+        class="w-[70px] h-[24px] bg-black flex justify-center items-center text-[14px] chedder"
       >
         <span
-          class="flex items-center justify-between w-full px-2 cursor-pointer"
+          class="flex items-center justify-between w-full px-2 cursor-pointer text-white text-[14px]"
           @click="
             $router.push({
               path: '/qr',
@@ -651,9 +668,6 @@ export default {
   width: 100vw;
   object-fit: cover;
   filter: blur(4px);
-  filter: grayscale(1);
-}
-img {
   filter: grayscale(1);
 }
 </style>
