@@ -1,6 +1,6 @@
 <template>
   <div class="container md:container mx-auto">
-    <section class="w-[90vw] mx-auto mb-6 overflow-x-auto">
+    <section class="w-[90vw] mx-auto mb-6 overflow-x-auto pt-4">
       <div>
         <!-- Genre filters -->
         <div class="flex items-center mb-1">
@@ -80,43 +80,37 @@
     </section>
     <section
       v-if="bands"
-      class="flex items-center min-h-[60vh]"
+      class="flex items-center"
       :class="{ 'pb-[80px]': locationFilter }"
     >
-      <div
-        v-if="genre && locationFilter"
-        class="flex gap-2 overflow-y-scroll mb-2 overflow-x-auto w-min"
-      >
-        <div
-          v-for="band in bands.filter((i) => {
-            if (formValues.country && !formValues.state) {
-              return i.country === formValues.country
-            }
-            if (formValues.country && !formValues.state) {
-              return i.country === formValues.country
-            }
-            if (formValues.country && formValues.state && !formValues.city) {
-              return (
-                i.country === formValues.country && i.state === formValues.state
-              )
-            }
-            if (formValues.country && formValues.state && formValues.city) {
-              return (
-                i.country === formValues.country &&
-                i.state === formValues.state &&
-                i.city === formValues.city
-              )
-            }
-          })"
-          :key="band.bandName"
-        >
-          <SimpleCardsBand
-            class="w-[220px]"
-            v-for="(band, index) in bands"
-            :key="band.bandName + index"
-            :band="band"
-          />
-          <!-- <PosterCard
+      <div v-if="genre && locationFilter" class="my-10 ml-4 overflow-x-auto">
+        <div class="flex gap-4 w-min md:w-full md:justify-center">
+          <div
+            v-for="band in bands.filter((i) => {
+              if (formValues.country && !formValues.state) {
+                return i.country === formValues.country
+              }
+              if (formValues.country && !formValues.state) {
+                return i.country === formValues.country
+              }
+              if (formValues.country && formValues.state && !formValues.city) {
+                return (
+                  i.country === formValues.country &&
+                  i.state === formValues.state
+                )
+              }
+              if (formValues.country && formValues.state && formValues.city) {
+                return (
+                  i.country === formValues.country &&
+                  i.state === formValues.state &&
+                  i.city === formValues.city
+                )
+              }
+            })"
+            :key="band.bandName"
+          >
+            <SimpleCardsBand class="w-[220px]" :band="band" />
+            <!-- <PosterCard
             v-if="band.genreAlt === genreSelected.genre"
             :band="band"
             :user="band.users_permissions_user"
@@ -125,89 +119,71 @@
             @updatedFavs="updatedFavs('bands', band.id)"
             :isFav="favCheck('bands', band.id)"
           /> -->
+          </div>
         </div>
       </div>
-      <div
-        v-if="genre && !locationFilter"
-        class="flex gap-2 overflow-y-scroll mb-2"
-      >
-        <div v-for="band in bands" :key="band.bandName">
+      <section class="my-10 ml-4 overflow-x-auto">
+        <div
+          v-if="genre && !locationFilter"
+          class="flex gap-4 w-min md:w-full md:justify-center"
+        >
           <SimpleCardsBand
             class="w-[220px]"
             v-for="(band, index) in bands"
             :key="band.bandName + index"
             :band="band"
           />
-
-          <!-- <PosterCard
-            v-if="band.genreAlt === genreSelected.genre"
-            :band="band"
-            :user="band.users_permissions_user"
-            :isFeatured="true"
-            @startChat="startChatNow(band.users_permissions_user)"
-            @updatedFavs="updatedFavs('bands', band.id)"
-            :isFav="favCheck('bands', band.id)"
-          /> -->
+        </div>
+      </section>
+      <div v-if="!genre && locationFilter" class="my-10 ml-4 overflow-x-auto">
+        <div class="flex gap-4 w-min md:w-full md:justify-center">
+          <div
+            v-for="band in bands.filter((i) => {
+              if (formValues.country && !formValues.state) {
+                return i.country === formValues.country
+              }
+              if (formValues.country && !formValues.state) {
+                return i.country === formValues.country
+              }
+              if (formValues.country && formValues.state && !formValues.city) {
+                return (
+                  i.country === formValues.country &&
+                  i.state === formValues.state
+                )
+              }
+              if (formValues.country && formValues.state && formValues.city) {
+                return (
+                  i.country === formValues.country &&
+                  i.state === formValues.state &&
+                  i.city === formValues.city
+                )
+              }
+            })"
+            :key="band.bandName"
+          >
+            <SimpleCardsBand class="w-[220px]" :band="band" />
+          </div>
         </div>
       </div>
-      <div
-        v-if="!genre && locationFilter"
-        class="flex gap-2 overflow-y-scroll mb-2"
-      >
-        <div
-          v-for="band in bands.filter((i) => {
-            if (formValues.country && !formValues.state) {
-              return i.country === formValues.country
-            }
-            if (formValues.country && !formValues.state) {
-              return i.country === formValues.country
-            }
-            if (formValues.country && formValues.state && !formValues.city) {
-              return (
-                i.country === formValues.country && i.state === formValues.state
-              )
-            }
-            if (formValues.country && formValues.state && formValues.city) {
-              return (
-                i.country === formValues.country &&
-                i.state === formValues.state &&
-                i.city === formValues.city
-              )
-            }
-          })"
-          :key="band.bandName"
-        >
-          <PosterCard
-            :band="band"
-            :user="band.users_permissions_user"
-            :isFeatured="true"
-            @startChat="startChatNow(band.users_permissions_user)"
-            @updatedFavs="updatedFavs('bands', band.id)"
-            :isFav="favCheck('bands', band.id)"
-          />
+      <section v-if="!genre && !locationFilter" class="my-10 overflow-x-auto">
+        <div class="flex gap-4 w-min md:w-full md:justify-center">
+          <div v-for="band in bands" :key="band.bandName">
+            <SimpleCardsBand class="w-[220px]" :band="band" />
+          </div>
         </div>
-      </div>
-      <div
-        v-if="!genre && !locationFilter"
-        class="flex gap-2 overflow-x-scroll mb-2 w-min"
-      >
-        <SimpleCardsBand
-          class="w-[220px]"
-          v-for="(band, index) in bands"
-          :key="band.bandName + index"
-          :band="band"
-        />
         <!-- <PosterCard
-          v-for="(band, index) in bands"
-          :key="band.bandName + index"
-          :band="band"
-          :user="band.users_permissions_user"
-          :isFeatured="true"
-          @startChat="startChatNow(band.users_permissions_user)"
-          @updatedFavs="updatedFavs('bands', band.id)"
-          :isFav="favCheck('bands', band.id)"
-        /> -->
-      </div>
+            class="mb-10"
+            v-for="(band, index) in bands"
+            :key="band.bandName + index"
+            :band="band"
+            :user="band.users_permissions_user"
+            :isFeatured="true"
+            :isHome="true"
+            @updatedFavs="updatedFavs('bands', band.id)"
+            :isFav="favCheck('bands', band.id)"
+            @startChat="startChatNow(band.users_permissions_user)"
+          /> -->
+      </section>
     </section>
     <div v-else>{{ errorMessage }}</div>
     <section v-if="chat">
