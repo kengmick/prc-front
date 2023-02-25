@@ -14,7 +14,7 @@
     <!-- header -->
 
     <section
-      class="h-[auto] max-w-screen bg-gray-900 flex items-center justify-center pb-[10px] pt-[40px]"
+      class="h-[auto] max-w-screen bg-gray-900 flex items-center justify-center pb-[10px] pt-[36px]"
     >
       <h2 class="chedder text-[36px] text-white leading-none">
         {{ band.bandName }}
@@ -25,7 +25,7 @@
 
     <section class="w-full">
       <section
-        class="w-full bg-gray-900 flex flex-col justify-center pb-[10px] px-[16px] items-center text-[18px] text-main-red"
+        class="w-full bg-gray-900 flex flex-col justify-center px-[16px] items-center text-[18px] text-gray-900"
       >
         <div>
           <NuxtLink
@@ -126,17 +126,17 @@
         <div
           class="bg-gray-900 flex flex-col justify-center items-center pb-[10px]"
         >
-          <p v-if="band.genre" class="chedder text-[16px] text-white">
+          <p v-if="band.genre" class="chedder text-[21px] text-white">
             {{ band.genre }}
           </p>
-          <p v-if="band.genreAlt" class="chedder text-[16px] text-white">
+          <p v-if="band.genreAlt" class="chedder text-[21px] text-white">
             {{ band.genreAlt }}
           </p>
           <p v-else class="chedder text-[16px] text-white">PUNK</p>
-          <p class="chedder text-[16px] text-white">
+          <p class="chedder text-[21px] text-white">
             {{ band.city }}, {{ band.state }}
           </p>
-          <p class="chedder text-[16px] text-white">
+          <p class="chedder text-[21px] text-white">
             {{ band.dateStarted }}
           </p>
         </div>
@@ -146,7 +146,7 @@
     <!-- <div>h-[calc(100vh-271px)]</div> -->
 
     <section class="container mx-auto h-[calc(100vh-322px)]">
-      <div class="grid grid-cols-2 h-full pt-[40px] pb-[34px] bg-gray-900">
+      <div class="grid grid-cols-2 h-full pt-[36px] pb-[34px] bg-gray-900">
         <div class="bg-gray-900 h-full">
           <nuxt-img
             class="object-cover w-full h-full grayscale"
@@ -296,14 +296,14 @@
       class="flex justify-between items-center fixed bottom-0 left-0 bg-black w-screen h-[46px] px-[16px] pb-[8px]"
     >
       <div class="w-[18%] h-[24px] bg-black chedder text-white">
-        <span class="text-[14px]">
+        <span class="text-[15px]">
           <!-- <img class="h-[12px] w-[12px]" src="/share.svg" alt="" /> -->
           Share</span
         >
       </div>
       <div class="w-[66px] h-[24px] bg-black chedder">
         <span
-          class="w-full cursor-pointer text-white text-center text-[14px]"
+          class="w-full cursor-pointer text-white text-center text-[15px]"
           @click="favorite('bands', band)"
         >
           <!-- <img
@@ -320,7 +320,7 @@
           Favorite
         </span>
       </div>
-      <div class="w-[66px] h-[24px] bg-black text-[14px] text-center chedder">
+      <div class="w-[66px] h-[24px] bg-black text-[15px] text-center chedder">
         <span
           v-if="!disableAll"
           class="w-full px-2 cursor-pointer text-white text-center"
@@ -337,7 +337,7 @@
 
       <div class="w-[70px] h-[24px] bg-black text-[14px] chedder">
         <span
-          class="w-full px-2 cursor-pointer text-white text-[14px]"
+          class="w-full px-2 cursor-pointer text-white text-[15px]"
           @click="
             $router.push({
               path: '/qr',
@@ -365,46 +365,45 @@
       </div>
     </section>
     <Modal class="z-50" v-if="showModal" @close="showModal = false" />
-    <!-- left  -->
+
     <div
-      class="border-[2px] border-yellow-600 fixed top-0 left-0 h-screen z-50"
+      class="border-[2px] border-gray-900 fixed top-0 left-0 h-screen z-50"
     ></div>
     <div
-      class="border-[2px] border-red-600 fixed top-[4px] left-[4px] h-screen z-50"
+      class="border-[2px] border-gray-900 fixed top-[4px] left-[4px] h-screen z-50"
     ></div>
     <div
-      class="border-[2px] border-black fixed top-0 left-[8px] h-screen z-50"
-    ></div>
-    <!-- right  -->
-    <div
-      class="border-[2px] border-yellow-600 fixed top-0 right-0 h-screen z-50"
-    ></div>
-    <div
-      class="border-[2px] border-red-600 fixed top-[4px] right-[4px] h-screen z-50"
-    ></div>
-    <div
-      class="border-[2px] border-black fixed top-0 right-[8px] h-screen z-50"
-    ></div>
-    <!-- top -->
-    <div
-      class="border-[2px] border-yellow-600 fixed top-0 left-0 w-screen z-50"
-    ></div>
-    <div
-      class="border-[2px] border-red-600 fixed top-[4px] left-[8px] right-[8px] z-50"
-    ></div>
-    <div
-      class="border-[2px] border-black fixed top-[8px] left-[8px] right-[8px] z-50"
+      class="border-[2px] border-gray-900 fixed top-0 left-[8px] h-screen z-50"
     ></div>
 
-    <!-- bottom -->
     <div
-      class="border-[2px] border-yellow-600 fixed bottom-0 left-0 w-screen z-50"
+      class="border-[2px] border-gray-900 fixed top-0 right-0 h-screen z-50"
     ></div>
     <div
-      class="border-[2px] border-red-600 fixed bottom-[4px] left-[8px] right-[8px] z-50"
+      class="border-[2px] border-gray-900 fixed top-[4px] right-[4px] h-screen z-50"
     ></div>
     <div
-      class="border-[2px] border-black fixed bottom-[8px] left-[8px] right-[8px] z-50"
+      class="border-[2px] border-gray-900 fixed top-0 right-[8px] h-screen z-50"
+    ></div>
+
+    <div
+      class="border-[2px] border-gray-900 fixed top-0 left-0 w-screen z-50"
+    ></div>
+    <div
+      class="border-[2px] border-gray-900 fixed top-[4px] left-[8px] right-[8px] z-50"
+    ></div>
+    <div
+      class="border-[2px] border-gray-900 fixed top-[8px] left-[8px] right-[8px] z-50"
+    ></div>
+
+    <div
+      class="border-[2px] border-gray-900 fixed bottom-0 left-0 w-screen z-50"
+    ></div>
+    <div
+      class="border-[2px] border-gray-900 fixed bottom-[4px] left-[8px] right-[8px] z-50"
+    ></div>
+    <div
+      class="border-[2px] border-gray-900 fixed bottom-[8px] left-[8px] right-[8px] z-50"
     ></div>
   </div>
 </template>
