@@ -159,7 +159,8 @@
         </div>
       </div>
     </section>
-
+    <!-- announcements -->
+    <!-- 
     <section
       v-if="!announcement"
       class="bg-white text-black w-[95%] h-[76px] mx-auto px-[4px] py-[4px] mt-[8px]"
@@ -173,11 +174,12 @@
     >
       <h2 class="text-[18px]">{{ announcement.title }}</h2>
       <p class="text-[12px]">{{ announcement.text }}</p>
-    </section>
+    </section> -->
     <!-- scrollable content here -->
     <!-- band info  -->
 
-    <section class="container mx-auto mt-2">
+    <!-- bio  -->
+    <!-- <section class="container mx-auto mt-2">
       <section v-if="band.bio" class="mx-auto w-full z-50">
         <div
           class="px-1 w-11/12 sm:w-3/4 xl:w-3/4 bg-black lg:px-16 py-10 mx-auto"
@@ -190,14 +192,13 @@
           <div class="px-2">
             <p class="text-white text-base sm:text-xl">{{ band.bio }}</p>
           </div>
-          <!-- <div v-if="band.logo" class="m-4 max-w-[200px]">
-            <img :src="band.logo.url" alt="" />
-          </div> -->
+        
         </div>
       </section>
-    </section>
+    </section> -->
 
-    <section v-if="band.members" class="my-2">
+    <!-- members -->
+    <!-- <section v-if="band.members" class="my-2">
       <h2 id="members" class="chedder text-2xl my-6 text-center">
         <span class="bg-black text-white px-4 py-2">Performers</span>
       </h2>
@@ -212,10 +213,11 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
-    <section class="container mx-auto">
-      <h3 class="text-white text-2xl text-center mt-5">
+    <!-- <section class="container mx-auto"> -->
+    <!-- shows  -->
+    <!-- <h3 class="text-white text-2xl text-center mt-5">
         <span class="bg-black text-white px-4 py-2">Showz</span>
       </h3>
       <div
@@ -223,7 +225,6 @@
         class="flex gap-4 overflow-y-scroll ml-2"
       >
         <div v-for="event in band.events" :key="event.title" class="my-6">
-          <!-- <CardsShowCard :event="event" /> -->
           <div class="w-[230px] h-auto">
             <NuxtLink
               :to="{ path: '/events/eventview', query: { event: event.id } }"
@@ -232,16 +233,16 @@
             </NuxtLink>
           </div>
         </div>
-      </div>
-      <!-- releases -->
-      <section class="my-5 ml-2">
+      </div> -->
+
+    <!-- releases -->
+    <!-- <section class="my-5 ml-2">
         <h2 id="members" class="chedder text-2xl my-6 text-center">
           <span class="bg-black text-white px-4 py-2">Disography</span>
         </h2>
-        <!-- add releases button  -->
+
         <div>
           <div v-if="band.releases" class="flex gap-4 overflow-y-scroll">
-            <!-- <pre>{{ band.releases }}</pre> -->
             <div
               v-for="release in band.releases"
               :key="release.title"
@@ -260,13 +261,13 @@
             </div>
           </div>
         </div>
-      </section>
-      <!-- songs -->
-      <section class="my-5 mx-2 bg-white">
+      </section> -->
+    <!-- songs -->
+    <!-- <section class="my-5 mx-2 bg-white">
         <MobileSongs :band="band" />
-      </section>
-      <!-- photos -->
-      <h2 id="members" class="chedder text-2xl my-6 text-center">
+      </section> -->
+    <!-- photos -->
+    <!-- <h2 id="members" class="chedder text-2xl my-6 text-center">
         <span class="bg-black text-white px-4 py-2">Photos</span>
       </h2>
       <section v-if="band.photos" class="flex gap-4 overflow-y-scroll mb-10">
@@ -275,9 +276,12 @@
             <img :src="pic.pic.url" alt="" class="h-full w-full" />
           </div>
         </div>
-      </section>
-    </section>
-    <div v-if="band.links">
+      </section> -->
+
+    <!-- </section> -->
+
+    <!-- links -->
+    <!-- <div v-if="band.links">
       <h2 id="members" class="chedder text-2xl my-6 text-center">
         <span class="bg-black text-white px-4 py-2">Links</span>
       </h2>
@@ -290,7 +294,7 @@
           >
         </li>
       </ul>
-    </div>
+    </div> -->
     <!-- buttons  -->
     <section
       class="flex justify-between items-center fixed bottom-0 left-0 bg-black w-screen h-[46px] px-[16px] pb-[8px]"
