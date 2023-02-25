@@ -1,7 +1,7 @@
 <template>
   <!--  :style="{ backgroundImage: `url(/punk-background.png)` }"  -->
   <div
-    class="relative w-screen h-[100%] overflow-y-scroll border-6 border-blue-600"
+    class="relative w-screen h-[100%] overflow-hidden border-6 border-blue-600"
   >
     <nuxt-img
       class="custom_b"
@@ -147,11 +147,12 @@
 
     <section class="container mx-auto h-[calc(100vh-322px)]">
       <div class="grid grid-cols-2 h-full pt-[36px] pb-[34px] bg-gray-900">
-        <div class="bg-gray-900 h-full">
+        <div class="bg-black h-full">
           <nuxt-img
-            class="object-cover w-full h-full grayscale"
+            class="object-contain w-full h-full grayscale"
             :src="band.bandProfileImg.url"
             alt=""
+            @click="photoBox(band.bandProfileImg.url)"
           />
         </div>
         <div class="bg-gray-900 flex justify-center items-center">
@@ -369,7 +370,7 @@
       </div>
     </section>
     <Modal class="z-50" v-if="showModal" @close="showModal = false" />
-
+    <PhotoBox v-if="photoBox" :pic="pic" @closePhoto="closePhoto" />
     <div
       class="border-[2px] border-gray-900 fixed top-0 left-0 h-screen z-50"
     ></div>
@@ -501,6 +502,7 @@ export default {
       index: 0,
       chatComp: false,
       showModal: false,
+      pic: null,
     }
   },
   head: {
@@ -533,6 +535,12 @@ export default {
     }
   },
   methods: {
+    photoBox(pic) {
+      this.pic = pic
+    },
+    closePhoto() {
+      this.pic = ''
+    },
     async genCode() {
       const id = await this.band.id
       const temp = `bands/bandprofile/?band=${id}`

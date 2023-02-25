@@ -3,7 +3,7 @@
     <NuxtLink :to="{ path: '/bands/bandprofile', query: { band: band.id } }">
       <div v-if="band.bandProfileImg" class="h-[180px] w-full">
         <NuxtImg
-          class="object-fill h-[180px] w-full"
+          class="object-contain h-[180px] w-full"
           :src="band.bandProfileImg.url"
           alt=""
         />
