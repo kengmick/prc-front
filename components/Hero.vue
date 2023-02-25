@@ -1,16 +1,22 @@
 <template>
   <div>
-    <NuxtLink to="/livestream">
+    <NuxtLink to="/livestream" class="relative w-screen">
+      <nuxt-img
+        class="absolute top-[calc(50%-40px)] right-[calc(50%-40px)] h-[80px] w-[80px]"
+        src="/playaltshadow.svg"
+        alt=""
+        height="80"
+        width="80"
+      />
       <div>
-        <div>
+        <div class="md:bg-gray-900">
           <nuxt-img
             src="live_background.png"
-            class="w-full object-cover h-[33vh]"
+            class="w-full object-cover h-[33vh] md:w-2/3 md:mx-auto md:h-[44vh] xl:w-1/2 xl:h-[55vh]"
           />
-          <div class="h-12 w-full bg-black">
-            <div class="play-btn-home flex items-center h-full px-4">
-              <h3 class="text-white flex-grow">24/7 Live Stream</h3>
-              <img class="play" src="~/static/play.svg" alt="" />
+          <div class="h-12 w-full bg-black mx-0 lg:px-[10%]">
+            <div class="flex items-center justify-center h-full w-full mx-0">
+              <h3 class="text-white text-center mx-0">24/7 Live Stream</h3>
             </div>
           </div>
         </div>
@@ -83,9 +89,7 @@ export default {
   justify-content: flex-end;
   flex-grow: 1;
 }
-.play-btn-home {
-  margin-left: 1.3em;
-}
+
 .live-placeholder-container {
   position: relative;
   width: auto;

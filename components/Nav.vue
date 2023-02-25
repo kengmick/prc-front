@@ -26,7 +26,7 @@
       </div>
     </div> -->
 
-    <div class="hidden md:flex px-10 py-2 main_red_background text-white">
+    <div class="hidden px-10 py-2 main_red_background text-white">
       <div>
         <NuxtLink to="/">
           <nuxt-img
@@ -127,7 +127,7 @@
     </div>
     <!-- mobile nav -->
     <div
-      class="flex items-center px-4 fixed z-50 top-[0] w-screen py-[16px] bg-gray-900 md:hidden"
+      class="flex items-center px-4 fixed z-50 top-[0] w-screen py-[16px] bg-gray-900 lg:px-[10%]"
     >
       <!-- main logo -->
 
@@ -144,7 +144,7 @@
         </NuxtLink>
       </div>
       <!-- mobile menu icon  -->
-      <div class="flex gap-4 w-[20vw]">
+      <div class="flex justify-end gap-4 w-[20vw]">
         <div>
           <nuxt-img
             :class="{ 'opacity-0': isOpen }"
@@ -192,34 +192,34 @@
           >Bands</NuxtLink
         >
       </div>
-      <div @click="toggleMenu">
+      <!-- <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/distros"
           >Distros/Labels</NuxtLink
         >
-      </div>
-      <div @click="toggleMenu">
+      </div> -->
+      <!-- <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/events"
           >Showz</NuxtLink
         >
-      </div>
-      <div @click="toggleMenu">
+      </div> -->
+      <!-- <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/venues"
           >Venues</NuxtLink
         >
-      </div>
-      <div @click="toggleMenu">
+      </div> -->
+      <!-- <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/tours"
           >Tours</NuxtLink
         >
-      </div>
+      </div> -->
 
-      <div @click="toggleMenu">
+      <!-- <div @click="toggleMenu">
         <NuxtLink
           class="chedder text-2xl lt_space nav_font_size"
           to="/classified"
           >Classifieds</NuxtLink
         >
-      </div>
+      </div> -->
       <!-- <div @click="toggleMenu">
         <NuxtLink class="chedder text-2xl" to="/merch">Merch</NuxtLink>
       </div> -->

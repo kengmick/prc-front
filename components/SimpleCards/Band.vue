@@ -1,9 +1,9 @@
 <template>
   <div v-if="band" class="w-full h-full bg-slate-100 shadow-md rounded-b-md">
     <NuxtLink :to="{ path: '/bands/bandprofile', query: { band: band.id } }">
-      <div v-if="band.bandProfileImg" class="h-[180px] w-full">
+      <div v-if="band.bandProfileImg" class="h-[180px] md:h-[240px] w-full">
         <NuxtImg
-          class="object-contain h-[180px] w-full"
+          class="object-contain h-[180px] w-full md:h-[240px]"
           :src="band.bandProfileImg.url"
           alt=""
         />

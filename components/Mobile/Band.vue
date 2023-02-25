@@ -1,22 +1,22 @@
 <template>
   <!--  :style="{ backgroundImage: `url(/punk-background.png)` }"  -->
   <div
-    class="relative w-screen h-[100%] overflow-hidden border-6 border-blue-600"
+    class="relative w-screen h-[100%] overflow-hidden border-6 border-blue-600 bg-gray-900"
   >
-    <nuxt-img
+    <!-- <nuxt-img
       class="custom_b"
       format="webp"
       preload
       :src="band.bandProfileImg.url"
       width="300"
       height="400"
-    />
+    /> -->
     <!-- header -->
 
     <section
       class="h-[auto] max-w-screen bg-gray-900 flex items-center justify-center pb-[10px] pt-[36px]"
     >
-      <h2 class="chedder text-[36px] text-white leading-none">
+      <h2 class="chedder text-[36px] text-white leading-none xl:text-[42px]">
         {{ band.bandName }}
       </h2>
     </section>
@@ -126,17 +126,25 @@
         <div
           class="bg-gray-900 flex flex-col justify-center items-center pb-[10px]"
         >
-          <p v-if="band.genre" class="chedder text-[21px] text-white">
+          <p
+            v-if="band.genre"
+            class="chedder text-[21px] text-white xl:text-[30px]"
+          >
             {{ band.genre }}
           </p>
-          <p v-if="band.genreAlt" class="chedder text-[21px] text-white">
+          <p
+            v-if="band.genreAlt"
+            class="chedder text-[21px] text-white xl:text-[30px]"
+          >
             {{ band.genreAlt }}
           </p>
-          <p v-else class="chedder text-[16px] text-white">PUNK</p>
-          <p class="chedder text-[21px] text-white">
+          <p v-else class="chedder text-[16px] text-white xl:text-[30px]">
+            PUNK
+          </p>
+          <p class="chedder text-[21px] text-white xl:text-[30px]">
             {{ band.city }}, {{ band.state }}
           </p>
-          <p class="chedder text-[21px] text-white">
+          <p class="chedder text-[21px] text-white xl:text-[30px]">
             {{ band.dateStarted }}
           </p>
         </div>
@@ -145,11 +153,15 @@
 
     <!-- <div>h-[calc(100vh-271px)]</div> -->
 
-    <section class="container mx-auto h-[calc(100vh-322px)]">
-      <div class="grid grid-cols-2 h-full pt-[36px] pb-[34px] bg-gray-900">
-        <div class="bg-black h-full">
+    <section
+      class="container mx-auto h-[calc(100vh-322px)] xl:h-[calc(100vh-420px)] xl:flex xl:justify-center xl:items-center"
+    >
+      <div
+        class="grid grid-cols-2 h-full pt-[36px] pb-[34px] bg-gray-900 xl:h-[calc(100vh-420px)]"
+      >
+        <div class="bg-black h-full xl:h-[calc(100vh-520px)]">
           <nuxt-img
-            class="object-contain w-full h-full grayscale"
+            class="object-cover w-full h-full grayscale"
             :src="band.bandProfileImg.url"
             alt=""
             @click="photoBox(band.bandProfileImg.url)"
@@ -298,17 +310,18 @@
     </div> -->
     <!-- buttons  -->
     <section
-      class="flex justify-between items-center fixed bottom-0 left-0 bg-black w-screen h-[46px] px-[16px] pb-[8px]"
+      style="z-index: 999999999999999999999999"
+      class="flex justify-between items-center fixed bottom-0 left-0 bg-black w-screen h-[46px] px-[16px] pb-[8px] lg:px-[10%]"
     >
-      <div class="w-[18%] h-[24px] bg-black chedder text-white">
-        <span class="text-[15px]">
+      <div class="w-[66px] h-[24px] bg-black chedder text-white">
+        <span class="text-[15px] lg:text-[21px]">
           <!-- <img class="h-[12px] w-[12px]" src="/share.svg" alt="" /> -->
           Share</span
         >
       </div>
       <div class="w-[66px] h-[24px] bg-black chedder">
         <span
-          class="w-full cursor-pointer text-white text-center text-[15px]"
+          class="w-full cursor-pointer text-white text-center text-[15px] lg:text-[21px]"
           @click="favorite('bands', band)"
         >
           <!-- <img
@@ -325,7 +338,9 @@
           Favorite
         </span>
       </div>
-      <div class="w-[66px] h-[24px] bg-black text-[15px] text-center chedder">
+      <div
+        class="w-[66px] h-[24px] bg-black text-[15px] text-center chedder lg:text-[21px]"
+      >
         <span
           v-if="!disableAll"
           class="w-full px-2 cursor-pointer text-white text-center"
@@ -334,15 +349,18 @@
           <!-- <img class="h-[12px] w-[12px]" src="/add.svg" alt="" /> -->
           Feature</span
         >
-        <span v-else class="w-full px-2 cursor-pointer text-center">
+        <span
+          v-else
+          class="w-full px-2 cursor-pointer text-center lg:text-[21px]"
+        >
           <!-- <img class="h-[12px] w-[12px]" src="/add.svg" alt="" /> -->
           Feature</span
         >
       </div>
 
-      <div class="w-[70px] h-[24px] bg-black text-[14px] chedder">
+      <div class="w-auto h-[24px] bg-black text-[14px] chedder lg:text-[21px]">
         <span
-          class="w-full px-2 cursor-pointer text-white text-[15px]"
+          class="w-full px-2 cursor-pointer text-white text-[15px] lg:text-[21px]"
           @click="
             $router.push({
               path: '/qr',
