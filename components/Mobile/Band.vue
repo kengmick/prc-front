@@ -124,7 +124,7 @@
       </section>
       <section>
         <div
-          class="bg-gray-900 flex flex-col justify-center items-center pb-[10px]"
+          class="bg-gray-900 flex flex-col justify-center items-center pb-[10px] relative top-[-20px]"
         >
           <p
             v-if="band.genre"
@@ -152,23 +152,27 @@
     </section>
 
     <!-- <div>h-[calc(100vh-271px)]</div> -->
-
-    <section
-      class="container mx-auto h-[calc(100vh-322px)] xl:h-[calc(100vh-420px)] xl:flex xl:justify-center xl:items-center"
-    >
-      <div
-        class="grid grid-cols-2 h-full pt-[36px] pb-[34px] bg-gray-900 xl:h-[calc(100vh-420px)]"
+    <div class="relative">
+      <p
+        class="text-[16px] chedder underline cursor-pointer text-white text-center relative bottom-[-12px]"
       >
-        <div class="bg-black h-full xl:h-[calc(100vh-520px)]">
+        Internal Message
+      </p>
+    </div>
+    <section class="container mx-auto h-[calc(100vh-322px)]">
+      <!-- @click="startChat(user)" -->
+
+      <div class="block h-full pt-[36px] pb-[34px] bg-gray-900">
+        <div
+          class="flex items-center justify-center bg-gray-900 h-full relative"
+        >
           <nuxt-img
-            class="object-cover w-full h-full grayscale"
+            format="webp"
+            class="object-cover w-11/12 grayscale h-[calc(100vh-452px)] mx-auto lg:w-3/4 xl:w-2/3"
             :src="band.bandProfileImg.url"
             alt=""
             @click="photoBox(band.bandProfileImg.url)"
           />
-        </div>
-        <div class="bg-gray-900 flex justify-center items-center">
-          <p class="text-white chedder">+ Add Featured Card</p>
         </div>
       </div>
     </section>
@@ -313,6 +317,19 @@
       style="z-index: 999999999999999999999999"
       class="flex justify-between items-center fixed bottom-0 left-0 bg-black w-screen h-[46px] px-[16px] pb-[8px] lg:px-[10%]"
     >
+      <svg
+        class="absolute top-[10px] right-[49%]"
+        width="26"
+        height="26"
+        viewBox="0 0 26 26"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12.0803 17.9131L5.4397 11.2725C4.98071 10.8135 4.98071 10.0713 5.4397 9.61719L6.54321 8.51367C7.0022 8.05469 7.74438 8.05469 8.19849 8.51367L12.9055 13.2207L17.6125 8.51367C18.0715 8.05469 18.8137 8.05469 19.2678 8.51367L20.3713 9.61719C20.8303 10.0762 20.8303 10.8184 20.3713 11.2725L13.7307 17.9131C13.2815 18.3721 12.5393 18.3721 12.0803 17.9131V17.9131Z"
+          fill="red"
+        />
+      </svg>
       <div class="w-[66px] h-[24px] bg-black chedder text-white">
         <span class="text-[15px] lg:text-[21px]">
           <!-- <img class="h-[12px] w-[12px]" src="/share.svg" alt="" /> -->

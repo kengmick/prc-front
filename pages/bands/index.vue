@@ -23,9 +23,9 @@
             }"
             type="select"
             label="What is the genre"
-            wrapper-class="sm:w-4/5 m-auto"
+            wrapper-class="sm:w-4/5 "
             element-class="w-full"
-            errors-class="sm:w-4/5 m-auto"
+            errors-class="sm:w-4/5 "
           />
         </FormulateForm>
       </div>
@@ -43,7 +43,7 @@
           :options="ct"
           placeholder="select a country"
           element-class="w-full"
-          errors-class="sm:w-4/5 m-auto"
+          errors-class="sm:w-4/5 "
           type="select"
           @change="formValues.country = $event.target.value"
         />
@@ -53,9 +53,9 @@
           label="State"
           :options="Object.keys(cs)"
           placeholder="select a state"
-          wrapper-class="sm:w-4/5 m-auto"
+          wrapper-class="sm:w-4/5 "
           element-class="w-full"
-          errors-class="sm:w-4/5 m-auto"
+          errors-class="sm:w-4/5 "
           type="select"
           @change="formValues.city = ''"
         />
