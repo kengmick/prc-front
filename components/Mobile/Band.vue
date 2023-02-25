@@ -1,7 +1,7 @@
 <template>
   <!--  :style="{ backgroundImage: `url(/punk-background.png)` }"  -->
   <div
-    class="relative w-screen h-[100%] border-box border-black border-[2px] overflow-y-scroll"
+    class="relative w-screen h-[100%] overflow-y-scroll border-6 border-blue-600"
   >
     <nuxt-img
       class="custom_b"
@@ -12,109 +12,120 @@
       height="400"
     />
     <!-- header -->
+
     <section
-      class="h-[38px] w-screen bg-black flex items-center justify-center fixed l-0 top-[48px] border-box border-black border-[2px] z-50"
+      class="h-[auto] max-w-screen bg-gray-900 flex items-center justify-center pb-[10px] pt-[40px]"
     >
       <h2 class="chedder text-[36px] text-white leading-none">
         {{ band.bandName }}
       </h2>
     </section>
+
     <!-- info box  -->
-    <section class="w-auto mt-[45px] mx-2">
-      <section class="w-full bg-black text-white p-2">
-        <NuxtLink
-          class="chedder underline pb-3 inline-block"
-          :to="{
-            path: '/bands/bandprofile',
-            hash: '#showz',
-            query: { band: band.id },
-          }"
-          >Showz</NuxtLink
-        >
-        <NuxtLink
-          class="chedder underline pb-2"
-          :to="{
-            path: '/bands/bandprofile',
-            hash: '#releases',
-            query: { band: band.id },
-          }"
-          >Releases</NuxtLink
-        >
-        <NuxtLink
-          class="chedder underline pb-2"
-          :to="{
-            path: '/bands/bandprofile',
-            hash: '#songs',
-            query: { band: band.id },
-          }"
-          >Songs</NuxtLink
-        >
-        <NuxtLink
-          class="chedder underline pb-2"
-          :to="{
-            path: '/bands/bandprofile',
-            hash: '#videos',
-            query: { band: band.id },
-          }"
-          >Videos</NuxtLink
-        >
-        <NuxtLink
-          class="chedder underline pb-2"
-          :to="{
-            path: '/bands/bandprofile',
-            hash: '#bio',
-            query: { band: band.id },
-          }"
-          >Biography</NuxtLink
-        >
-        <NuxtLink
-          class="chedder underline pb-2"
-          :to="{
-            path: '/bands/bandprofile',
-            hash: '#members',
-            query: { band: band.id },
-          }"
-          >Members</NuxtLink
-        >
-        <NuxtLink
-          class="chedder underline pb-2"
-          :to="{
-            path: '/bands/bandprofile',
-            hash: '#pictures',
-            query: { band: band.id },
-          }"
-          >Pictures</NuxtLink
-        >
-        <NuxtLink
-          class="chedder underline pb-2"
-          :to="{
-            path: '/bands/bandprofile',
-            hash: '#merch',
-            query: { band: band.id },
-          }"
-          >Merch</NuxtLink
-        >
-        <NuxtLink
-          class="chedder underline pb-2"
-          :to="{
-            path: '/bands/bandprofile',
-            hash: '#links',
-            query: { band: band.id },
-          }"
-          >Links</NuxtLink
-        >
-        <NuxtLink
-          class="chedder underline pb-2"
-          :to="{
-            path: '/bands/bandprofile',
-            hash: '#chatroom',
-            query: { band: band.id },
-          }"
-          >Chat Room</NuxtLink
-        >
+
+    <section class="w-full">
+      <section
+        class="w-full bg-gray-900 flex flex-col justify-center pb-[10px] px-[16px] items-center text-[18px] text-main-red"
+      >
+        <div>
+          <NuxtLink
+            class="chedder underline inline-block"
+            :to="{
+              path: '/bands/bandprofile',
+              hash: '#showz',
+              query: { band: band.id },
+            }"
+            >Showz</NuxtLink
+          >
+          <NuxtLink
+            class="chedder underline"
+            :to="{
+              path: '/bands/bandprofile',
+              hash: '#releases',
+              query: { band: band.id },
+            }"
+            >Releases</NuxtLink
+          >
+          <NuxtLink
+            class="chedder underline"
+            :to="{
+              path: '/bands/bandprofile',
+              hash: '#songs',
+              query: { band: band.id },
+            }"
+            >Songs</NuxtLink
+          >
+          <NuxtLink
+            class="chedder underline"
+            :to="{
+              path: '/bands/bandprofile',
+              hash: '#videos',
+              query: { band: band.id },
+            }"
+            >Videos</NuxtLink
+          >
+          <NuxtLink
+            class="chedder underline"
+            :to="{
+              path: '/bands/bandprofile',
+              hash: '#bio',
+              query: { band: band.id },
+            }"
+            >Biography</NuxtLink
+          >
+        </div>
+        <div>
+          <NuxtLink
+            class="chedder underline"
+            :to="{
+              path: '/bands/bandprofile',
+              hash: '#members',
+              query: { band: band.id },
+            }"
+            >Members</NuxtLink
+          >
+          <NuxtLink
+            class="chedder underline"
+            :to="{
+              path: '/bands/bandprofile',
+              hash: '#pictures',
+              query: { band: band.id },
+            }"
+            >Pictures</NuxtLink
+          >
+          <NuxtLink
+            class="chedder underline"
+            :to="{
+              path: '/bands/bandprofile',
+              hash: '#merch',
+              query: { band: band.id },
+            }"
+            >Merch</NuxtLink
+          >
+          <NuxtLink
+            class="chedder underline"
+            :to="{
+              path: '/bands/bandprofile',
+              hash: '#links',
+              query: { band: band.id },
+            }"
+            >Links</NuxtLink
+          >
+          <NuxtLink
+            class="chedder underline"
+            :to="{
+              path: '/bands/bandprofile',
+              hash: '#chatroom',
+              query: { band: band.id },
+            }"
+            >Chat Room</NuxtLink
+          >
+        </div>
       </section>
-      <section class="my-4 mx-2">
-        <div class="bg-black flex flex-col justify-center items-center p-4">
+      <section>
+        <div
+          class="bg-gray-900 flex flex-col justify-center items-center pb-[10px]"
+        >
           <p v-if="band.genre" class="chedder text-[16px] text-white">
             {{ band.genre }}
           </p>
@@ -125,20 +136,25 @@
           <p class="chedder text-[16px] text-white">
             {{ band.city }}, {{ band.state }}
           </p>
-          <p class="chedder text-[16px] text-white">{{ band.dateStarted }}</p>
+          <p class="chedder text-[16px] text-white">
+            {{ band.dateStarted }}
+          </p>
         </div>
       </section>
     </section>
-    <section class="container mx-auto h-[45vh]">
-      <div class="grid grid-cols-2 gap-4 h-[40vh]">
-        <div class="bg-black h-[40vh]">
+
+    <!-- <div>h-[calc(100vh-271px)]</div> -->
+
+    <section class="container mx-auto h-[calc(100vh-322px)]">
+      <div class="grid grid-cols-2 h-full pt-[40px] pb-[34px] bg-gray-900">
+        <div class="bg-gray-900 h-full">
           <nuxt-img
             class="object-cover w-full h-full grayscale"
             :src="band.bandProfileImg.url"
             alt=""
           />
         </div>
-        <div class="bg-black flex justify-center items-center">
+        <div class="bg-gray-900 flex justify-center items-center">
           <p class="text-white chedder">+ Add Featured Card</p>
         </div>
       </div>
@@ -277,22 +293,20 @@
     </div>
     <!-- buttons  -->
     <section
-      class="flex justify-around items-center fixed bottom-0 left-0 bg-black w-screen h-[40px]"
+      class="flex justify-between items-center fixed bottom-0 left-0 bg-black w-screen h-[46px] px-[16px] pb-[8px]"
     >
-      <div
-        class="w-[18%] h-[24px] bg-black flex justify-center items-center text-[14px] chedder text-white"
-      >
-        <span class="flex items-center justify-between w-full px-2 text-[14px]"
-          ><img class="h-[12px] w-[12px]" src="/share.svg" alt="" />Share</span
+      <div class="w-[18%] h-[24px] bg-black chedder text-white">
+        <span class="text-[14px]">
+          <!-- <img class="h-[12px] w-[12px]" src="/share.svg" alt="" /> -->
+          Share</span
         >
       </div>
-      <div
-        class="w-[66px] h-[24px] bg-black flex justify-center items-center text-[10px] chedder"
-      >
+      <div class="w-[66px] h-[24px] bg-black chedder">
         <span
-          class="flex items-center justify-between w-full px-2 cursor-pointer text-white text-[14px]"
+          class="w-full cursor-pointer text-white text-center text-[14px]"
           @click="favorite('bands', band)"
-          ><img
+        >
+          <!-- <img
             v-if="isFav"
             class="h-[12px] w-[12px]"
             src="/heart.svg"
@@ -302,30 +316,28 @@
             class="h-[12px] w-[12px]"
             src="/notheart.svg"
             alt=""
-          />Favorite</span
-        >
+          /> -->
+          Favorite
+        </span>
       </div>
-      <div
-        class="w-[66px] h-[24px] bg-black flex justify-center items-center text-[14px] chedder"
-      >
+      <div class="w-[66px] h-[24px] bg-black text-[14px] text-center chedder">
         <span
           v-if="!disableAll"
-          class="flex items-center justify-between w-full px-2 cursor-pointer text-white text-[14px]"
+          class="w-full px-2 cursor-pointer text-white text-center"
           @click="goToAddCard(band)"
-          ><img class="h-[12px] w-[12px]" src="/add.svg" alt="" />Feature</span
         >
-        <span
-          v-else
-          class="flex items-center justify-between w-full px-2 cursor-pointer"
-          ><img class="h-[12px] w-[12px]" src="/add.svg" alt="" />Feature</span
+          <!-- <img class="h-[12px] w-[12px]" src="/add.svg" alt="" /> -->
+          Feature</span
+        >
+        <span v-else class="w-full px-2 cursor-pointer text-center">
+          <!-- <img class="h-[12px] w-[12px]" src="/add.svg" alt="" /> -->
+          Feature</span
         >
       </div>
 
-      <div
-        class="w-[70px] h-[24px] bg-black flex justify-center items-center text-[14px] chedder"
-      >
+      <div class="w-[70px] h-[24px] bg-black text-[14px] chedder">
         <span
-          class="flex items-center justify-between w-full px-2 cursor-pointer text-white text-[14px]"
+          class="w-full px-2 cursor-pointer text-white text-[14px]"
           @click="
             $router.push({
               path: '/qr',
@@ -334,7 +346,9 @@
               },
             })
           "
-          ><img class="h-[12px] w-[12px]" src="/qr1.svg" alt="" />QR Code</span
+        >
+          <!-- <img class="h-[12px] w-[12px]" src="/qr1.svg" alt="" /> -->
+          QR Code</span
         >
       </div>
     </section>
@@ -351,6 +365,47 @@
       </div>
     </section>
     <Modal class="z-50" v-if="showModal" @close="showModal = false" />
+    <!-- left  -->
+    <div
+      class="border-[2px] border-yellow-600 fixed top-0 left-0 h-screen z-50"
+    ></div>
+    <div
+      class="border-[2px] border-red-600 fixed top-[4px] left-[4px] h-screen z-50"
+    ></div>
+    <div
+      class="border-[2px] border-black fixed top-0 left-[8px] h-screen z-50"
+    ></div>
+    <!-- right  -->
+    <div
+      class="border-[2px] border-yellow-600 fixed top-0 right-0 h-screen z-50"
+    ></div>
+    <div
+      class="border-[2px] border-red-600 fixed top-[4px] right-[4px] h-screen z-50"
+    ></div>
+    <div
+      class="border-[2px] border-black fixed top-0 right-[8px] h-screen z-50"
+    ></div>
+    <!-- top -->
+    <div
+      class="border-[2px] border-yellow-600 fixed top-0 left-0 w-screen z-50"
+    ></div>
+    <div
+      class="border-[2px] border-red-600 fixed top-[4px] left-[8px] right-[8px] z-50"
+    ></div>
+    <div
+      class="border-[2px] border-black fixed top-[8px] left-[8px] right-[8px] z-50"
+    ></div>
+
+    <!-- bottom -->
+    <div
+      class="border-[2px] border-yellow-600 fixed bottom-0 left-0 w-screen z-50"
+    ></div>
+    <div
+      class="border-[2px] border-red-600 fixed bottom-[4px] left-[8px] right-[8px] z-50"
+    ></div>
+    <div
+      class="border-[2px] border-black fixed bottom-[8px] left-[8px] right-[8px] z-50"
+    ></div>
   </div>
 </template>
 
@@ -683,5 +738,12 @@ export default {
   object-fit: cover;
   filter: blur(4px);
   filter: grayscale(1);
+}
+.border_custom {
+  box-shadow: 0 -5px 0 red, 0 -10px 0 blue, 0 -15px 0 yellow;
+}
+::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar space */
+  background: transparent; /* Optional: just make scrollbar invisible */
 }
 </style>

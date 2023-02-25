@@ -127,7 +127,7 @@
     </div>
     <!-- mobile nav -->
     <div
-      class="flex items-center px-4 fixed z-50 top-[0] w-screen py-[10px] bg-gray-900 md:hidden"
+      class="flex items-center px-4 fixed z-50 top-[0] w-screen py-[16px] bg-gray-900 md:hidden"
     >
       <!-- main logo -->
 
