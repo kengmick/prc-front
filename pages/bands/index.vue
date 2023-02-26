@@ -1,6 +1,6 @@
 <template>
-  <div class="container md:container mx-auto">
-    <section class="w-[90vw] mx-auto mb-6 overflow-x-auto pt-4">
+  <div class="container md:container mx-auto lg:px-[6%]">
+    <section class="w-[90vw] mx-auto mb-6 overflow-x-auto pt-4 lg:pt-8">
       <div>
         <!-- Genre filters -->
         <div class="flex items-center mb-1">
@@ -23,9 +23,9 @@
             }"
             type="select"
             label="What is the genre"
-            wrapper-class="sm:w-4/5 "
+            wrapper-class="sm:w-4/5 lg:w-1/4 "
             element-class="w-full"
-            errors-class="sm:w-4/5 "
+            errors-class="sm:w-4/5 lg:w-1/4 "
           />
         </FormulateForm>
       </div>
@@ -39,7 +39,7 @@
         <FormulateInput
           name="country"
           label="country"
-          wrapper-class="sm:w-4/5 m-auto"
+          wrapper-class="sm:w-4/5 lg:w-1/4 "
           :options="ct"
           placeholder="select a country"
           element-class="w-full"
@@ -53,13 +53,13 @@
           label="State"
           :options="Object.keys(cs)"
           placeholder="select a state"
-          wrapper-class="sm:w-4/5 "
+          wrapper-class="sm:w-4/5 lg:w-1/4 "
           element-class="w-full"
-          errors-class="sm:w-4/5 "
+          errors-class="sm:w-4/5 lg:w-1/4 "
           type="select"
           @change="formValues.city = ''"
         />
-        <div class="sm:w-4/5 m-auto mb-1">
+        <div class="sm:w-4/5 lg:w-1/4 mb-1">
           <label for="city" class="label">City</label>
           <input
             v-model="formValues.city"

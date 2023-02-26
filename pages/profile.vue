@@ -2,7 +2,7 @@
   <div>
     <div v-if="!chatComp" class="px-2">
       <!-- user profile  -->
-      <section class="md:container md:mx-auto">
+      <section class="md:container md:mx-auto lg:pt-6">
         <div
           v-if="user"
           class="mx-auto flex flex-col md:flex-row justify-center md:justify-start md:my-12"
@@ -12,7 +12,7 @@
               <img
                 :src="user.profileImg.url"
                 alt=""
-                class="w-full object-fill sm:w-[250px] h-[250px]"
+                class="w-full object-cover sm:w-[250px] h-[250px]"
               />
             </div>
             <div
@@ -25,7 +25,7 @@
               {{ user.username }}
             </div>
           </div>
-          <div class="sm:px-6 py-2">
+          <div class="sm:px-6 py-2 flex flex-col justify-center">
             <p class="m-2">
               <span
                 class="px-4 py-2 mr-4 font-bold chedder inline-block sm:w-[150px]"
@@ -61,7 +61,7 @@
                       d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
                     />
                   </svg>
-                  <h3 class="text-3xl pl-2 text-center">Edit User</h3>
+                  <h3 class="text-xl pl-2 text-center">Edit User</h3>
                 </div>
               </div>
             </div>
@@ -173,10 +173,9 @@
       <!-- pricing modle  -->
       <!-- <Price /> -->
       <!-- Add Bands  -->
-      <h2 class="text-center chedder main_red_text">Create Your Content</h2>
       <div class="mx-auto container">
         <h2
-          class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
+          class="bg-black w-full text-center text-white py-2 my-10 underline-offset-2 text-2xl"
         >
           Your Internal Messages
         </h2>
@@ -243,9 +242,10 @@
         </div>
       </div> -->
       </div>
+      <!-- bands -->
       <div class="container mx-auto">
         <h2
-          class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
+          class="bg-black w-full text-center text-white py-2 my-10 underline-offset-2 text-2xl"
         >
           Your Bands
         </h2>
@@ -269,35 +269,36 @@
                   d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
                 />
               </svg>
-              <h3 class="text-3xl pl-2 text-center">Add Band</h3>
+              <h3 class="text-xl pl-2 text-center">Add Band</h3>
             </div>
           </NuxtLink>
         </div>
       </div>
       <!-- show band here  -->
-      <section v-if="bands" class="w-full container mx-auto my-10">
+      <section
+        v-if="bands"
+        class="w-full container mx-auto my-10 overflow-scroll"
+      >
         <div
-          class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 items-center justify-center"
+          class="flex gap-4 w-min md:w-full md:justify-start"
+          :class="{
+            'justify-start': bands.length <= 3,
+          }"
         >
-          <PosterCard
-            class="mb-10 mx-auto"
+          <SimpleCardsBand
             v-for="band in bands"
             :key="band.bandName"
+            class="w-[220px] md:w-[340px]"
             :band="band"
             :user="band.users_permissions_user"
             @createdFavs="updateFavData"
             :isFav="favCheck('bands', band.id)"
           />
-          <!-- <ProfileBandCard
-            v-for="(band, index) in bands"
-            :key="band.bandName + index"
-            :band="band"
-            @removedBand="updateData"
-          /> -->
         </div>
       </section>
       <!-- end show band  -->
-      <div class="container mx-auto my-6">
+
+      <!-- <div class="container mx-auto my-6">
         <h2
           class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
         >
@@ -327,10 +328,10 @@
             </div>
           </NuxtLink>
         </div>
-      </div>
+      </div> -->
 
       <!-- present showz  -->
-      <section class="container mx-auto w-full">
+      <!-- <section class="container mx-auto w-full">
         <div
           v-if="events"
           class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 items-center justify-center mx-auto"
@@ -344,11 +345,11 @@
             :isFav="favCheck('events', event.id)"
           />
         </div>
-      </section>
+      </section> -->
 
       <!-- show venues  -->
       <!-- tours -->
-      <div class="container mx-auto my-6">
+      <!-- <div class="container mx-auto my-6">
         <h2
           class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
         >
@@ -378,10 +379,10 @@
             </div>
           </NuxtLink>
         </div>
-      </div>
+      </div> -->
 
       <!-- tours  -->
-      <section class="container mx-auto w-full">
+      <!-- <section class="container mx-auto w-full">
         <div
           v-if="tours"
           class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 items-center justify-center mx-auto"
@@ -395,10 +396,10 @@
             :isFav="favCheck('tours', tour.id)"
           />
         </div>
-      </section>
+      </section> -->
 
       <!-- distros -->
-      <div class="container mx-auto my-6">
+      <!-- <div class="container mx-auto my-6">
         <h2
           class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2 mb-6"
         >
@@ -440,10 +441,10 @@
             :isFav="favCheck('distros', distro.id)"
           />
         </div>
-      </div>
+      </div> -->
 
       <!-- venue end here  -->
-      <div class="container mx-auto my-6">
+      <!-- <div class="container mx-auto my-6">
         <h2
           class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
         >
@@ -473,9 +474,9 @@
             </div>
           </NuxtLink>
         </div>
-      </div>
+      </div> -->
       <!-- venues list here  -->
-      <section v-if="venues" class="w-full container mx-auto my-10">
+      <!-- <section v-if="venues" class="w-full container mx-auto my-10">
         <div
           class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 items-center justify-center mx-auto"
         >
@@ -490,16 +491,17 @@
           />
           <div />
         </div>
-      </section>
+      </section> -->
       <!-- add classifed -->
-      <section class="container mx-auto">
+      <!-- <section class="container mx-auto">
         <h2
           class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
         >
           Your Classifieds
         </h2>
-      </section>
-      <div class="container mx-auto my-6">
+      </section> -->
+
+      <!-- <div class="container mx-auto my-6">
         <div class="w-full">
           <NuxtLink to="/classified/create">
             <div
@@ -524,9 +526,9 @@
             </div>
           </NuxtLink>
         </div>
-      </div>
+      </div> -->
       <!-- Show Classified -->
-      <section class="container mx-auto my-6">
+      <!-- <section class="container mx-auto my-6">
         <section
           v-if="classifieds"
           class="container mx-auto px-4 flex flex-col items-start"
@@ -538,133 +540,99 @@
             @updatedFavs="updatedFavs('classifieds', article.id)"
             :isFav="favCheck('classifieds', article.id)"
           />
-
-          <!-- <div
-            v-for="article in classifieds"
-            :key="article.title"
-            class="my-6 flex flex-col sm:block sm:text-left"
-          >
-            <nuxtLink
-              :to="{ path: 'classifiedview', query: { article: article.id } }"
-              class="chedder text-2xl underline underline-offset-2 text-blue-700 hover:text-red-700"
-            >
-              <span class="block py-6 sm:inline sm:py-0 text-black pr-6">{{
-                moment(String(article.created_at)).format('MMM Do YY')
-              }}</span>
-              <p>{{ article.title }}</p>
-              <span
-                v-if="article.city || article.state"
-                class="block py-6 sm:inline sm:py-0 sm:pl-6 text-black"
-                >({{ article.city }}, {{ article.state }})</span
-              >
-            </nuxtLink>
+        </section> -->
+      <!-- distros -->
+      <div class="container mx-auto my-6">
+        <h2
+          id="favs"
+          class="bg-black w-full text-center text-white py-2 my-10 underline-offset-2 text-2xl"
+        >
+          Your Favorite Cards
+        </h2>
+        <div v-if="favs && !loading" class="w-full flex flex-col pl-4">
+          <div class="flex gap-4 w-min md:w-full md:justify-start">
             <span
-              class="mt-4 text-center border-2 border-black w-[100px] sm:ml-4 sm:px-4 py-2 sm:mt-0 cursor-pointer"
-              @click="openPopUp('classifieds', article.id)"
+              v-for="fav in favs.filter((f) => f.type === 'bands')"
+              :key="fav.id"
             >
-              Delete
+              <SimpleCardsBand
+                class="w-[220px] md:w-[340px]"
+                v-if="fav.type === 'bands'"
+                :band="fav.data"
+                :user="fav.data.users_permissions_user"
+                :unFollow="true"
+                @updatedFavs="updatedFavs('bands', fav.data.id)"
+                :isFav="favCheck('bands', fav.data.id)"
+              />
+            </span>
+          </div>
+          <!-- <div class="flex gap-4 overflow-y-scroll mt-4">
+            <span
+              v-for="fav in favs.filter((f) => f.type === 'venues')"
+              :key="fav.id"
+            >
+              <CardsVenueCard
+                v-if="fav.type === 'venues'"
+                :venue="fav.data"
+                :unFollow="true"
+                @updatedFavs="updatedFavs('venues', fav.data.id)"
+                :isFav="favCheck('venues', fav.data.id)"
+              />
             </span>
           </div> -->
-        </section>
-        <!-- distros -->
-        <div class="container mx-auto my-6">
-          <h2
-            id="favs"
-            class="bg-black w-full text-center text-white py-6 my-10 underline-offset-2"
-          >
-            Your Favorite Cards
-          </h2>
-          <div v-if="favs && !loading" class="w-full flex flex-col pl-4">
-            <!-- Add favorite cards here -->
-            <div class="flex gap-4 overflow-y-scroll">
-              <span
-                v-for="fav in favs.filter((f) => f.type === 'bands')"
-                :key="fav.id"
-              >
-                <PosterCard
-                  v-if="fav.type === 'bands'"
-                  :band="fav.data"
-                  :user="fav.data.users_permissions_user"
-                  :unFollow="true"
-                  @updatedFavs="updatedFavs('bands', fav.data.id)"
-                  :isFav="favCheck('bands', fav.data.id)"
-                />
-              </span>
-            </div>
-            <div class="flex gap-4 overflow-y-scroll mt-4">
-              <span
-                v-for="fav in favs.filter((f) => f.type === 'venues')"
-                :key="fav.id"
-              >
-                <CardsVenueCard
-                  v-if="fav.type === 'venues'"
-                  :venue="fav.data"
-                  :unFollow="true"
-                  @updatedFavs="updatedFavs('venues', fav.data.id)"
-                  :isFav="favCheck('venues', fav.data.id)"
-                />
-              </span>
-            </div>
-            <div class="flex gap-4 overflow-y-scroll mt-4">
-              <span
-                v-for="fav in favs.filter((f) => f.type === 'tours')"
-                :key="fav.id"
-              >
-                <!-- <CardsTourCard
-                  v-if="fav.type === 'tours'"
-                  :tour="fav.data"
-                  :unFollow="true"
-                  @updatedFavs="updatedFavs('tours', fav.data.id)"
-                  :isFav="favCheck('tours', fav.data.id)"
-                /> -->
-              </span>
-            </div>
-            <div class="flex gap-4 overflow-y-scroll mt-4">
-              <span
-                v-for="fav in favs.filter((f) => f.type === 'events')"
-                :key="fav.id"
-              >
-                <CardsShowCard
-                  v-if="fav.type === 'events'"
-                  :event="fav.data"
-                  :unFollow="true"
-                  @updatedFavs="updatedFavs('events', fav.data.id)"
-                  :isFav="favCheck('events', fav.data.id)"
-                />
-              </span>
-            </div>
-            <div class="flex gap-4 overflow-y-scroll mt-4">
-              <span
-                v-for="fav in favs.filter((f) => f.type === 'record-labels')"
-                :key="fav.id"
-              >
-                <CardsDistroCard
-                  v-if="fav.type === 'record-labels'"
-                  :distro="fav.data"
-                  :unFollow="true"
-                  @updatedFavs="updatedFavs('record-labels', fav.data.id)"
-                  :isFav="favCheck('record-labels', fav.data.id)"
-                />
-              </span>
-            </div>
-            <div class="flex gap-4 overflow-y-scroll mt-4">
-              <span
-                v-for="fav in favs.filter((f) => f.type === 'classifieds')"
-                :key="fav.id"
-              >
-                <CardsClassifiedCard
-                  v-if="fav.type === 'classifieds'"
-                  :article="fav.data"
-                  :unFollow="true"
-                  @updatedFavs="updatedFavs('classifieds', fav.data.id)"
-                  :isFav="favCheck('classifieds', fav.data.id)"
-                />
-              </span>
-            </div>
+          <!-- <div class="flex gap-4 overflow-y-scroll mt-4">
+            <span
+              v-for="fav in favs.filter((f) => f.type === 'tours')"
+              :key="fav.id"
+            >
+            </span>
           </div>
+          <div class="flex gap-4 overflow-y-scroll mt-4">
+            <span
+              v-for="fav in favs.filter((f) => f.type === 'events')"
+              :key="fav.id"
+            >
+              <CardsShowCard
+                v-if="fav.type === 'events'"
+                :event="fav.data"
+                :unFollow="true"
+                @updatedFavs="updatedFavs('events', fav.data.id)"
+                :isFav="favCheck('events', fav.data.id)"
+              />
+            </span>
+          </div> -->
+          <!-- <div class="flex gap-4 overflow-y-scroll mt-4">
+            <span
+              v-for="fav in favs.filter((f) => f.type === 'record-labels')"
+              :key="fav.id"
+            >
+              <CardsDistroCard
+                v-if="fav.type === 'record-labels'"
+                :distro="fav.data"
+                :unFollow="true"
+                @updatedFavs="updatedFavs('record-labels', fav.data.id)"
+                :isFav="favCheck('record-labels', fav.data.id)"
+              />
+            </span>
+          </div> -->
+          <!-- <div class="flex gap-4 overflow-y-scroll mt-4">
+            <span
+              v-for="fav in favs.filter((f) => f.type === 'classifieds')"
+              :key="fav.id"
+            >
+              <CardsClassifiedCard
+                v-if="fav.type === 'classifieds'"
+                :article="fav.data"
+                :unFollow="true"
+                @updatedFavs="updatedFavs('classifieds', fav.data.id)"
+                :isFav="favCheck('classifieds', fav.data.id)"
+              />
+            </span>
+          </div> -->
         </div>
+      </div>
 
-        <!-- <div
+      <!-- <div
         class="flex items-center"
         v-for="classified in classifieds"
         :key="classified.title"
@@ -685,7 +653,7 @@
           Delete
         </div>
       </div> -->
-      </section>
+      <!-- </section> -->
       <!-- add release button  -->
 
       <!-- show releases if has relases  -->
