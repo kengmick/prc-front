@@ -80,7 +80,7 @@
 
     <section v-else class="pt-[90px] pb-[90px]"></section>
     <div
-      class="fixed bottom-0 h-[80px] w-full border-t-[1px] px-4 flex items-center"
+      class="fixed bottom-0 h-[80px] w-full border-t-[1px] px-4 flex items-center bg-white"
     >
       <div class="flex-grow w-full">
         <input

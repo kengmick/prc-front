@@ -155,6 +155,7 @@
     <div class="relative">
       <p
         class="text-[16px] chedder underline cursor-pointer text-white text-center relative bottom-[-12px]"
+        @click="startChat(user)"
       >
         Internal Message
       </p>
@@ -317,7 +318,7 @@
       style="z-index: 999999999999999999999999"
       class="flex justify-between items-center fixed bottom-0 left-0 bg-black w-screen h-[46px] px-[16px] pb-[8px] lg:px-[10%]"
     >
-      <svg
+      <!-- <svg
         class="absolute top-[10px] right-[49%]"
         width="26"
         height="26"
@@ -329,7 +330,7 @@
           d="M12.0803 17.9131L5.4397 11.2725C4.98071 10.8135 4.98071 10.0713 5.4397 9.61719L6.54321 8.51367C7.0022 8.05469 7.74438 8.05469 8.19849 8.51367L12.9055 13.2207L17.6125 8.51367C18.0715 8.05469 18.8137 8.05469 19.2678 8.51367L20.3713 9.61719C20.8303 10.0762 20.8303 10.8184 20.3713 11.2725L13.7307 17.9131C13.2815 18.3721 12.5393 18.3721 12.0803 17.9131V17.9131Z"
           fill="red"
         />
-      </svg>
+      </svg> -->
       <div class="w-[66px] h-[24px] bg-black chedder text-white">
         <span class="text-[15px] lg:text-[21px]">
           <!-- <img class="h-[12px] w-[12px]" src="/share.svg" alt="" /> -->
@@ -338,20 +339,20 @@
       </div>
       <div class="w-[66px] h-[24px] bg-black chedder">
         <span
-          class="w-full cursor-pointer text-white text-center text-[15px] lg:text-[21px]"
+          class="w-full cursor-pointer text-white text-center text-[15px] lg:text-[21px] flex justify-center items-center"
           @click="favorite('bands', band)"
         >
-          <!-- <img
+          <img
             v-if="isFav"
-            class="h-[12px] w-[12px]"
+            class="h-[12px] w-[12px] mr-1"
             src="/heart.svg"
             alt=""
           /><img
             v-if="!isFav"
-            class="h-[12px] w-[12px]"
+            class="h-[12px] w-[12px] mr-1"
             src="/notheart.svg"
             alt=""
-          /> -->
+          />
           Favorite
         </span>
       </div>
@@ -445,6 +446,14 @@
     <div
       class="border-[2px] border-gray-900 fixed bottom-[8px] left-[8px] right-[8px] z-50"
     ></div>
+    <section v-if="chat">
+      <Chat
+        :chatInfo="chat"
+        :chatWithId="chat.chatWith.id"
+        class="z-[9999999999999999999999999999]"
+        @closeChat="renderChatComp"
+      />
+    </section>
   </div>
 </template>
 
@@ -535,9 +544,12 @@ export default {
       userFavs: [],
       updated: null,
       index: 0,
-      chatComp: false,
       showModal: false,
       pic: null,
+      chatComp: false,
+      chat: null,
+      finalChat: null,
+      hasChat: false,
     }
   },
   head: {
@@ -656,7 +668,6 @@ export default {
       this.$emit('updatedFavs')
     },
     startChat(user) {
-      console.log('user from the poster card ', user, ' the id ', user.id)
       this.$emit('startChat', user)
     },
     addFeaturedToBandCard() {
