@@ -20,22 +20,40 @@
           </p>
           <!-- list all cards  -->
           <h3 class="text-main text-2xl text-center">Bands</h3>
+          <!-- <section v-if="bands" class="my-10 overflow-x-auto">
+            <div class="flex gap-4 w-min md:w-full md:justify-center">
+              <div v-for="band in bands" :key="band.bandName">
+                <SimpleCardsBand
+                  class="w-[220px] mb-20"
+                  :band="b"
+                  :isFeatured="true"
+                  :isHome="true"
+                  :addingCard="true"
+                  :isAddCardPage="true"
+                  :disableAll="true"
+                  @selectUsersCard="featureData(cardData, 'bands', true, b.id)"
+                />
+              </div>
+            </div>
+          </section> -->
 
-          <div v-if="bands" class="flex gap-6 overflow-x-scroll h-[500px]">
-            <div v-for="b in bands" :key="b.id">
-              <PosterCard
-                class="mb-20"
-                :band="b"
-                :isFeatured="true"
-                :isHome="true"
-                :addingCard="true"
-                :isAddCardPage="true"
-                :disableAll="true"
-                @selectUsersCard="featureData(cardData, 'bands', true, b.id)"
-              />
+          <div v-if="bands" class="my-10 overflow-x-auto h-[430px]">
+            <div class="flex gap-4 w-min md:w-full md:justify-center">
+              <div v-for="b in bands" :key="b.id">
+                <SimpleCardsBand
+                  class="w-[320px] mb-20"
+                  :band="b"
+                  :isFeatured="true"
+                  :isHome="true"
+                  :addingCard="true"
+                  :isAddCardPage="true"
+                  :disableAll="true"
+                  @selectUsersCard="featureData(cardData, 'bands', true, b.id)"
+                />
+              </div>
             </div>
           </div>
-          <div v-if="distros" class="flex gap-6 overflow-x-scroll h-[500px]">
+          <!-- <div v-if="distros" class="flex gap-6 overflow-x-scroll h-[500px]">
             <div v-for="d in distros" :key="d.name">
               <CardsDistroCard
                 v-if="d"
@@ -47,8 +65,8 @@
                 "
               />
             </div>
-          </div>
-          <div v-if="events" class="flex gap-6 overflow-x-scroll h-[500px]">
+          </div> -->
+          <!-- <div v-if="events" class="flex gap-6 overflow-x-scroll h-[500px]">
             <div v-for="e in events" :key="e.name">
               <CardsShowCard
                 :event="e"
@@ -56,8 +74,8 @@
                 @selectUsersCard="featureData(cardData, 'events', true, e.id)"
               />
             </div>
-          </div>
-          <div v-if="tours" class="flex gap-6 overflow-x-scroll h-[500px]">
+          </div> -->
+          <!-- <div v-if="tours" class="flex gap-6 overflow-x-scroll h-[500px]">
             <div v-for="t in tours" :key="t.name">
               <CardsTourCard
                 :tour="t"
@@ -66,8 +84,8 @@
                 @selectUsersCard="featureData(cardData, 'tours', true, t.id)"
               />
             </div>
-          </div>
-          <div v-if="venues" class="flex gap-6 overflow-x-scroll h-[500px]">
+          </div> -->
+          <!-- <div v-if="venues" class="flex gap-6 overflow-x-scroll h-[500px]">
             <div v-for="v in venues" :key="v.name">
               <CardsVenueCard
                 :addingCard="true"
@@ -76,7 +94,7 @@
                 @selectUsersCard="featureData(cardData, 'venues', true, v.id)"
               />
             </div>
-          </div>
+          </div> -->
         </section>
       </section>
     </div>
@@ -217,7 +235,7 @@ export default {
         const band = await this.$strapi.findOne('bands', this.$route.query.data)
         this.band = band
         this.cardData = band
-        this.card = 'PosterCard'
+        this.card = 'SimpleCardsBand'
       }
       if (this.type === 'distro') {
         console.log('distros ==================')

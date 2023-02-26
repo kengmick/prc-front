@@ -1,6 +1,6 @@
 <template>
-  <div v-if="route" class="h-[calc(100vh-140px)] flex items-center">
-    <Qrcode :width="300" :height="300" :color="colors.bands" :data="route" />
+  <div v-if="route" class="h-[calc(100vh-140px)] flex items-center bg-gray-900">
+    <Qrcode :width="250" :height="250" :color="colors.bands" :data="route" />
   </div>
 </template>
 
@@ -10,7 +10,7 @@ export default {
     return {
       route: null,
       colors: {
-        bands: '#000000',
+        bands: '#ef4444',
       },
     }
   },

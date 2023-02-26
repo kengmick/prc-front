@@ -1,7 +1,8 @@
 <template>
   <!--  :style="{ backgroundImage: `url(/punk-background.png)` }"  -->
   <div
-    class="relative w-screen h-[100%] overflow-hidden border-6 border-blue-600 bg-gray-900"
+    class="relative w-screen h-[100%] border-6 border-blue-600 bg-gray-900"
+    :class="{ 'overflow-x-scroll': band.cardData }"
   >
     <!-- <nuxt-img
       class="custom_b"
@@ -177,6 +178,18 @@
         </div>
       </div>
     </section>
+    <!-- featured cards  -->
+    <h3 v-if="band.cardData" class="text-white text-2xl text-center mt-5">
+      <span class="bg-black text-white px-4 py-2">Featured card</span>
+    </h3>
+    <div
+      v-if="band.cardData"
+      class="flex gap-4 overflow-y-scroll ml-2 justify-center my-[36px]"
+    >
+      <div class="w-[330px] h-auto">
+        <SimpleCardsBand :band="band.cardData" />
+      </div>
+    </div>
     <!-- announcements -->
     <!-- 
     <section
@@ -344,12 +357,12 @@
         >
           <img
             v-if="isFav"
-            class="h-[12px] w-[12px] mr-1"
+            class="h-[12px] w-[12px] mr-2"
             src="/heart.svg"
             alt=""
           /><img
             v-if="!isFav"
-            class="h-[12px] w-[12px] mr-1"
+            class="h-[12px] w-[12px] mr-2"
             src="/notheart.svg"
             alt=""
           />
@@ -362,7 +375,7 @@
         <span
           v-if="!disableAll"
           class="w-full px-2 cursor-pointer text-white text-center"
-          @click="goToAddCard(band)"
+          @click="goToAddCard(band, 'band', 'MobileBand')"
         >
           <!-- <img class="h-[12px] w-[12px]" src="/add.svg" alt="" /> -->
           Feature</span
@@ -370,6 +383,7 @@
         <span
           v-else
           class="w-full px-2 cursor-pointer text-center lg:text-[21px]"
+          @click="goToAddCard(band, 'band', 'MobileBand')"
         >
           <!-- <img class="h-[12px] w-[12px]" src="/add.svg" alt="" /> -->
           Feature</span
@@ -674,21 +688,19 @@ export default {
       // this will emit an event to add a card to the card that was clicked on .... the user owned card
       this.$emit('addFeaturedToBandCard', this.band)
     },
-    goToAddCard(band) {
+    goToAddCard(data, type, cardDataName) {
       if (this.$strapi.user) {
         this.showModal = false
         // go to add card page
-        if (band.users_permissions_user.id === this.$strapi.user.id) {
-          this.$router.push({
-            path: '/addcardpage',
-            query: { band: band.id, usersCard: true },
-          })
-        } else {
-          this.$router.push({
-            path: '/addcardpage',
-            query: { band: band.id, usersCard: false },
-          })
-        }
+        this.$router.push({
+          path: '/addcardpage',
+          query: {
+            data: data.id,
+            type,
+            usersCard: true,
+            cardDataName,
+          },
+        })
       } else {
         return (this.showModal = true)
       }

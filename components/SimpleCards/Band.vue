@@ -1,5 +1,8 @@
 <template>
-  <div v-if="band" class="w-full h-full bg-slate-100 shadow-md rounded-b-md">
+  <div
+    v-if="band"
+    class="w-full h-full bg-slate-100 shadow-md rounded-b-md relative"
+  >
     <NuxtLink :to="{ path: '/bands/bandprofile', query: { band: band.id } }">
       <div
         v-if="band.bandProfileImg"
@@ -21,6 +24,17 @@
         </p>
       </div>
     </NuxtLink>
+    <section
+      v-if="addingCard"
+      class="flex justify-center items-center absolute w-full bottom-0"
+    >
+      <div
+        class="w-full bg-black text-white flex justify-center items-center text-[14px] chedder mt-[4px] py-2 cursor-pointer"
+        @click="$emit('selectUsersCard', band)"
+      >
+        <span>Add to this Card !!!</span>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -33,6 +47,12 @@ export default {
       type: Object,
       default: () => {
         return null
+      },
+    },
+    addingCard: {
+      type: Boolean,
+      default() {
+        return false
       },
     },
   },
