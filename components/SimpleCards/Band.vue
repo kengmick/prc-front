@@ -26,8 +26,15 @@
         <p class="lato text-sm grow">
           {{ moment(String(band.dateStarted)).format('MMMM Do YYYY') }}
         </p>
+        <div v-if="canRemoveFeatured">
+          <p class="cursor-pointer" @click="$emit('removeFeatured')">
+            Remove Featured
+          </p>
+        </div>
         <div v-if="removeFav">
-          <p @click="$emit('removeFavorite')">Unfavorite</p>
+          <p class="cursor-pointer" @click="$emit('removeFavorite')">
+            Unfavorite
+          </p>
         </div>
         <div
           v-if="canDelete"
@@ -80,6 +87,12 @@ export default {
       },
     },
     removeFav: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    canRemoveFeatured: {
       type: Boolean,
       default() {
         return false

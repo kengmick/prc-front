@@ -9,6 +9,7 @@
       :isFav="favCheck('bands', band.id)"
       @addFeaturedToBandCard="addCard"
       @startChat="startChatNow(band.users_permissions_user)"
+      @removeFeaturedFromSimple="removeFeaturedCard"
     />
     <section v-if="chat">
       <Chat
@@ -205,6 +206,13 @@ export default {
   },
   methods: {
     moment,
+    async removeFeaturedCard() {
+      this.band = await this.$strapi.update('bands', this.band.id, {
+        cardData: null,
+        hasFeaturedCard: false,
+        cardType: '',
+      })
+    },
     async updatedFavs(type, id) {
       console.log(
         'this is the updated favs event emited from the parent component'

@@ -180,14 +180,20 @@
     </section>
     <!-- featured cards  -->
     <h3 v-if="band.cardData" class="text-white text-2xl text-center mt-5">
-      <span class="bg-black text-white px-4 py-2">Featured card</span>
+      <span class="bg-black text-white px-4 py-2">Featured card </span> fsdfdsf
     </h3>
     <div
       v-if="band.cardData"
       class="flex gap-4 overflow-y-scroll ml-2 justify-center my-[36px]"
     >
       <div class="w-[330px] h-auto">
-        <SimpleCardsBand :band="band.cardData" />
+        <SimpleCardsBand
+          :band="band.cardData"
+          :canRemoveFeatured="
+            $strapi.user.id === band.users_permissions_user.id
+          "
+          @removeFeatured="$emit('removeFeaturedFromSimple')"
+        />
       </div>
     </div>
     <!-- announcements -->
