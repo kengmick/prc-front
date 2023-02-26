@@ -14,16 +14,31 @@
           alt=""
         />
       </div>
+    </NuxtLink>
+    <NuxtLink :to="{ path: '/bands/bandprofile', query: { band: band.id } }">
       <div>
         <p class="text-lg chedder p-2">{{ band.bandName }}</p>
       </div>
-      <div class="p-2">
-        <p class="lato text-sm">{{ band.city }}, {{ band.state }}</p>
-        <p class="lato text-sm">
+    </NuxtLink>
+    <div class="p-2">
+      <p class="lato text-sm">{{ band.city }}, {{ band.state }}</p>
+      <span class="flex">
+        <p class="lato text-sm grow">
           {{ moment(String(band.dateStarted)).format('MMMM Do YYYY') }}
         </p>
-      </div>
-    </NuxtLink>
+        <div
+          v-if="canDelete"
+          class="mr-2 cursor-pointer"
+          @click="$emit('removeBand', band.id, band.bandName)"
+        >
+          Delete
+        </div>
+        <NuxtLink :to="{ path: '/bands/edit', query: { band: band.id } }">
+          <div v-if="canDelete" class="cursor-pointer">Edit</div>
+        </NuxtLink>
+      </span>
+    </div>
+
     <section
       v-if="addingCard"
       class="flex justify-center items-center absolute w-full bottom-0"
@@ -50,6 +65,12 @@ export default {
       },
     },
     addingCard: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    canDelete: {
       type: Boolean,
       default() {
         return false

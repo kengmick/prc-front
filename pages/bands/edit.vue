@@ -55,14 +55,14 @@
                 errors-class="sm:w-4/5 m-auto"
                 :value="band.dateStarted"
               />
-              <FormulateInput
+              <!-- <FormulateInput
                 name="recordLabel"
                 label="Record label?"
                 wrapper-class="sm:w-4/5 m-auto"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
                 :value="band.recordLabel"
-              />
+              /> -->
               <!-- <FormulateInput
                 name="bandEmail"
                 label="Band email?"
@@ -203,7 +203,7 @@
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
               /> -->
-              <FormulateInput
+              <!-- <FormulateInput
                 v-if="
                   !formValues.country || formValues.country === 'United States'
                 "
@@ -215,7 +215,7 @@
                 wrapper-class="sm:w-4/5 m-auto mb-4"
                 element-class="w-full"
                 errors-class="sm:w-4/5 m-auto"
-              />
+              /> -->
             </div>
           </div>
           <section class="px-4 mt-10 sm:m-20">
@@ -241,7 +241,7 @@
               />
             </div>
 
-            <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
+            <!-- <h2 class="text-center main_red_text text-2xl mb-10 mt-4">
               Add Band Bio
             </h2>
             <div class="flex w-full justify-center">
@@ -254,7 +254,7 @@
                 element-class="w-full sm:w-96 h-72"
                 :value="band.bio"
               />
-            </div>
+            </div> -->
           </section>
           <div>
             <FormulateInput

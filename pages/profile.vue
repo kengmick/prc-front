@@ -277,10 +277,10 @@
       <!-- show band here  -->
       <section
         v-if="bands"
-        class="w-full container mx-auto my-10 overflow-scroll"
+        class="w-full h-full container mx-auto my-10 overflow-x-scroll"
       >
         <div
-          class="flex gap-4 w-min md:w-full md:justify-start"
+          class="flex gap-4 w-min md:w-full md:justify-start h-auto"
           :class="{
             'justify-start': bands.length <= 3,
           }"
@@ -291,8 +291,8 @@
             class="w-[220px] md:w-[340px]"
             :band="band"
             :user="band.users_permissions_user"
-            @createdFavs="updateFavData"
-            :isFav="favCheck('bands', band.id)"
+            :canDelete="true"
+            @removeBand="removeBand"
           />
         </div>
       </section>
@@ -1003,6 +1003,9 @@ export default {
   },
   methods: {
     moment,
+    removeBand(id, bandTitle) {
+      this.openPopUp('bands', id, bandTitle)
+    },
     // this is the test functions added now ===============
     async updatedFavs(type, id) {
       console.log(
@@ -1152,22 +1155,26 @@ export default {
     },
     openChat() {},
 
-    async openPopUp(dataType, dataId) {
+    async openPopUp(dataType, dataId, bandTitle) {
       // get the data image and title
       this.dataType = dataType
       this.dataId = dataId
-      const d = await this.$strapi.findOne([dataType], dataId)
+      console.log('this is the band title', bandTitle)
+
       if (
         dataType === 'events' ||
         dataType === 'tours' ||
         dataType === 'classifieds'
       ) {
+        const d = await this.$strapi.findOne([dataType], dataId)
         this.popUpTitle = d.title
       }
       if (dataType === 'venues') {
+        const d = await this.$strapi.findOne([dataType], dataId)
         this.popUpTitle = d.name
+      } else {
+        this.popUpTitle = bandTitle
       }
-      console.log(d, dataType, 'this is the data ')
       this.popUp = true
     },
     closePopup() {
