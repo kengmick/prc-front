@@ -158,7 +158,7 @@
         class="text-[16px] chedder underline cursor-pointer text-white text-center relative bottom-[-12px]"
         @click="startChat(user)"
       >
-        Internal Message
+        Direct Message
       </p>
     </div>
     <section class="container mx-auto h-[calc(100vh-322px)]">

@@ -1,8 +1,9 @@
 <template>
   <div>
-    <NuxtLink to="/livestream" class="relative w-screen">
+    <NuxtLink to="/weeklyvideo" class="relative w-screen">
       <nuxt-img
-        class="absolute top-[calc(50%-40px)] right-[calc(50%-40px)] h-[80px] w-[80px]"
+        style="filter: grayscale(0) !important"
+        class="absolute top-[calc(50%-40px)] right-[calc(50%-40px)] h-[80px] w-[80px] z-50"
         src="/playaltshadow.svg"
         alt=""
         height="80"
@@ -11,6 +12,7 @@
       <div>
         <div class="md:bg-gray-900">
           <nuxt-img
+            style="filter: grayscale(0) !important"
             src="live_background.png"
             class="w-full object-cover h-[33vh] md:w-2/3 md:mx-auto md:h-[44vh] xl:w-1/2 xl:h-[55vh]"
           />
