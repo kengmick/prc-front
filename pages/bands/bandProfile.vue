@@ -107,6 +107,11 @@ export default {
       return this.band.announcements || ''
     },
   },
+  watch: {
+    async '$route.query'() {
+      this.band = await this.$strapi.findOne('bands', this.$route.query.band)
+    },
+  },
 
   async mounted() {
     if (this.$strapi.user) {
