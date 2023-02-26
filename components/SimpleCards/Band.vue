@@ -26,6 +26,9 @@
         <p class="lato text-sm grow">
           {{ moment(String(band.dateStarted)).format('MMMM Do YYYY') }}
         </p>
+        <div v-if="removeFav">
+          <p @click="$emit('removeFavorite')">Unfavorite</p>
+        </div>
         <div
           v-if="canDelete"
           class="mr-2 cursor-pointer"
@@ -71,6 +74,12 @@ export default {
       },
     },
     canDelete: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    removeFav: {
       type: Boolean,
       default() {
         return false

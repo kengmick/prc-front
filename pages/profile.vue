@@ -555,14 +555,16 @@
               v-for="fav in favs.filter((f) => f.type === 'bands')"
               :key="fav.id"
             >
+              <!-- @updatedFavs="updatedFavs('bands', fav.data.id)"
+               :isFav="favCheck('bands', fav.data.id)" -->
               <SimpleCardsBand
                 class="w-[220px] md:w-[340px]"
                 v-if="fav.type === 'bands'"
+                :removeFav="true"
                 :band="fav.data"
                 :user="fav.data.users_permissions_user"
                 :unFollow="true"
-                @updatedFavs="updatedFavs('bands', fav.data.id)"
-                :isFav="favCheck('bands', fav.data.id)"
+                @removeFavorite="removeF(fav.id)"
               />
             </span>
           </div>
@@ -1003,14 +1005,9 @@ export default {
   },
   methods: {
     moment,
-    removeBand(id, bandTitle) {
-      this.openPopUp('bands', id, bandTitle)
-    },
-    // this is the test functions added now ===============
-    async updatedFavs(type, id) {
-      console.log(
-        'this is the updated favs event emited from the parent component'
-      )
+    async removeF(id) {
+      console.log(id)
+      await this.$strapi.delete('favs', id)
       if (this.$strapi.user) {
         const f = await this.$strapi.find('favs', {
           users_permissions_user: this.$strapi.user.id,
@@ -1024,32 +1021,55 @@ export default {
           }
           return 0
         })
+      }
+    },
+    removeBand(id, bandTitle) {
+      this.openPopUp('bands', id, bandTitle)
+    },
+    // this is the test functions added now ===============
+    // async updatedFavs(type, id) {
+    //   console.log(
+    //     'this is the updated favs event emited from the parent component'
+    //   )
+    //   if (this.$strapi.user) {
+    //     const f = await this.$strapi.find('favs', {
+    //       users_permissions_user: this.$strapi.user.id,
+    //     })
+    //     this.favs = f.sort((a, b) => {
+    //       if (a.type < b.type) {
+    //         return -1
+    //       }
+    //       if (a.type > b.type) {
+    //         return 1
+    //       }
+    //       return 0
+    //     })
 
-        if (this.favs !== null) {
-          const check = this.favs.filter((f) => {
-            console.log('fav checkc ')
-            return f.data.id === id
-          })
-          if (check.length > 0) {
-            return true
-          }
-          console.log(check, ' this is check ')
-        }
-      }
-    },
-    favCheck(type, id) {
-      console.log('emited from the child component')
-      if (this.favs !== null) {
-        const check = this.favs.filter((f) => {
-          console.log('fav checkc ')
-          return f.data.id === id
-        })
-        if (check.length > 0) {
-          return true
-        }
-        console.log(check, ' this is check ')
-      }
-    },
+    //     if (this.favs !== null) {
+    //       const check = this.favs.filter((f) => {
+    //         console.log('fav checkc ')
+    //         return f.data.id === id
+    //       })
+    //       if (check.length > 0) {
+    //         return true
+    //       }
+    //       console.log(check, ' this is check ')
+    //     }
+    //   }
+    // },
+    // favCheck(type, id) {
+    //   console.log('emited from the child component')
+    //   if (this.favs !== null) {
+    //     const check = this.favs.filter((f) => {
+    //       console.log('fav checkc ')
+    //       return f.data.id === id
+    //     })
+    //     if (check.length > 0) {
+    //       return true
+    //     }
+    //     console.log(check, ' this is check ')
+    //   }
+    // },
     // end of test functions added now ===================
     // async getFavs(userid) {
     //   console.log('get favs ')
