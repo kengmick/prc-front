@@ -30,10 +30,14 @@
 import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
-  asyncData() {
-    const band = null
-
-    return band
+  asyncData({ error }) {
+    if (error) {
+      console.log(error)
+      const band = null
+      return {
+        band,
+      }
+    }
   },
   // async asyncData(context) {
   //   const query = await context.route.query
