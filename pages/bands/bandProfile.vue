@@ -20,11 +20,21 @@
       />
     </section>
   </div>
+  <div v-else class="h-screen w-screen fixed top-0 left-0">
+    <div class="h-full w-full flex items-center justify-center">
+      <Spinner />
+    </div>
+  </div>
 </template>
 <script>
 import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
+  asyncData() {
+    const band = null
+
+    return band
+  },
   // async asyncData(context) {
   //   const query = await context.route.query
   //   try {
@@ -100,24 +110,32 @@ export default {
       favs: null,
     }
   },
-  async fetch() {
-    if (this.$strapi.user) {
-      console.log('this is user')
-      const f = await this.$strapi.find('favs', {
-        users_permissions_user: this.$strapi.user.id,
-      })
-      this.favs = f.sort((a, b) => {
-        if (a.type < b.type) {
-          return -1
+
+  async mounted() {
+    try {
+      if (this.$strapi) {
+        if (this.$strapi.user) {
+          console.log('this is user')
+          const f = await this.$strapi.find('favs', {
+            users_permissions_user: this.$strapi.user.id,
+          })
+          this.favs = f.sort((a, b) => {
+            if (a.type < b.type) {
+              return -1
+            }
+            if (a.type > b.type) {
+              return 1
+            }
+            return 0
+          })
         }
-        if (a.type > b.type) {
-          return 1
-        }
-        return 0
-      })
+      }
+    } catch (error) {
+      console.log('your not logged in')
     }
 
     try {
+      console.log('this is the hook ')
       this.band = await this.$strapi.findOne('bands', this.$route.query.band)
 
       // const id = [...this.band.events]

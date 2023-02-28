@@ -191,7 +191,7 @@
       class="flex gap-4 overflow-x-scroll ml-2 my-[36px] justify-start"
       :class="{ 'justify-center': band.cardData.cards.length <= 2 }"
     >
-      <div class="w-min flex gap-4">
+      <div v-if="$strapi.user" class="w-min flex gap-4">
         <SimpleCardsBand
           v-for="b in band.cardData.cards"
           class="w-[330px]"
@@ -201,6 +201,14 @@
             $strapi.user.id === band.users_permissions_user.id
           "
           @removeFeatured="$emit('removeFeaturedFromSimple', b.id)"
+        />
+      </div>
+      <div v-else class="w-min flex gap-4">
+        <SimpleCardsBand
+          v-for="b in band.cardData.cards"
+          class="w-[330px]"
+          :key="b.bandName"
+          :band="b"
         />
       </div>
     </div>
