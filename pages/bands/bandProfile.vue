@@ -25,20 +25,20 @@
 import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
-  async asyncData(context) {
-    const query = await context.route.query
-    try {
-      if (context.error) {
-        console.log('there was an error ', query, context.error)
-      }
-    } catch (e) {
-      if (context.error) {
-        console.log('there was an error ')
-      }
-      console.log(e)
-      context.error(e, 'this is an error ') // Show the nuxt error page with the thrown error
-    }
-  },
+  // async asyncData(context) {
+  //   const query = await context.route.query
+  //   try {
+  //     if (context.error) {
+  //       console.log('there was an error ', query, context.error)
+  //     }
+  //   } catch (e) {
+  //     if (context.error) {
+  //       console.log('there was an error ')
+  //     }
+  //     console.log(e)
+  //     context.error(e, 'this is an error ') // Show the nuxt error page with the thrown error
+  //   }
+  // },
   data() {
     return {
       // band and events
@@ -206,11 +206,12 @@ export default {
   },
   methods: {
     moment,
-    async removeFeaturedCard() {
+    async removeFeaturedCard(val) {
+      const fillterdCards = this.band.cardData.cards.filter((c) => {
+        return c.id !== val
+      })
       this.band = await this.$strapi.update('bands', this.band.id, {
-        cardData: null,
-        hasFeaturedCard: false,
-        cardType: '',
+        cardData: JSON.stringify({ cards: fillterdCards }),
       })
     },
     async updatedFavs(type, id) {

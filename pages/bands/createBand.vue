@@ -2817,6 +2817,7 @@ export default {
         console.log('creating the band now ... ')
         const band = await this.$strapi.create('bands', {
           ...this.formValues,
+          cardData: JSON.stringify({ cards: [] }),
           acc: this.acc,
           users_permissions_user: this.$strapi.user.id,
         })

@@ -3,7 +3,7 @@
     <div>
       <!-- not users card  -->
       <section>
-        <section class="my-4">
+        <section class="mb-4 mt-6">
           <h2 class="text-2xl text-center my-6">Feature this card</h2>
           <div class="container-sm mx-auto flex justify-center items-center">
             <div v-if="cardData">
@@ -37,22 +37,28 @@
             </div>
           </section> -->
 
-          <div v-if="bands" class="my-10 overflow-x-auto h-[430px]">
-            <div class="flex gap-4 w-min md:w-full md:justify-center">
-              <div v-for="b in bands" :key="b.id">
-                <SimpleCardsBand
-                  class="w-[320px] mb-20"
-                  :band="b"
-                  :isFeatured="true"
-                  :isHome="true"
-                  :addingCard="true"
-                  :isAddCardPage="true"
-                  :disableAll="true"
-                  @selectUsersCard="featureData(cardData, 'bands', true, b.id)"
-                />
-              </div>
+          <div
+            v-if="bands"
+            class="flex justify-start gap-4 overflow-x-scroll ml-2 my-[36px] lg:justify-center"
+            :class="{ 'justify-center': bands.length <= 2 }"
+          >
+            <div class="w-min flex gap-4">
+              <SimpleCardsBand
+                v-for="b in bands"
+                :key="b.id"
+                class="w-[270px] mb-20"
+                :band="b"
+                :isFeatured="true"
+                :isHome="true"
+                :addingCard="true"
+                :isAddCardPage="true"
+                :disableAll="true"
+                :disabled="true"
+                @selectUsersCard="featureData(cardData, 'bands', true, b.id)"
+              />
             </div>
           </div>
+
           <!-- <div v-if="distros" class="flex gap-6 overflow-x-scroll h-[500px]">
             <div v-for="d in distros" :key="d.name">
               <CardsDistroCard
@@ -98,6 +104,12 @@
         </section>
       </section>
     </div>
+    <section
+      v-if="loading"
+      class="h-screen w-screen fixed right-0 flex justify-center items-center top-0 bg-white z-50"
+    >
+      <Spinner />
+    </section>
   </div>
 </template>
 
@@ -121,6 +133,7 @@ export default {
       tab: 'bands',
       card: null,
       cardData: null,
+      loading: true,
     }
   },
   computed: {
@@ -143,6 +156,7 @@ export default {
   async mounted() {
     this.type = this.$route.query.type
     this.data = this.$route.query.data
+    // find your bands
     try {
       const bands = await this.$strapi.find('bands', {
         users_permissions_user: this.$strapi.user.id,
@@ -231,11 +245,13 @@ export default {
     // render card mounted hook
     try {
       if (this.type === 'band') {
+        this.loading = true
         console.log('this is the band ')
         const band = await this.$strapi.findOne('bands', this.$route.query.data)
         this.band = band
         this.cardData = band
         this.card = 'SimpleCardsBand'
+        this.loading = false
       }
       if (this.type === 'distro') {
         console.log('distros ==================')
@@ -306,17 +322,30 @@ export default {
       console.log(distros, ' this is the last distro')
     },
     async featureData(data, dataType, featureBoolean, cardDataId) {
-      // update the data
-      console.log(dataType, data, 'this is type and data ', cardDataId)
+      // get the band to update
+      const userBand = await this.$strapi.findOne('bands', cardDataId)
+
       try {
+        userBand.cardData.cards.push({
+          type: dataType,
+          bandName: data.bandName,
+          city: data.city || null,
+          state: data.state || null,
+          country: data.country || null,
+          bandProfileImg: data.bandProfileImg,
+          id: data.id,
+          dateStarted: data.dateStarted || null,
+          cardDataId: cardDataId,
+        })
+
         const updated = await this.$strapi.update(dataType, cardDataId, {
-          hasFeaturedCard: true,
-          cardType: this.type,
-          cardData: data,
+          cardData: userBand.cardData,
         })
         if (updated) {
-          console.log(updated, 'this is the updated')
-          this.$router.push({ path: '/profile' })
+          this.$router.push({
+            path: '/bands/bandprofile',
+            query: { band: cardDataId },
+          })
         }
       } catch (error) {
         console.log(

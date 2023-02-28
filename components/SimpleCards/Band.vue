@@ -3,19 +3,25 @@
     v-if="band"
     class="w-full h-full bg-slate-100 shadow-md rounded-b-md relative"
   >
-    <NuxtLink :to="{ path: '/bands/bandprofile', query: { band: band.id } }">
+    <NuxtLink
+      :event="disabled ? '' : 'click'"
+      :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
+    >
       <div
         v-if="band.bandProfileImg"
         class="h-[180px] md:h-[240px] w-full bg-black"
       >
         <NuxtImg
-          class="object-contain h-[180px] w-full md:h-[240px]"
+          class="object-cover h-[180px] w-full md:h-[240px]"
           :src="band.bandProfileImg.url"
           alt=""
         />
       </div>
     </NuxtLink>
-    <NuxtLink :to="{ path: '/bands/bandprofile', query: { band: band.id } }">
+    <NuxtLink
+      :event="disabled ? '' : 'click'"
+      :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
+    >
       <div>
         <p class="text-lg chedder p-2">{{ band.bandName }}</p>
       </div>
@@ -27,7 +33,7 @@
           {{ moment(String(band.dateStarted)).format('MMMM Do YYYY') }}
         </p>
         <div v-if="canRemoveFeatured">
-          <p class="cursor-pointer" @click="$emit('removeFeatured')">
+          <p class="cursor-pointer" @click="$emit('removeFeatured', band.id)">
             Remove Featured
           </p>
         </div>
@@ -51,14 +57,20 @@
 
     <section
       v-if="addingCard"
-      class="flex justify-center items-center absolute w-full bottom-0"
+      class="flex justify-between items-center absolute w-full left-0 bottom-4 gap-4 px-2"
     >
       <div
-        class="w-full bg-black text-white flex justify-center items-center text-[14px] chedder mt-[4px] py-2 cursor-pointer"
+        class="bg-black text-white flex justify-center items-center text-[14px] chedder mt-[4px] py-2 cursor-pointer grow w-full"
         @click="$emit('selectUsersCard', band)"
       >
         <span>Add to this Card !!!</span>
       </div>
+      <NuxtLink
+        class="bg-black text-white flex justify-center items-center text-[14px] chedder mt-[4px] py-2 cursor-pointer grow w-full"
+        :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
+      >
+        <span>View Profile</span>
+      </NuxtLink>
     </section>
   </div>
 </template>
@@ -93,6 +105,12 @@ export default {
       },
     },
     canRemoveFeatured: {
+      type: Boolean,
+      default() {
+        return false
+      },
+    },
+    disabled: {
       type: Boolean,
       default() {
         return false
