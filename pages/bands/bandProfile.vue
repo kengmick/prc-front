@@ -30,20 +30,10 @@
 import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
-  asyncData({ error }) {
-    // fetch('https://punkrockcompound-backend-lb57o.ondigitalocean.app/bands/89')
-    //   .then((response) => response)
-    //   .then((result) => {
-    //     const band = result
-    //     return band
-    //   })
-    //   .catch((error) => console.log('error', error))
-    if (error) {
-      console.log(error)
-      const band = null
-      return {
-        band,
-      }
+  asyncData() {
+    const band = null
+    return {
+      band,
     }
   },
 
@@ -109,6 +99,19 @@ export default {
     }
   },
 
+  computed: {
+    announcement() {
+      return this.band.announcements[this.index] || ''
+    },
+    announcements() {
+      return this.band.announcements || ''
+    },
+  },
+  watch: {
+    async '$route.query'() {
+      this.band = await this.$strapi.findOne('bands', this.$route.query.band)
+    },
+  },
   async mounted() {
     try {
       if (this.$strapi) {
@@ -190,19 +193,6 @@ export default {
       this.user = null
     }
     // get events
-  },
-  computed: {
-    announcement() {
-      return this.band.announcements[this.index] || ''
-    },
-    announcements() {
-      return this.band.announcements || ''
-    },
-  },
-  watch: {
-    async '$route.query'() {
-      this.band = await this.$strapi.findOne('bands', this.$route.query.band)
-    },
   },
 
   created() {
