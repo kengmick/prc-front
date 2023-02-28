@@ -100,21 +100,7 @@ export default {
       favs: null,
     }
   },
-  computed: {
-    announcement() {
-      return this.band.announcements[this.index] || ''
-    },
-    announcements() {
-      return this.band.announcements || ''
-    },
-  },
-  watch: {
-    async '$route.query'() {
-      this.band = await this.$strapi.findOne('bands', this.$route.query.band)
-    },
-  },
-
-  async mounted() {
+  async fetch() {
     if (this.$strapi.user) {
       console.log('this is user')
       const f = await this.$strapi.find('favs', {
@@ -189,6 +175,20 @@ export default {
     }
     // get events
   },
+  computed: {
+    announcement() {
+      return this.band.announcements[this.index] || ''
+    },
+    announcements() {
+      return this.band.announcements || ''
+    },
+  },
+  watch: {
+    async '$route.query'() {
+      this.band = await this.$strapi.findOne('bands', this.$route.query.band)
+    },
+  },
+
   created() {
     const backButtonRouteGuard = this.$router.beforeEach((to, from, next) => {
       if (this.addPhotoBox === true) {
