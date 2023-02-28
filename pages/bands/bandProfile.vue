@@ -31,6 +31,13 @@ import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
   asyncData({ error }) {
+    // fetch('https://punkrockcompound-backend-lb57o.ondigitalocean.app/bands/89')
+    //   .then((response) => response)
+    //   .then((result) => {
+    //     const band = result
+    //     return band
+    //   })
+    //   .catch((error) => console.log('error', error))
     if (error) {
       console.log(error)
       const band = null
@@ -39,20 +46,7 @@ export default {
       }
     }
   },
-  // async asyncData(context) {
-  //   const query = await context.route.query
-  //   try {
-  //     if (context.error) {
-  //       console.log('there was an error ', query, context.error)
-  //     }
-  //   } catch (e) {
-  //     if (context.error) {
-  //       console.log('there was an error ')
-  //     }
-  //     console.log(e)
-  //     context.error(e, 'this is an error ') // Show the nuxt error page with the thrown error
-  //   }
-  // },
+
   data() {
     return {
       // band and events
