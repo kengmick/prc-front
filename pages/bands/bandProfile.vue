@@ -104,16 +104,12 @@ export default {
       meta: [
         // hid is used as unique identifier. Do not use `vmid` for it as it will not work
         {
-          hid: 'description',
-          name: 'description',
-          content: 'My custom description',
-          'og:url': `http://punkrockcompound.com/bands/bandProfile?band=89`,
-          'og:description': 'this is test descriptions ',
-          'og:title': 'This is the band name',
-          // <meta property="og:type"               content="article" />
-          // <meta property="og:title"              content="When Great Minds Don’t Think Alike" />
-          // <meta property="og:description"        content="How much does culture influence creative thinking?" />
-          // <meta property="og:image"              content="http://static01.nyt.com/images/2015/02/19/arts/international/19iht-btnumbers19A/19iht-btnumbers19A-facebookJumbo-v2.jpg" />
+          hid: 'Punkrockcompound',
+          name: 'Punkrockcompound',
+          content: 'Underground punkrock bands/music',
+          'og:url': `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
+          'og:title': this.band.bandName,
+          'og:image': this.band.bandProfileImg.url,
         },
       ],
     }
