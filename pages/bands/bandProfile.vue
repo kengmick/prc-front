@@ -121,7 +121,7 @@ export default {
         {
           hid: 'og:image',
           property: 'og:image',
-          content: this.headBandProfile,
+          content: 'https://unsplash.com/photos/x_38t78VQ1w',
         },
         {
           hid: 'og:url',
