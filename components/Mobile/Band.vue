@@ -367,16 +367,14 @@
         />
       </svg> -->
       <div class="w-[66px] h-[24px] bg-black chedder text-white">
-        <NuxtLink
-          :to="`https://www.facebook.com/dialog/share?app_id=${process.env(
-            FACEBOOK_KEY
-          )}&display=popup&href=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2F&redirect_uri=https%3A%2F%2Fdevelopers.facebook.com%2Ftools%2Fexplorer`"
+        <a
+          href="https://www.facebook.com/dialog/share?app_id=580986866833242&display=popup&href=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2F&redirect_uri=https%3A%2F%2Fdevelopers.facebook.com%2Ftools%2Fexplorer"
         >
           <span class="text-[15px] lg:text-[21px]">
             <!-- <img class="h-[12px] w-[12px]" src="/share.svg" alt="" /> -->
             Share</span
           >
-        </NuxtLink>
+        </a>
       </div>
       <div class="w-[66px] h-[24px] bg-black chedder">
         <span
