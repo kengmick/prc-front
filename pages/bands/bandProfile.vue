@@ -119,8 +119,8 @@ export default {
         },
         { hid: 'og:title', property: 'og:title', content: this.headBandName },
         {
-          hid: 'og-image',
-          property: 'og-image',
+          hid: 'og:image',
+          property: 'og:image',
           content: this.headBandProfile,
         },
         {
