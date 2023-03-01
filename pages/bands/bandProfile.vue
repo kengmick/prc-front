@@ -39,6 +39,10 @@ export default {
 
   data() {
     return {
+      headBandId: '',
+      headBandName: '',
+      headBandProfile: '',
+
       // band and events
       searchClient: instantMeiliSearch(
         'https://prcsearch.net',
@@ -100,16 +104,29 @@ export default {
   },
   head() {
     return {
-      title: this.title,
       meta: [
         // hid is used as unique identifier. Do not use `vmid` for it as it will not work
         {
-          hid: 'Punkrockcompound',
-          name: 'Punkrockcompound',
-          content: 'Underground punkrock bands/music',
-          'og:url': `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
-          'og:title': this.band.bandName,
-          'og:image': this.band.bandProfileImg.url,
+          hid: 'description',
+          name: 'description',
+          content:
+            'Home page descriptifsdafasdfasdfasdfasdfasdfadsfasdfasdfadsfadsfadsfon',
+        },
+        {
+          hid: 'og:description',
+          property: 'og:description',
+          content: `Check out ${this.headBandName} at punkrockcompound.com`,
+        },
+        { hid: 'og:title', property: 'og:title', content: this.headBandName },
+        {
+          hid: 'og-image',
+          property: 'og-image',
+          content: this.headBandProfile,
+        },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `http://punkrockcompound.com/bands/bandProfile?band=${this.headBandId}`,
         },
       ],
     }
@@ -154,6 +171,12 @@ export default {
     try {
       console.log('this is the hook ')
       this.band = await this.$strapi.findOne('bands', this.$route.query.band)
+      this.headBandId = this.band.id
+      this.headBandProfile = this.band.bandProfileImg.url
+      this.headBandName = this.band.bandName
+      //   headBandId: '',
+
+      // headBandProfile: '',
 
       // const id = [...this.band.events]
       // const ids = await id.map((e) => {
