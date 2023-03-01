@@ -67,7 +67,7 @@
       </div>
       <NuxtLink
         class="bg-black text-white flex justify-center items-center text-[14px] chedder mt-[4px] py-2 cursor-pointer grow w-full"
-        :to="{ path: '/bands/bandprofile', query: { band: band.id } }"
+        :to="{ path: '/bands/bandProfile', query: { band: band.id } }"
       >
         <span>View Profile</span>
       </NuxtLink>
