@@ -32,7 +32,7 @@
           <NuxtLink
             class="chedder underline inline-block"
             :to="{
-              path: '/bands/bandprofile',
+              path: '/bands/bandProfile',
               hash: '#showz',
               query: { band: band.id },
             }"
@@ -41,7 +41,7 @@
           <NuxtLink
             class="chedder underline"
             :to="{
-              path: '/bands/bandprofile',
+              path: '/bands/bandProfile',
               hash: '#releases',
               query: { band: band.id },
             }"
@@ -50,7 +50,7 @@
           <NuxtLink
             class="chedder underline"
             :to="{
-              path: '/bands/bandprofile',
+              path: '/bands/bandProfile',
               hash: '#songs',
               query: { band: band.id },
             }"
@@ -59,7 +59,7 @@
           <NuxtLink
             class="chedder underline"
             :to="{
-              path: '/bands/bandprofile',
+              path: '/bands/bandProfile',
               hash: '#videos',
               query: { band: band.id },
             }"
@@ -68,7 +68,7 @@
           <NuxtLink
             class="chedder underline"
             :to="{
-              path: '/bands/bandprofile',
+              path: '/bands/bandProfile',
               hash: '#bio',
               query: { band: band.id },
             }"
@@ -79,7 +79,7 @@
           <NuxtLink
             class="chedder underline"
             :to="{
-              path: '/bands/bandprofile',
+              path: '/bands/bandProfile',
               hash: '#members',
               query: { band: band.id },
             }"
@@ -88,7 +88,7 @@
           <NuxtLink
             class="chedder underline"
             :to="{
-              path: '/bands/bandprofile',
+              path: '/bands/bandProfile',
               hash: '#pictures',
               query: { band: band.id },
             }"
@@ -97,7 +97,7 @@
           <NuxtLink
             class="chedder underline"
             :to="{
-              path: '/bands/bandprofile',
+              path: '/bands/bandProfile',
               hash: '#merch',
               query: { band: band.id },
             }"
@@ -106,7 +106,7 @@
           <NuxtLink
             class="chedder underline"
             :to="{
-              path: '/bands/bandprofile',
+              path: '/bands/bandProfile',
               hash: '#links',
               query: { band: band.id },
             }"
@@ -115,7 +115,7 @@
           <NuxtLink
             class="chedder underline"
             :to="{
-              path: '/bands/bandprofile',
+              path: '/bands/bandProfile',
               hash: '#chatroom',
               query: { band: band.id },
             }"
@@ -626,7 +626,7 @@ export default {
     },
     async genCode() {
       const id = await this.band.id
-      const temp = `bands/bandprofile/?band=${id}`
+      const temp = `bands/bandProfile/?band=${id}`
       console.log(temp)
       this.$router.push({
         path: '/qr',
