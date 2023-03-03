@@ -1,27 +1,5 @@
 <template>
   <div v-if="band" class="absolute top-[48px] h-auto">
-    <script>
-      window.fbAsyncInit = function () {
-        FB.init({
-          appId: '580986866833242',
-          xfbml: true,
-          version: 'v16.0',
-        })
-        FB.AppEvents.logPageView()
-      }
-
-      ;(function (d, s, id) {
-        var js,
-          fjs = d.getElementsByTagName(s)[0]
-        if (d.getElementById(id)) {
-          return
-        }
-        js = d.createElement(s)
-        js.id = id
-        js.src = 'https://connect.facebook.net/en_US/sdk.js'
-        fjs.parentNode.insertBefore(js, fjs)
-      })(document, 'script', 'facebook-jssdk')
-    </script>
     <MobileBand
       :band="band"
       :user="band.users_permissions_user"
@@ -33,6 +11,7 @@
       @startChat="startChatNow(band.users_permissions_user)"
       @removeFeaturedFromSimple="removeFeaturedCard"
     />
+
     <section v-if="chat">
       <Chat
         :chatInfo="chat"

@@ -179,6 +179,9 @@
       </div>
     </section>
     <!-- featured cards  -->
+    <div class="w-full flex justify-center">
+      <h1 class="text-white" @click="f">Test</h1>
+    </div>
     <h3
       v-if="band.cardData.cards.length > 0"
       class="text-white text-2xl text-center mt-5"
@@ -622,6 +625,21 @@ export default {
     }
   },
   methods: {
+    /* eslint-disable */
+
+    f() {
+      console.log('open share ')
+      FB.ui(
+        {
+          method: 'share',
+          href: 'https://developers.facebook.com/docs/',
+        },
+        function (response) {
+          console.log(response)
+        }
+      )
+    },
+
     photoBox(pic) {
       this.pic = pic
     },
