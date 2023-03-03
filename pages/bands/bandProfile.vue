@@ -103,35 +103,6 @@ export default {
       favs: null,
     }
   },
-  head() {
-    return {
-      meta: [
-        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
-        {
-          hid: 'description',
-          name: 'description',
-          content:
-            'Home page descriptifsdafasdfasdfasdfasdfasdfadsfasdfasdfadsfadsfadsfon',
-        },
-        {
-          hid: 'og:description',
-          property: 'og:description',
-          content: `Check out ${this.headBandName} at punkrockcompound.com`,
-        },
-        { hid: 'og:title', property: 'og:title', content: this.headBandName },
-        {
-          hid: 'og:image',
-          property: 'og:image',
-          content: 'https://unsplash.com/photos/x_38t78VQ1w',
-        },
-        {
-          hid: 'og:url',
-          property: 'og:url',
-          content: `http://punkrockcompound.com/bands/bandProfile?band=${this.headBandId}`,
-        },
-      ],
-    }
-  },
 
   computed: {
     announcement() {

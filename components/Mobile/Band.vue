@@ -591,11 +591,39 @@ export default {
       hasChat: false,
     }
   },
-  head: {
-    bodyAttrs: {
-      class: 'overflow-hidden',
-    },
+  head() {
+    return {
+      bodyAttrs: {
+        class: 'overflow-hidden',
+      },
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            'Home page descriptifsdafasdfasdfasdfasdfasdfadsfasdfasdfadsfadsfadsfon',
+        },
+        {
+          hid: 'og:description',
+          property: 'og:description',
+          content: `Check out ${this.headBandName} at punkrockcompound.com`,
+        },
+        { hid: 'og:title', property: 'og:title', content: this.headBandName },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: 'https://unsplash.com/photos/x_38t78VQ1w',
+        },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `http://punkrockcompound.com/bands/bandProfile?band=${this.headBandId}`,
+        },
+      ],
+    }
   },
+
   computed: {
     announcement() {
       return this.band.announcements[this.index] || ''
@@ -628,7 +656,7 @@ export default {
       FB.ui(
         {
           method: 'share',
-          href: 'https://developers.facebook.com/docs/',
+          href: `https://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
         },
         function (response) {
           console.log(response)
