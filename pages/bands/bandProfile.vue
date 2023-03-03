@@ -10,6 +10,7 @@
       @addFeaturedToBandCard="addCard"
       @startChat="startChatNow(band.users_permissions_user)"
       @removeFeaturedFromSimple="removeFeaturedCard"
+      @share="s"
     />
 
     <section v-if="chat">
@@ -101,6 +102,32 @@ export default {
       trackForm: false,
       bioAction: 'create',
       favs: null,
+    }
+  },
+  head() {
+    return {
+      meta: [
+        {
+          hid: 'og:description',
+          property: 'og:description',
+          content: `Check out ${this.headBandName} at punkrockcompound.com`,
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: 'fadsfasdfasdfadsfadsfadsfadsfadsfadsfadsfadsfadsfadsfds',
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: 'https://unsplash.com/photos/x_38t78VQ1w',
+        },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `http://punkrockcompound.com/bands/bandProfile?band=${this.headBandId}`,
+        },
+      ],
     }
   },
 
@@ -223,6 +250,24 @@ export default {
   },
   methods: {
     moment,
+    /* eslint-disable */
+    s(val) {
+      this.headbandId = val.bandId
+      this.headBandName = val.bandName
+      this.f()
+    },
+    f() {
+      FB.ui(
+        {
+          method: 'share',
+          href: `https://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
+        },
+        function (response) {
+          console.log(response)
+        }
+      )
+    },
+    /* eslint-enable */
     async removeFeaturedCard(val) {
       const fillterdCards = this.band.cardData.cards.filter((c) => {
         return c.id !== val

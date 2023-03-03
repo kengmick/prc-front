@@ -2,8 +2,9 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   loading: '~/components/Loading.vue',
   target: 'static',
+  ssr: true,
   head: {
-    title: 'punkrockcompound',
+    title: 'punkrockcompound test',
     htmlAttrs: {
       lang: 'en',
     },

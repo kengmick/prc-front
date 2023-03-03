@@ -370,7 +370,7 @@
         />
       </svg> -->
       <div class="w-[66px] h-[24px] bg-black chedder text-white">
-        <span class="text-[15px] lg:text-[21px]" @click="f">
+        <span class="text-[15px] lg:text-[21px]" @click="share">
           <!-- <img class="h-[12px] w-[12px]" src="/share.svg" alt="" /> -->
           Share</span
         >
@@ -591,37 +591,32 @@ export default {
       hasChat: false,
     }
   },
-  head() {
-    return {
-      bodyAttrs: {
-        class: 'overflow-hidden',
-      },
-      meta: [
-        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
-        {
-          hid: 'description',
-          name: 'description',
-          content: 'Punkrockcompund',
-        },
-        {
-          hid: 'og:description',
-          property: 'og:description',
-          content: `Check out ${this.band.bandName} at punkrockcompound.com`,
-        },
-        { hid: 'og:title', property: 'og:title', content: this.band.bandName },
-        {
-          hid: 'og:image',
-          property: 'og:image',
-          content: 'https://unsplash.com/photos/x_38t78VQ1w',
-        },
-        {
-          hid: 'og:url',
-          property: 'og:url',
-          content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.bandId}`,
-        },
-      ],
-    }
-  },
+  // head() {
+  //   return {
+  //     bodyAttrs: {
+  //       class: 'overflow-hidden',
+  //     },
+  //     meta: [
+  //       // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+  //       {
+  //         hid: 'og:description',
+  //         property: 'og:description',
+  //         content: `Check out ${this.band.bandName} at punkrockcompound.com`,
+  //       },
+  //       { hid: 'og:title', property: 'og:title', content: this.band.bandName },
+  //       {
+  //         hid: 'og:image',
+  //         property: 'og:image',
+  //         content: 'https://unsplash.com/photos/x_38t78VQ1w',
+  //       },
+  //       {
+  //         hid: 'og:url',
+  //         property: 'og:url',
+  //         content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.bandId}`,
+  //       },
+  //     ],
+  //   }
+  // },
 
   computed: {
     announcement() {
@@ -649,7 +644,13 @@ export default {
   },
   methods: {
     /* eslint-disable */
-
+    share() {
+      this.$emit('share', {
+        bandName: this.band.bandName,
+        bandId: this.band.id,
+        bandProfileImg: this.band.bandProfileImg.url,
+      })
+    },
     f() {
       console.log('open share ')
       FB.ui(
