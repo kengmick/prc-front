@@ -601,15 +601,14 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content:
-            'Home page descriptifsdafasdfasdfasdfasdfasdfadsfasdfasdfadsfadsfadsfon',
+          content: 'Punkrockcompund',
         },
         {
           hid: 'og:description',
           property: 'og:description',
-          content: `Check out ${this.headBandName} at punkrockcompound.com`,
+          content: `Check out ${this.band.bandName} at punkrockcompound.com`,
         },
-        { hid: 'og:title', property: 'og:title', content: this.headBandName },
+        { hid: 'og:title', property: 'og:title', content: this.band.bandName },
         {
           hid: 'og:image',
           property: 'og:image',
@@ -618,7 +617,7 @@ export default {
         {
           hid: 'og:url',
           property: 'og:url',
-          content: `http://punkrockcompound.com/bands/bandProfile?band=${this.headBandId}`,
+          content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.bandId}`,
         },
       ],
     }
