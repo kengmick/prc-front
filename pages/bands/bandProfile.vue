@@ -115,7 +115,7 @@ export default {
         {
           hid: 'og:title',
           property: 'og:title',
-          content: 'fadsfasdfasdfadsfadsfadsfadsfadsfadsfadsfadsfadsfadsfds',
+          content: this.headBandName,
         },
         {
           hid: 'og:image',
@@ -251,9 +251,9 @@ export default {
   methods: {
     moment,
     /* eslint-disable */
-    s(val) {
-      this.headbandId = val.bandId
-      this.headBandName = val.bandName
+    async s(val) {
+      this.headBandId = await val.bandId
+      this.headBandName = await val.bandName
       this.f()
     },
     f() {
