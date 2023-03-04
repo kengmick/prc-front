@@ -12,6 +12,7 @@
       @removeFeaturedFromSimple="removeFeaturedCard"
       @share="s"
     />
+    <h1>Hello test</h1>
 
     <section v-if="chat">
       <Chat
