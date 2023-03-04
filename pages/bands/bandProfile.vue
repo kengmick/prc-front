@@ -120,7 +120,8 @@ export default {
         {
           hid: 'og:image',
           property: 'og:image',
-          content: 'https://unsplash.com/photos/x_38t78VQ1w',
+          content:
+            'https://punkrockcompund.s3.amazonaws.com/david_rangel_D_Qw9cbx9qcs_unsplash_9ec4cca449.jpg',
         },
         {
           hid: 'og:url',
