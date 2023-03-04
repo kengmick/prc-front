@@ -370,7 +370,7 @@
         />
       </svg> -->
       <div class="w-[66px] h-[24px] bg-black chedder text-white">
-        <span class="text-[15px] lg:text-[21px]" @click="share">
+        <span class="text-[15px] lg:text-[21px]" @click="f">
           <!-- <img class="h-[12px] w-[12px]" src="/share.svg" alt="" /> -->
           Share</span
         >
@@ -653,7 +653,6 @@ export default {
       })
     },
     f() {
-      console.log('open share ')
       FB.ui(
         {
           method: 'share',
