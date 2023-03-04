@@ -589,6 +589,33 @@ export default {
       hasChat: false,
     }
   },
+
+  // head: {
+  //   title: 'Home page',
+  //   meta: [
+  //     {
+  //       hid: 'og:description',
+  //       name: 'og:description',
+  //       property: 'og:description',
+  //       content: `Check out new mefdsfdsfdsfdsta ${this.band.bandName} at punkrockcompound.com`,
+  //     },
+  //     {
+  //       name: 'og:title',
+  //       property: 'og:title',
+  //       content: this.band.bandName,
+  //     },
+  //     {
+  //       name: 'og:image',
+  //       property: 'og:image',
+  //       content: this.band.bandProfileImg.url,
+  //     },
+  //     {
+  //       name: 'og:url',
+  //       property: 'og:url',
+  //       content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
+  //     },
+  //   ],
+  // },
   head() {
     return {
       bodyAttrs: {
@@ -600,32 +627,31 @@ export default {
           body: true,
         },
       ],
-      meta: [
-        {
-          hid: 'og:description',
-          name: 'og:description',
-          property: 'og:description',
-          content: `Check out new meta ${this.band.bandName} at punkrockcompound.com`,
-        },
-        {
-          hid: 'og:title',
-          name: 'og:title',
-          property: 'og:title',
-          content: this.band.bandName,
-        },
-        {
-          hid: 'og:image',
-          name: 'og:image',
-          property: 'og:image',
-          content: this.band.bandProfileImg.url,
-        },
-        {
-          hid: 'og:url',
-          name: 'og:url',
-          property: 'og:url',
-          content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
-        },
-      ],
+
+      // meta: [
+      //   {
+      //     hid: 'og:description',
+      //     name: 'og:description',
+      //     property: 'og:description',
+      //     content: `From Component ${this.band.bandName} at punkrockcompound.com`,
+      //   },
+      //   {
+      //     hid: 'og:title',
+      //     name: 'og:title',
+      //     property: 'og:title',
+      //     content: this.band.bandName,
+      //   },
+      //   {
+      //     name: 'og:image',
+      //     property: 'og:image',
+      //     content: this.band.bandProfileImg.url,
+      //   },
+      //   {
+      //     name: 'og:url',
+      //     property: 'og:url',
+      //     content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
+      //   },
+      // ],
     }
   },
 
@@ -636,6 +662,17 @@ export default {
     announcements() {
       return this.band.announcements || ''
     },
+  },
+  beforeMount() {
+    const description = document.createElement('meta')
+    description.setAttribute('name', 'og:description')
+    description.content = `Check out ${this.band.bandName} at Punkrockcompound`
+    const image = document.createElement('meta')
+    image.setAttribute('name', 'og:image')
+    image.content = this.band.bandProfileImg.url
+    const head = document.getElementsByTagName('head')
+    head[0].prepend(description)
+    head[0].prepend(image)
   },
   async mounted() {
     if (this.$strapi.user) {

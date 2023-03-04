@@ -158,10 +158,7 @@ export default {
       this.band = await this.$strapi.findOne('bands', this.$route.query.band)
     },
   },
-  // async beforeMount() {
-  //   const band = await this.$strapi.findOne('bands', this.$route.query.band)
-  //   this.band = band
-  // },
+
   // async beforeCreated() {
   //   const band = await this.$options.asyncData(this.$root.$options.context)
   //   this.band = band
@@ -169,21 +166,18 @@ export default {
   // },
   async mounted() {
     try {
-      const band = await this.$strapi.findOne('bands', this.$route.query.band)
-      this.band = band
-
+      // const band = await this.$strapi.findOne('bands', this.$route.query.band)
+      // this.band = band
       // const description = document.createElement('meta')
       // description.setAttribute('name', 'og:description')
       // description.setAttribute('data-n-head', 'ssr')
       // description.setAttribute('data-hid', 'og:description')
       // description.content = `Check out ${band.bandName} at Punkrockcompound`
-
       // const image = document.createElement('meta')
       // image.setAttribute('name', 'og:image')
       // image.setAttribute('data-n-head', 'ssr')
       // image.setAttribute('data-hid', 'og:image')
       // image.content = band.bandProfileImg.url
-
       // document.getElementsByTagName('head')[0].prepend(description)
       // document.getElementsByTagName('head')[0].prepend(image)
     } catch (error) {

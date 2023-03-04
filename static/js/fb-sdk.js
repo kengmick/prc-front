@@ -16,7 +16,8 @@ window.fbAsyncInit = function () {
   js = d.createElement(s)
   js.id = id
   js.src = 'https://connect.facebook.net/en_US/sdk.js'
-
-  document.head.appendChild(js)
+  setTimeout(() => {
+    document.head.appendChild(js)
+  }, 100)
   // fjs.parentNode.insertBefore(js, fjs)
 })(document, 'script', 'facebook-jssdk')
