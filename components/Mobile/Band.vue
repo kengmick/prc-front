@@ -601,7 +601,7 @@ export default {
         {
           hid: 'og:description',
           name: 'og:description',
-          content: `Check out ${this.band.bandName} at punkrockcompound.com`,
+          content: `Check out test band name  ${this.band.bandName} at punkrockcompound.com`,
         },
         { hid: 'og:title', name: 'og:title', content: this.band.bandName },
         {
