@@ -594,14 +594,14 @@ export default {
       bodyAttrs: {
         class: 'overflow-hidden',
       },
-      script: [
-        {
-          src: '/js/fb-sdk.js',
-        },
-        {
-          body: true,
-        },
-      ],
+      // script: [
+      //   {
+      //     src: '/js/fb-sdk.js',
+      //   },
+      //   {
+      //     body: true,
+      //   },
+      // ],
       meta: [
         {
           hid: 'og:description',
