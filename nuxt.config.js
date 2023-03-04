@@ -5,6 +5,7 @@ export default {
   ssr: true,
   server: {
     port: process.env.NODE_ENV === 'development' ? 3000 : 8080,
+    host: process.env.NODE_ENV === 'development' ? 'localhost' : '0.0.0.0',
   },
   head: {
     title: 'punkrockcompound',
