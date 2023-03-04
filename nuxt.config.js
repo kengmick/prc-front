@@ -3,6 +3,9 @@ export default {
   loading: '~/components/Loading.vue',
   // target: 'static',
   ssr: true,
+  server: {
+    port: process.env.NODE_ENV === 'development' ? 3000 : 8080,
+  },
   head: {
     title: 'punkrockcompound',
     htmlAttrs: {
