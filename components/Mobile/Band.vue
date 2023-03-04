@@ -603,7 +603,7 @@ export default {
           name: 'og:description',
           content: `Check out ${this.band.bandName} at punkrockcompound.com`,
         },
-        { hid: 'og:title', property: 'og:title', content: this.band.bandName },
+        { hid: 'og:title', name: 'og:title', content: this.band.bandName },
         {
           hid: 'og:image',
           name: 'og:image',
@@ -612,7 +612,7 @@ export default {
         },
         {
           hid: 'og:url',
-          property: 'og:url',
+          name: 'og:url',
           content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.bandId}`,
         },
       ],
