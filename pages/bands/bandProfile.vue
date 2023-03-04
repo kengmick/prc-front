@@ -32,11 +32,12 @@
 import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
-  asyncData() {
-    const band = null
-    return {
-      band,
-    }
+  async asyncData({ route, $http }) {
+    console.log(route.query.band)
+    const band = await $http.$get(
+      `https://punkrockcompound-backend-lb57o.ondigitalocean.app/bands/${route.query.band}`
+    )
+    return { band }
   },
 
   data() {
@@ -104,33 +105,38 @@ export default {
       favs: null,
     }
   },
-  // head() {
-  //   return {
-  //     meta: [
-  //       {
-  //         hid: 'og:description',
-  //         name: 'og:description',
-  //         content: `Check out ${this.headBandName} at punkrockcompound.com`,
-  //       },
-  //       {
-  //         hid: 'og:title',
-  //         name: 'og:title',
-  //         content: this.headBandName,
-  //       },
-  //       {
-  //         hid: 'og:image',
-  //         name: 'og:image',
-  //         content:
-  //           'https://punkrockcompund.s3.amazonaws.com/david_rangel_D_Qw9cbx9qcs_unsplash_9ec4cca449.jpg',
-  //       },
-  //       {
-  //         hid: 'og:url',
-  //         name: 'og:url',
-  //         content: `http://punkrockcompound.com/bands/bandProfile?band=${this.headBandId}`,
-  //       },
-  //     ],
-  //   }
-  // },
+  head() {
+    return {
+      meta: [
+        // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          property: 'og:description',
+          content: `Check out test band name  ${this.band.bandName} at punkrockcompound.com`,
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          name: 'og:title',
+          content: this.band.bandName,
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          property: 'og:image',
+          content:
+            'https://punkrockcompund.s3.amazonaws.com/david_rangel_D_Qw9cbx9qcs_unsplash_9ec4cca449.jpg',
+        },
+        {
+          hid: 'og:url',
+          name: 'og:url',
+          property: 'og:property',
+          content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
+        },
+      ],
+    }
+  },
 
   computed: {
     announcement() {
