@@ -613,7 +613,7 @@ export default {
         {
           hid: 'og:url',
           name: 'og:url',
-          content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.bandId}`,
+          content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
         },
       ],
     }
