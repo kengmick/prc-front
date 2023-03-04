@@ -32,8 +32,8 @@
 import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
-  asyncData({ route }) {
-    const band = null
+  async asyncData({ route, $strapi }) {
+    const band = await $strapi.findOne('bands', route.query.band)
     return {
       band,
     }
@@ -104,33 +104,32 @@ export default {
       favs: null,
     }
   },
-  // head() {
-  //   return {
-  //     meta: [
-  //       {
-  //         hid: 'og:description',
-  //         name: 'og:description',
-  //         content: `Check out ${this.headBandName} at punkrockcompound.com`,
-  //       },
-  //       {
-  //         hid: 'og:title',
-  //         name: 'og:title',
-  //         content: this.headBandName,
-  //       },
-  //       {
-  //         hid: 'og:image',
-  //         name: 'og:image',
-  //         content:
-  //           'https://punkrockcompund.s3.amazonaws.com/david_rangel_D_Qw9cbx9qcs_unsplash_9ec4cca449.jpg',
-  //       },
-  //       {
-  //         hid: 'og:url',
-  //         name: 'og:url',
-  //         content: `http://punkrockcompound.com/bands/bandProfile?band=${this.headBandId}`,
-  //       },
-  //     ],
-  //   }
-  // },
+  head() {
+    return {
+      meta: [
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          content: `Check out new meta ${this.band.bandName} at punkrockcompound.com`,
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: this.band.bandName,
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          content: this.band.bandProfileImg.url,
+        },
+        {
+          hid: 'og:url',
+          name: 'og:url',
+          content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
+        },
+      ],
+    }
+  },
 
   computed: {
     announcement() {
@@ -146,6 +145,7 @@ export default {
     },
   },
   async mounted() {
+    console.log(this.band, 'this is the band')
     try {
       if (this.$strapi) {
         if (this.$strapi.user) {
@@ -169,11 +169,9 @@ export default {
     }
 
     try {
-      console.log('this is the hook ')
-      this.band = await this.$strapi.findOne('bands', this.$route.query.band)
-      this.headBandId = this.band.id
-      this.headBandProfile = this.band.bandProfileImg.url
-      this.headBandName = this.band.bandName
+      // this.headBandId = this.band.id
+      // this.headBandProfile = this.band.bandProfileImg.url
+      // this.headBandName = this.band.bandName
       //   headBandId: '',
 
       // headBandProfile: '',
