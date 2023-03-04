@@ -602,35 +602,28 @@ export default {
           body: true,
         },
       ],
-
-      //   meta: [
-      //     // hid is used as unique identifier. Do not use `vmid` for it as it will not work
-      //     {
-      //       hid: 'og:description',
-      //       name: 'og:description',
-      //       property: 'og:description',
-      //       content: `Check out test band name  ${this.band.bandName} at punkrockcompound.com`,
-      //     },
-      //     {
-      //       hid: 'og:title',
-      //       property: 'og:title',
-      //       name: 'og:title',
-      //       content: this.band.bandName,
-      //     },
-      //     {
-      //       hid: 'og:image',
-      //       name: 'og:image',
-      //       property: 'og:image',
-      //       content:
-      //         'https://punkrockcompund.s3.amazonaws.com/david_rangel_D_Qw9cbx9qcs_unsplash_9ec4cca449.jpg',
-      //     },
-      //     {
-      //       hid: 'og:url',
-      //       name: 'og:url',
-      //          property: 'og:property',
-      //       content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
-      //     },
-      //   ],
+      meta: [
+        {
+          hid: 'og:description',
+          name: 'og:description',
+          content: `Check out new meta ${this.band.bandName} at punkrockcompound.com`,
+        },
+        {
+          hid: 'og:title',
+          name: 'og:title',
+          content: this.band.bandName,
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          content: this.band.bandProfileImg.url,
+        },
+        {
+          hid: 'og:url',
+          name: 'og:url',
+          content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
+        },
+      ],
     }
   },
 

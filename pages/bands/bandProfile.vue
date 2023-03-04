@@ -1,5 +1,5 @@
 <template>
-  <div v-if="band" class="absolute top-[48px] h-auto">
+  <div v-if="band !== null" class="absolute top-[48px] h-auto">
     <MobileBand
       :band="band"
       :user="band.users_permissions_user"
@@ -32,16 +32,24 @@
 import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
-  async asyncData({ route, $strapi }) {
+  // async serverPrefetch({ $route, $strapi, $store }) {
+  //   const band = await $strapi.findOne('bands', $route.query.band)
+  //   this.band = band
+  //   await $store.dispatch('setBand', band)
+  //   return {
+  //     band,
+  //   }
+  // },
+  async asyncData({ route, $strapi, context, store }) {
     try {
-      console.log(route)
       const band = await $strapi.findOne('bands', route.query.band)
+      // context.store.dispatch('setBand', band)
+      await store.dispatch('setBand', band)
       return {
         band,
       }
     } catch (error) {
-      const band = null
-      return band
+      console.log('can not get band ', error)
     }
   },
 
@@ -110,32 +118,32 @@ export default {
       favs: null,
     }
   },
-  head() {
-    return {
-      meta: [
-        {
-          hid: 'og:description',
-          name: 'og:description',
-          content: `Check out new meta ${this.band.bandName} at punkrockcompound.com`,
-        },
-        {
-          hid: 'og:title',
-          name: 'og:title',
-          content: this.band.bandName,
-        },
-        {
-          hid: 'og:image',
-          name: 'og:image',
-          content: this.band.bandProfileImg.url,
-        },
-        {
-          hid: 'og:url',
-          name: 'og:url',
-          content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
-        },
-      ],
-    }
-  },
+  // head() {
+  //   return {
+  //     meta: [
+  //       {
+  //         hid: 'og:description',
+  //         name: 'og:description',
+  //         content: `Check out new meta ${this.band.bandName} at punkrockcompound.com`,
+  //       },
+  //       {
+  //         hid: 'og:title',
+  //         name: 'og:title',
+  //         content: this.band.bandName,
+  //       },
+  //       {
+  //         hid: 'og:image',
+  //         name: 'og:image',
+  //         content: this.band.bandProfileImg.url,
+  //       },
+  //       {
+  //         hid: 'og:url',
+  //         name: 'og:url',
+  //         content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
+  //       },
+  //     ],
+  //   }
+  // },
 
   computed: {
     announcement() {
@@ -150,12 +158,37 @@ export default {
       this.band = await this.$strapi.findOne('bands', this.$route.query.band)
     },
   },
+  // async beforeMount() {
+  //   const band = await this.$strapi.findOne('bands', this.$route.query.band)
+  //   this.band = band
+  // },
+  // async beforeCreated() {
+  //   const band = await this.$options.asyncData(this.$root.$options.context)
+  //   this.band = band
+  //   console.log(band)
+  // },
   async mounted() {
-    console.log(this.band, 'this is the band')
     try {
       const band = await this.$strapi.findOne('bands', this.$route.query.band)
       this.band = band
-    } catch (error) {}
+
+      // const description = document.createElement('meta')
+      // description.setAttribute('name', 'og:description')
+      // description.setAttribute('data-n-head', 'ssr')
+      // description.setAttribute('data-hid', 'og:description')
+      // description.content = `Check out ${band.bandName} at Punkrockcompound`
+
+      // const image = document.createElement('meta')
+      // image.setAttribute('name', 'og:image')
+      // image.setAttribute('data-n-head', 'ssr')
+      // image.setAttribute('data-hid', 'og:image')
+      // image.content = band.bandProfileImg.url
+
+      // document.getElementsByTagName('head')[0].prepend(description)
+      // document.getElementsByTagName('head')[0].prepend(image)
+    } catch (error) {
+      console.log(error)
+    }
     try {
       if (this.$strapi) {
         if (this.$strapi.user) {

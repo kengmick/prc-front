@@ -3,6 +3,7 @@ export default {
   loading: '~/components/Loading.vue',
   // target: 'static',
   ssr: true,
+  universal: true,
   server: {
     port: process.env.NODE_ENV === 'development' ? 3000 : 8080,
     host: process.env.NODE_ENV === 'development' ? 'localhost' : '0.0.0.0',
