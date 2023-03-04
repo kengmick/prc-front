@@ -2,8 +2,6 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   loading: '~/components/Loading.vue',
   // target: 'static',
-  ssr: true,
-  universal: true,
   server: {
     port: process.env.NODE_ENV === 'development' ? 3000 : 8080,
     host: process.env.NODE_ENV === 'development' ? 'localhost' : '0.0.0.0',
@@ -16,6 +14,14 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        name: 'description',
+        content: `Underground punk rock music`,
+      },
+      {
+        name: 'title',
+        content: 'Punkrockcompound',
+      },
     ],
     script: [
       {

@@ -14,6 +14,7 @@
             :band="band"
           />
         </div>
+        <h1>Test again</h1>
         <!-- <PosterCard
             class="mb-10"
             v-for="(band, index) in bands"

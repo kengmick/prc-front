@@ -604,21 +604,25 @@ export default {
         {
           hid: 'og:description',
           name: 'og:description',
+          property: 'og:description',
           content: `Check out new meta ${this.band.bandName} at punkrockcompound.com`,
         },
         {
           hid: 'og:title',
           name: 'og:title',
+          property: 'og:title',
           content: this.band.bandName,
         },
         {
           hid: 'og:image',
           name: 'og:image',
+          property: 'og:image',
           content: this.band.bandProfileImg.url,
         },
         {
           hid: 'og:url',
           name: 'og:url',
+          property: 'og:url',
           content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
         },
       ],
