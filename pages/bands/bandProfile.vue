@@ -33,9 +33,15 @@ import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
   async asyncData({ route, $strapi }) {
-    const band = await $strapi.findOne('bands', route.query.band)
-    return {
-      band,
+    try {
+      console.log(route)
+      const band = await $strapi.findOne('bands', route.query.band)
+      return {
+        band,
+      }
+    } catch (error) {
+      const band = null
+      return band
     }
   },
 
@@ -106,9 +112,6 @@ export default {
   },
   head() {
     return {
-      bodyAttrs: {
-        script: '/js/fb-sdk.js',
-      },
       meta: [
         {
           hid: 'og:description',
@@ -149,6 +152,10 @@ export default {
   },
   async mounted() {
     console.log(this.band, 'this is the band')
+    try {
+      const band = await this.$strapi.findOne('bands', this.$route.query.band)
+      this.band = band
+    } catch (error) {}
     try {
       if (this.$strapi) {
         if (this.$strapi.user) {

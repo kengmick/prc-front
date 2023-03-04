@@ -179,9 +179,7 @@
       </div>
     </section>
     <!-- featured cards  -->
-    <div class="w-full flex justify-center">
-      <h1 class="text-white" @click="f">Test</h1>
-    </div>
+
     <h3
       v-if="band.cardData.cards.length > 0"
       class="text-white text-2xl text-center mt-5"
@@ -596,6 +594,15 @@ export default {
       bodyAttrs: {
         class: 'overflow-hidden',
       },
+      script: [
+        {
+          src: '/js/fb-sdk.js',
+        },
+        {
+          body: true,
+        },
+      ],
+
       //   meta: [
       //     // hid is used as unique identifier. Do not use `vmid` for it as it will not work
       //     {
