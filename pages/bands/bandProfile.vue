@@ -104,33 +104,33 @@ export default {
       favs: null,
     }
   },
-  head() {
-    return {
-      meta: [
-        {
-          hid: 'og:description',
-          property: 'og:description',
-          content: `Check out ${this.headBandName} at punkrockcompound.com`,
-        },
-        {
-          hid: 'og:title',
-          property: 'og:title',
-          content: this.headBandName,
-        },
-        {
-          hid: 'og:image',
-          property: 'og:image',
-          content:
-            'https://punkrockcompund.s3.amazonaws.com/david_rangel_D_Qw9cbx9qcs_unsplash_9ec4cca449.jpg',
-        },
-        {
-          hid: 'og:url',
-          property: 'og:url',
-          content: `http://punkrockcompound.com/bands/bandProfile?band=${this.headBandId}`,
-        },
-      ],
-    }
-  },
+  // head() {
+  //   return {
+  //     meta: [
+  //       {
+  //         hid: 'og:description',
+  //         name: 'og:description',
+  //         content: `Check out ${this.headBandName} at punkrockcompound.com`,
+  //       },
+  //       {
+  //         hid: 'og:title',
+  //         name: 'og:title',
+  //         content: this.headBandName,
+  //       },
+  //       {
+  //         hid: 'og:image',
+  //         name: 'og:image',
+  //         content:
+  //           'https://punkrockcompund.s3.amazonaws.com/david_rangel_D_Qw9cbx9qcs_unsplash_9ec4cca449.jpg',
+  //       },
+  //       {
+  //         hid: 'og:url',
+  //         name: 'og:url',
+  //         content: `http://punkrockcompound.com/bands/bandProfile?band=${this.headBandId}`,
+  //       },
+  //     ],
+  //   }
+  // },
 
   computed: {
     announcement() {

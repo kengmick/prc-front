@@ -4,7 +4,7 @@ export default {
   target: 'static',
   ssr: true,
   head: {
-    title: 'punkrockcompound test',
+    title: 'punkrockcompound',
     htmlAttrs: {
       lang: 'en',
     },
