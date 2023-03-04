@@ -106,6 +106,9 @@ export default {
   },
   head() {
     return {
+      bodyAttrs: {
+        script: '/js/fb-sdk.js',
+      },
       meta: [
         {
           hid: 'og:description',
