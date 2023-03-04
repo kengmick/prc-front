@@ -125,8 +125,7 @@ export default {
           hid: 'og:image',
           name: 'og:image',
           property: 'og:image',
-          content:
-            'https://punkrockcompund.s3.amazonaws.com/david_rangel_D_Qw9cbx9qcs_unsplash_9ec4cca449.jpg',
+          content: this.band.bandProfileImg.url,
         },
         {
           hid: 'og:url',
