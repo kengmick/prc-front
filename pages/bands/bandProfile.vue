@@ -117,32 +117,53 @@ export default {
       favs: null,
     }
   },
-  // head() {
-  //   return {
-  //     meta: [
-  //       {
-  //         hid: 'og:description',
-  //         name: 'og:description',
-  //         content: `Check out new meta ${this.band.bandName} at punkrockcompound.com`,
-  //       },
-  //       {
-  //         hid: 'og:title',
-  //         name: 'og:title',
-  //         content: this.band.bandName,
-  //       },
-  //       {
-  //         hid: 'og:image',
-  //         name: 'og:image',
-  //         content: this.band.bandProfileImg.url,
-  //       },
-  //       {
-  //         hid: 'og:url',
-  //         name: 'og:url',
-  //         content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
-  //       },
-  //     ],
-  //   }
-  // },
+  head() {
+    return {
+      meta: [
+        {
+          hid: 'og:description',
+          property: 'og:description',
+          content: `Check out new meta  at punkrockcompound.com`,
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: 'this.band.bandName',
+        },
+        {
+          hid: 'og:image',
+          property: 'og:image',
+          content: 'this.band.bandProfileImg.url',
+        },
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: 'http://punkrockcompound.com/bands/bandProfile',
+          // content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
+        },
+        // {
+        //   hid: 'og:description',
+        //   name: 'og:description',
+        //   content: `Check out new meta ${this.band.bandName} at punkrockcompound.com`,
+        // },
+        // {
+        //   hid: 'og:title',
+        //   name: 'og:title',
+        //   content: this.band.bandName,
+        // },
+        // {
+        //   hid: 'og:image',
+        //   name: 'og:image',
+        //   content: this.band.bandProfileImg.url,
+        // },
+        // {
+        //   hid: 'og:url',
+        //   name: 'og:url',
+        //   content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
+        // },
+      ],
+    }
+  },
 
   computed: {
     announcement() {
@@ -167,6 +188,13 @@ export default {
     try {
       const band = await this.$strapi.findOne('bands', this.$route.query.band)
       this.band = band
+      // work from here and put the tag in the right spot look at sdk
+      // const s = document.querySelectorAll('[property="og:url"]')[0]
+      // console.log(s)
+      // const script = document.createElement('script')
+      // script.setAttribute('src', '/js/fb-sdk.js')
+      // s.after(script)
+
       // const description = document.createElement('meta')
       // description.setAttribute('name', 'og:description')
       // description.setAttribute('data-n-head', 'ssr')

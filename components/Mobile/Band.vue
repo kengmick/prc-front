@@ -616,7 +616,6 @@ export default {
   async mounted() {
     // const ogTitle = document.querySelectorAll('[property="og:title"]')
     // ogTitle[0].content = 'some other title '
-    const fm = document.querySelectorAll('[name="viewport"]')[0]
     // const ogImage = document.querySelectorAll('[property="og:description"]')[0]
     // ogImage.setAttribute('content', 'new description')
     // console.log(ogImage)
@@ -626,39 +625,43 @@ export default {
     // )
 
     // ogDescription[0].content = `Check out ${this.band.bandName} at Punkrockcompound`
+    // const fm = document.querySelectorAll('[name="viewport"]')[0]
 
+    // const ur = document.querySelectorAll('[property="og:url"]')[0]
+    // if (ur) {
+    //   ur.remove()
+    // }
     // const u = document.createElement('meta')
     // u.setAttribute('property', 'og:url')
     // u.content = `https://punkrockcompound.com/bands/bandProfile?band=${this.$route.query.band}`
-    const d = document.querySelectorAll('[property="og:description"]')[0]
-    if (d) {
-      // remove the element
-      d.remove()
-    }
-    const description = document.createElement('meta')
-    description.setAttribute('property', 'og:description')
-    description.content = `Check out ${this.band.bandName} at Punkrockcompound`
-    fm.after(description)
+    // const d = document.querySelectorAll('[property="og:description"]')[0]
+    // if (d) {
+    //   d.remove()
+    // }
+    // const description = document.createElement('meta')
+    // description.setAttribute('property', 'og:description')
+    // description.content = `Check out ${this.band.bandName} at Punkrockcompound`
+    // fm.after(description)
 
-    const i = document.querySelectorAll('[property="og:image"]')[0]
-    if (i) {
-      // remove the element
-      i.remove()
-    }
-    const image = document.createElement('meta')
-    image.setAttribute('property', 'og:image')
-    image.content = this.band.bandProfileImg.url
+    // const i = document.querySelectorAll('[property="og:image"]')[0]
+    // if (i) {
 
-    fm.after(image)
+    //   i.remove()
+    // }
+    // const image = document.createElement('meta')
+    // image.setAttribute('property', 'og:image')
+    // image.content = this.band.bandProfileImg.url
 
-    if (image && description) {
-      const s = document.querySelectorAll(
-        '[src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"]'
-      )[0]
-      const script = document.createElement('script')
-      script.setAttribute('src', '/js/fb-sdk.js')
-      s.after(script)
-    }
+    // fm.after(image)
+
+    // if (image && description && u) {
+    //   const s = document.querySelectorAll(
+    //     '[src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"]'
+    //   )[0]
+    //   const script = document.createElement('script')
+    //   script.setAttribute('src', '/js/fb-sdk.js')
+    //   s.after(script)
+    // }
 
     // const head = document.getElementsByTagName('head')
     // const title = head[0].firstElementChild
