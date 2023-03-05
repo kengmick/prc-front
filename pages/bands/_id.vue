@@ -122,7 +122,7 @@ export default {
           {
             hid: 'og:title',
             property: 'og:title',
-            content: `${this.band.bandName}`,
+            content: `this is a new title `,
           },
           {
             hid: 'og:image',
