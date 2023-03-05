@@ -638,6 +638,18 @@ export default {
     },
   },
   beforeMount() {
+    const ogTitle = document.querySelectorAll('[property="og:title"]')
+    console.log(ogTitle[0], ' this is a title that was already there')
+    const ogImage = document.querySelectorAll('[property="og:image"]')
+    console.log(ogImage[0], ' this is a image that was already there')
+    const ogDescription = document.querySelectorAll(
+      '[property="og:description"]'
+    )
+    console.log(
+      ogDescription[0],
+      ' this is a description that was already there'
+    )
+
     const u = document.createElement('meta')
     u.setAttribute('property', 'og:url')
     u.content = `https://punkrockcompound.com/bands/bandProfile?band=${this.$route.query.band}`
@@ -650,17 +662,16 @@ export default {
     image.content = this.band.bandProfileImg.url
 
     const head = document.getElementsByTagName('head')
-    const t = document.createElement('meta')
+    // const t = document.createElement('meta')
 
-    t.setAttribute('property', 'og:title')
-    t.content = 'Punkrockcompound'
+    // t.setAttribute('property', 'og:title')
+    // t.content = 'Punkrockcompound'
     // const script = document.createElement('script')
     // script.setAttribute('src', '/js/fb-sdk.js')
     // title.append(description)
     const title = head[0].firstElementChild
     title.after(description)
     title.after(image)
-    title.after(t)
     title.after(u)
     // head[0].prepend(script)
   },
