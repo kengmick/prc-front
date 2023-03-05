@@ -589,24 +589,24 @@ export default {
       hasChat: false,
     }
   },
-  head({ $seo }) {
-    return $seo({
-      bodyAttrs: {
-        class: 'overflow-hidden',
-      },
-      openGraph: {
-        image: {
-          url: 'https://punkrockcompund.s3.amazonaws.com/images_2e1ba1980b.jpeg',
-          alt: 'some test name ',
-          width: '200',
-          height: '150',
-        },
-        description: `another test tag `,
-        title: `Fancy title `,
-        url: 'https://punkrockcompound.com/bands/bandprofile?band=93',
-      },
-    })
-  },
+  // head({ $seo }) {
+  //   return $seo({
+  //     bodyAttrs: {
+  //       class: 'overflow-hidden',
+  //     },
+  //     openGraph: {
+  //       image: {
+  //         url: 'https://punkrockcompund.s3.amazonaws.com/images_2e1ba1980b.jpeg',
+  //         alt: 'some test name ',
+  //         width: '200',
+  //         height: '150',
+  //       },
+  //       description: this.band.bandName,
+  //       title: `Fancy title latest  `,
+  //       url: `https://punkrockcompound.com/bands/bandprofile?band=${this.$route.params.id}`,
+  //     },
+  //   })
+  // },
 
   computed: {
     announcement() {

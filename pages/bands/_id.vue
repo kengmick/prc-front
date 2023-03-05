@@ -63,14 +63,16 @@ export default {
     console.log('before hook')
     try {
       const band = await this.$strapi.findOne('bands', this.$route.params.id)
-      this.$store.commit('SET_BAND', band)
+      this.bandName = this.band.bandName
       this.band = band
+      this.$store.commit('SET_BAND', band)
     } catch (error) {
       console.log(error)
     }
   },
   data() {
     return {
+      bandName: 'nothing',
       headBandId: '',
       headBandName: '',
       headBandProfile: '',
@@ -139,11 +141,30 @@ export default {
     console.log('fetch hook')
     try {
       const band = await this.$strapi.findOne('bands', this.$route.params.id)
-      this.$store.commit('SET_BAND', band)
+      this.bandName = this.band.bandName
       this.band = band
+      this.$store.commit('SET_BAND', band)
     } catch (error) {
       console.log(error)
     }
+  },
+  head({ $seo }) {
+    return $seo({
+      bodyAttrs: {
+        class: 'overflow-hidden',
+      },
+      openGraph: {
+        image: {
+          url: 'https://punkrockcompund.s3.amazonaws.com/images_2e1ba1980b.jpeg',
+          alt: 'some test name ',
+          width: '200',
+          height: '150',
+        },
+        description: this.bandName,
+        title: `Fancy title latest again ${this.bandName}  `,
+        url: `https://punkrockcompound.com/bands/bandprofile?band=${this.$route.params.id}`,
+      },
+    })
   },
 
   computed: {
