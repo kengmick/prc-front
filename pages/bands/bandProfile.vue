@@ -119,12 +119,15 @@ export default {
   },
   head() {
     return {
+      u: encodeURIComponent(
+        `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`
+      ),
       meta: [
         {
           hid: 'og:description',
           property: 'og:description',
           content:
-            'Articles focused on the beautiful art of landscape painting.',
+            'Articles focused on the beautiful art of landscape painting. test again ',
         },
 
         {
@@ -140,8 +143,7 @@ export default {
         {
           hid: 'og:url',
           property: 'og:url',
-          content: 'http://punkrockcompound.com/bands/bandProfile',
-          // content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
+          content: this.u,
         },
         // {
         //   hid: 'og:description',
