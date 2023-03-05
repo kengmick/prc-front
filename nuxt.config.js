@@ -2,11 +2,20 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   loading: '~/components/Loading.vue',
   target: 'server',
+  generate: {
+    fallback: true,
+  },
   ssr: true,
   server: {
     port: process.env.NODE_ENV === 'development' ? 3000 : 8080,
     host: process.env.NODE_ENV === 'development' ? 'localhost' : '0.0.0.0',
   },
+  seo: {
+    facebook: {
+      appId: '580986866833242',
+    },
+  },
+
   head: {
     title: 'punkrockcompound',
     htmlAttrs: {
@@ -15,16 +24,6 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      // {
-      //   property: 'og:image',
-      //   content:
-      //     'https://punkrockcompund.s3.amazonaws.com/david_rangel_D_Qw9cbx9qcs_unsplash_9ec4cca449.jpg',
-      // },
-      // {
-      //   name: 'og:description',
-      //   property: 'og:description',
-      //   content: 'Underground Music',
-      // },
     ],
     script: [
       {
@@ -33,7 +32,6 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
-  // router config
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['@/assets/css/main.css', '@/assets/css/form.css'],
@@ -98,6 +96,7 @@ export default {
     '@nuxtjs/pwa',
     '@nuxtjs/firebase',
     'vue-social-sharing/nuxt',
+    'nuxt-seo',
   ],
 
   firebase: {

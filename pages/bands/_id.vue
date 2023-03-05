@@ -1,6 +1,6 @@
 <template>
   <div v-if="band !== null" class="absolute top-[48px] h-auto">
-    <!-- <MobileBand
+    <MobileBand
       :band="band"
       :user="band.users_permissions_user"
       :isFeatured="true"
@@ -11,8 +11,8 @@
       @startChat="startChatNow(band.users_permissions_user)"
       @removeFeaturedFromSimple="removeFeaturedCard"
       @share="s"
-    /> -->
-    <h1>test</h1>
+    />
+    <!-- <h1>test</h1>
     <h1>test</h1>
     <h1>test</h1>
 
@@ -25,7 +25,7 @@
       hashtags="vuejs,vite"
     >
       Share on Facebook
-    </ShareNetwork>
+    </ShareNetwork> -->
 
     <section v-if="chat">
       <Chat
@@ -145,51 +145,53 @@ export default {
       console.log(error)
     }
   },
-  head() {
-    return {
-      meta: [
-        {
-          hid: 'og:description',
-          property: 'og:description',
-          content: `Check out bandname ${this.bandState.bandName}  at Punkrockcompound.com new  `,
-        },
 
-        {
-          hid: 'og:title',
-          property: 'og:title',
-          content: `Check out bandname ${this.bandState.bandName}  at Punkrockcompound.com  new `,
-        },
+  // head() {
+  //   return {
+  //     title: this.band,
+  //     meta: [
+  //       {
+  //         hid: 'og:description',
+  //         property: 'og:description',
+  //         content: `Check out bandname ${this.title.bandName}  at Punkrockcompound.com new  `,
+  //       },
 
-        // {
-        //   hid: 'og:image',
-        //   property: 'og:image',
-        //   content: `${this.bandImg ? this.bandImg : ''}`,
-        // },
-        {
-          hid: 'og:image:width',
-          property: 'og:image:width',
-          content: `500`,
-        },
-        {
-          hid: 'og:image:height',
-          property: 'og:image:height',
-          content: `500`,
-        },
+  //       {
+  //         hid: 'og:title',
+  //         property: 'og:title',
+  //         content: `Check out bandname ${this.title.bandName}  at Punkrockcompound.com  new `,
+  //       },
 
-        {
-          hid: 'og:url',
-          property: 'og:url',
-          content: `http://punkrockcompound.com/bands/${this.$route.params.id}`,
-        },
-      ],
-      // script: [
-      //   {
-      //     src: '/js/fb-sdk.js',
-      //     body: true,
-      //   },
-      // ],
-    }
-  },
+  //       {
+  //         hid: 'og:image',
+  //         property: 'og:image',
+  //         content: `${this.bandImg ? this.bandImg : ''}`,
+  //       },
+  //       {
+  //         hid: 'og:image:width',
+  //         property: 'og:image:width',
+  //         content: `500`,
+  //       },
+  //       {
+  //         hid: 'og:image:height',
+  //         property: 'og:image:height',
+  //         content: `500`,
+  //       },
+
+  //       {
+  //         hid: 'og:url',
+  //         property: 'og:url',
+  //         content: `http://punkrockcompound.com/bands/${this.$route.params.id}`,
+  //       },
+  //     ],
+  //     // script: [
+  //     //   {
+  //     //     src: '/js/fb-sdk.js',
+  //     //     body: true,
+  //     //   },
+  //     // ],
+  //   }
+  // },
   computed: {
     announcement() {
       return this.band.announcements[this.index] || ''
