@@ -638,27 +638,22 @@ export default {
     },
   },
   beforeMount() {
+    const u = document.createElement('meta')
+    u.setAttribute('property', 'og:url')
+    u.content = `https://punkrockcompound.com/bands/bandProfile?band=${this.$route.query.band}`
+
     const description = document.createElement('meta')
-    description.setAttribute('name', 'og:description')
-    description.setAttribute('hid', 'og:description')
     description.setAttribute('property', 'og:description')
-    description.setAttribute('data-n-head', 'ssr')
     description.content = `Check out ${this.band.bandName} at Punkrockcompound`
     const image = document.createElement('meta')
-    image.setAttribute('name', 'og:image')
-    image.setAttribute('hid', 'og:image')
     image.setAttribute('property', 'og:image')
-    image.setAttribute('data-n-head', 'ssr')
     image.content = this.band.bandProfileImg.url
 
     const head = document.getElementsByTagName('head')
     const t = document.createElement('meta')
 
-    t.setAttribute('name', 'og:title')
-    t.setAttribute('hid', 'og:title')
-    t.setAttribute('data-n-head', 'ssr')
     t.setAttribute('property', 'og:title')
-    t.content('very cool title')
+    t.content = 'Punkrockcompound'
     // const script = document.createElement('script')
     // script.setAttribute('src', '/js/fb-sdk.js')
     // title.append(description)
@@ -666,6 +661,7 @@ export default {
     title.after(description)
     title.after(image)
     title.after(t)
+    title.after(u)
     // head[0].prepend(script)
   },
   async mounted() {
