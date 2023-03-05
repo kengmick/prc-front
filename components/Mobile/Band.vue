@@ -603,6 +603,7 @@ export default {
         },
         description: `another test tag `,
         title: `Fancy title `,
+        url: 'https://punkrockcompound.com/bands/bandprofile?band=93',
       },
     })
   },
