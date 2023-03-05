@@ -44,7 +44,6 @@ export default {
     try {
       const band = await $strapi.findOne('bands', route.query.band)
       // context.store.dispatch('setBand', band)
-      await store.dispatch('setBand', band)
       return {
         band,
       }
