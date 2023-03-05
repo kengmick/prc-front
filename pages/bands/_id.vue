@@ -29,13 +29,15 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
-  async asyncData({ $strapi, params, $metainfo }) {
+  async asyncData({ params, store, $strapi }) {
+    console.log('async hook ')
     try {
-      console.log(params)
       const band = await $strapi.findOne('bands', params.id)
+      store.commit('SET_BAND', band)
       return {
         band,
       }
@@ -43,7 +45,15 @@ export default {
       console.log('can not get band ', error)
     }
   },
-
+  async beforeCreated() {
+    console.log('before hook ')
+    try {
+      const band = await this.$strapi.findOne('bands', this.$route.params.id)
+      this.band = band
+    } catch (error) {
+      console.log(error)
+    }
+  },
   data() {
     return {
       headBandId: '',
@@ -110,56 +120,54 @@ export default {
     }
   },
   head() {
-    if (this.band) {
-      return {
-        meta: [
-          {
-            hid: 'og:description',
-            property: 'og:description',
-            content: `Check out ${this.band.bandName} at Punkrockcompound.com`,
-          },
+    return {
+      meta: [
+        {
+          hid: 'og:description',
+          property: 'og:description',
+          content: `Check out bandname ${this.$store.state.band.bandName}  at Punkrockcompound.com `,
+        },
 
-          {
-            hid: 'og:title',
-            property: 'og:title',
-            content: `this is a new title `,
-          },
-          {
-            hid: 'og:image',
-            property: 'og:image',
-            content: `${this.band.bandProfileImg.url}`,
-          },
-          {
-            hid: 'og:image',
-            property: 'og:image',
-            content: `${this.band.bandProfileImg.url}`,
-          },
-          {
-            hid: 'og:image:width',
-            property: 'og:image:width',
-            content: `500`,
-          },
-          {
-            hid: 'og:image:height',
-            property: 'og:image:height',
-            content: `500`,
-          },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: `this is a new title `,
+        },
+        // {
+        //   hid: 'og:image',
+        //   property: 'og:image',
+        //   content: `${band.bandProfileImg.url}`,
+        // },
+        // {
+        //   hid: 'og:image',
+        //   property: 'og:image',
+        //   content: `${band.bandProfileImg.url}`,
+        // },
+        // {
+        //   hid: 'og:image:width',
+        //   property: 'og:image:width',
+        //   content: `500`,
+        // },
+        // {
+        //   hid: 'og:image:height',
+        //   property: 'og:image:height',
+        //   content: `500`,
+        // },
 
-          {
-            hid: 'og:url',
-            property: 'og:url',
-            content: `http://punkrockcompound.com/bands/${this.$route.params.id}`,
-          },
-        ],
-        script: [
-          {
-            src: '/js/fb-sdk.js',
-          },
-        ],
-      }
+        // {
+        //   hid: 'og:url',
+        //   property: 'og:url',
+        //   content: `http://punkrockcompound.com/bands/${this.$route.params.id}`,
+        // },
+      ],
+      script: [
+        {
+          src: '/js/fb-sdk.js',
+          body: true,
+        },
+      ],
     }
   },
-
   computed: {
     announcement() {
       return this.band.announcements[this.index] || ''
@@ -167,6 +175,9 @@ export default {
     announcements() {
       return this.band.announcements || ''
     },
+    ...mapState({
+      title: (state) => state.title,
+    }),
   },
   // watch: {
   //   async '$route.query'() {
