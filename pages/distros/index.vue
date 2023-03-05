@@ -1308,6 +1308,21 @@ export default {
       },
     }
   },
+  head({ $seo }) {
+    return $seo({
+      openGraph: {
+        image: {
+          url: 'https://punkrockcompund.s3.amazonaws.com/images_2e1ba1980b.jpeg',
+          alt: 'some test name distro ',
+          width: '200',
+          height: '150',
+        },
+        description: `distro test tag `,
+        title: `Fancy title `,
+        url: 'https://punkrockcompound.com/bands/bandprofile?band=93',
+      },
+    })
+  },
   async mounted() {
     if (this.$strapi.user) {
       const f = await this.$strapi.find('favs', {

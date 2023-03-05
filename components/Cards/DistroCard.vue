@@ -385,6 +385,21 @@ export default {
       showModal: false,
     }
   },
+  head({ $seo }) {
+    return $seo({
+      openGraph: {
+        image: {
+          url: 'https://punkrockcompund.s3.amazonaws.com/images_2e1ba1980b.jpeg',
+          alt: 'some test name distro ',
+          width: '200',
+          height: '150',
+        },
+        description: `another test tag `,
+        title: `Fancy title `,
+        url: 'https://punkrockcompound.com/bands/bandprofile?band=93',
+      },
+    })
+  },
   computed: {
     announcement() {
       // return this.distro.announcements[this.index] || ''
