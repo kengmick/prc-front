@@ -34,6 +34,7 @@ import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
   async asyncData({ $strapi, params }) {
     try {
+      console.log(params)
       const band = await $strapi.findOne('bands', params.id)
       return {
         band,
@@ -114,18 +115,20 @@ export default {
         {
           hid: 'og:description',
           property: 'og:description',
-          content: `Check out ${this.band.bandName} at Punkrockcompound.com`,
+          content: `Check out ${
+            this.band ? this.band.bandName : ''
+          } at Punkrockcompound.com`,
         },
 
         {
           hid: 'og:title',
           property: 'og:title',
-          content: `${this.band.bandName}`,
+          content: `${this.band ? this.band.bandName : ''}`,
         },
         {
           hid: 'og:image',
           property: 'og:image',
-          content: `${this.band.bandProfileImg}`,
+          content: `${this.band ? this.band.bandProfileImg.url : ''}`,
         },
         {
           hid: 'og:url',
