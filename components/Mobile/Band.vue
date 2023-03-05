@@ -590,43 +590,17 @@ export default {
     }
   },
 
-  // head: {
-  //   title: 'Home page',
-  //   meta: [
-  //     {
-  //       hid: 'og:description',
-  //       name: 'og:description',
-  //       property: 'og:description',
-  //       content: `Check out new mefdsfdsfdsfdsta ${this.band.bandName} at punkrockcompound.com`,
-  //     },
-  //     {
-  //       name: 'og:title',
-  //       property: 'og:title',
-  //       content: this.band.bandName,
-  //     },
-  //     {
-  //       name: 'og:image',
-  //       property: 'og:image',
-  //       content: this.band.bandProfileImg.url,
-  //     },
-  //     {
-  //       name: 'og:url',
-  //       property: 'og:url',
-  //       content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
-  //     },
-  //   ],
-  // },
   head() {
     return {
       bodyAttrs: {
         class: 'overflow-hidden',
       },
-      script: [
-        {
-          src: '/js/fb-sdk.js',
-          body: true,
-        },
-      ],
+      // script: [
+      //   {
+      //     src: '/js/fb-sdk.js',
+      //     body: true,
+      //   },
+      // ],
 
       // meta: [
       //   {
@@ -671,8 +645,15 @@ export default {
     image.setAttribute('name', 'og:image')
     image.content = this.band.bandProfileImg.url
     const head = document.getElementsByTagName('head')
-    head[0].prepend(description)
-    head[0].prepend(image)
+    // const script = document.createElement('script')
+    // script.setAttribute('src', '/js/fb-sdk.js')
+    // title.append(description)
+    const title = head[0].firstElementChild
+    console.log(title)
+    title.after(description)
+    title.after(image)
+    console.log(title.outerHTML)
+    // head[0].prepend(script)
   },
   async mounted() {
     if (this.$strapi.user) {

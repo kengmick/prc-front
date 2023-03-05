@@ -166,8 +166,8 @@ export default {
   // },
   async mounted() {
     try {
-      // const band = await this.$strapi.findOne('bands', this.$route.query.band)
-      // this.band = band
+      const band = await this.$strapi.findOne('bands', this.$route.query.band)
+      this.band = band
       // const description = document.createElement('meta')
       // description.setAttribute('name', 'og:description')
       // description.setAttribute('data-n-head', 'ssr')
