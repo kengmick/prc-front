@@ -1,6 +1,6 @@
 <template>
   <div v-if="band !== null" class="absolute top-[48px] h-auto">
-    <MobileBand
+    <!-- <MobileBand
       :band="band"
       :user="band.users_permissions_user"
       :isFeatured="true"
@@ -11,7 +11,21 @@
       @startChat="startChatNow(band.users_permissions_user)"
       @removeFeaturedFromSimple="removeFeaturedCard"
       @share="s"
-    />
+    /> -->
+    <h1>test</h1>
+    <h1>test</h1>
+    <h1>test</h1>
+
+    <ShareNetwork
+      network="facebook"
+      title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
+      description="This week, I’d like to introduce you to 'Vite', which means 'Fast'. It’s a brand new development setup created by Evan You."
+      quote="The hot reload is so fast it\'s near instant. - Evan You"
+      :media="band.bandProfileImg.url"
+      hashtags="vuejs,vite"
+    >
+      Share on Facebook
+    </ShareNetwork>
 
     <section v-if="chat">
       <Chat
@@ -46,9 +60,10 @@ export default {
     }
   },
   async beforeCreated() {
-    console.log('before hook ')
+    console.log('before hook')
     try {
       const band = await this.$strapi.findOne('bands', this.$route.params.id)
+      this.$store.commit('SET_BAND', band)
       this.band = band
     } catch (error) {
       console.log(error)
@@ -119,53 +134,60 @@ export default {
       favs: null,
     }
   },
+
+  async fetch() {
+    console.log('fetch hook')
+    try {
+      const band = await this.$strapi.findOne('bands', this.$route.params.id)
+      this.$store.commit('SET_BAND', band)
+      this.band = band
+    } catch (error) {
+      console.log(error)
+    }
+  },
   head() {
     return {
       meta: [
         {
           hid: 'og:description',
           property: 'og:description',
-          content: `Check out bandname ${this.$store.state.band.bandName}  at Punkrockcompound.com `,
+          content: `Check out bandname ${this.bandState.bandName}  at Punkrockcompound.com new  `,
         },
 
         {
           hid: 'og:title',
           property: 'og:title',
-          content: `this is a new title `,
+          content: `Check out bandname ${this.bandState.bandName}  at Punkrockcompound.com  new `,
         },
-        // {
-        //   hid: 'og:image',
-        //   property: 'og:image',
-        //   content: `${band.bandProfileImg.url}`,
-        // },
-        // {
-        //   hid: 'og:image',
-        //   property: 'og:image',
-        //   content: `${band.bandProfileImg.url}`,
-        // },
-        // {
-        //   hid: 'og:image:width',
-        //   property: 'og:image:width',
-        //   content: `500`,
-        // },
-        // {
-        //   hid: 'og:image:height',
-        //   property: 'og:image:height',
-        //   content: `500`,
-        // },
 
         // {
-        //   hid: 'og:url',
-        //   property: 'og:url',
-        //   content: `http://punkrockcompound.com/bands/${this.$route.params.id}`,
+        //   hid: 'og:image',
+        //   property: 'og:image',
+        //   content: `${this.bandImg ? this.bandImg : ''}`,
         // },
-      ],
-      script: [
         {
-          src: '/js/fb-sdk.js',
-          body: true,
+          hid: 'og:image:width',
+          property: 'og:image:width',
+          content: `500`,
+        },
+        {
+          hid: 'og:image:height',
+          property: 'og:image:height',
+          content: `500`,
+        },
+
+        {
+          hid: 'og:url',
+          property: 'og:url',
+          content: `http://punkrockcompound.com/bands/${this.$route.params.id}`,
         },
       ],
+      // script: [
+      //   {
+      //     src: '/js/fb-sdk.js',
+      //     body: true,
+      //   },
+      // ],
     }
   },
   computed: {
@@ -176,7 +198,8 @@ export default {
       return this.band.announcements || ''
     },
     ...mapState({
-      title: (state) => state.title,
+      bandState: (state) => state.band,
+      bandImg: (state) => state.band.bandProfileImg.url,
     }),
   },
   // watch: {
@@ -186,8 +209,10 @@ export default {
   // },
 
   async mounted() {
+    console.log('mounted hook')
     try {
       const band = await this.$strapi.findOne('bands', this.$route.params.id)
+      this.$store.commit('SET_BAND', band)
       this.band = band
     } catch (error) {
       console.log(error)

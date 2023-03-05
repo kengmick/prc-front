@@ -1,6 +1,6 @@
-export const state = {
+export const state = () => ({
   band: {},
-}
+})
 
 export const mutations = {
   SET_BAND(state, band) {

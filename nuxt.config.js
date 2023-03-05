@@ -97,6 +97,7 @@ export default {
     'nuxt-compress',
     '@nuxtjs/pwa',
     '@nuxtjs/firebase',
+    'vue-social-sharing/nuxt',
   ],
 
   firebase: {
