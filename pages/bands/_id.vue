@@ -114,19 +114,18 @@ export default {
         {
           hid: 'og:description',
           property: 'og:description',
-          content:
-            'Articles focused on the beautiful art of landscape painting. test again ',
+          content: `Check out ${this.band.bandName} at Punkrockcompound.com`,
         },
 
         {
           hid: 'og:title',
           property: 'og:title',
-          content: 'this.band.bandName',
+          content: `${this.band.bandName}`,
         },
         {
           hid: 'og:image',
           property: 'og:image',
-          content: 'this.band.bandProfileImg.url',
+          content: `${this.band.bandProfileImg}`,
         },
         {
           hid: 'og:url',

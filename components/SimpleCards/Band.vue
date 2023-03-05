@@ -5,7 +5,7 @@
   >
     <NuxtLink
       :event="disabled ? '' : 'click'"
-      :to="{ path: '/bands/bandProfile', query: { band: band.id } }"
+      :to="{ path: `/bands/${band.id}`, params: { id: band.id } }"
     >
       <div
         v-if="band.bandProfileImg"
@@ -20,7 +20,7 @@
     </NuxtLink>
     <NuxtLink
       :event="disabled ? '' : 'click'"
-      :to="{ path: '/bands/bandProfile', query: { band: band.id } }"
+      :to="{ path: `/bands/${band.id}`, parmas: { id: band.id } }"
     >
       <div>
         <p class="text-lg chedder p-2">{{ band.bandName }}</p>
