@@ -595,35 +595,10 @@ export default {
       bodyAttrs: {
         class: 'overflow-hidden',
       },
-      script: [
-        {
-          src: '/js/fb-sdk.js',
-          body: true,
-        },
-      ],
-
-      // meta: [
+      // script: [
       //   {
-      //     hid: 'og:description',
-      //     name: 'og:description',
-      //     property: 'og:description',
-      //     content: `From Component ${this.band.bandName} at punkrockcompound.com`,
-      //   },
-      //   {
-      //     hid: 'og:title',
-      //     name: 'og:title',
-      //     property: 'og:title',
-      //     content: this.band.bandName,
-      //   },
-      //   {
-      //     name: 'og:image',
-      //     property: 'og:image',
-      //     content: this.band.bandProfileImg.url,
-      //   },
-      //   {
-      //     name: 'og:url',
-      //     property: 'og:url',
-      //     content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
+      //     src: '/js/fb-sdk.js',
+      //     body: true,
       //   },
       // ],
     }
@@ -637,31 +612,63 @@ export default {
       return this.band.announcements || ''
     },
   },
-  beforeMount() {
-    const ogTitle = document.querySelectorAll('[property="og:title"]')
-    console.log(ogTitle[0], ' this is a title that was already there')
-    const ogImage = document.querySelectorAll('[property="og:image"]')
-    console.log(ogImage[0], ' this is a image that was already there')
-    const ogDescription = document.querySelectorAll(
-      '[property="og:description"]'
-    )
-    console.log(
-      ogDescription[0],
-      ' this is a description that was already there'
-    )
 
-    const u = document.createElement('meta')
-    u.setAttribute('property', 'og:url')
-    u.content = `https://punkrockcompound.com/bands/bandProfile?band=${this.$route.query.band}`
+  async mounted() {
+    // const ogTitle = document.querySelectorAll('[property="og:title"]')
+    // ogTitle[0].content = 'some other title '
+    const fm = document.querySelectorAll('[name="viewport"]')[0]
+    // const ogImage = document.querySelectorAll('[property="og:description"]')[0]
+    // ogImage.setAttribute('content', 'new description')
+    // console.log(ogImage)
 
+    // const ogDescription = document.querySelectorAll(
+    //   '[property="og:description"]'
+    // )
+
+    // ogDescription[0].content = `Check out ${this.band.bandName} at Punkrockcompound`
+
+    // const u = document.createElement('meta')
+    // u.setAttribute('property', 'og:url')
+    // u.content = `https://punkrockcompound.com/bands/bandProfile?band=${this.$route.query.band}`
+    const d = document.querySelectorAll('[property="og:description"]')[0]
+    if (d) {
+      // remove the element
+      d.remove()
+    }
     const description = document.createElement('meta')
     description.setAttribute('property', 'og:description')
     description.content = `Check out ${this.band.bandName} at Punkrockcompound`
+    fm.after(description)
+
+    const i = document.querySelectorAll('[property="og:image"]')[0]
+    if (i) {
+      // remove the element
+      i.remove()
+    }
     const image = document.createElement('meta')
     image.setAttribute('property', 'og:image')
     image.content = this.band.bandProfileImg.url
 
-    const head = document.getElementsByTagName('head')
+    fm.after(image)
+
+    if (image && description) {
+      const s = document.querySelectorAll(
+        '[src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"]'
+      )[0]
+      const script = document.createElement('script')
+      script.setAttribute('src', '/js/fb-sdk.js')
+      s.after(script)
+    }
+
+    // const head = document.getElementsByTagName('head')
+    // const title = head[0].firstElementChild
+    // console.log(description, ' this is the description')
+
+    // const image = document.createElement('meta')
+    // image.setAttribute('property', 'og:image')
+    // image.content = this.band.bandProfileImg.url
+
+    // const head = document.getElementsByTagName('head')
     // const t = document.createElement('meta')
 
     // t.setAttribute('property', 'og:title')
@@ -669,13 +676,11 @@ export default {
     // const script = document.createElement('script')
     // script.setAttribute('src', '/js/fb-sdk.js')
     // title.append(description)
-    const title = head[0].firstElementChild
-    title.after(description)
-    title.after(image)
-    title.after(u)
+    // const title = head[0].firstElementChild
+    // title.after(description)
+    // title.after(image)
+    // title.after(u)
     // head[0].prepend(script)
-  },
-  async mounted() {
     if (this.$strapi.user) {
       const f = await this.$strapi.find('favs', {
         users_permissions_user: this.$strapi.user.id,

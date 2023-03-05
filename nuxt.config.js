@@ -15,13 +15,17 @@ export default {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      {
-        property: 'og:image',
-        content:
-          'https://punkrockcompund.s3.amazonaws.com/david_rangel_D_Qw9cbx9qcs_unsplash_9ec4cca449.jpg',
-      },
-      { property: 'og:title', content: 'PunkrockCompound' },
-      { property: 'og:description', content: 'Underground Music' },
+      // {
+      //   name: 'og:image',
+      //   property: 'og:image',
+      //   content:
+      //     'https://punkrockcompund.s3.amazonaws.com/david_rangel_D_Qw9cbx9qcs_unsplash_9ec4cca449.jpg',
+      // },
+      // {
+      //   name: 'og:description',
+      //   property: 'og:description',
+      //   content: 'Underground Music',
+      // },
     ],
     script: [
       {
