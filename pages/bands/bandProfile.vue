@@ -123,8 +123,10 @@ export default {
         {
           hid: 'og:description',
           property: 'og:description',
-          content: `Check out new meta  at punkrockcompound.com`,
+          content:
+            'Articles focused on the beautiful art of landscape painting.',
         },
+
         {
           hid: 'og:title',
           property: 'og:title',
