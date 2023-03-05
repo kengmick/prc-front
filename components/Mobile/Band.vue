@@ -601,8 +601,8 @@ export default {
           width: '200',
           height: '150',
         },
-        description: `Check out ${this.band.bandName} at punkrockcompound.com`,
-        title: `${this.band.bandName}`,
+        description: `Check out ${this.band.bandName} at punkrockcompound.com new tag `,
+        title: `${this.band.bandName} the new title `,
       },
     })
   },
