@@ -110,37 +110,53 @@ export default {
     }
   },
   head() {
-    return {
-      meta: [
-        {
-          hid: 'og:description',
-          property: 'og:description',
-          content: `Check out ${
-            this.band ? this.band.bandName : ''
-          } at Punkrockcompound.com`,
-        },
+    if (this.band) {
+      return {
+        meta: [
+          {
+            hid: 'og:description',
+            property: 'og:description',
+            content: `Check out ${this.band.bandName} at Punkrockcompound.com`,
+          },
 
-        {
-          hid: 'og:title',
-          property: 'og:title',
-          content: `${this.band ? this.band.bandName : ''}`,
-        },
-        {
-          hid: 'og:image',
-          property: 'og:image',
-          content: `${this.band ? this.band.bandProfileImg.url : ''}`,
-        },
-        {
-          hid: 'og:url',
-          property: 'og:url',
-          content: `http://punkrockcompound.com/bands/${this.$route.params.id}`,
-        },
-      ],
-      script: [
-        {
-          src: '/js/fb-sdk.js',
-        },
-      ],
+          {
+            hid: 'og:title',
+            property: 'og:title',
+            content: `${this.band ? this.band.bandName : ''}`,
+          },
+          {
+            hid: 'og:image',
+            property: 'og:image',
+            content: `${this.band ? this.band.bandProfileImg.url : ''}`,
+          },
+          {
+            hid: 'og:image',
+            property: 'og:image',
+            content: `${this.band ? this.band.bandProfileImg.url : ''}`,
+          },
+          {
+            hid: 'og:image:width',
+            property: 'og:image:width',
+            content: `500`,
+          },
+          {
+            hid: 'og:image:height',
+            property: 'og:image:height',
+            content: `500`,
+          },
+
+          {
+            hid: 'og:url',
+            property: 'og:url',
+            content: `http://punkrockcompound.com/bands/${this.$route.params.id}`,
+          },
+        ],
+        script: [
+          {
+            src: '/js/fb-sdk.js',
+          },
+        ],
+      }
     }
   },
 

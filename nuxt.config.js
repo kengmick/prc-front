@@ -2,6 +2,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   loading: '~/components/Loading.vue',
   target: 'server',
+  mode: 'universal',
   ssr: true,
   server: {
     port: process.env.NODE_ENV === 'development' ? 3000 : 8080,
