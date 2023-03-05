@@ -119,9 +119,6 @@ export default {
   },
   head() {
     return {
-      u: encodeURIComponent(
-        `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`
-      ),
       meta: [
         {
           hid: 'og:description',
@@ -143,28 +140,10 @@ export default {
         {
           hid: 'og:url',
           property: 'og:url',
-          content: this.u,
+          content: encodeURIComponent(
+            `http://punkrockcompound.com/bands/bandProfile?band=89`
+          ),
         },
-        // {
-        //   hid: 'og:description',
-        //   name: 'og:description',
-        //   content: `Check out new meta ${this.band.bandName} at punkrockcompound.com`,
-        // },
-        // {
-        //   hid: 'og:title',
-        //   name: 'og:title',
-        //   content: this.band.bandName,
-        // },
-        // {
-        //   hid: 'og:image',
-        //   name: 'og:image',
-        //   content: this.band.bandProfileImg.url,
-        // },
-        // {
-        //   hid: 'og:url',
-        //   name: 'og:url',
-        //   content: `http://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
-        // },
       ],
     }
   },
@@ -192,6 +171,9 @@ export default {
     try {
       const band = await this.$strapi.findOne('bands', this.$route.query.band)
       this.band = band
+      const encode = encodeURI(`https://punkrockcompound.com/bands/bandProfile`)
+      const ec = encodeURIComponent(`?band=${this.band.id}`)
+      console.log(encode + ec)
       // work from here and put the tag in the right spot look at sdk
       // const s = document.querySelectorAll('[property="og:url"]')[0]
       // console.log(s)
