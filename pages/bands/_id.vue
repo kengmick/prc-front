@@ -32,7 +32,8 @@
 import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
-  async asyncData({ $strapi, params }) {
+  async asyncData({ $strapi, params, $metainfo }) {
+    console.log($metainfo, 'mememmelkjfl;skadjfsdal;kfjadsl;j')
     try {
       console.log(params)
       const band = await $strapi.findOne('bands', params.id)
@@ -122,12 +123,12 @@ export default {
           {
             hid: 'og:title',
             property: 'og:title',
-            content: `${this.band ? this.band.bandName : ''}`,
+            content: `${this.band.bandName}`,
           },
           {
             hid: 'og:image',
             property: 'og:image',
-            content: `${this.band ? this.band.bandProfileImg.url : ''}`,
+            content: `${this.band.bandProfileImg.url}`,
           },
           {
             hid: 'og:image',
