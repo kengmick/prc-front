@@ -17,7 +17,7 @@ export default {
   },
 
   head: {
-    title: 'punkrockcompound',
+    title: 'punkrockcompound new',
     htmlAttrs: {
       lang: 'en',
     },
