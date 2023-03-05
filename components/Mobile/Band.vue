@@ -596,13 +596,13 @@ export default {
       },
       openGraph: {
         image: {
-          url: this.band.bandProfileImg.url,
-          alt: this.band.bandName,
+          url: 'https://punkrockcompund.s3.amazonaws.com/images_2e1ba1980b.jpeg',
+          alt: 'some test name ',
           width: '200',
           height: '150',
         },
-        description: `Check out ${this.band.bandName} at punkrockcompound.com new tag `,
-        title: `${this.band.bandName} the new title `,
+        description: `another test tag `,
+        title: `Fancy title `,
       },
     })
   },
