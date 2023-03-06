@@ -51,9 +51,14 @@ export default {
     console.log('async hook ')
     try {
       const band = await $strapi.findOne('bands', params.id)
-      store.commit('SET_BAND', band)
+      const bandHeadName = band.bandName
+      const bandHeadImg = band.bandProfileImg.url
+      const testTitle = 'this is test title '
       return {
         band,
+        testTitle,
+        bandHeadName,
+        bandHeadImg,
       }
     } catch (error) {
       console.log('can not get band ', error)
@@ -155,13 +160,13 @@ export default {
       },
       openGraph: {
         image: {
-          url: 'https://punkrockcompund.s3.amazonaws.com/images_2e1ba1980b.jpeg',
+          url: this.bandHeadImg,
           alt: 'some test name ',
           width: '200',
           height: '150',
         },
-        description: this.bandName,
-        title: `Fancy title latest again ${this.bandName}  `,
+        description: this.bandHeadName,
+        title: `Fancy title latest again ${this.bandHeadName}   `,
         url: `https://punkrockcompound.com/bands/bandprofile?band=${this.$route.params.id}`,
       },
     })
@@ -189,6 +194,8 @@ export default {
     console.log('mounted hook')
     try {
       const band = await this.$strapi.findOne('bands', this.$route.params.id)
+      this.bandHeadName = band.bandName
+      this.bandHeadImg = band.bandProfileImg.url
       this.$store.commit('SET_BAND', band)
       this.band = band
     } catch (error) {
