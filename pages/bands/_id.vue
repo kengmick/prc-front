@@ -52,6 +52,7 @@ import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 
 export default {
+  middleware: 'social',
   data() {
     return {
       ogBandName: '',
@@ -122,6 +123,7 @@ export default {
   },
 
   async fetch() {
+    console.log(this.headData.title, 'this is head data from store ')
     try {
       const band = await this.$http.$get(
         `https://punkrockcompound-backend-lb57o.ondigitalocean.app/bands/${this.$route.params.id}`
@@ -142,15 +144,15 @@ export default {
         class: 'overflow-hidden',
       },
       openGraph: {
-        image: {
-          url: this.ogBandImg,
-          alt: 'some test name ',
-          width: '200',
-          height: '200',
-        },
-        description: this.ogBandName,
-        title: `${this.ogBandName}  this is the new title`,
-        url: `https://punkrockcompound.com/bands/${this.ogId}`,
+        // image: {
+        //   url: this.ogBandImg,
+        //   alt: 'some test name ',
+        //   width: '200',
+        //   height: '200',
+        // },
+        description: this.headData.title,
+        title: `${this.headData.title}  this is the new title`,
+        url: `https://punkrockcompound.com/bands/${this.headData.title}`,
       },
     })
   },
@@ -161,6 +163,9 @@ export default {
     },
     announcements() {
       return this.band.announcements || ''
+    },
+    headData() {
+      return this.$store.state.head
     },
     // ...mapState({
     //   bandState: (state) => state.band,

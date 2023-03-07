@@ -51,7 +51,7 @@
 import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
-  fetchOnServer: true,
+  middleware: 'social',
   data() {
     return {
       ogBandName: '',
@@ -119,41 +119,44 @@ export default {
   },
 
   async fetch() {
-    console.log('fetch hook')
     try {
       const band = await this.$http.$get(
         `https://punkrockcompound-backend-lb57o.ondigitalocean.app/bands/${this.$route.query.band}`
       )
-      this.ogBandName = band.bandName
-      this.ogBandImg = band.bandProfileImg.url
-      this.ogId = band.id
-      this.band = band
+      // this.ogBandName = band.bandName
+      // this.ogBandImg = band.bandProfileImg.url
+      // this.ogId = band.id
+      // this.band = band
       // this.$store.commit('SET_BAND', band)
+      this.band = band
     } catch (error) {
       console.log(error)
     }
   },
 
-  head({ $seo }) {
-    if (!this.$fetchState.pending) {
-      return $seo({
-        bodyAttrs: {
-          class: 'overflow-hidden',
-        },
-        openGraph: {
-          image: {
-            url: this.ogBandImg,
-            alt: 'some test name ',
-            width: '200',
-            height: '200',
-          },
-          description: this.ogBandName,
-          title: `${this.ogBandName}  this is the new title`,
-          url: `http://punkrockcompound/testing?band=${this.ogId}`,
-        },
-      })
-    }
-  },
+  // head({ $seo }) {
+  //   return $seo({
+  //     bodyAttrs: {
+  //       class: 'overflow-hidden',
+  //     },
+  //     openGraph: {
+  //       image: {
+  //         url: this.ogBandImg,
+  //         alt: 'some test name ',
+  //         width: '200',
+  //         height: '200',
+  //       },
+  //       description: this.ogBandName,
+  //       title: `${this.ogBandName}  this is the new title`,
+  //       url: `http://punkrockcompound/testing?band=${this.ogId}`,
+  //     },
+  //     script: [
+  //       {
+  //         src: '/js/fb-sdk.js',
+  //       },
+  //     ],
+  //   })
+  // },
 
   computed: {
     announcement() {
@@ -167,7 +170,7 @@ export default {
     //   bandImg: (state) => state.band.bandProfileImg.url,
     // }),
   },
-
+  watchQuery: [true],
   async mounted() {
     console.log('mounted hook')
     // try {
