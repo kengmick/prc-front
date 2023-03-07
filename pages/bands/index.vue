@@ -1421,7 +1421,7 @@ export default {
           url: 'https://punkrockcompund.s3.amazonaws.com/images_2e1ba1980b.jpeg',
           alt: 'image of punkrockcompound.com',
           width: '200',
-          height: '150',
+          height: '200',
         },
         description: `A place for underground music `,
         title: `GroundUnder`,
