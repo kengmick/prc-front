@@ -368,7 +368,7 @@
         />
       </svg> -->
       <div class="w-[66px] h-[24px] bg-black chedder text-white">
-        <span class="text-[15px] lg:text-[21px]">
+        <span v-if="band" class="text-[15px] lg:text-[21px]">
           <!-- @click="f" -->
           <!-- <img class="h-[12px] w-[12px]" src="/share.svg" alt="" /> -->
           <ShareNetwork
