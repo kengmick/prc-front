@@ -1,6 +1,6 @@
 <template>
   <div v-if="band" class="absolute top-[48px] h-auto">
-    <MobileBand
+    <!-- <MobileBand
       :band="band"
       :user="band.users_permissions_user"
       :isFeatured="true"
@@ -10,7 +10,12 @@
       @addFeaturedToBandCard="addCard"
       @startChat="startChatNow(band.users_permissions_user)"
       @removeFeaturedFromSimple="removeFeaturedCard"
-    />
+    /> -->
+    <h1>Test</h1>
+    <h1>Test</h1>
+    <h1>Test</h1>
+    <h1>Test</h1>
+    <h1 @click="s">share</h1>
     <!-- <h1>test</h1>
     <h1>test</h1>
     <h1>test</h1>
@@ -135,24 +140,24 @@ export default {
     }
   },
   fetchOnServer: true,
-  head({ $seo }) {
-    return $seo({
-      bodyAttrs: {
-        class: 'overflow-hidden',
-      },
-      openGraph: {
-        image: {
-          url: this.ogBandImg,
-          alt: 'some test name ',
-          width: '200',
-          height: '200',
-        },
-        description: this.ogBandName,
-        title: `${this.ogBandName} `,
-        url: `https://punkrockcompound.com/bands/${this.ogId}`,
-      },
-    })
-  },
+  // head({ $seo }) {
+  //   return $seo({
+  //     bodyAttrs: {
+  //       class: 'overflow-hidden',
+  //     },
+  //     openGraph: {
+  //       image: {
+  //         url: this.ogBandImg,
+  //         alt: 'some test name ',
+  //         width: '200',
+  //         height: '200',
+  //       },
+  //       description: this.ogBandName,
+  //       title: `${this.ogBandName} `,
+  //       url: `https://punkrockcompound.com/bands/${this.ogId}`,
+  //     },
+  //   })
+  // },
 
   computed: {
     announcement() {
@@ -233,22 +238,28 @@ export default {
   methods: {
     moment,
     /* eslint-disable */
-    // async s(val) {
-    //   this.headBandId = await val.bandId
-    //   this.headBandName = await val.bandName
-    //   this.f()
-    // },
-    // f() {
-    //   FB.ui(
-    //     {
-    //       method: 'share',
-    //       href: `https://punkrockcompound.com/bands/${this.band.id}`,
-    //     },
-    //     function (response) {
-    //       console.log(response)
-    //     }
-    //   )
-    // },
+    s() {
+      FB.ui(
+        {
+          method: 'share_open_graph',
+          action_type: 'og.shares',
+          action_properties: JSON.stringify({
+            object: {
+              'og:url': 'some url ', // your url to share
+              'og:title': 'a really cool title ',
+              'og:site_name': 'site_name',
+              'og:description': 'very cool description ',
+              // 'og:image': '', //
+              // 'og:image:width': '250', //size of image in pixel
+              // 'og:image:height': '257',
+            },
+          }),
+        },
+        function (response) {
+          console.log('response is ', response)
+        }
+      )
+    },
     /* eslint-enable */
     async removeFeaturedCard(val) {
       const fillterdCards = this.band.cardData.cards.filter((c) => {
