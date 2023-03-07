@@ -1,6 +1,6 @@
 <template>
   <div v-if="band" class="absolute top-[48px] h-auto">
-    <!-- <MobileBand
+    <MobileBand
       :band="band"
       :user="band.users_permissions_user"
       :isFeatured="true"
@@ -10,12 +10,12 @@
       @addFeaturedToBandCard="addCard"
       @startChat="startChatNow(band.users_permissions_user)"
       @removeFeaturedFromSimple="removeFeaturedCard"
-    /> -->
+    />
+    <!-- <h1>Test</h1>
     <h1>Test</h1>
     <h1>Test</h1>
     <h1>Test</h1>
-    <h1>Test</h1>
-    <h1 @click="s">share</h1>
+    <h1 @click="s">share</h1> -->
     <!-- <h1>test</h1>
     <h1>test</h1>
     <h1>test</h1>
@@ -51,11 +51,17 @@
 import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
-  asyncData() {
-    console.log('server async data')
-    const nothing = 'nothing'
+  async asyncData({ $strapi, params }) {
+    const band = await $strapi.findOne('bands', params.id)
+    console.log('band from asyn ', band)
+    const ogBandName = band.bandName
+    const ogBandImg = band.bandProfileImg.url
+    const ogId = band.id
     return {
-      nothing,
+      band,
+      ogBandName,
+      ogBandImg,
+      ogId,
     }
   },
   data() {
@@ -126,38 +132,38 @@ export default {
     }
   },
 
-  async fetch() {
-    console.log('fetch hook')
-    try {
-      const band = await this.$strapi.findOne('bands', this.$route.params.id)
-      this.ogBandName = band.bandName
-      this.ogBandImg = band.bandProfileImg.url
-      this.ogId = band.id
-      this.band = band
-      // this.$store.commit('SET_BAND', band)
-    } catch (error) {
-      console.log(error)
-    }
-  },
-  fetchOnServer: true,
-  // head({ $seo }) {
-  //   return $seo({
-  //     bodyAttrs: {
-  //       class: 'overflow-hidden',
-  //     },
-  //     openGraph: {
-  //       image: {
-  //         url: this.ogBandImg,
-  //         alt: 'some test name ',
-  //         width: '200',
-  //         height: '200',
-  //       },
-  //       description: this.ogBandName,
-  //       title: `${this.ogBandName} `,
-  //       url: `https://punkrockcompound.com/bands/${this.ogId}`,
-  //     },
-  //   })
+  // async fetch() {
+  //   console.log('fetch hook')
+  //   try {
+  //     const band = await this.$strapi.findOne('bands', this.$route.params.id)
+  //     this.ogBandName = band.bandName
+  //     this.ogBandImg = band.bandProfileImg.url
+  //     this.ogId = band.id
+  //     this.band = band
+  //     // this.$store.commit('SET_BAND', band)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
   // },
+  // fetchOnServer: true,
+  head({ $seo }) {
+    return $seo({
+      bodyAttrs: {
+        class: 'overflow-hidden',
+      },
+      openGraph: {
+        image: {
+          url: this.ogBandImg,
+          alt: 'some test name ',
+          width: '200',
+          height: '200',
+        },
+        description: this.ogBandName,
+        title: `${this.ogBandName}  this is the new title`,
+        url: `https://punkrockcompound.com/bands/${this.ogId}`,
+      },
+    })
+  },
 
   computed: {
     announcement() {
@@ -238,28 +244,28 @@ export default {
   methods: {
     moment,
     /* eslint-disable */
-    s() {
-      FB.ui(
-        {
-          method: 'share_open_graph',
-          action_type: 'og.shares',
-          action_properties: JSON.stringify({
-            object: {
-              'og:url': 'https://punkrockcompound.com/bands/86', // your url to share
-              'og:title': 'a really cool title ',
-              'og:site_name': 'somename',
-              'og:description': 'very cool description ',
-              // 'og:image': '', //
-              // 'og:image:width': '250', //size of image in pixel
-              // 'og:image:height': '257',
-            },
-          }),
-        },
-        function (response) {
-          console.log('response is ', response)
-        }
-      )
-    },
+    // s() {
+    //   FB.ui(
+    //     {
+    //       method: 'share_open_graph',
+    //       action_type: 'og.shares',
+    //       action_properties: JSON.stringify({
+    //         object: {
+    //           'og:url': 'https://punkrockcompound.com/bands/86', // your url to share
+    //           'og:title': 'a really cool title ',
+    //           'og:site_name': 'somename',
+    //           'og:description': 'very cool description ',
+    //           // 'og:image': '', //
+    //           // 'og:image:width': '250', //size of image in pixel
+    //           // 'og:image:height': '257',
+    //         },
+    //       }),
+    //     },
+    //     function (response) {
+    //       console.log('response is ', response)
+    //     }
+    //   )
+    // },
     /* eslint-enable */
     async removeFeaturedCard(val) {
       const fillterdCards = this.band.cardData.cards.filter((c) => {
