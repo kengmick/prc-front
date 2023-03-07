@@ -56,9 +56,7 @@ export default {
     return {
       ogBandName: '',
       ogBandImg: '',
-      headBandId: '',
-      headBandName: '',
-      headBandProfile: '',
+      ogId: '',
 
       // band and events
       searchClient: instantMeiliSearch(
@@ -124,7 +122,7 @@ export default {
     console.log('fetch hook')
     try {
       const band = await this.$http.$get(
-        `https://punkrockcompound-backend-lb57o.ondigitalocean.app/bands/${this.route.query.band}`
+        `https://punkrockcompound-backend-lb57o.ondigitalocean.app/bands/${this.$route.query.band}`
       )
       this.ogBandName = band.bandName
       this.ogBandImg = band.bandProfileImg.url
@@ -137,22 +135,24 @@ export default {
   },
 
   head({ $seo }) {
-    return $seo({
-      bodyAttrs: {
-        class: 'overflow-hidden',
-      },
-      openGraph: {
-        image: {
-          url: this.ogBandImg,
-          alt: 'some test name ',
-          width: '200',
-          height: '200',
+    if (!this.$fetchState.pending) {
+      return $seo({
+        bodyAttrs: {
+          class: 'overflow-hidden',
         },
-        description: this.ogBandName,
-        title: `${this.ogBandName}  this is the new title`,
-        url: `https://punkrockcompound.com/bands/${this.ogId}`,
-      },
-    })
+        openGraph: {
+          image: {
+            url: this.ogBandImg,
+            alt: 'some test name ',
+            width: '200',
+            height: '200',
+          },
+          description: this.ogBandName,
+          title: `${this.ogBandName}  this is the new title`,
+          url: `http://punkrockcompound/testing?band=${this.ogId}`,
+        },
+      })
+    }
   },
 
   computed: {
