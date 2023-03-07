@@ -47,7 +47,13 @@ import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
   fetchOnServer: true,
-
+  asyncData() {
+    console.log('server async data')
+    const nothing = 'nothing'
+    return {
+      nothing,
+    }
+  },
   data() {
     return {
       ogBandName: '',
