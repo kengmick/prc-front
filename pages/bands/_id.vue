@@ -245,7 +245,7 @@ export default {
           action_type: 'og.shares',
           action_properties: JSON.stringify({
             object: {
-              'og:url': 'https://punkrockcompound.com/bands', // your url to share
+              'og:url': 'https://punkrockcompound.com/bands/86', // your url to share
               'og:title': 'a really cool title ',
               'og:site_name': 'somename',
               'og:description': 'very cool description ',
