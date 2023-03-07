@@ -1,5 +1,5 @@
 <template>
-  <div v-if="band !== null" class="absolute top-[48px] h-auto">
+  <div v-if="band" class="absolute top-[48px] h-auto">
     <MobileBand
       :band="band"
       :user="band.users_permissions_user"
@@ -10,7 +10,6 @@
       @addFeaturedToBandCard="addCard"
       @startChat="startChatNow(band.users_permissions_user)"
       @removeFeaturedFromSimple="removeFeaturedCard"
-      @share="s"
     />
     <!-- <h1>test</h1>
     <h1>test</h1>
@@ -36,48 +35,49 @@
       />
     </section>
   </div>
-  <div v-else class="h-screen w-screen fixed top-0 left-0">
+  <!-- <div v-else class="h-screen w-screen fixed top-0 left-0">
     <div class="h-full w-full flex items-center justify-center">
       <Spinner />
     </div>
-  </div>
+  </div> -->
 </template>
 <script>
-import { mapState } from 'vuex'
+// import { mapState } from 'vuex'
 import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
-  async asyncData({ params, store, $strapi }) {
-    console.log('async hook ')
-    try {
-      const band = await $strapi.findOne('bands', params.id)
-      const bandHeadName = band.bandName
-      const bandHeadImg = band.bandProfileImg.url
-      const testTitle = 'this is test title '
-      return {
-        band,
-        testTitle,
-        bandHeadName,
-        bandHeadImg,
-      }
-    } catch (error) {
-      console.log('can not get band ', error)
-    }
-  },
-  async beforeCreated() {
-    console.log('before hook')
-    try {
-      const band = await this.$strapi.findOne('bands', this.$route.params.id)
-      this.bandName = this.band.bandName
-      this.band = band
-      this.$store.commit('SET_BAND', band)
-    } catch (error) {
-      console.log(error)
-    }
-  },
+  ssr: true,
+  // async asyncData({ params, store, $strapi }) {
+  //   console.log('async hook ')
+  //   try {
+  //     const band = await $strapi.findOne('bands', params.id)
+  //     const bandHeadName = band.bandName
+  //     const bandHeadImg = band.bandProfileImg.url
+  //     const testTitle = 'this is test title '
+  //     return {
+  //       band,
+  //       testTitle,
+  //       bandHeadName,
+  //       bandHeadImg,
+  //     }
+  //   } catch (error) {
+  //     console.log('can not get band ', error)
+  //   }
+  // },
+  // async beforeCreated() {
+  //   console.log('before hook')
+  //   try {
+  //     const band = await this.$strapi.findOne('bands', this.$route.params.id)
+  //     this.bandName = this.band.bandName
+  //     this.band = band
+  //     this.$store.commit('SET_BAND', band)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // },
   data() {
     return {
-      bandName: 'nothing',
+      ogBandName: '',
       headBandId: '',
       headBandName: '',
       headBandProfile: '',
@@ -146,9 +146,9 @@ export default {
     console.log('fetch hook')
     try {
       const band = await this.$strapi.findOne('bands', this.$route.params.id)
-      this.bandName = this.band.bandName
+      this.ogBandName = band.bandName
       this.band = band
-      this.$store.commit('SET_BAND', band)
+      // this.$store.commit('SET_BAND', band)
     } catch (error) {
       console.log(error)
     }
@@ -160,14 +160,14 @@ export default {
       },
       openGraph: {
         image: {
-          url: this.bandHeadImg,
+          url: this.ogBandName,
           alt: 'some test name ',
           width: '200',
           height: '150',
         },
-        description: this.bandHeadName,
-        title: `Fancy title latest again ${this.bandHeadName}   `,
-        url: `https://punkrockcompound.com/bands/bandprofile?band=${this.$route.params.id}`,
+        description: this.ogBandName,
+        title: `Fancy title latest again again again  ${this.ogBandName}   `,
+        url: `https://punkrockcompound.com/bands`,
       },
     })
   },
@@ -179,79 +179,24 @@ export default {
     announcements() {
       return this.band.announcements || ''
     },
-    ...mapState({
-      bandState: (state) => state.band,
-      bandImg: (state) => state.band.bandProfileImg.url,
-    }),
+    // ...mapState({
+    //   bandState: (state) => state.band,
+    //   bandImg: (state) => state.band.bandProfileImg.url,
+    // }),
   },
   // watch: {
   //   async '$route.query'() {
   //     this.band = await this.$strapi.findOne('bands', this.$route.query.band)
   //   },
   // },
-
-  async mounted() {
-    console.log('mounted hook')
+  async created() {
+    console.log('created')
     try {
       const band = await this.$strapi.findOne('bands', this.$route.params.id)
-      this.bandHeadName = band.bandName
-      this.bandHeadImg = band.bandProfileImg.url
-      this.$store.commit('SET_BAND', band)
       this.band = band
     } catch (error) {
       console.log(error)
     }
-    try {
-      if (this.$strapi) {
-        if (this.$strapi.user) {
-          console.log('this is user')
-          const f = await this.$strapi.find('favs', {
-            users_permissions_user: this.$strapi.user.id,
-          })
-          this.favs = f.sort((a, b) => {
-            if (a.type < b.type) {
-              return -1
-            }
-            if (a.type > b.type) {
-              return 1
-            }
-            return 0
-          })
-        }
-      }
-    } catch (error) {
-      console.log('your not logged in')
-    }
-
-    try {
-      const posts = await this.$strapi.find('posts', {
-        bands: this.band.id,
-      })
-      this.posts = posts
-      console.log(posts, ' this is post ')
-      if (this.band.bio) {
-        this.bioAction = 'edit'
-      }
-
-      const events = this.band.events
-      console.log(events, ' this is events ')
-    } catch (error) {
-      console.log(error, 'there was an error ')
-    }
-    try {
-      if (this.user) {
-        // compare userid to userpermission in front
-        if (this.user === this.band.users_permissions_user.id) {
-          this.permission = true
-        }
-      }
-    } catch (error) {
-      console.log(error, ' this is error ')
-      this.user = null
-    }
-  },
-
-  created() {
     const backButtonRouteGuard = this.$router.beforeEach((to, from, next) => {
       if (this.addPhotoBox === true) {
         next(false)
@@ -266,25 +211,88 @@ export default {
       backButtonRouteGuard()
     })
   },
+  async mounted() {
+    console.log('mounted hook')
+    // try {
+    //   const band = await this.$strapi.findOne('bands', this.$route.params.id)
+    //   this.bandHeadName = band.bandName
+    //   this.bandHeadImg = band.bandProfileImg.url
+    //   this.$store.commit('SET_BAND', band)
+    //   this.band = band
+    // } catch (error) {
+    //   console.log(error)
+    // }
+    if (this.band) {
+      try {
+        if (this.$strapi) {
+          if (this.$strapi.user) {
+            console.log('this is user')
+            const f = await this.$strapi.find('favs', {
+              users_permissions_user: this.$strapi.user.id,
+            })
+            this.favs = f.sort((a, b) => {
+              if (a.type < b.type) {
+                return -1
+              }
+              if (a.type > b.type) {
+                return 1
+              }
+              return 0
+            })
+          }
+        }
+      } catch (error) {
+        console.log('your not logged in')
+      }
+
+      try {
+        const posts = await this.$strapi.find('posts', {
+          bands: this.band.id,
+        })
+        this.posts = posts
+        console.log(posts, ' this is post ')
+        if (this.band.bio) {
+          this.bioAction = 'edit'
+        }
+
+        const events = this.band.events
+        console.log(events, ' this is events ')
+      } catch (error) {
+        console.log(error, 'there was an error ')
+      }
+      try {
+        if (this.user) {
+          // compare userid to userpermission in front
+          if (this.user === this.band.users_permissions_user.id) {
+            this.permission = true
+          }
+        }
+      } catch (error) {
+        console.log(error, ' this is error ')
+        this.user = null
+      }
+    }
+  },
+
   methods: {
     moment,
     /* eslint-disable */
-    async s(val) {
-      this.headBandId = await val.bandId
-      this.headBandName = await val.bandName
-      this.f()
-    },
-    f() {
-      FB.ui(
-        {
-          method: 'share',
-          href: `https://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
-        },
-        function (response) {
-          console.log(response)
-        }
-      )
-    },
+    // async s(val) {
+    //   this.headBandId = await val.bandId
+    //   this.headBandName = await val.bandName
+    //   this.f()
+    // },
+    // f() {
+    //   FB.ui(
+    //     {
+    //       method: 'share',
+    //       href: `https://punkrockcompound.com/bands/${this.band.id}`,
+    //     },
+    //     function (response) {
+    //       console.log(response)
+    //     }
+    //   )
+    // },
     /* eslint-enable */
     async removeFeaturedCard(val) {
       const fillterdCards = this.band.cardData.cards.filter((c) => {

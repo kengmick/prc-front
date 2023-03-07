@@ -368,9 +368,11 @@
         />
       </svg> -->
       <div class="w-[66px] h-[24px] bg-black chedder text-white">
-        <span class="text-[15px] lg:text-[21px]" @click="f">
+        <span class="text-[15px] lg:text-[21px]">
+          <!-- @click="f" -->
           <!-- <img class="h-[12px] w-[12px]" src="/share.svg" alt="" /> -->
-          <ShareNetwork network="facebook"> Share </ShareNetwork>
+          <!-- <ShareNetwork network="facebook"> Share </ShareNetwork> -->
+          Share
         </span>
       </div>
       <div class="w-[66px] h-[24px] bg-black chedder">
@@ -635,24 +637,24 @@ export default {
   },
   methods: {
     /* eslint-disable */
-    share() {
-      this.$emit('share', {
-        bandName: this.band.bandName,
-        bandId: this.band.id,
-        bandProfileImg: this.band.bandProfileImg.url,
-      })
-    },
-    f() {
-      FB.ui(
-        {
-          method: 'share',
-          href: `https://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
-        },
-        function (response) {
-          console.log(response)
-        }
-      )
-    },
+    // share() {
+    //   this.$emit('share', {
+    //     bandName: this.band.bandName,
+    //     bandId: this.band.id,
+    //     bandProfileImg: this.band.bandProfileImg.url,
+    //   })
+    // },
+    // f() {
+    //   FB.ui(
+    //     {
+    //       method: 'share',
+    //       href: `https://punkrockcompound.com/bands/bandProfile?band=${this.band.id}`,
+    //     },
+    //     function (response) {
+    //       console.log(response)
+    //     }
+    //   )
+    // },
 
     photoBox(pic) {
       this.pic = pic
