@@ -52,6 +52,7 @@ export default {
   data() {
     return {
       ogBandName: '',
+      ogBandImg: '',
       headBandId: '',
       headBandName: '',
       headBandProfile: '',
@@ -121,6 +122,7 @@ export default {
     try {
       const band = await this.$strapi.findOne('bands', this.$route.params.id)
       this.ogBandName = band.bandName
+      this.ogBandImg = band.bandProfileImg.url
       this.ogId = band.id
       this.band = band
       // this.$store.commit('SET_BAND', band)
@@ -134,14 +136,14 @@ export default {
         class: 'overflow-hidden',
       },
       openGraph: {
-        // image: {
-        //   url: this.ogBandName,
-        //   alt: 'some test name ',
-        //   width: '200',
-        //   height: '150',
-        // },
+        image: {
+          url: this.ogBandImg,
+          alt: 'some test name ',
+          width: '200',
+          height: '150',
+        },
         description: this.ogBandName,
-        title: `Fancy   ${this.ogBandName} =======================================   `,
+        title: `${this.ogBandName} `,
         url: `https://punkrockcompound.com/bands/${this.ogId}`,
       },
     })
