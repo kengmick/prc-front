@@ -13,6 +13,10 @@ export default {
     },
   },
 
+  serverMiddleware: [
+    { path: '/server-middleware', handler: '~/server-middleware/social.js' },
+  ],
+
   head: {
     title: 'punkrockcompound new',
     htmlAttrs: {

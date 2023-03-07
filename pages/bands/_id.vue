@@ -138,24 +138,24 @@ export default {
     }
   },
 
-  head({ $seo }) {
-    return $seo({
-      bodyAttrs: {
-        class: 'overflow-hidden',
-      },
-      openGraph: {
-        // image: {
-        //   url: this.ogBandImg,
-        //   alt: 'some test name ',
-        //   width: '200',
-        //   height: '200',
-        // },
-        description: this.headData.title,
-        title: `${this.headData.title}  this is the new title`,
-        url: `https://punkrockcompound.com/bands/${this.headData.title}`,
-      },
-    })
-  },
+  // head({ $seo }) {
+  //   return $seo({
+  //     bodyAttrs: {
+  //       class: 'overflow-hidden',
+  //     },
+  //     openGraph: {
+  //       image: {
+  //         url: this.ogBandImg,
+  //         alt: 'some test name ',
+  //         width: '200',
+  //         height: '200',
+  //       },
+  //       description: this.headData.title,
+  //       title: `${this.headData.title}  this is the new title fdsfdsfsd`,
+  //       url: `https://punkrockcompound.com/bands/${this.headData.title}`,
+  //     },
+  //   })
+  // },
 
   computed: {
     announcement() {
@@ -167,10 +167,6 @@ export default {
     headData() {
       return this.$store.state.head
     },
-    // ...mapState({
-    //   bandState: (state) => state.band,
-    //   bandImg: (state) => state.band.bandProfileImg.url,
-    // }),
   },
 
   async mounted() {
