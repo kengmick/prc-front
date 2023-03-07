@@ -142,7 +142,7 @@ export default {
         // },
         description: this.ogBandName,
         title: `Fancy   ${this.ogBandName} =======================================   `,
-        url: `https://punkrockcompound.com/bands${this.obId}`,
+        url: `https://punkrockcompound.com/bands/${this.ogId}`,
       },
     })
   },
