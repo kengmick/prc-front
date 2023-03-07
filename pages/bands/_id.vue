@@ -47,34 +47,8 @@ import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
   ssr: true,
-  // async asyncData({ params, store, $strapi }) {
-  //   console.log('async hook ')
-  //   try {
-  //     const band = await $strapi.findOne('bands', params.id)
-  //     const bandHeadName = band.bandName
-  //     const bandHeadImg = band.bandProfileImg.url
-  //     const testTitle = 'this is test title '
-  //     return {
-  //       band,
-  //       testTitle,
-  //       bandHeadName,
-  //       bandHeadImg,
-  //     }
-  //   } catch (error) {
-  //     console.log('can not get band ', error)
-  //   }
-  // },
-  // async beforeCreated() {
-  //   console.log('before hook')
-  //   try {
-  //     const band = await this.$strapi.findOne('bands', this.$route.params.id)
-  //     this.bandName = this.band.bandName
-  //     this.band = band
-  //     this.$store.commit('SET_BAND', band)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // },
+  fetchOnServer: true,
+
   data() {
     return {
       ogBandName: '',
@@ -159,14 +133,14 @@ export default {
         class: 'overflow-hidden',
       },
       openGraph: {
-        image: {
-          url: this.ogBandName,
-          alt: 'some test name ',
-          width: '200',
-          height: '150',
-        },
+        // image: {
+        //   url: this.ogBandName,
+        //   alt: 'some test name ',
+        //   width: '200',
+        //   height: '150',
+        // },
         description: this.ogBandName,
-        title: `Fancy title latest again again again  ${this.ogBandName}   `,
+        title: `Fancy   ${this.ogBandName} =======================================   `,
         url: `https://punkrockcompound.com/bands`,
       },
     })
@@ -184,33 +158,7 @@ export default {
     //   bandImg: (state) => state.band.bandProfileImg.url,
     // }),
   },
-  // watch: {
-  //   async '$route.query'() {
-  //     this.band = await this.$strapi.findOne('bands', this.$route.query.band)
-  //   },
-  // },
-  async created() {
-    console.log('created')
-    try {
-      const band = await this.$strapi.findOne('bands', this.$route.params.id)
-      this.band = band
-    } catch (error) {
-      console.log(error)
-    }
-    const backButtonRouteGuard = this.$router.beforeEach((to, from, next) => {
-      if (this.addPhotoBox === true) {
-        next(false)
-        this.addPhotoBox = false
-      } else {
-        next(true)
-      }
-    })
 
-    this.$once('hook:destroyed', () => {
-      this.addPhotoBox = false
-      backButtonRouteGuard()
-    })
-  },
   async mounted() {
     console.log('mounted hook')
     // try {
