@@ -50,23 +50,13 @@
 // import { mapState } from 'vuex'
 import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
+
 export default {
-  // async asyncData({ $strapi, params }) {
-  //   const band = await $strapi.findOne('bands', params.id)
-  //   console.log('band from asyn ', band)
-  //   const ogBandName = band.bandName
-  //   const ogBandImg = band.bandProfileImg.url
-  //   const ogId = band.id
-  //   return {
-  //     ogBandName,
-  //     ogBandImg,
-  //     ogId,
-  //   }
-  // },
   data() {
     return {
       ogBandName: '',
       ogBandImg: '',
+      ogId: '',
       headBandId: '',
       headBandName: '',
       headBandProfile: '',
@@ -132,9 +122,10 @@ export default {
   },
 
   async fetch() {
-    console.log('fetch hook')
     try {
-      const band = await this.$strapi.findOne('bands', this.$route.params.id)
+      const band = await this.$http.$get(
+        `https://punkrockcompound-backend-lb57o.ondigitalocean.app/bands/${this.$route.params.id}`
+      )
       this.ogBandName = band.bandName
       this.ogBandImg = band.bandProfileImg.url
       this.ogId = band.id
