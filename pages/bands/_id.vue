@@ -46,7 +46,6 @@
 import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
-  ssr: true,
   fetchOnServer: true,
 
   data() {
