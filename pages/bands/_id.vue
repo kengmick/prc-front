@@ -121,6 +121,7 @@ export default {
     try {
       const band = await this.$strapi.findOne('bands', this.$route.params.id)
       this.ogBandName = band.bandName
+      this.ogId = band.id
       this.band = band
       // this.$store.commit('SET_BAND', band)
     } catch (error) {
@@ -141,7 +142,7 @@ export default {
         // },
         description: this.ogBandName,
         title: `Fancy   ${this.ogBandName} =======================================   `,
-        url: `https://punkrockcompound.com/bands`,
+        url: `https://punkrockcompound.com/bands${this.obId}`,
       },
     })
   },
