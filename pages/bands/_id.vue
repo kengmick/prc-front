@@ -145,7 +145,7 @@ export default {
           url: this.ogBandImg,
           alt: 'some test name ',
           width: '200',
-          height: '150',
+          height: '200',
         },
         description: this.ogBandName,
         title: `${this.ogBandName} `,
