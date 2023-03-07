@@ -371,13 +371,14 @@
         <span v-if="band" class="text-[15px] lg:text-[21px]">
           <!-- @click="f" -->
           <!-- <img class="h-[12px] w-[12px]" src="/share.svg" alt="" /> -->
-          <ShareNetwork
+          <!-- <ShareNetwork
             v-if="band"
             network="facebook"
             :url="`https://punkrockcompound.com/bands/${band.id}`"
           >
             Share
-          </ShareNetwork>
+          </ShareNetwork> -->
+          share
         </span>
       </div>
       <div class="w-[66px] h-[24px] bg-black chedder">

@@ -46,7 +46,6 @@
 import moment from 'moment'
 import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 export default {
-  fetchOnServer: true,
   asyncData() {
     console.log('server async data')
     const nothing = 'nothing'
@@ -135,6 +134,7 @@ export default {
       console.log(error)
     }
   },
+  fetchOnServer: true,
   head({ $seo }) {
     return $seo({
       bodyAttrs: {
