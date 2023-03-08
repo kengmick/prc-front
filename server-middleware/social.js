@@ -3,7 +3,7 @@ app.get('/getJSON', (req, res) => {
   const temp = `<!DOCTYPE html>
     <html lang="en">
       <head>
-      <meta property="og:url" content="https://punkrockcompound.com/bands/89">
+      <meta property="og:url" content="https://punkrockcompound.com/server-middleware/getJSON">
       <meta property="og:type" content="website">
       <meta property="og:title" content="this is my new meta tag">
       <meta property="og:description" content="my best description ever ">
