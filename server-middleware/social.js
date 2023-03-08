@@ -1,5 +1,5 @@
 const app = require('express')()
-app.all('/getJSON', (req, res) => {
+app.get('/getJSON', (req, res) => {
   const temp = `<!DOCTYPE html>
     <html lang="en">
       <head>
