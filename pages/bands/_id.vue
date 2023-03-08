@@ -49,7 +49,7 @@
 <script>
 // import { mapState } from 'vuex'
 import moment from 'moment'
-import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
+// import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 
 export default {
   data() {
@@ -62,10 +62,10 @@ export default {
       headBandProfile: '',
 
       // band and events
-      searchClient: instantMeiliSearch(
-        'https://prcsearch.net',
-        'OTRmM2M3MGE3NGJlN2FlMGIxYWMwN2E2'
-      ),
+      // searchClient: instantMeiliSearch(
+      //   'https://prcsearch.net',
+      //   'OTRmM2M3MGE3NGJlN2FlMGIxYWMwN2E2'
+      // ),
       chatComp: false,
       chat: null,
       finalChat: null,

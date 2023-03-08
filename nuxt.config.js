@@ -17,22 +17,22 @@ export default {
     { path: '/server-middleware', handler: '~/server-middleware/social.js' },
   ],
 
-  head: {
-    title: 'punkrockcompound new',
-    htmlAttrs: {
-      lang: 'en',
-    },
-    // meta: [
-    //   { charset: 'utf-8' },
-    //   { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-    // ],
-    script: [
-      {
-        src: 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js',
-      },
-    ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-  },
+  // head: {
+  //   title: 'punkrockcompound new',
+  //   htmlAttrs: {
+  //     lang: 'en',
+  //   },
+  //   meta: [
+  //     { charset: 'utf-8' },
+  //     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+  //   ],
+  //   script: [
+  //     {
+  //       src: 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js',
+  //     },
+  //   ],
+  //   link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+  // },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['@/assets/css/main.css', '@/assets/css/form.css'],
@@ -134,23 +134,23 @@ export default {
       threshold: 8192,
     },
   },
-  build: {
-    html: {
-      minify: {
-        collapseBooleanAttributes: true,
-        decodeEntities: true,
-        minifyCSS: true,
-        minifyJS: true,
-        processConditionalComments: true,
-        removeEmptyAttributes: true,
-        removeRedundantAttributes: true,
-        trimCustomFragments: true,
-        useShortDoctype: true,
-        preserveLineBreaks: false,
-        collapseWhitespace: true,
-      },
-    },
-  },
+  // build: {
+  //   html: {
+  //     minify: {
+  //       collapseBooleanAttributes: true,
+  //       decodeEntities: true,
+  //       minifyCSS: true,
+  //       minifyJS: true,
+  //       processConditionalComments: true,
+  //       removeEmptyAttributes: true,
+  //       removeRedundantAttributes: true,
+  //       trimCustomFragments: true,
+  //       useShortDoctype: true,
+  //       preserveLineBreaks: false,
+  //       collapseWhitespace: true,
+  //     },
+  //   },
+  // },
   strapi: {
     url: process.env.BACKEND_URL,
     // url: 'http://localhost:1337',

@@ -1,9 +1,9 @@
 <template>
   <section class="mb-[60px]">
-    <SearchAlt
+    <!-- <SearchAlt
       :class="[isSearchOpen ? 'block' : 'hidden']"
       @toggleSearch="toggleSearch"
-    />
+    /> -->
     <!-- top bar -->
     <!-- <div
       id="deskNav"
@@ -64,7 +64,9 @@
       <!-- singin signup -->
       <div class="flex justify-around place-items-center w-full">
         <div>
-          <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/bands"
+          <NuxtLink
+            class="chedder text-2xl lt_space nav_font_size"
+            to="/bands/allbands"
             >Bands</NuxtLink
           >
         </div>
@@ -188,7 +190,9 @@
         >
       </div>
       <div @click="toggleMenu">
-        <NuxtLink class="chedder text-2xl lt_space nav_font_size" to="/bands"
+        <NuxtLink
+          class="chedder text-2xl lt_space nav_font_size"
+          to="/bands/allbands"
           >Bands</NuxtLink
         >
       </div>

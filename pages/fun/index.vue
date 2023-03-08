@@ -1,16 +1,19 @@
 <template>
   <div>
-    {{ band }}
+    <h1>This is nothing</h1>
   </div>
 </template>
 
 <script>
 export default {
-  async asyncData({ params, $http }) {
-    const band = await $http.$get(
-      `https://punkrockcompound-backend-lb57o.ondigitalocean.app/bands${params.id}`
-    )
-    return { band }
+  asyncData({ params, $http }) {
+    console.log('hello')
+    //     const band = await $http.$get(
+    //       `https://punkrockcompound-backend-lb57o.ondigitalocean.app/bands/86`
+    //     )
+    //     console.log(band)
+    //     return { band }
+    //   },
   },
 }
 </script>
