@@ -54,18 +54,6 @@
           >
             Share on Facebook
           </ShareNetwork>
-          <ShareNetwork
-            network="facebook"
-            :url="`https://punkrockcompound.com/bands/${this.band.bandName}`"
-          >
-            Share on Facebook
-          </ShareNetwork>
-          <ShareNetwork
-            network="facebook"
-            :url="`https://punkrockcompound.com/bands/${this.band.bandName}`"
-          >
-            Share on Facebook
-          </ShareNetwork>
         </div>
       </div>
     </section>
