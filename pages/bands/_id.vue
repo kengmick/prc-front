@@ -10,6 +10,7 @@
       @addFeaturedToBandCard="addCard"
       @startChat="startChatNow(band.users_permissions_user)"
       @removeFeaturedFromSimple="removeFeaturedCard"
+      @openShare="share"
     />
     <!-- <h1>Test</h1>
     <h1>Test</h1>
@@ -39,6 +40,35 @@
         @closeChat="renderChatComp"
       />
     </section>
+    <section
+      v-if="openSharePopup"
+      class="z-[999999999999999999999999999999999] fixed top-0 left-0 h-screen w-screen bg-black bg-opacity-50"
+    >
+      <div class="h-full w-full flex justify-center items-center">
+        <div
+          class="bg-white w-1/2 md:1/4 h-[300px] flex justify-center items-center"
+        >
+          <ShareNetwork
+            network="facebook"
+            :url="`https://punkrockcompound.com/bands/${this.band.bandName}`"
+          >
+            Share on Facebook
+          </ShareNetwork>
+          <ShareNetwork
+            network="facebook"
+            :url="`https://punkrockcompound.com/bands/${this.band.bandName}`"
+          >
+            Share on Facebook
+          </ShareNetwork>
+          <ShareNetwork
+            network="facebook"
+            :url="`https://punkrockcompound.com/bands/${this.band.bandName}`"
+          >
+            Share on Facebook
+          </ShareNetwork>
+        </div>
+      </div>
+    </section>
   </div>
   <!-- <div v-else class="h-screen w-screen fixed top-0 left-0">
     <div class="h-full w-full flex items-center justify-center">
@@ -52,20 +82,19 @@ import moment from 'moment'
 // import { instantMeiliSearch } from '@meilisearch/instant-meilisearch'
 
 export default {
+  async asyncData({ params, $strapi }) {
+    const band = await $strapi.findOne('bands', params.id)
+    return {
+      band,
+    }
+  },
   data() {
     return {
-      ogBandName: '',
-      ogBandImg: '',
-      ogId: '',
-      headBandId: '',
-      headBandName: '',
-      headBandProfile: '',
-
-      // band and events
       // searchClient: instantMeiliSearch(
       //   'https://prcsearch.net',
       //   'OTRmM2M3MGE3NGJlN2FlMGIxYWMwN2E2'
       // ),
+      openSharePopup: false,
       chatComp: false,
       chat: null,
       finalChat: null,
@@ -121,22 +150,6 @@ export default {
     }
   },
 
-  async fetch() {
-    console.log(this.headData.title, 'this is head data from store ')
-    try {
-      const band = await this.$http.$get(
-        `https://punkrockcompound-backend-lb57o.ondigitalocean.app/bands/${this.$route.params.id}`
-      )
-      this.ogBandName = band.bandName
-      this.ogBandImg = band.bandProfileImg.url
-      this.ogId = band.id
-      this.band = band
-      // this.$store.commit('SET_BAND', band)
-    } catch (error) {
-      console.log(error)
-    }
-  },
-
   head({ $seo }) {
     return $seo({
       bodyAttrs: {
@@ -144,14 +157,14 @@ export default {
       },
       openGraph: {
         image: {
-          url: this.ogBandImg,
-          alt: 'some test name ',
+          url: this.band.bandProfileImg.url,
+          alt: 'Band Profile Image',
           width: '200',
           height: '200',
         },
-        description: this.headData.title,
-        title: `${this.headData.title}  this is the new title fdsfdsfsd`,
-        url: `https://punkrockcompound.com/bands/${this.headData.title}`,
+        description: this.band.bandName,
+        title: `Check out ${this.band.bandName} at punkrockcompound.com`,
+        url: `https://punkrockcompound.com/bands/${this.band.bandName}`,
       },
     })
   },
@@ -163,22 +176,11 @@ export default {
     announcements() {
       return this.band.announcements || ''
     },
-    headData() {
-      return this.$store.state.head
-    },
   },
 
   async mounted() {
     console.log('mounted hook')
-    // try {
-    //   const band = await this.$strapi.findOne('bands', this.$route.params.id)
-    //   this.bandHeadName = band.bandName
-    //   this.bandHeadImg = band.bandProfileImg.url
-    //   this.$store.commit('SET_BAND', band)
-    //   this.band = band
-    // } catch (error) {
-    //   console.log(error)
-    // }
+
     if (this.band) {
       try {
         if (this.$strapi) {
@@ -257,6 +259,9 @@ export default {
     //   )
     // },
     /* eslint-enable */
+    share() {
+      this.openSharePopup = !this.openSharePopup
+    },
     async removeFeaturedCard(val) {
       const fillterdCards = this.band.cardData.cards.filter((c) => {
         return c.id !== val

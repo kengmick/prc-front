@@ -22,7 +22,7 @@ export default {
           width: '200',
           height: '200',
         },
-        description: this.data.bandName,
+        description: `Check out ${this.data.bandName} at punkrockcompound.com `,
         title: `${this.data.bandName} `,
         url: `https://punkrockcompound.com/fun/${this.data.id}`,
       },

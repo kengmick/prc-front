@@ -368,16 +368,12 @@
         />
       </svg> -->
       <div class="w-[66px] h-[24px] bg-black chedder text-white">
-        <span v-if="band" class="text-[15px] lg:text-[21px]">
-          <!-- @click="f" -->
+        <span
+          v-if="band"
+          class="text-[15px] lg:text-[21px]"
+          @click="$emit('openShare')"
+        >
           <!-- <img class="h-[12px] w-[12px]" src="/share.svg" alt="" /> -->
-          <!-- <ShareNetwork
-            v-if="band"
-            network="facebook"
-            :url="`https://punkrockcompound.com/bands/${band.id}`"
-          >
-            Share
-          </ShareNetwork> -->
           share
         </span>
       </div>
