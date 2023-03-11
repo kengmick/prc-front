@@ -12,25 +12,6 @@
       @removeFeaturedFromSimple="removeFeaturedCard"
       @openShare="share"
     />
-    <!-- <h1>Test</h1>
-    <h1>Test</h1>
-    <h1>Test</h1>
-    <h1>Test</h1>
-    <h1 @click="s">share</h1> -->
-    <!-- <h1>test</h1>
-    <h1>test</h1>
-    <h1>test</h1>
-
-    <ShareNetwork
-      network="facebook"
-      title="Say hi to Vite! A brand new, extremely fast development setup for Vue."
-      description="This week, I’d like to introduce you to 'Vite', which means 'Fast'. It’s a brand new development setup created by Evan You."
-      quote="The hot reload is so fast it\'s near instant. - Evan You"
-      :media="band.bandProfileImg.url"
-      hashtags="vuejs,vite"
-    >
-      Share on Facebook
-    </ShareNetwork> -->
 
     <section v-if="chat">
       <Chat
@@ -47,13 +28,9 @@
       <div class="h-full w-full flex justify-center items-center">
         <div
           class="bg-white w-1/2 md:1/4 h-[300px] flex justify-center items-center"
+          @click="s"
         >
-          <ShareNetwork
-            network="facebook"
-            :url="`https://punkrockcompound.com/bands/${this.band.bandName}`"
-          >
-            Share on Facebook
-          </ShareNetwork>
+          Share
         </div>
       </div>
     </section>
@@ -143,6 +120,7 @@ export default {
       bodyAttrs: {
         class: 'overflow-hidden',
       },
+      script: [{ src: '/js/fb-sdk.js' }],
       openGraph: {
         image: {
           url: this.band.bandProfileImg.url,
@@ -152,7 +130,7 @@ export default {
         },
         description: this.band.bandName,
         title: `Check out ${this.band.bandName} at punkrockcompound.com`,
-        url: `https://punkrockcompound.com/bands/${this.band.bandName}`,
+        url: `https://punkrockcompound.com/bands/${this.band.id}`,
       },
     })
   },
@@ -224,28 +202,17 @@ export default {
   methods: {
     moment,
     /* eslint-disable */
-    // s() {
-    //   FB.ui(
-    //     {
-    //       method: 'share_open_graph',
-    //       action_type: 'og.shares',
-    //       action_properties: JSON.stringify({
-    //         object: {
-    //           'og:url': 'https://punkrockcompound.com/bands/86', // your url to share
-    //           'og:title': 'a really cool title ',
-    //           'og:site_name': 'somename',
-    //           'og:description': 'very cool description ',
-    //           // 'og:image': '', //
-    //           // 'og:image:width': '250', //size of image in pixel
-    //           // 'og:image:height': '257',
-    //         },
-    //       }),
-    //     },
-    //     function (response) {
-    //       console.log('response is ', response)
-    //     }
-    //   )
-    // },
+    s() {
+      FB.ui(
+        {
+          method: 'share',
+          href: `https://punkrockcompound.com/bands/${this.band.bandName}`,
+        },
+        function (response) {
+          console.log(response)
+        }
+      )
+    },
     /* eslint-enable */
     share() {
       this.openSharePopup = !this.openSharePopup
