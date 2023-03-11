@@ -120,7 +120,7 @@ export default {
       bodyAttrs: {
         class: 'overflow-hidden',
       },
-      script: [{ src: '/js/fb-sdk.js' }],
+
       openGraph: {
         image: {
           url: this.band.bandProfileImg.url,

@@ -17,22 +17,25 @@ export default {
     { path: '/server-middleware', handler: '~/server-middleware/social.js' },
   ],
 
-  // head: {
-  //   title: 'punkrockcompound new',
-  //   htmlAttrs: {
-  //     lang: 'en',
-  //   },
-  //   meta: [
-  //     { charset: 'utf-8' },
-  //     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-  //   ],
-  //   script: [
-  //     {
-  //       src: 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js',
-  //     },
-  //   ],
-  //   link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-  // },
+  head: {
+    title: 'punkrockcompound new',
+    htmlAttrs: {
+      lang: 'en',
+    },
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    ],
+    script: [
+      {
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js',
+      },
+      {
+        src: '/js/fb-sdk.js',
+      },
+    ],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+  },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['@/assets/css/main.css', '@/assets/css/form.css'],
