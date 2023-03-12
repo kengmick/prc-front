@@ -26,18 +26,47 @@
       class="z-[999999999999999999999999999999999] fixed top-0 left-0 h-screen w-screen bg-black bg-opacity-50"
     >
       <div class="h-full w-full flex justify-center items-center">
-        <ShareNetwork
-          network="facebook"
-          :url="`https://punkrockcompound.com/bands/${this.band.id}`"
+        <div
+          class="bg-white w-11/12 md:w-1/4 h-[300px] flex justify-center items-center gap-8 relative"
         >
-          Share
-        </ShareNetwork>
-        <!-- <div
-          class="bg-white w-1/2 md:1/4 h-[300px] flex justify-center items-center"
-          @click="s"
-        >
-          Share
-        </div> -->
+          <h3 class="absolute top-6 left-6">Share</h3>
+          <div class="absolute bottom-6">
+            <div class="flex gap-4 flex-col md:flex-row">
+              <p>https://punkrockcompound.com/bands/{{ this.band.id }}</p>
+              <h3 @click="copyText">Copy Link</h3>
+            </div>
+          </div>
+          <ShareNetwork
+            network="facebook"
+            :url="`https://punkrockcompound.com/bands/${this.band.id}`"
+          >
+            <div><nuxt-img src="/faceiconblack.svg" /></div>
+          </ShareNetwork>
+          <ShareNetwork
+            network="discord"
+            :url="`https://punkrockcompound.com/bands/${this.band.id}`"
+          >
+            <div><nuxt-img src="/discord.svg" /></div>
+          </ShareNetwork>
+          <ShareNetwork
+            network="pintrest"
+            :url="`https://punkrockcompound.com/bands/${this.band.id}`"
+          >
+            <div><nuxt-img src="/pintrestblack.svg" /></div>
+          </ShareNetwork>
+          <ShareNetwork
+            network="tumblr"
+            :url="`https://punkrockcompound.com/bands/${this.band.id}`"
+          >
+            <div><nuxt-img src="/tumblr.svg" /></div>
+          </ShareNetwork>
+          <ShareNetwork
+            network="facebook"
+            :url="`https://punkrockcompound.com/bands/${this.band.id}`"
+          >
+            <div><nuxt-img src="/twitter.svg" /></div>
+          </ShareNetwork>
+        </div>
       </div>
     </section>
   </div>
@@ -207,6 +236,18 @@ export default {
 
   methods: {
     moment,
+    copyText() {
+      // Copy the text inside the text field
+      navigator.clipboard.writeText(
+        `https://punkrockcompound.com/bands/${this.band.id}`
+      )
+
+      // Alert the copied text
+      alert(
+        'Copied the text: ' +
+          `https://punkrockcompound.com/bands/${this.band.id}`
+      )
+    },
     /* eslint-disable */
     s() {
       FB.ui(
