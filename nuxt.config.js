@@ -30,6 +30,9 @@ export default {
       {
         src: 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js',
       },
+      {
+        src: 'js/fb-sdk.js',
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
