@@ -132,7 +132,7 @@ export default {
         title: `Check out ${this.band.bandName} at punkrockcompound.com`,
         url: `https://punkrockcompound.com/bands/${this.band.id}`,
       },
-      scripts: [
+      script: [
         {
           src: '/js/fb-sdk.js',
         },
