@@ -211,7 +211,7 @@ export default {
       FB.ui(
         {
           method: 'share',
-          href: `https://punkrockcompound.com/bands/${this.band.bandName}`,
+          href: `https://punkrockcompound.com/bands/${this.band.id}`,
         },
         function (response) {
           console.log(response)
