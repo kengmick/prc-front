@@ -32,34 +32,38 @@
           <h3 class="absolute top-6 left-6">Share</h3>
           <div class="absolute bottom-6">
             <div class="flex gap-4 flex-col md:flex-row">
-              <p>https://punkrockcompound.com/bands/{{ this.band.id }}</p>
+              <p>https://punkrockcompound.com/bands/{{ band.id }}</p>
               <h3 @click="copyText">Copy Link</h3>
             </div>
           </div>
           <ShareNetwork
+            network="facebook"
+            :url="`https://punkrockcompound.com/bands/${band.id}`"
+            :title="`Check out ${band.bandName} at punkrockcompound.com`"
+          >
+            <div><nuxt-img src="/faceiconblack.svg" /></div>
+          </ShareNetwork>
+          <ShareNetwork
             network="whatsapp"
-            :url="`https://punkrockcompound.com/bands/${this.band.id}`"
+            :url="`https://punkrockcompound.com/bands/${band.id}`"
+            :title="`Check out ${band.bandName} at punkrockcompound.com`"
           >
             <div><nuxt-img src="/whatsappblack.svg" /></div>
           </ShareNetwork>
 
           <ShareNetwork
             network="pinterest"
-            :url="`https://punkrockcompound.com/bands/${this.band.id}`"
+            :url="`https://punkrockcompound.com/bands/${band.id}`"
+            :title="`Check out ${band.bandName} at punkrockcompound.com`"
           >
-            <div><nuxt-img src="/pintrestblack.svg" /></div>
+            <div><nuxt-img src="pintrestblack.svg" /></div>
           </ShareNetwork>
           <ShareNetwork
             network="tumblr"
-            :url="`https://punkrockcompound.com/bands/${this.band.id}`"
+            :url="`https://punkrockcompound.com/bands/${band.id}`"
+            :title="`Check out ${band.bandName} at punkrockcompound.com`"
           >
             <div><nuxt-img src="/tumblr.svg" /></div>
-          </ShareNetwork>
-          <ShareNetwork
-            network="facebook"
-            :url="`https://punkrockcompound.com/bands/${this.band.id}`"
-          >
-            <div><nuxt-img src="/twitter.svg" /></div>
           </ShareNetwork>
         </div>
       </div>
