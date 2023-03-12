@@ -23,7 +23,7 @@
         >
           Bands
         </h2>
-        <h2
+        <!-- <h2
           :class="{ isActive: distroActive }"
           class="text-xl"
           @click="changeIndex('record-labels')"
@@ -50,14 +50,14 @@
           @click="changeIndex('tours')"
         >
           Tour
-        </h2>
-        <h2
+        </h2> -->
+        <!-- <h2
           :class="{ isActive: classifiedActive }"
           class="text-xl"
           @click="changeIndex('classified')"
         >
           Classified
-        </h2>
+        </h2> -->
       </div>
     </section>
 
@@ -375,16 +375,13 @@
                       <NuxtLink
                         v-if="index === 'bands'"
                         :to="{
-                          path: '/bands/bandprofile',
-                          query: {
-                            band: item.id.replace('bands-', ''),
-                          },
+                          path: `/bands/${item.id.replace('bands-', '')}`,
                         }"
                         class="text-xl chedder z-20"
                         style="z-index: 9999"
                       >
                         <div v-if="genreSelected">
-                          <PosterCard
+                          <SimpleCardsBand
                             v-if="item.genreAlt === genreSelected.genre"
                             class="mb-10"
                             style="z-index: -9999"
@@ -395,7 +392,7 @@
                           />
                         </div>
                         <div v-if="!genreSelected">
-                          <PosterCard
+                          <SimpleCardsBand
                             class="mb-10"
                             style="z-index: -9999"
                             :band="trimId(item)"
