@@ -42,12 +42,7 @@
           >
             <div><nuxt-img src="/faceiconblack.svg" /></div>
           </ShareNetwork>
-          <ShareNetwork
-            network="discord"
-            :url="`https://punkrockcompound.com/bands/${this.band.id}`"
-          >
-            <div><nuxt-img src="/discord.svg" /></div>
-          </ShareNetwork>
+
           <ShareNetwork
             network="pintrest"
             :url="`https://punkrockcompound.com/bands/${this.band.id}`"
