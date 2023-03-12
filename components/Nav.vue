@@ -4,6 +4,14 @@
       :class="[isSearchOpen ? 'block' : 'hidden']"
       @toggleSearch="toggleSearch"
     /> -->
+    <!-- <div class="pt-[20px] pr-[20px]" @click="toggleSearch">
+      <nuxt-img
+        src="search.svg"
+        width="20"
+        height="20"
+        class="ml-auto mb-[20px]"
+      />
+    </div> -->
     <!-- top bar -->
     <!-- <div
       id="deskNav"
@@ -148,15 +156,16 @@
       <!-- mobile menu icon  -->
       <div class="flex justify-end gap-4 w-[20vw]">
         <div>
-          <nuxt-img
-            :class="{ 'opacity-0': isOpen }"
-            class="menu transition-all duration-200 ease-linear"
-            :src="`/whitesearch.svg`"
-            alt="search icon"
-            width="25"
-            height="25"
-            @click="toggleSearch"
-          />
+          <NuxtLink to="/search">
+            <nuxt-img
+              :class="{ 'opacity-0': isOpen }"
+              class="menu transition-all duration-200 ease-linear"
+              :src="`/whitesearch.svg`"
+              alt="search icon"
+              width="25"
+              height="25"
+            />
+          </NuxtLink>
         </div>
         <div>
           <nuxt-img
