@@ -26,12 +26,18 @@
       class="z-[999999999999999999999999999999999] fixed top-0 left-0 h-screen w-screen bg-black bg-opacity-50"
     >
       <div class="h-full w-full flex justify-center items-center">
-        <div
+        <ShareNetwork
+          network="facebook"
+          :url="`https://punkrockcompound.com/bands/${this.band.id}`"
+        >
+          Share
+        </ShareNetwork>
+        <!-- <div
           class="bg-white w-1/2 md:1/4 h-[300px] flex justify-center items-center"
           @click="s"
         >
           Share
-        </div>
+        </div> -->
       </div>
     </section>
   </div>
