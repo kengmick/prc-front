@@ -37,14 +37,14 @@
             </div>
           </div>
           <ShareNetwork
-            network="facebook"
+            network="whatsapp"
             :url="`https://punkrockcompound.com/bands/${this.band.id}`"
           >
-            <div><nuxt-img src="/faceiconblack.svg" /></div>
+            <div><nuxt-img src="/whatsappblack.svg" /></div>
           </ShareNetwork>
 
           <ShareNetwork
-            network="pintrest"
+            network="pinterest"
             :url="`https://punkrockcompound.com/bands/${this.band.id}`"
           >
             <div><nuxt-img src="/pintrestblack.svg" /></div>
