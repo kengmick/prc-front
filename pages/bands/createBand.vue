@@ -2768,6 +2768,7 @@ export default {
     async submitForm() {
       this.loading = true
       this.formValues.city = this.city
+      this.formValues.bandName = this.formValues.bandName.toLowerCase().trim()
       if (this.profileImage) {
         try {
           console.log('profile image ')
