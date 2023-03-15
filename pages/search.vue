@@ -1420,9 +1420,6 @@ export default {
       )
       this.bands = bands
       console.log(bands)
-      // const bands = await this.$strapi.find('bands', {
-      //   bandName: this.searchValue.name,
-      // })
       this.searchValue = {}
     },
     toggleSearch() {
